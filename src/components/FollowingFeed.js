@@ -16,7 +16,6 @@ const FollowingFeed = () => {
     let active = true;
     getFollowing();
     getFollowingData();
-    followingDataArray = [];
 
     return () => {
       active = false;
@@ -30,6 +29,7 @@ const FollowingFeed = () => {
         .doc(id)
         .collection('songsOfTheDay')
         .onSnapshot((snapshot) => {
+          followingDataArray = [];
           snapshot.forEach((doc) => {
             followingDataArray.push(doc.data());
             setFollowingData(followingDataArray);
@@ -43,6 +43,7 @@ const FollowingFeed = () => {
     db.collection('users')
       .doc(currentUser.uid)
       .onSnapshot((snapshot) => {
+        followingDataArray = [];
         setFollowingIdList(snapshot.data().followingIdList);
         setRefresh(true);
       });

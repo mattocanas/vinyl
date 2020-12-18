@@ -13,9 +13,13 @@ import SignupScreen from './src/screens/SignupScreen';
 import SigninScreen from './src/screens/SigninScreen';
 import PasswordResetScreen from './src/screens/PasswordResetScreen';
 import SearchScreen from './src/screens/SearchScreen';
+import ProfileScreen from './src/screens/ProfileScreen';
+import ExploreScreen from './src/screens/ExploreScreen';
 
 //icons
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+import OcticonIcon from 'react-native-vector-icons/Octicons';
+import UserDetailScreen from './src/screens/UserDetailScreen';
 
 // create bottom nav bar
 const Tabs = createMaterialBottomTabNavigator();
@@ -50,16 +54,29 @@ function MyBottomTabs() {
         name="SearchScreen"
         component={SearchScreen}
       />
+
       <Tabs.Screen
         options={{
           tabBarLabel: '',
+          tabBarColor: '#1E1C1C',
+          tabBarIcon: ({color}) => (
+            <OcticonIcon name="telescope" size={26} color={color} />
+          ),
+        }}
+        name="ExploreScreen"
+        component={ExploreScreen}
+      />
+      <Tabs.Screen
+        options={{
+          tabBarLabel: '',
+
           tabBarColor: '#1E1C1C',
           tabBarIcon: ({color}) => (
             <MaterialIcon name="account-circle" size={26} color={color} />
           ),
         }}
         name="ProfileScreen"
-        component={HomeScreen}
+        component={ProfileScreen}
       />
     </Tabs.Navigator>
   );
@@ -85,6 +102,22 @@ function myMainStack() {
         }}
         name="vinyl"
         component={MyBottomTabs}
+      />
+
+      <MainStack.Screen
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#1E1C1C',
+            shadowColor: 'transparent',
+          },
+          headerTitleStyle: {
+            color: '#c1c8d4',
+            fontSize: 22,
+          },
+        }}
+        name="UserDetailScreen"
+        component={UserDetailScreen}
       />
     </MainStack.Navigator>
   );
