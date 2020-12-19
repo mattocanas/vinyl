@@ -20,6 +20,7 @@ import ExploreScreen from './src/screens/ExploreScreen';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import OcticonIcon from 'react-native-vector-icons/Octicons';
 import UserDetailScreen from './src/screens/UserDetailScreen';
+import SettingsScreen from './src/screens/SettingsScreen';
 
 // create bottom nav bar
 const Tabs = createMaterialBottomTabNavigator();
@@ -118,6 +119,22 @@ function myMainStack() {
         }}
         name="UserDetailScreen"
         component={UserDetailScreen}
+      />
+
+      <MainStack.Screen
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#1E1C1C',
+            shadowColor: 'transparent',
+          },
+          headerTitleStyle: {
+            color: '#c1c8d4',
+            fontSize: 22,
+          },
+        }}
+        name="SettingsScreen"
+        component={SettingsScreen}
       />
     </MainStack.Navigator>
   );

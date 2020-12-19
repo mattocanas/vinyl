@@ -39,8 +39,8 @@ const styles = StyleSheet.create({
     marginLeft: 12,
   },
   flatlist: {
-    marginBottom: 100,
-    paddingBottom: 20,
+    marginBottom: 140,
+    paddingBottom: 30,
   },
 });
 

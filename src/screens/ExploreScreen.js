@@ -29,7 +29,7 @@ const ExploreScreen = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <Text>Find Friends</Text>
+      <Text style={styles.headerText}>Search for people to follow!</Text>
       <TextInput
         style={styles.searchBar}
         value={searchTerm}
@@ -56,7 +56,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   searchBar: {
-    paddingTop: 4,
     marginTop: 20,
     height: 30,
     width: 300,
@@ -64,9 +63,18 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     color: '#c1c8d4',
     marginBottom: 20,
+    borderRadius: 20,
+    paddingLeft: 8,
   },
   flatlist: {
     marginTop: 20,
+  },
+  headerText: {
+    marginTop: 40,
+    fontSize: 24,
+    fontWeight: '700',
+    color: '#1E8C8B',
+    textAlign: 'center',
   },
 });
 

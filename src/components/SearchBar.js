@@ -7,10 +7,11 @@ const SearchBar = ({term, onTermChange, onTermSubmit}) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>
+      <Text style={styles.headerText}>
         Search for a track, artist, or album to share
       </Text>
       <TextInput
+        spellCheck={false}
         style={styles.searchBar}
         value={term}
         onChangeText={(newTerm) => onTermChange(newTerm)}
@@ -22,8 +23,6 @@ const SearchBar = ({term, onTermChange, onTermSubmit}) => {
 
 const styles = StyleSheet.create({
   searchBar: {
-    paddingTop: 4,
-
     marginTop: 20,
     height: 30,
     width: 300,
@@ -31,6 +30,17 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     color: '#c1c8d4',
     marginBottom: 20,
+    borderRadius: 20,
+    paddingLeft: 8,
+  },
+  headerText: {
+    marginTop: 40,
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#1E8C8B',
+    textAlign: 'center',
+    marginLeft: 14,
+    marginRight: 14,
   },
   container: {
     alignItems: 'center',

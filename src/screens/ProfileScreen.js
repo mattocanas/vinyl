@@ -3,46 +3,105 @@ import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
 import Sound from 'react-native-sound';
 import ProfilePicture from '../components/ProfilePicture';
 import {useStateProviderValue} from '../../state/StateProvider';
+import ProfileSongsOfTheDayFeed from '../components/ProfileSongOfTheDayFeed';
+import ProfileLikesFeed from '../components/ProfileLikesFeed';
+import {useNavigation} from '@react-navigation/native';
 
 const ProfileScreen = ({navigation}) => {
+  const navigationUse = useNavigation();
   const [refresh, setRefresh] = useState(false);
   const [
-    {currentUser, currentUserPictureURI},
+    {currentUser, currentUserPictureURI, currentUserData},
     dispatch,
   ] = useStateProviderValue();
+
+  const [showSOTD, setShowSOTD] = useState(true);
+  const [showLikeFeed, setShowLikeFeed] = useState(false);
+  const [SOTDActive, setSOTDActive] = useState(true);
+  const [likesActive, setLikesActive] = useState(false);
 
   const refreshScreen = () => {
     setRefresh(true);
   };
 
+  const showSOTDFeed = () => {
+    setShowSOTD(true);
+    setShowLikeFeed(false);
+    setSOTDActive(true);
+    setLikesActive(false);
+  };
+
+  const showLikesFeed = () => {
+    setShowLikeFeed(true);
+    setShowSOTD(false);
+    setLikesActive(true);
+    setSOTDActive(false);
+  };
+
   return (
-    <View style={styles.container}>
-      <View style={styles.profileInfoContainer}>
-        <View style={styles.photoNameContainer}>
-          <ProfilePicture refresh={() => refreshScreen()} />
-          <Text style={styles.usernameText}>{currentUser.displayName}</Text>
-        </View>
+    <>
+      {currentUser ? (
+        <View style={styles.container}>
+          <View style={styles.profileInfoContainer}>
+            <View style={styles.photoNameContainer}>
+              <ProfilePicture refresh={() => refreshScreen()} />
+              <Text style={styles.usernameText}>{currentUser.displayName}</Text>
+            </View>
 
-        <View style={{alignItems: 'center'}}>
-          <View style={{flexDirection: 'row'}}>
-            <TouchableOpacity style={styles.followingContainer}>
-              <Text style={styles.followingNumber}>100</Text>
+            <View style={{alignItems: 'center'}}>
+              <View style={{flexDirection: 'row'}}>
+                <TouchableOpacity style={styles.followingContainer}>
+                  <Text style={styles.followingNumber}>
+                    {currentUserData.followingIdList.length.toString()}
+                  </Text>
 
-              <Text style={styles.followingText}>Following</Text>
+                  <Text style={styles.followingText}>Following</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.followersContainer}>
+                  <Text style={styles.followersNumber}>
+                    {currentUserData.followerIdList.length.toString()}
+                  </Text>
+
+                  <Text style={styles.followersText}>Followers</Text>
+                </TouchableOpacity>
+              </View>
+              <TouchableOpacity
+                style={styles.settingButton}
+                onPress={() => navigationUse.navigate('SettingsScreen')}>
+                <Text style={styles.settingsText}>Settings</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          <View style={styles.sectionsTabContainer}>
+            <TouchableOpacity
+              style={styles.songOfTheDaySection}
+              onPress={showSOTDFeed}>
+              {SOTDActive ? (
+                <Text style={styles.songOfTheDayTextActive}>
+                  Songs of the day
+                </Text>
+              ) : (
+                <Text style={styles.songOfTheDayText}>Songs of the day</Text>
+              )}
             </TouchableOpacity>
-
-            <TouchableOpacity style={styles.followersContainer}>
-              <Text style={styles.followersNumber}>100</Text>
-
-              <Text style={styles.followersText}>Followers</Text>
+            <TouchableOpacity
+              style={styles.likesSection}
+              onPress={showLikesFeed}>
+              {likesActive ? (
+                <Text style={styles.likesTextActive}>Likes</Text>
+              ) : (
+                <Text style={styles.likesText}>Likes</Text>
+              )}
             </TouchableOpacity>
           </View>
-          <TouchableOpacity style={styles.settingButton}>
-            <Text style={styles.settingsText}>Settings</Text>
-          </TouchableOpacity>
+          <View>
+            {showSOTD ? <ProfileSongsOfTheDayFeed /> : null}
+            {showLikeFeed ? <ProfileLikesFeed /> : null}
+          </View>
         </View>
-      </View>
-    </View>
+      ) : null}
+    </>
   );
 };
 
@@ -50,13 +109,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#242525',
-    alignItems: 'flex-start',
+    alignItems: 'center',
   },
   profileInfoContainer: {
     flexDirection: 'row',
-    alignItems: 'center',
-    marginLeft: 40,
+    alignItems: 'flex-start',
+    // marginLeft: 40,
     marginTop: 36,
+    borderBottomWidth: 2,
+    borderBottomColor: 'gray',
+    paddingBottom: 8,
   },
   followingContainer: {
     alignItems: 'center',
@@ -68,6 +130,7 @@ const styles = StyleSheet.create({
   photoNameContainer: {
     alignItems: 'center',
     marginRight: 40,
+    marginLeft: 10,
   },
   usernameText: {
     fontSize: 20,
@@ -106,6 +169,41 @@ const styles = StyleSheet.create({
   settingsText: {
     fontSize: 16,
     color: '#c1c8d4',
+  },
+  sectionsTabContainer: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    marginTop: 20,
+  },
+  songOfTheDaySection: {
+    marginRight: 20,
+  },
+  songOfTheDayText: {
+    color: '#c1c8d4',
+    fontSize: 16,
+    textDecorationLine: 'underline',
+    fontWeight: '700',
+  },
+  likesSection: {
+    marginLeft: 4,
+  },
+  likesText: {
+    color: '#c1c8d4',
+    fontSize: 16,
+    textDecorationLine: 'underline',
+    fontWeight: '700',
+  },
+  songOfTheDayTextActive: {
+    color: '#1E8C8B',
+    fontSize: 16,
+    textDecorationLine: 'underline',
+    fontWeight: '700',
+  },
+  likesTextActive: {
+    color: '#1E8C8B',
+    fontSize: 16,
+    textDecorationLine: 'underline',
+    fontWeight: '700',
   },
 });
 

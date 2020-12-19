@@ -48,6 +48,25 @@ const FeedItem = ({
 
   const onLike = () => {
     db.collection('users')
+      .doc(currentUser.uid)
+      .collection('likes')
+      .doc(docId)
+      .set({
+        title: title,
+        artist: artist,
+        audio: audio,
+        albumArt: albumArt,
+        profilePictureUrl: profilePictureUrl,
+        uid: uid,
+        username: username,
+        date: date,
+        likes: likes,
+        comments: comments,
+        docId: docId,
+        description: 'Songs of the day.',
+      });
+
+    db.collection('users')
       .doc(uid)
       .collection('songsOfTheDay')
       .doc(docId)
@@ -63,6 +82,15 @@ const FeedItem = ({
   };
 
   const onUnlike = () => {
+    db.collection('users')
+      .doc(currentUser.uid)
+      .collection('likes')
+      .doc(docId)
+      .delete()
+      .then(() => {
+        setLiked(false);
+      });
+
     db.collection('users')
       .doc(uid)
       .collection('songsOfTheDay')

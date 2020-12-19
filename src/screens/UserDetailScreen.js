@@ -1,6 +1,8 @@
 import React from 'react';
 import {View, TouchableOpacity, Text, Image, StyleSheet} from 'react-native';
 import {useStateProviderValue} from '../../state/StateProvider';
+import {db} from '../../firebase/firebase';
+import firebase from 'firebase';
 
 const UserDetailScreen = ({route}) => {
   const [
@@ -8,6 +10,39 @@ const UserDetailScreen = ({route}) => {
     dispatch,
   ] = useStateProviderValue();
   const {data} = route.params;
+
+  const onFollow = () => {
+    db.collection('users')
+      .doc(currentUser.uid)
+      .update({
+        followingIdList: firebase.firestore.FieldValue.arrayUnion(data.uid),
+      });
+
+    db.collection('users')
+      .doc(data.uid)
+      .update({
+        followerIdList: firebase.firestore.FieldValue.arrayUnion(
+          currentUser.uid,
+        ),
+      });
+  };
+
+  const onUnfollow = () => {
+    db.collection('users')
+      .doc(currentUser.uid)
+      .update({
+        followingIdList: firebase.firestore.FieldValue.arrayRemove(data.uid),
+      });
+
+    db.collection('users')
+      .doc(data.uid)
+      .update({
+        followerIdList: firebase.firestore.FieldValue.arrayRemove(
+          currentUser.uid,
+        ),
+      });
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.profileInfoContainer}>
@@ -38,11 +73,11 @@ const UserDetailScreen = ({route}) => {
             </TouchableOpacity>
           </View>
           {currentUserData.followingIdList.includes(data.uid) ? (
-            <TouchableOpacity style={styles.followButton}>
+            <TouchableOpacity style={styles.followButton} onPress={onUnfollow}>
               <Text style={styles.followText}>Following</Text>
             </TouchableOpacity>
           ) : (
-            <TouchableOpacity style={styles.followButton}>
+            <TouchableOpacity style={styles.followButton} onPress={onFollow}>
               <Text style={styles.followText}>Follow</Text>
             </TouchableOpacity>
           )}
