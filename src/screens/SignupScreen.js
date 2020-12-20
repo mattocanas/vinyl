@@ -23,9 +23,26 @@ const SignupScreen = ({navigation}) => {
   const [username, setUsername] = useState('');
   const [name, setName] = useState('');
   const [errorMessage, setErrorMessage] = useState(null);
+  const [nameExistsError, setNameExistsError] = useState(false);
+
+  const checkUsername = () => {
+    db.collection('users')
+      .where('username', '==', username)
+      .get()
+      .then((snapshot) => {
+        snapshot.forEach((doc) => {
+          if (doc.exists) {
+            setErrorMessage('This username already exists!');
+          } else {
+            handleSignUp();
+          }
+        });
+      });
+  };
 
   const handleSignUp = () => {
     let active = true;
+
     auth
       .createUserWithEmailAndPassword(email, password)
       .catch((error) => {
@@ -129,7 +146,7 @@ const SignupScreen = ({navigation}) => {
             <Text style={styles.termsOfService}>
               By signing up for Bookd, you agree to all our terms or service.
             </Text>
-            <TouchableOpacity onPress={handleSignUp} style={styles.button}>
+            <TouchableOpacity onPress={checkUsername} style={styles.button}>
               <Text style={{color: '#FFF', fontWeight: '500'}}>Sign up</Text>
             </TouchableOpacity>
 

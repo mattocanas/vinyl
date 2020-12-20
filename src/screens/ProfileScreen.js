@@ -50,7 +50,11 @@ const ProfileScreen = ({navigation}) => {
 
             <View style={{alignItems: 'center'}}>
               <View style={{flexDirection: 'row'}}>
-                <TouchableOpacity style={styles.followingContainer}>
+                <TouchableOpacity
+                  style={styles.followingContainer}
+                  onPress={() =>
+                    navigationUse.navigate('ProfileFollowingListScreen')
+                  }>
                   <Text style={styles.followingNumber}>
                     {currentUserData.followingIdList.length.toString()}
                   </Text>
@@ -58,7 +62,11 @@ const ProfileScreen = ({navigation}) => {
                   <Text style={styles.followingText}>Following</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.followersContainer}>
+                <TouchableOpacity
+                  style={styles.followersContainer}
+                  onPress={() =>
+                    navigationUse.navigate('ProfileFollowerListScreen')
+                  }>
                   <Text style={styles.followersNumber}>
                     {currentUserData.followerIdList.length.toString()}
                   </Text>

@@ -1,9 +1,14 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Image, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import Moment from 'react-moment';
 import Sound from 'react-native-sound';
+import {db} from '../../firebase/firebase';
+import {useStateProviderValue} from '../../state/StateProvider';
+import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const ProfileSongOfTheDay = ({data}) => {
+const ProfileSongOfTheDay = ({data, refresh}) => {
+  const [{currentUser}, dispatch] = useStateProviderValue();
+
   useEffect(() => {
     let active = true;
     Sound.setCategory('Playback');
@@ -24,6 +29,17 @@ const ProfileSongOfTheDay = ({data}) => {
     track.play();
   };
 
+  const removeSongOfTheDay = () => {
+    db.collection('users')
+      .doc(currentUser.uid)
+      .collection('posts')
+      .doc(data.docId)
+      .delete()
+      .then(() => {
+        refresh();
+      });
+  };
+
   return (
     <View style={styles.container}>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -33,6 +49,11 @@ const ProfileSongOfTheDay = ({data}) => {
         <Moment element={Text} format="MMM Do YY" style={styles.date}>
           {data.date}
         </Moment>
+        <TouchableOpacity
+          style={styles.deleteContainer}
+          onPress={removeSongOfTheDay}>
+          <MaterialCommunityIcon name="delete" style={styles.deleteIcon} />
+        </TouchableOpacity>
       </View>
 
       <View style={{marginLeft: 70}}>
@@ -69,6 +90,13 @@ const styles = StyleSheet.create({
     fontWeight: '300',
     fontSize: 14,
     color: '#5AB9B9',
+  },
+  deleteIcon: {
+    color: '#c43b4c',
+    fontSize: 24,
+  },
+  deleteContainer: {
+    marginLeft: 50,
   },
 });
 

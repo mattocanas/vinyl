@@ -27,13 +27,12 @@ const FollowingFeed = () => {
       db
         .collection('users')
         .doc(id)
-        .collection('songsOfTheDay')
+        .collection('posts')
         .onSnapshot((snapshot) => {
           followingDataArray = [];
           snapshot.forEach((doc) => {
             followingDataArray.push(doc.data());
             setFollowingData(followingDataArray);
-            setRefreshController(false);
           });
         }),
     );
@@ -45,13 +44,14 @@ const FollowingFeed = () => {
       .onSnapshot((snapshot) => {
         followingDataArray = [];
         setFollowingIdList(snapshot.data().followingIdList);
+        setRefreshController(false);
         setRefresh(true);
       });
   };
 
   const refreshComponent = () => {
     setRefreshController(true);
-    getFollowingData();
+    getFollowing();
   };
 
   return (

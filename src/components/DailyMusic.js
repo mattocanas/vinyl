@@ -7,9 +7,12 @@ const DailyMusic = () => {
   const [dailyMusicData, setDailyMusicData] = useState([]);
   useEffect(() => {
     let active = true;
-    db.collection('DailyMusic').onSnapshot((snapshot) => {
-      setDailyMusicData(snapshot.docs.map((doc) => doc.data()));
-    });
+    db.collection('DailyMusic')
+      .where('date', '==', new Date().toDateString())
+      .get()
+      .then((snapshot) => {
+        setDailyMusicData(snapshot.docs.map((doc) => doc.data()));
+      });
     console.log(dailyMusicData);
     return () => {
       active = false;
@@ -37,7 +40,13 @@ const DailyMusic = () => {
           />
         )}
       />
-      {/* <View style={{borderBottomWidth: 2, borderBottomColor: '#c1c8d4'}} /> */}
+      <View
+        style={{
+          borderBottomWidth: 1,
+          borderBottomColor: 'rgba(193, 200, 212, 0.5)',
+          marginTop: 16,
+        }}
+      />
     </View>
   );
 };
@@ -47,7 +56,8 @@ const styles = StyleSheet.create({
     color: '#c1c8d4',
     textAlign: 'center',
     fontWeight: '900',
-    marginTop: 10,
+    marginTop: 14,
+    fontSize: 16,
   },
   container: {
     marginBottom: 30,

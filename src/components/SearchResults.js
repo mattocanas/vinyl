@@ -25,6 +25,7 @@ const SearchResultsScreen = ({searchResults}) => {
               title={item.title}
               audio={item.preview}
               artist={item.artist.name}
+              allData={item}
               refresh={() => onSetRefresh()}
             />
           );

@@ -10,6 +10,7 @@ const ProfileSongsOfTheDayFeed = () => {
     dispatch,
   ] = useStateProviderValue();
   const [data, setData] = useState([]);
+  const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
     let active = true;
@@ -19,26 +20,43 @@ const ProfileSongsOfTheDayFeed = () => {
     };
   }, []);
 
+  const refreshComponent = () => {
+    setRefresh(true);
+  };
+
   const getUsersSOTD = () => {
     let dataArray = [];
     db.collection('users')
       .doc(currentUser.uid)
-      .collection('songsOfTheDay')
-      .onSnapshot((snapshot) => {
+      .collection('posts')
+      .where('type', '==', 'Song of the Day.')
+      .get()
+      .then((snapshot) => {
         snapshot.forEach((doc) => {
           dataArray.push(doc.data());
           setData(dataArray);
         });
       });
+    // .onSnapshot((snapshot) => {
+    //   snapshot.forEach((doc) => {
+    //     dataArray.push(doc.data());
+    //     setData(dataArray);
+    //   });
+    // });
   };
 
   return (
-    <View>
+    <View style={styles.container}>
       {data[0] != null ? (
         <FlatList
           keyExtractor={(item) => item.docId}
           data={data}
-          renderItem={({item}) => <ProfileSongOfTheDay data={item} />}
+          renderItem={({item}) => (
+            <ProfileSongOfTheDay
+              refresh={() => refreshComponent()}
+              data={item}
+            />
+          )}
         />
       ) : (
         <Text style={styles.textDNE}>
@@ -56,6 +74,10 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '600',
     marginTop: 40,
+  },
+  container: {
+    alignItems: 'flex-start',
+    flex: 1,
   },
 });
 

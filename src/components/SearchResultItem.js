@@ -5,8 +5,18 @@ import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import {useStateProviderValue} from '../../state/StateProvider';
 import {db} from '../../firebase/firebase';
 import uuid from 'react-uuid';
+import {useNavigation} from '@react-navigation/native';
 
-const SearchResultItem = ({albumArt, title, audio, artist, refresh}) => {
+const SearchResultItem = ({
+  albumArt,
+  allData,
+  title,
+  audio,
+  artist,
+  refresh,
+}) => {
+  const navigationUse = useNavigation();
+
   const [
     {currentUser, currentUserPictureURI, currentUserData},
     dispatch,
@@ -37,7 +47,7 @@ const SearchResultItem = ({albumArt, title, audio, artist, refresh}) => {
     let newDocRef = db
       .collection('users')
       .doc(currentUser.uid)
-      .collection('songsOfTheDay')
+      .collection('posts')
       .doc();
 
     newDocRef
@@ -53,6 +63,7 @@ const SearchResultItem = ({albumArt, title, audio, artist, refresh}) => {
         profilePictureUrl: currentUserData.profilePictureUrl,
         likes: [],
         comments: {},
+        description: 'Song of the Day.',
       })
       .then(setSongOfTheDay(true))
       .then(() => {
@@ -63,7 +74,7 @@ const SearchResultItem = ({albumArt, title, audio, artist, refresh}) => {
   const checkIfSongOfTheDayExists = () => {
     db.collection('users')
       .doc(currentUser.uid)
-      .collection('songsOfTheDay')
+      .collection('posts')
       .where('date', '==', new Date().toDateString())
       .get()
       .then((snapshot) => {
@@ -77,6 +88,20 @@ const SearchResultItem = ({albumArt, title, audio, artist, refresh}) => {
       });
   };
 
+  const deleteSongOfTheDay = () => {
+    db.collection('users')
+      .doc(currentUser.uid)
+      .collection('posts')
+      .where('description', '==', 'Song of the Day.')
+      .where('date', '==', new Date().toDateString())
+      .get()
+      .then((snapshot) => {
+        snapshot.forEach((doc) => {
+          doc.delete();
+        });
+      });
+  };
+
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => playTrack()}>
@@ -84,20 +109,28 @@ const SearchResultItem = ({albumArt, title, audio, artist, refresh}) => {
       </TouchableOpacity>
 
       <View style={styles.songInfoContainer}>
-        <Text style={styles.title}>{title}</Text>
+        <TouchableOpacity
+          onPress={() =>
+            navigationUse.navigate('SongDetailScreen', {data: allData})
+          }>
+          <Text style={styles.title}>{title}</Text>
 
-        <Text style={styles.artist}>{artist}</Text>
-        {songOfTheDay ? (
-          <Text style={styles.songOfTheDayWarning}>
-            You already have a song of the day!
-          </Text>
+          <Text style={styles.artist}>{artist}</Text>
+        </TouchableOpacity>
+
+        {/* {songOfTheDay ? (
+          <TouchableOpacity>
+            <Text style={styles.songOfTheDayWarning}>
+              You already have a song of the day!
+            </Text>
+          </TouchableOpacity>
         ) : (
           <MaterialIcon
             name="library-add"
             style={styles.songOfTheDayIcon}
             onPress={addSongOfTheDay}
           />
-        )}
+        )} */}
       </View>
     </View>
   );

@@ -63,12 +63,13 @@ const FeedItem = ({
         likes: likes,
         comments: comments,
         docId: docId,
-        description: 'Songs of the day.',
+        description: '',
+        type: 'Song of the Day.',
       });
 
     db.collection('users')
       .doc(uid)
-      .collection('songsOfTheDay')
+      .collection('posts')
       .doc(docId)
       .update({
         likes: firebase.firestore.FieldValue.arrayUnion({
@@ -93,7 +94,7 @@ const FeedItem = ({
 
     db.collection('users')
       .doc(uid)
-      .collection('songsOfTheDay')
+      .collection('posts')
       .doc(docId)
       .update({
         likes: firebase.firestore.FieldValue.arrayRemove({
@@ -110,7 +111,7 @@ const FeedItem = ({
   const checkIfLiked = () => {
     db.collection('users')
       .doc(uid)
-      .collection('songsOfTheDay')
+      .collection('posts')
       .where('likes', 'array-contains', {
         uid: currentUser.uid,
         username: currentUser.displayName,
@@ -179,13 +180,18 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'flex-start',
     marginLeft: 20,
-    marginTop: 20,
+    marginTop: 8,
+    marginRight: 10,
+    paddingBottom: 12,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: 'rgba(193, 200, 212, 0.2)',
+    flex: 1,
   },
   postContentContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 14,
-    marginLeft: 20,
+    marginLeft: 0,
   },
 
   profilePicture: {
@@ -194,8 +200,8 @@ const styles = StyleSheet.create({
     borderRadius: 30,
   },
   albumArt: {
-    height: 34,
-    width: 34,
+    height: 30,
+    width: 30,
     borderRadius: 4,
     marginRight: 4,
   },
@@ -212,7 +218,7 @@ const styles = StyleSheet.create({
   artistIntroText: {
     color: '#c1c8d4',
     fontSize: 12,
-    marginLeft: 8,
+    marginLeft: 2,
   },
   artistText: {
     color: '#1E8C8B',

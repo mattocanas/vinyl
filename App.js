@@ -15,12 +15,15 @@ import PasswordResetScreen from './src/screens/PasswordResetScreen';
 import SearchScreen from './src/screens/SearchScreen';
 import ProfileScreen from './src/screens/ProfileScreen';
 import ExploreScreen from './src/screens/ExploreScreen';
+import ProfileFollowingListScreen from './src/screens/ProfileFollowingListScreen';
+import ProfileFollowerListScreen from './src/screens/ProfileFollowerListScreen';
 
 //icons
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import OcticonIcon from 'react-native-vector-icons/Octicons';
 import UserDetailScreen from './src/screens/UserDetailScreen';
 import SettingsScreen from './src/screens/SettingsScreen';
+import SongDetailScreen from './src/screens/SongDetailScreen';
 
 // create bottom nav bar
 const Tabs = createMaterialBottomTabNavigator();
@@ -49,7 +52,7 @@ function MyBottomTabs() {
           tabBarLabel: '',
           tabBarColor: '#1E1C1C',
           tabBarIcon: ({color}) => (
-            <MaterialIcon name="search" size={26} color={color} />
+            <OcticonIcon name="telescope" size={26} color={color} />
           ),
         }}
         name="SearchScreen"
@@ -61,7 +64,7 @@ function MyBottomTabs() {
           tabBarLabel: '',
           tabBarColor: '#1E1C1C',
           tabBarIcon: ({color}) => (
-            <OcticonIcon name="telescope" size={26} color={color} />
+            <MaterialIcon name="search" size={26} color={color} />
           ),
         }}
         name="ExploreScreen"
@@ -135,6 +138,53 @@ function myMainStack() {
         }}
         name="SettingsScreen"
         component={SettingsScreen}
+      />
+      <MainStack.Screen
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#1E1C1C',
+            shadowColor: 'transparent',
+          },
+          headerTitleStyle: {
+            color: '#c1c8d4',
+            fontSize: 22,
+          },
+        }}
+        name="ProfileFollowingListScreen"
+        component={ProfileFollowingListScreen}
+      />
+
+      <MainStack.Screen
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#1E1C1C',
+            shadowColor: 'transparent',
+          },
+          headerTitleStyle: {
+            color: '#c1c8d4',
+            fontSize: 22,
+          },
+        }}
+        name="ProfileFollowerListScreen"
+        component={ProfileFollowerListScreen}
+      />
+
+      <MainStack.Screen
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#1E1C1C',
+            shadowColor: 'transparent',
+          },
+          headerTitleStyle: {
+            color: '#c1c8d4',
+            fontSize: 22,
+          },
+        }}
+        name="SongDetailScreen"
+        component={SongDetailScreen}
       />
     </MainStack.Navigator>
   );
