@@ -5,8 +5,9 @@ import {get} from 'react-native/Libraries/Utilities/PixelRatio';
 import {db} from '../../firebase/firebase';
 import {useStateProviderValue} from '../../state/StateProvider';
 import ProfileLike from './ProfileLike';
+import UserLike from './UserLike';
 
-const ProfileLikesFeed = () => {
+const UserLikesFeed = ({id}) => {
   const [
     {currentUser, currentUserPictureURI},
     dispatch,
@@ -24,7 +25,7 @@ const ProfileLikesFeed = () => {
   const getData = () => {
     let dataArray = [];
     db.collection('users')
-      .doc(currentUser.uid)
+      .doc(id)
       .collection('likes')
       .get()
       .then((snapshot) => {
@@ -42,10 +43,10 @@ const ProfileLikesFeed = () => {
           style={styles.flatlist}
           keyExtractor={(item) => item.docId}
           data={data}
-          renderItem={({item}) => <ProfileLike data={item} />}
+          renderItem={({item}) => <UserLike data={item} />}
         />
       ) : (
-        <Text style={styles.textDNE}>You havent liked anything yet!</Text>
+        <Text style={styles.textDNE}>Nothing has been liked anything yet!</Text>
       )}
     </View>
   );
@@ -65,4 +66,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProfileLikesFeed;
+export default UserLikesFeed;

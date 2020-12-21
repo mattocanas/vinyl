@@ -1,12 +1,16 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet, Image, TouchalbeOpacity} from 'react-native';
+import IonIcon from 'react-native-vector-icons/Ionicons';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome5';
 import {useStateProviderValue} from '../../state/StateProvider';
 import {db} from '../../firebase/firebase';
 import Sound from 'react-native-sound';
+import {useNavigation} from '@react-navigation/native';
 
 const SongDetailScreen = ({route}) => {
+  const navigationUse = useNavigation();
+
   const {data} = route.params;
   const [
     {currentUser, currentUserPictureURI, currentUserData},
@@ -89,13 +93,18 @@ const SongDetailScreen = ({route}) => {
             onPress={addSongOfTheDay}
           />
         ) : null}
-        <FontAwesomeIcon name="retweet" style={styles.repostIcon} />
+        <IonIcon
+          name="paper-plane"
+          style={styles.repostIcon}
+          onPress={() => navigationUse.navigate('PostFormScreen', {data: data})}
+        />
       </View>
       {songOfTheDay ? (
         <Text style={styles.warning}>You already have a song of the day!</Text>
       ) : null}
       <Text style={styles.title}>{data.title}</Text>
       <Text style={styles.artist}>{data.artist.name}</Text>
+      <Text style={styles.album}>{data.album.title}</Text>
       <Text style={styles.rank}>Deezer Rank: {data.rank.toString()}</Text>
       <Text style={styles.duration}>
         Song Duration: {data.duration.toString()} seconds.
@@ -120,6 +129,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#242525',
     alignItems: 'center',
+    paddingLeft: 12,
+    paddingRight: 12,
   },
   albumArt: {
     height: 200,
@@ -141,13 +152,19 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
   title: {
-    fontSize: 32,
+    fontSize: 26,
     color: '#5AB9B9',
     fontWeight: 'bold',
     marginTop: 20,
   },
   artist: {
     fontSize: 24,
+    fontWeight: '600',
+    color: '#5AB9B9',
+    marginTop: 4,
+  },
+  album: {
+    fontSize: 16,
     fontWeight: '600',
     color: '#5AB9B9',
     marginTop: 4,
@@ -166,7 +183,7 @@ const styles = StyleSheet.create({
   },
   explcitWarning: {
     fontWeight: '200',
-    fontSize: 18,
+    fontSize: 16,
     color: '#c1c8d4',
     marginTop: 12,
     textAlign: 'center',

@@ -33,10 +33,11 @@ const SignupScreen = ({navigation}) => {
         snapshot.forEach((doc) => {
           if (doc.exists) {
             setErrorMessage('This username already exists!');
-          } else {
-            handleSignUp();
           }
         });
+      })
+      .then(() => {
+        handleSignUp();
       });
   };
 

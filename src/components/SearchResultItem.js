@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   title: {
-    fontSize: 18,
+    fontSize: 16,
     color: '#1E8C8B',
     fontWeight: 'bold',
   },

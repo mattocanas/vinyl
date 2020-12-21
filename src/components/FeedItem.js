@@ -3,10 +3,12 @@ import Moment from 'react-moment';
 import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import Sound from 'react-native-sound';
 import AntIcon from 'react-native-vector-icons/AntDesign';
+import IonIcon from 'react-native-vector-icons/Ionicons';
 import {db} from '../../firebase/firebase';
 import {useStateProviderValue} from '../../state/StateProvider';
 import firebase from 'firebase';
 import {useState} from 'react/cjs/react.development';
+import {useNavigation} from '@react-navigation/native';
 
 const FeedItem = ({
   title,
@@ -19,10 +21,14 @@ const FeedItem = ({
   date,
   likes,
   comments,
+  type,
+  description,
   docId,
+  refresh,
 }) => {
   const [{currentUser}, dispatch] = useStateProviderValue();
   const [liked, setLiked] = useState(false);
+  const navigationUse = useNavigation();
 
   useEffect(() => {
     let active = true;
@@ -46,6 +52,10 @@ const FeedItem = ({
     track.play();
   };
 
+  const stopTrack = () => {
+    track.stop();
+  };
+
   const onLike = () => {
     db.collection('users')
       .doc(currentUser.uid)
@@ -64,7 +74,7 @@ const FeedItem = ({
         comments: comments,
         docId: docId,
         description: '',
-        type: 'Song of the Day.',
+        type: type,
       });
 
     db.collection('users')
@@ -79,6 +89,7 @@ const FeedItem = ({
       })
       .then(() => {
         checkIfLiked();
+        refresh();
       });
   };
 
@@ -105,6 +116,7 @@ const FeedItem = ({
       .then(() => {
         checkIfLiked();
         setLiked(false);
+        refresh();
       });
   };
 
@@ -144,8 +156,15 @@ const FeedItem = ({
           {date}
         </Moment>
       </View>
+      {description ? (
+        <View style={styles.postTextView}>
+          <Text style={styles.postContet}>{description}</Text>
+        </View>
+      ) : null}
       <View style={styles.postContentContainer}>
-        <Text style={styles.postIntroText}>Song of the day:</Text>
+        {type == 'Song of the Day.' ? (
+          <Text style={styles.postIntroText}>Song of the day:</Text>
+        ) : null}
 
         <TouchableOpacity
           style={{alignItems: 'center', flexDirection: 'row'}}
@@ -162,14 +181,50 @@ const FeedItem = ({
         <Text style={styles.artistIntroText}> by </Text>
         <Text style={styles.artistText}>{artist}</Text>
       </View>
+
       {liked == true ? (
-        <TouchableOpacity style={styles.buttonsTab} onPress={onUnlike}>
-          <AntIcon name="heart" style={styles.likeButton} />
-        </TouchableOpacity>
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <TouchableOpacity style={styles.buttonsTab} onPress={onUnlike}>
+            <AntIcon name="heart" style={styles.likeButton} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() =>
+              navigationUse.navigate('LikeListScreen', {data: likes})
+            }>
+            <Text style={styles.likesNumber}>
+              {likes.length.toString()} likes
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <IonIcon
+              name="stop-circle-outline"
+              style={styles.stopIcon}
+              onPress={stopTrack}
+            />
+          </TouchableOpacity>
+        </View>
       ) : (
-        <TouchableOpacity style={styles.buttonsTab} onPress={onLike}>
-          <AntIcon name="hearto" style={styles.likeButton} />
-        </TouchableOpacity>
+        <View style={{flexDirection: 'row'}}>
+          <TouchableOpacity style={styles.buttonsTab} onPress={onLike}>
+            <AntIcon name="hearto" style={styles.likeButton} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() =>
+              navigationUse.navigate('LikeListScreen', {data: likes})
+            }>
+            <Text style={styles.likesNumber}>
+              {likes.length.toString()} likes
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity>
+            <IonIcon
+              name="stop-circle-outline"
+              style={styles.stopIcon}
+              onPress={stopTrack}
+            />
+          </TouchableOpacity>
+        </View>
       )}
     </View>
   );
@@ -242,10 +297,32 @@ const styles = StyleSheet.create({
   },
   likeButton: {
     color: '#7F1535',
-    fontSize: 20,
+    fontSize: 24,
+    marginTop: 10,
   },
   buttonsTab: {
     marginLeft: 15,
+  },
+  postContet: {
+    color: '#c1c8d4',
+    fontSize: 16,
+    marginTop: 16,
+  },
+  postTextView: {
+    marginRight: 12,
+  },
+  stopIcon: {
+    fontSize: 24,
+    marginTop: 8,
+    marginLeft: 12,
+    color: '#22B3B2',
+  },
+  likesNumber: {
+    marginTop: 10,
+    fontSize: 16,
+    fontWeight: '400',
+    color: '#c1c8d4',
+    marginLeft: 10,
   },
 });
 

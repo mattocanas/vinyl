@@ -1,15 +1,24 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, TouchableOpacity, Text, Image, StyleSheet} from 'react-native';
 import {useStateProviderValue} from '../../state/StateProvider';
 import {db} from '../../firebase/firebase';
 import firebase from 'firebase';
+import UserSongOfTheDayFeed from '../components/UserSongOfTheDayFeed';
+import UserLikesFeed from '../components/UserLikesFeed';
+import {useNavigation} from '@react-navigation/native';
 
 const UserDetailScreen = ({route}) => {
   const [
     {currentUser, currentUserPictureURI, currentUserData},
     dispatch,
   ] = useStateProviderValue();
+
   const {data} = route.params;
+  const [showSOTD, setShowSOTD] = useState(true);
+  const [showLikeFeed, setShowLikeFeed] = useState(false);
+  const [SOTDActive, setSOTDActive] = useState(true);
+  const [likesActive, setLikesActive] = useState(false);
+  const navigationUse = useNavigation();
 
   const onFollow = () => {
     db.collection('users')
@@ -43,6 +52,20 @@ const UserDetailScreen = ({route}) => {
       });
   };
 
+  const showSOTDFeed = () => {
+    setShowSOTD(true);
+    setShowLikeFeed(false);
+    setSOTDActive(true);
+    setLikesActive(false);
+  };
+
+  const showLikesFeed = () => {
+    setShowLikeFeed(true);
+    setShowSOTD(false);
+    setLikesActive(true);
+    setSOTDActive(false);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.profileInfoContainer}>
@@ -56,7 +79,13 @@ const UserDetailScreen = ({route}) => {
 
         <View style={{alignItems: 'center'}}>
           <View style={{flexDirection: 'row'}}>
-            <TouchableOpacity style={styles.followingContainer}>
+            <TouchableOpacity
+              style={styles.followingContainer}
+              onPress={() =>
+                navigationUse.navigate('UserFollowingListScreen', {
+                  data: data,
+                })
+              }>
               <Text style={styles.followingNumber}>
                 {data.followingIdList.length.toString()}
               </Text>
@@ -64,7 +93,13 @@ const UserDetailScreen = ({route}) => {
               <Text style={styles.followingText}>Following</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.followersContainer}>
+            <TouchableOpacity
+              style={styles.followersContainer}
+              onPress={() =>
+                navigationUse.navigate('UserFollowerListScreen', {
+                  data: data,
+                })
+              }>
               <Text style={styles.followersNumber}>
                 {data.followerIdList.length.toString()}
               </Text>
@@ -83,6 +118,26 @@ const UserDetailScreen = ({route}) => {
           )}
         </View>
       </View>
+      <View style={styles.sectionsTabContainer}>
+        <TouchableOpacity
+          style={styles.songOfTheDaySection}
+          onPress={showSOTDFeed}>
+          {SOTDActive ? (
+            <Text style={styles.songOfTheDayTextActive}>Songs of the day</Text>
+          ) : (
+            <Text style={styles.songOfTheDayText}>Songs of the day</Text>
+          )}
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.likesSection} onPress={showLikesFeed}>
+          {likesActive ? (
+            <Text style={styles.likesTextActive}>Likes</Text>
+          ) : (
+            <Text style={styles.likesText}>Likes</Text>
+          )}
+        </TouchableOpacity>
+      </View>
+      {showSOTD ? <UserSongOfTheDayFeed id={data.uid} /> : null}
+      {showLikeFeed ? <UserLikesFeed id={data.uid} /> : null}
     </View>
   );
 };
@@ -91,13 +146,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#242525',
-    alignItems: 'flex-start',
+    alignItems: 'center',
   },
   profileInfoContainer: {
     flexDirection: 'row',
-    alignItems: 'center',
-    marginLeft: 40,
+    alignItems: 'flex-start',
+    // marginLeft: 40,
     marginTop: 36,
+    borderBottomWidth: 2,
+    borderBottomColor: 'gray',
+    paddingBottom: 8,
   },
   followingContainer: {
     alignItems: 'center',
@@ -168,6 +226,41 @@ const styles = StyleSheet.create({
   followText: {
     fontSize: 16,
     color: '#c1c8d4',
+  },
+  sectionsTabContainer: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    marginTop: 20,
+  },
+  songOfTheDaySection: {
+    marginRight: 20,
+  },
+  songOfTheDayText: {
+    color: '#c1c8d4',
+    fontSize: 16,
+    textDecorationLine: 'underline',
+    fontWeight: '700',
+  },
+  likesSection: {
+    marginLeft: 4,
+  },
+  likesText: {
+    color: '#c1c8d4',
+    fontSize: 16,
+    textDecorationLine: 'underline',
+    fontWeight: '700',
+  },
+  songOfTheDayTextActive: {
+    color: '#1E8C8B',
+    fontSize: 16,
+    textDecorationLine: 'underline',
+    fontWeight: '700',
+  },
+  likesTextActive: {
+    color: '#1E8C8B',
+    fontSize: 16,
+    textDecorationLine: 'underline',
+    fontWeight: '700',
   },
 });
 

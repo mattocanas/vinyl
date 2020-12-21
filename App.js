@@ -17,13 +17,17 @@ import ProfileScreen from './src/screens/ProfileScreen';
 import ExploreScreen from './src/screens/ExploreScreen';
 import ProfileFollowingListScreen from './src/screens/ProfileFollowingListScreen';
 import ProfileFollowerListScreen from './src/screens/ProfileFollowerListScreen';
+import UserDetailScreen from './src/screens/UserDetailScreen';
+import SettingsScreen from './src/screens/SettingsScreen';
+import SongDetailScreen from './src/screens/SongDetailScreen';
+import PostFormScreen from './src/screens/PostFormScreen';
 
 //icons
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import OcticonIcon from 'react-native-vector-icons/Octicons';
-import UserDetailScreen from './src/screens/UserDetailScreen';
-import SettingsScreen from './src/screens/SettingsScreen';
-import SongDetailScreen from './src/screens/SongDetailScreen';
+import LikeListScreen from './src/screens/LikeListScreen';
+import UserFollowingListScreen from './src/screens/UserFollowingListScreen';
+import UserFollowerListScreen from './src/screens/UserFollowerListScreen';
 
 // create bottom nav bar
 const Tabs = createMaterialBottomTabNavigator();
@@ -119,6 +123,7 @@ function myMainStack() {
             color: '#c1c8d4',
             fontSize: 22,
           },
+          title: 'vinyl',
         }}
         name="UserDetailScreen"
         component={UserDetailScreen}
@@ -150,6 +155,7 @@ function myMainStack() {
             color: '#c1c8d4',
             fontSize: 22,
           },
+          title: 'vinyl',
         }}
         name="ProfileFollowingListScreen"
         component={ProfileFollowingListScreen}
@@ -166,6 +172,7 @@ function myMainStack() {
             color: '#c1c8d4',
             fontSize: 22,
           },
+          title: 'vinyl',
         }}
         name="ProfileFollowerListScreen"
         component={ProfileFollowerListScreen}
@@ -182,9 +189,78 @@ function myMainStack() {
             color: '#c1c8d4',
             fontSize: 22,
           },
+          title: 'vinyl',
         }}
         name="SongDetailScreen"
         component={SongDetailScreen}
+      />
+
+      <MainStack.Screen
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#1E1C1C',
+            shadowColor: 'transparent',
+          },
+          headerTitleStyle: {
+            color: '#c1c8d4',
+            fontSize: 22,
+          },
+          title: 'vinyl',
+        }}
+        name="PostFormScreen"
+        component={PostFormScreen}
+      />
+
+      <MainStack.Screen
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#1E1C1C',
+            shadowColor: 'transparent',
+          },
+          headerTitleStyle: {
+            color: '#c1c8d4',
+            fontSize: 22,
+          },
+          title: 'vinyl',
+        }}
+        name="LikeListScreen"
+        component={LikeListScreen}
+      />
+
+      <MainStack.Screen
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#1E1C1C',
+            shadowColor: 'transparent',
+          },
+          headerTitleStyle: {
+            color: '#c1c8d4',
+            fontSize: 22,
+          },
+          title: 'vinyl',
+        }}
+        name="UserFollowingListScreen"
+        component={UserFollowingListScreen}
+      />
+
+      <MainStack.Screen
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#1E1C1C',
+            shadowColor: 'transparent',
+          },
+          headerTitleStyle: {
+            color: '#c1c8d4',
+            fontSize: 22,
+          },
+          title: 'vinyl',
+        }}
+        name="UserFollowerListScreen"
+        component={UserFollowerListScreen}
       />
     </MainStack.Navigator>
   );

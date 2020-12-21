@@ -20,20 +20,27 @@ const FollowingFeed = () => {
     return () => {
       active = false;
     };
-  }, [refresh]);
+  }, [refresh, refreshController]);
 
   const getFollowingData = () => {
+    followingDataArray = [];
     followingIdList.map((id) =>
       db
         .collection('users')
         .doc(id)
         .collection('posts')
-        .onSnapshot((snapshot) => {
-          followingDataArray = [];
+        .get()
+        .then((snapshot) => {
           snapshot.forEach((doc) => {
             followingDataArray.push(doc.data());
-            setFollowingData(followingDataArray);
+
+            followingDataArray.sort((a, b) => {
+              let a_date = new Date(a.date);
+              let b_date = new Date(b.date);
+              return b_date - a_date;
+            });
           });
+          setFollowingData(followingDataArray);
         }),
     );
   };
@@ -54,9 +61,14 @@ const FollowingFeed = () => {
     getFollowing();
   };
 
+  const refreshProp = () => {
+    setRefreshController(true);
+  };
+
   return (
-    <View>
+    <View style={styles.container}>
       <FlatList
+        style={styles.flatlist}
         refreshing={refreshController}
         onRefresh={refreshComponent}
         data={followingData}
@@ -75,6 +87,9 @@ const FollowingFeed = () => {
             comments={item.comments}
             date={item.date}
             docId={item.docId}
+            type={item.type}
+            description={item.description}
+            refresh={() => refreshProp()}
           />
         )}
       />
@@ -82,6 +97,13 @@ const FollowingFeed = () => {
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  flatlist: {
+    marginBottom: 14,
+  },
+  container: {
+    flex: 1,
+  },
+});
 
 export default FollowingFeed;
