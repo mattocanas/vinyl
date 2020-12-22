@@ -30,14 +30,17 @@ const ProfileLike = ({data}) => {
         <TouchableOpacity onPress={playTrack}>
           <Image style={styles.albumArt} source={{uri: data.albumArt}} />
         </TouchableOpacity>
+        <Text style={styles.usernameText}>{data.username} |</Text>
+
         <Moment element={Text} format="MMM Do YY" style={styles.date}>
           {data.date}
         </Moment>
       </View>
       <View style={{marginLeft: 70}}>
+        <Text style={styles.description}>{data.description}</Text>
+
         <Text style={styles.title}>{data.title}</Text>
         <Text style={styles.artist}>{data.artist}</Text>
-        <Text style={styles.description}>{data.description}</Text>
       </View>
     </View>
   );
@@ -71,9 +74,16 @@ const styles = StyleSheet.create({
     color: '#5AB9B9',
   },
   description: {
-    fontSize: 12,
+    fontSize: 16,
     color: '#c1c8d4',
     marginRight: 30,
+    marginBottom: 8,
+  },
+  usernameText: {
+    color: '#c1c8d4',
+    fontWeight: 'bold',
+    marginLeft: 8,
+    marginTop: 4,
   },
 });
 

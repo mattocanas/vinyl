@@ -1,9 +1,19 @@
 import React, {useState} from 'react';
-import {View, Text, TextInput, StyleSheet, Image} from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+  Image,
+  KeyboardAvoidingView,
+  Keyboard,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {db} from '../../firebase/firebase';
 import {useStateProviderValue} from '../../state/StateProvider';
 import {useNavigation} from '@react-navigation/native';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 const PostFormScreen = ({route}) => {
   const navigationUse = useNavigation();
@@ -42,24 +52,33 @@ const PostFormScreen = ({route}) => {
   };
 
   return (
-    <View style={styles.container}>
-      <Image style={styles.albumArt} source={{uri: data.album.cover}} />
+    <KeyboardAvoidingView
+      behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
+      style={styles.container}>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <KeyboardAwareScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{alignItems: 'center'}}
+          style={styles.container}>
+          <Image style={styles.albumArt} source={{uri: data.album.cover}} />
 
-      <Text style={styles.title}>{data.title}</Text>
-      <Text style={styles.artist}>{data.artist.name}</Text>
+          <Text style={styles.title}>{data.title}</Text>
+          <Text style={styles.artist}>{data.artist.name}</Text>
 
-      <TextInput
-        placeholder="Why this song?"
-        placeholderTextColor="rgba(193, 200, 212, 0.2)"
-        multiline={true}
-        style={styles.input}
-        value={text}
-        onChangeText={(newText) => setText(newText)}
-      />
-      <TouchableOpacity style={styles.postButton} onPress={post}>
-        <Text style={styles.shareText}>Share Track</Text>
-      </TouchableOpacity>
-    </View>
+          <TextInput
+            placeholder="Why this song?"
+            placeholderTextColor="rgba(193, 200, 212, 0.2)"
+            multiline={true}
+            style={styles.input}
+            value={text}
+            onChangeText={(newText) => setText(newText)}
+          />
+          <TouchableOpacity style={styles.postButton} onPress={post}>
+            <Text style={styles.shareText}>Share Track</Text>
+          </TouchableOpacity>
+        </KeyboardAwareScrollView>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -67,7 +86,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#242525',
-    alignItems: 'center',
   },
   albumArt: {
     height: 200,

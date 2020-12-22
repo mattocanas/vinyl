@@ -73,7 +73,7 @@ const FeedItem = ({
         likes: likes,
         comments: comments,
         docId: docId,
-        description: '',
+        description: description,
         type: type,
       });
 
@@ -175,11 +175,14 @@ const FeedItem = ({
               uri: albumArt,
             }}
           />
-          <Text style={styles.titleText}>{title}</Text>
         </TouchableOpacity>
 
-        <Text style={styles.artistIntroText}> by </Text>
-        <Text style={styles.artistText}>{artist}</Text>
+        <View style={{alignItems: 'flex-start', marginLeft: 8}}>
+          <Text style={styles.titleText}>{title}</Text>
+
+          <Text style={styles.artistIntroText}> by </Text>
+          <Text style={styles.artistText}>{artist}</Text>
+        </View>
       </View>
 
       {liked == true ? (
@@ -204,7 +207,7 @@ const FeedItem = ({
           </TouchableOpacity>
         </View>
       ) : (
-        <View style={{flexDirection: 'row'}}>
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <TouchableOpacity style={styles.buttonsTab} onPress={onLike}>
             <AntIcon name="hearto" style={styles.likeButton} />
           </TouchableOpacity>
@@ -250,34 +253,35 @@ const styles = StyleSheet.create({
   },
 
   profilePicture: {
-    height: 40,
-    width: 40,
+    height: 60,
+    width: 60,
     borderRadius: 30,
   },
   albumArt: {
-    height: 30,
-    width: 30,
+    height: 50,
+    width: 50,
     borderRadius: 4,
     marginRight: 4,
+    marginLeft: 4,
   },
   postIntroText: {
     color: '#c1c8d4',
-    fontSize: 12,
+    fontSize: 14,
     marginRight: 8,
   },
   titleText: {
     color: '#1E8C8B',
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: '500',
   },
   artistIntroText: {
     color: '#c1c8d4',
-    fontSize: 12,
+    fontSize: 14,
     marginLeft: 2,
   },
   artistText: {
-    color: '#1E8C8B',
-    fontSize: 12,
+    color: '#5AB9B9',
+    fontSize: 14,
     fontWeight: '500',
   },
   usernameText: {
@@ -285,35 +289,37 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginLeft: 8,
     marginTop: 4,
+    fontSize: 14,
   },
   profileContainer: {
     flexDirection: 'row',
   },
   dateText: {
-    fontSize: 8,
+    fontSize: 10,
     marginLeft: 4,
     color: 'gray',
     marginTop: 8,
   },
   likeButton: {
     color: '#7F1535',
-    fontSize: 24,
+    fontSize: 28,
     marginTop: 10,
   },
   buttonsTab: {
     marginLeft: 15,
+    marginTop: 4,
   },
   postContet: {
     color: '#c1c8d4',
-    fontSize: 16,
+    fontSize: 17,
     marginTop: 16,
   },
   postTextView: {
-    marginRight: 12,
+    marginRight: 10,
   },
   stopIcon: {
-    fontSize: 24,
-    marginTop: 8,
+    fontSize: 30,
+    marginTop: 12,
     marginLeft: 12,
     color: '#22B3B2',
   },

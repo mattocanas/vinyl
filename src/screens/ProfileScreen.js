@@ -5,6 +5,7 @@ import ProfilePicture from '../components/ProfilePicture';
 import {useStateProviderValue} from '../../state/StateProvider';
 import ProfileSongsOfTheDayFeed from '../components/ProfileSongOfTheDayFeed';
 import ProfileLikesFeed from '../components/ProfileLikesFeed';
+import ProfilePostsFeed from '../components/ProfilePostsFeed';
 import {useNavigation} from '@react-navigation/native';
 
 const ProfileScreen = ({navigation}) => {
@@ -19,6 +20,8 @@ const ProfileScreen = ({navigation}) => {
   const [showLikeFeed, setShowLikeFeed] = useState(false);
   const [SOTDActive, setSOTDActive] = useState(true);
   const [likesActive, setLikesActive] = useState(false);
+  const [postsActive, setPostsActive] = useState(false);
+  const [showPosts, setShowPosts] = useState(false);
 
   const refreshScreen = () => {
     setRefresh(true);
@@ -29,6 +32,17 @@ const ProfileScreen = ({navigation}) => {
     setShowLikeFeed(false);
     setSOTDActive(true);
     setLikesActive(false);
+    setShowPosts(false);
+    setPostsActive(false);
+  };
+
+  const showPostsFeed = () => {
+    setShowPosts(true);
+    setPostsActive(true);
+    setShowSOTD(false);
+    setShowLikeFeed(false);
+    setLikesActive(false);
+    setSOTDActive(false);
   };
 
   const showLikesFeed = () => {
@@ -36,6 +50,8 @@ const ProfileScreen = ({navigation}) => {
     setShowSOTD(false);
     setLikesActive(true);
     setSOTDActive(false);
+    setShowPosts(false);
+    setPostsActive(false);
   };
 
   return (
@@ -46,6 +62,7 @@ const ProfileScreen = ({navigation}) => {
             <View style={styles.photoNameContainer}>
               <ProfilePicture refresh={() => refreshScreen()} />
               <Text style={styles.usernameText}>{currentUser.displayName}</Text>
+              <Text style={styles.bio}>{currentUserData.bio}</Text>
             </View>
 
             <View style={{alignItems: 'center'}}>
@@ -95,6 +112,15 @@ const ProfileScreen = ({navigation}) => {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.likesSection}
+              onPress={showPostsFeed}>
+              {postsActive ? (
+                <Text style={styles.likesTextActive}>Posts</Text>
+              ) : (
+                <Text style={styles.likesText}>Posts</Text>
+              )}
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.likesSection}
               onPress={showLikesFeed}>
               {likesActive ? (
                 <Text style={styles.likesTextActive}>Likes</Text>
@@ -106,6 +132,7 @@ const ProfileScreen = ({navigation}) => {
           <View>
             {showSOTD ? <ProfileSongsOfTheDayFeed /> : null}
             {showLikeFeed ? <ProfileLikesFeed /> : null}
+            {showPosts ? <ProfilePostsFeed /> : null}
           </View>
         </View>
       ) : null}
@@ -184,12 +211,12 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   songOfTheDaySection: {
-    marginRight: 20,
+    marginRight: 12,
   },
   songOfTheDayText: {
     color: '#c1c8d4',
     fontSize: 16,
-    textDecorationLine: 'underline',
+
     fontWeight: '700',
   },
   likesSection: {
@@ -198,8 +225,9 @@ const styles = StyleSheet.create({
   likesText: {
     color: '#c1c8d4',
     fontSize: 16,
-    textDecorationLine: 'underline',
+
     fontWeight: '700',
+    marginLeft: 14,
   },
   songOfTheDayTextActive: {
     color: '#1E8C8B',
@@ -212,6 +240,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textDecorationLine: 'underline',
     fontWeight: '700',
+    marginLeft: 14,
+  },
+  bio: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#c1c8d4',
+    marginTop: 10,
   },
 });
 

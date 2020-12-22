@@ -11,7 +11,7 @@ export default () => {
       const response = await deezer.get('/search', {
         params: {
           q: searchTerm,
-          limit: 5,
+          limit: 8,
         },
       });
       setResults(response.data.data);

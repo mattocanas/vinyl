@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
   },
   descriptionText: {
     color: '#c1c8d4',
-    fontSize: 10,
+    fontSize: 12,
     letterSpacing: 1.1,
     marginTop: 6,
   },

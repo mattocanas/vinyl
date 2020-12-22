@@ -14,6 +14,7 @@ const SearchResultsScreen = ({searchResults}) => {
   return (
     <View style={styles.container}>
       <FlatList
+        showsVerticalScrollIndicator={false}
         style={styles.flatlist}
         keyExtractor={(result) => uuid()}
         data={searchResults}
@@ -42,6 +43,7 @@ const styles = StyleSheet.create({
   flatlist: {
     marginBottom: 140,
     paddingBottom: 30,
+    marginRight: 21,
   },
 });
 

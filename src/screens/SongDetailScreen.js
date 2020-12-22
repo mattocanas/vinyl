@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, Image, TouchalbeOpacity} from 'react-native';
+import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome5';
@@ -76,7 +76,7 @@ const SongDetailScreen = ({route}) => {
           if (doc.exists) {
             setSongOfTheDay(true);
           } else {
-            console.log('doesnt');
+            // console.log('doesnt');
           }
         });
       });
@@ -103,7 +103,12 @@ const SongDetailScreen = ({route}) => {
         <Text style={styles.warning}>You already have a song of the day!</Text>
       ) : null}
       <Text style={styles.title}>{data.title}</Text>
-      <Text style={styles.artist}>{data.artist.name}</Text>
+      <TouchableOpacity
+        onPress={() =>
+          navigationUse.navigate('ArtistDetailScreen', {data: data.artist})
+        }>
+        <Text style={styles.artist}>{data.artist.name}</Text>
+      </TouchableOpacity>
       <Text style={styles.album}>{data.album.title}</Text>
       <Text style={styles.rank}>Deezer Rank: {data.rank.toString()}</Text>
       <Text style={styles.duration}>

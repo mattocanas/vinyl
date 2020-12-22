@@ -28,6 +28,7 @@ import OcticonIcon from 'react-native-vector-icons/Octicons';
 import LikeListScreen from './src/screens/LikeListScreen';
 import UserFollowingListScreen from './src/screens/UserFollowingListScreen';
 import UserFollowerListScreen from './src/screens/UserFollowerListScreen';
+import ArtistDetailScreen from './src/screens/ArtistDetailScreen';
 
 // create bottom nav bar
 const Tabs = createMaterialBottomTabNavigator();
@@ -261,6 +262,23 @@ function myMainStack() {
         }}
         name="UserFollowerListScreen"
         component={UserFollowerListScreen}
+      />
+
+      <MainStack.Screen
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#1E1C1C',
+            shadowColor: 'transparent',
+          },
+          headerTitleStyle: {
+            color: '#c1c8d4',
+            fontSize: 22,
+          },
+          title: 'vinyl',
+        }}
+        name="ArtistDetailScreen"
+        component={ArtistDetailScreen}
       />
     </MainStack.Navigator>
   );

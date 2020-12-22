@@ -6,6 +6,7 @@ import {useStateProviderValue} from '../../state/StateProvider';
 import {db} from '../../firebase/firebase';
 import uuid from 'react-uuid';
 import {useNavigation} from '@react-navigation/native';
+import IonIcon from 'react-native-vector-icons/Ionicons';
 
 const SearchResultItem = ({
   albumArt,
@@ -41,6 +42,10 @@ const SearchResultItem = ({
 
   const playTrack = () => {
     track.play();
+  };
+
+  const stopTrack = () => {
+    track.stop();
   };
 
   const addSongOfTheDay = () => {
@@ -117,6 +122,13 @@ const SearchResultItem = ({
 
           <Text style={styles.artist}>{artist}</Text>
         </TouchableOpacity>
+        <TouchableOpacity>
+          <IonIcon
+            name="stop-circle-outline"
+            style={styles.stopIcon}
+            onPress={stopTrack}
+          />
+        </TouchableOpacity>
 
         {/* {songOfTheDay ? (
           <TouchableOpacity>
@@ -144,8 +156,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   albumArt: {
-    height: 150,
-    width: 150,
+    height: 100,
+    width: 100,
     borderRadius: 10,
   },
   title: {
@@ -169,6 +181,12 @@ const styles = StyleSheet.create({
   songOfTheDayWarning: {
     fontSize: 8,
     color: '#c1c8d4',
+  },
+  stopIcon: {
+    fontSize: 30,
+    marginTop: 12,
+    // marginLeft: 16,
+    color: '#22B3B2',
   },
 });
 

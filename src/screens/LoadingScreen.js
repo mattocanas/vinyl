@@ -1,5 +1,11 @@
 import React, {useEffect} from 'react';
-import {View, Text, StyleSheet, ActivityIndicator} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ActivityIndicator,
+  ImageBackground,
+} from 'react-native';
 import {auth} from '../../firebase/firebase';
 import {useStateProviderValue} from '../../state/StateProvider';
 
@@ -30,7 +36,6 @@ const App = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.welcomeText}>Welcome to listen</Text>
       <ActivityIndicator size="large"></ActivityIndicator>
     </View>
   );
