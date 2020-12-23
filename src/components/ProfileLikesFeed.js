@@ -6,7 +6,7 @@ import {db} from '../../firebase/firebase';
 import {useStateProviderValue} from '../../state/StateProvider';
 import ProfileLike from './ProfileLike';
 
-const ProfileLikesFeed = () => {
+const ProfileLikesFeed = ({refresh}) => {
   const [
     {currentUser, currentUserPictureURI},
     dispatch,

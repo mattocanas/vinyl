@@ -6,6 +6,9 @@ import firebase from 'firebase';
 import UserSongOfTheDayFeed from '../components/UserSongOfTheDayFeed';
 import UserLikesFeed from '../components/UserLikesFeed';
 import {useNavigation} from '@react-navigation/native';
+import UserPostsFeed from '../components/UserPostsFeed';
+import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import AntIcon from 'react-native-vector-icons/AntDesign';
 
 const UserDetailScreen = ({route}) => {
   const [
@@ -18,6 +21,8 @@ const UserDetailScreen = ({route}) => {
   const [showLikeFeed, setShowLikeFeed] = useState(false);
   const [SOTDActive, setSOTDActive] = useState(true);
   const [likesActive, setLikesActive] = useState(false);
+  const [postsActive, setPostsActive] = useState(false);
+  const [showPosts, setShowPosts] = useState(false);
   const navigationUse = useNavigation();
 
   const onFollow = () => {
@@ -57,6 +62,8 @@ const UserDetailScreen = ({route}) => {
     setShowLikeFeed(false);
     setSOTDActive(true);
     setLikesActive(false);
+    setPostsActive(false);
+    setShowPosts(false);
   };
 
   const showLikesFeed = () => {
@@ -64,6 +71,17 @@ const UserDetailScreen = ({route}) => {
     setShowSOTD(false);
     setLikesActive(true);
     setSOTDActive(false);
+    setPostsActive(false);
+    setShowPosts(false);
+  };
+
+  const showPostsFeed = () => {
+    setShowLikeFeed(false);
+    setShowSOTD(false);
+    setLikesActive(false);
+    setSOTDActive(false);
+    setPostsActive(true);
+    setShowPosts(true);
   };
 
   return (
@@ -123,21 +141,61 @@ const UserDetailScreen = ({route}) => {
           style={styles.songOfTheDaySection}
           onPress={showSOTDFeed}>
           {SOTDActive ? (
-            <Text style={styles.songOfTheDayTextActive}>Songs of the day</Text>
+            <View style={{flexDirection: 'row'}}>
+              <MaterialCommunityIcon
+                name="calendar-month"
+                style={styles.songOfTheDayIconTextActive}
+              />
+              <Text style={styles.songOfTheDayTextActive}>
+                Songs of the day
+              </Text>
+            </View>
           ) : (
-            <Text style={styles.songOfTheDayText}>Songs of the day</Text>
+            <View style={{flexDirection: 'row', textAlign: 'center'}}>
+              <MaterialCommunityIcon
+                name="calendar-month"
+                style={styles.songOfTheDayIconText}
+              />
+              <Text style={styles.songOfTheDayText}>Songs of the day</Text>
+            </View>
+          )}
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.likesSection} onPress={showPostsFeed}>
+          {postsActive ? (
+            <View style={{flexDirection: 'row'}}>
+              <MaterialCommunityIcon
+                name="comment-text"
+                style={styles.songOfTheDayIconTextActive}
+              />
+              <Text style={styles.postsTextActive}>Posts</Text>
+            </View>
+          ) : (
+            <View style={{flexDirection: 'row'}}>
+              <MaterialCommunityIcon
+                name="comment-text"
+                style={styles.songOfTheDayIconText}
+              />
+              <Text style={styles.postsText}>Posts</Text>
+            </View>
           )}
         </TouchableOpacity>
         <TouchableOpacity style={styles.likesSection} onPress={showLikesFeed}>
           {likesActive ? (
-            <Text style={styles.likesTextActive}>Likes</Text>
+            <View style={{flexDirection: 'row'}}>
+              <AntIcon name="heart" style={styles.songOfTheDayIconTextActive} />
+              <Text style={styles.likesTextActive}>Likes</Text>
+            </View>
           ) : (
-            <Text style={styles.likesText}>Likes</Text>
+            <View style={{flexDirection: 'row'}}>
+              <AntIcon name="heart" style={styles.songOfTheDayIconText} />
+              <Text style={styles.likesText}>Likes</Text>
+            </View>
           )}
         </TouchableOpacity>
       </View>
       {showSOTD ? <UserSongOfTheDayFeed id={data.uid} /> : null}
       {showLikeFeed ? <UserLikesFeed id={data.uid} /> : null}
+      {showPosts ? <UserPostsFeed id={data.uid} /> : null}
     </View>
   );
 };
@@ -153,9 +211,9 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     // marginLeft: 40,
     marginTop: 36,
-    borderBottomWidth: 2,
-    borderBottomColor: 'gray',
-    paddingBottom: 8,
+    // borderBottomWidth: 2,
+    // borderBottomColor: 'gray',
+    // // paddingBottom: 8,
   },
   followingContainer: {
     alignItems: 'center',
@@ -230,15 +288,24 @@ const styles = StyleSheet.create({
   sectionsTabContainer: {
     alignItems: 'center',
     flexDirection: 'row',
-    marginTop: 20,
+    marginTop: 10,
+    borderBottomWidth: 2,
+    borderBottomColor: 'gray',
+    // paddingBottom: 8,
   },
   songOfTheDaySection: {
-    marginRight: 20,
+    marginRight: 12,
   },
   songOfTheDayText: {
     color: '#c1c8d4',
     fontSize: 16,
-    textDecorationLine: 'underline',
+
+    fontWeight: '700',
+  },
+  songOfTheDayIconText: {
+    color: '#c1c8d4',
+    fontSize: 16,
+    marginTop: 2.8,
     fontWeight: '700',
   },
   likesSection: {
@@ -247,7 +314,7 @@ const styles = StyleSheet.create({
   likesText: {
     color: '#c1c8d4',
     fontSize: 16,
-    textDecorationLine: 'underline',
+
     fontWeight: '700',
   },
   songOfTheDayTextActive: {
@@ -256,11 +323,31 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
     fontWeight: '700',
   },
+  songOfTheDayIconTextActive: {
+    color: '#1E8C8B',
+    fontSize: 16,
+    // textDecorationLine: 'underline',
+    fontWeight: '700',
+    marginTop: 2.8,
+  },
   likesTextActive: {
     color: '#1E8C8B',
     fontSize: 16,
     textDecorationLine: 'underline',
     fontWeight: '700',
+  },
+  postsText: {
+    color: '#c1c8d4',
+    fontSize: 16,
+    fontWeight: '700',
+    marginRight: 16,
+  },
+  postsTextActive: {
+    color: '#1E8C8B',
+    fontSize: 16,
+    textDecorationLine: 'underline',
+    fontWeight: '700',
+    marginRight: 16,
   },
 });
 

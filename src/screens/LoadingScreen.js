@@ -5,6 +5,7 @@ import {
   StyleSheet,
   ActivityIndicator,
   ImageBackground,
+  Image,
 } from 'react-native';
 import {auth} from '../../firebase/firebase';
 import {useStateProviderValue} from '../../state/StateProvider';
@@ -36,20 +37,25 @@ const App = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <ActivityIndicator size="large"></ActivityIndicator>
+      <Text style={styles.welcomeText}>Tapping into the matrix...</Text>
+
+      <ActivityIndicator color="#1E8C8B" size="large"></ActivityIndicator>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#222831',
+    backgroundColor: '#242525',
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
   welcomeText: {
-    color: '#1E8C8B',
+    color: '#c1c8d4',
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 10,
   },
 });
 

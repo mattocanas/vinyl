@@ -145,12 +145,17 @@ const FeedItem = ({
   return (
     <View style={styles.mainContainer}>
       <View style={styles.profileContainer}>
-        <Image
-          style={styles.profilePicture}
-          source={{
-            uri: profilePictureUrl,
-          }}
-        />
+        <TouchableOpacity
+          onPress={() =>
+            navigationUse.navigate('FeedUserDetailScreen', {data: uid})
+          }>
+          <Image
+            style={styles.profilePicture}
+            source={{
+              uri: profilePictureUrl,
+            }}
+          />
+        </TouchableOpacity>
         <Text style={styles.usernameText}>{username} |</Text>
         <Moment element={Text} format="MMM Do YY" style={styles.dateText}>
           {date}

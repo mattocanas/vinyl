@@ -1,32 +1,86 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
-import Sound from 'react-native-sound';
-import ProfilePicture from '../components/ProfilePicture';
+import {
+  View,
+  TouchableOpacity,
+  Text,
+  Image,
+  StyleSheet,
+  ActivityIndicator,
+} from 'react-native';
 import {useStateProviderValue} from '../../state/StateProvider';
-import ProfileSongsOfTheDayFeed from '../components/ProfileSongOfTheDayFeed';
-import ProfileLikesFeed from '../components/ProfileLikesFeed';
-import ProfilePostsFeed from '../components/ProfilePostsFeed';
+import {db} from '../../firebase/firebase';
+import firebase from 'firebase';
+import UserSongOfTheDayFeed from '../components/UserSongOfTheDayFeed';
+import UserLikesFeed from '../components/UserLikesFeed';
 import {useNavigation} from '@react-navigation/native';
+import UserPostsFeed from '../components/UserPostsFeed';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AntIcon from 'react-native-vector-icons/AntDesign';
 
-const ProfileScreen = ({navigation}) => {
-  const navigationUse = useNavigation();
-  const [refresh, setRefresh] = useState(false);
+const FeedUserDetailScreen = ({route}) => {
+  useEffect(() => {
+    let active = true;
+    getUserData();
+    console.log(data);
+    console.log(userData);
+    return () => {
+      active = false;
+    };
+  }, [userData]);
+
+  const getUserData = () => {
+    db.collection('users')
+      .doc(data)
+      .get()
+      .then((doc) => {
+        setUserData(doc.data());
+      });
+  };
+
   const [
     {currentUser, currentUserPictureURI, currentUserData},
     dispatch,
   ] = useStateProviderValue();
-
+  const {data} = route.params;
   const [showSOTD, setShowSOTD] = useState(true);
   const [showLikeFeed, setShowLikeFeed] = useState(false);
   const [SOTDActive, setSOTDActive] = useState(true);
   const [likesActive, setLikesActive] = useState(false);
   const [postsActive, setPostsActive] = useState(false);
   const [showPosts, setShowPosts] = useState(false);
+  const [userData, setUserData] = useState(null);
+  const navigationUse = useNavigation();
 
-  const refreshScreen = () => {
-    setRefresh(true);
+  const onFollow = () => {
+    db.collection('users')
+      .doc(currentUser.uid)
+      .update({
+        followingIdList: firebase.firestore.FieldValue.arrayUnion(data.uid),
+      });
+
+    db.collection('users')
+      .doc(data.uid)
+      .update({
+        followerIdList: firebase.firestore.FieldValue.arrayUnion(
+          currentUser.uid,
+        ),
+      });
+  };
+
+  const onUnfollow = () => {
+    db.collection('users')
+      .doc(currentUser.uid)
+      .update({
+        followingIdList: firebase.firestore.FieldValue.arrayRemove(data.uid),
+      });
+
+    db.collection('users')
+      .doc(data.uid)
+      .update({
+        followerIdList: firebase.firestore.FieldValue.arrayRemove(
+          currentUser.uid,
+        ),
+      });
   };
 
   const showSOTDFeed = () => {
@@ -34,17 +88,8 @@ const ProfileScreen = ({navigation}) => {
     setShowLikeFeed(false);
     setSOTDActive(true);
     setLikesActive(false);
-    setShowPosts(false);
     setPostsActive(false);
-  };
-
-  const showPostsFeed = () => {
-    setShowPosts(true);
-    setPostsActive(true);
-    setShowSOTD(false);
-    setShowLikeFeed(false);
-    setLikesActive(false);
-    setSOTDActive(false);
+    setShowPosts(false);
   };
 
   const showLikesFeed = () => {
@@ -52,19 +97,30 @@ const ProfileScreen = ({navigation}) => {
     setShowSOTD(false);
     setLikesActive(true);
     setSOTDActive(false);
-    setShowPosts(false);
     setPostsActive(false);
+    setShowPosts(false);
+  };
+
+  const showPostsFeed = () => {
+    setShowLikeFeed(false);
+    setShowSOTD(false);
+    setLikesActive(false);
+    setSOTDActive(false);
+    setPostsActive(true);
+    setShowPosts(true);
   };
 
   return (
-    <>
-      {currentUser ? (
-        <View style={styles.container}>
+    <View style={styles.container}>
+      {userData ? (
+        <>
           <View style={styles.profileInfoContainer}>
             <View style={styles.photoNameContainer}>
-              <ProfilePicture refresh={() => refreshScreen()} />
-              <Text style={styles.usernameText}>{currentUser.displayName}</Text>
-              <Text style={styles.bio}>{currentUserData.bio}</Text>
+              <Image
+                style={styles.profilePicture}
+                source={{uri: userData.profilePictureUrl}}
+              />
+              <Text style={styles.usernameText}>{userData.username}</Text>
             </View>
 
             <View style={{alignItems: 'center'}}>
@@ -72,10 +128,12 @@ const ProfileScreen = ({navigation}) => {
                 <TouchableOpacity
                   style={styles.followingContainer}
                   onPress={() =>
-                    navigationUse.navigate('ProfileFollowingListScreen')
+                    navigationUse.navigate('UserFollowingListScreen', {
+                      data: userData,
+                    })
                   }>
                   <Text style={styles.followingNumber}>
-                    {currentUserData.followingIdList.length.toString()}
+                    {userData.followingIdList.length.toString()}
                   </Text>
 
                   <Text style={styles.followingText}>Following</Text>
@@ -84,20 +142,30 @@ const ProfileScreen = ({navigation}) => {
                 <TouchableOpacity
                   style={styles.followersContainer}
                   onPress={() =>
-                    navigationUse.navigate('ProfileFollowerListScreen')
+                    navigationUse.navigate('UserFollowerListScreen', {
+                      data: userData,
+                    })
                   }>
                   <Text style={styles.followersNumber}>
-                    {currentUserData.followerIdList.length.toString()}
+                    {userData.followerIdList.length.toString()}
                   </Text>
 
                   <Text style={styles.followersText}>Followers</Text>
                 </TouchableOpacity>
               </View>
-              <TouchableOpacity
-                style={styles.settingButton}
-                onPress={() => navigationUse.navigate('SettingsScreen')}>
-                <Text style={styles.settingsText}>Settings</Text>
-              </TouchableOpacity>
+              {currentUserData.followingIdList.includes(userData.uid) ? (
+                <TouchableOpacity
+                  style={styles.followButton}
+                  onPress={onUnfollow}>
+                  <Text style={styles.followText}>Following</Text>
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity
+                  style={styles.followButton}
+                  onPress={onFollow}>
+                  <Text style={styles.followText}>Follow</Text>
+                </TouchableOpacity>
+              )}
             </View>
           </View>
           <View style={styles.sectionsTabContainer}>
@@ -164,20 +232,16 @@ const ProfileScreen = ({navigation}) => {
               )}
             </TouchableOpacity>
           </View>
-          <View>
-            {showSOTD ? (
-              <ProfileSongsOfTheDayFeed refresh={() => showLikesFeed()} />
-            ) : null}
-            {showLikeFeed ? (
-              <ProfileLikesFeed refresh={() => showSOTDFeed()} />
-            ) : null}
-            {showPosts ? (
-              <ProfilePostsFeed refresh={() => showSOTDFeed()} />
-            ) : null}
-          </View>
-        </View>
-      ) : null}
-    </>
+          {showSOTD ? <UserSongOfTheDayFeed id={userData.uid} /> : null}
+          {showLikeFeed ? <UserLikesFeed id={userData.uid} /> : null}
+          {showPosts ? <UserPostsFeed id={userData.uid} /> : null}
+        </>
+      ) : (
+        <>
+          <ActivityIndicator size="large" />
+        </>
+      )}
+    </View>
   );
 };
 
@@ -192,6 +256,9 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     // marginLeft: 40,
     marginTop: 36,
+    // borderBottomWidth: 2,
+    // borderBottomColor: 'gray',
+    // // paddingBottom: 8,
   },
   followingContainer: {
     alignItems: 'center',
@@ -203,7 +270,6 @@ const styles = StyleSheet.create({
   photoNameContainer: {
     alignItems: 'center',
     marginRight: 40,
-    marginLeft: 10,
   },
   usernameText: {
     fontSize: 20,
@@ -237,9 +303,30 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: '#c1c8d4',
     borderRadius: 10,
-    marginTop: 20,
+    marginTop: 10,
   },
   settingsText: {
+    fontSize: 16,
+    color: '#c1c8d4',
+  },
+  profilePicture: {
+    width: 100,
+    height: 100,
+    borderRadius: 75,
+    borderColor: '#1E8C8B',
+    borderWidth: 1,
+  },
+  followButton: {
+    alignItems: 'center',
+    paddingTop: 6,
+    paddingBottom: 6,
+    width: 160,
+    borderWidth: 2,
+    borderColor: '#c1c8d4',
+    borderRadius: 10,
+    marginTop: 20,
+  },
+  followText: {
     fontSize: 16,
     color: '#c1c8d4',
   },
@@ -307,12 +394,6 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     marginRight: 16,
   },
-  bio: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#c1c8d4',
-    marginTop: 10,
-  },
 });
 
-export default ProfileScreen;
+export default FeedUserDetailScreen;

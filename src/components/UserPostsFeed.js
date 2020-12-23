@@ -3,33 +3,35 @@ import {View, Text, Image, StyleSheet, FlatList} from 'react-native';
 import {db} from '../../firebase/firebase';
 import {useStateProviderValue} from '../../state/StateProvider';
 import ProfileSongOfTheDay from './ProfileSongOfTheDay';
+import ProfilePost from './ProfilePost';
+import UserPost from './UserPost';
 
-const ProfileSongsOfTheDayFeed = ({refresh}) => {
+const UserPostsFeed = ({id}) => {
   const [
     {currentUser, currentUserPictureURI},
     dispatch,
   ] = useStateProviderValue();
   const [data, setData] = useState([]);
-  // const [refresh, setRefresh] = useState(false);
+  const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
     let active = true;
-    getUsersSOTD();
+    getUsersPosts();
     return () => {
       active = false;
     };
   }, []);
 
-  // const refreshComponent = () => {
-  //   setRefresh(true);
-  // };
+  const refreshComponent = () => {
+    setRefresh(true);
+  };
 
-  const getUsersSOTD = () => {
+  const getUsersPosts = () => {
     let dataArray = [];
     db.collection('users')
-      .doc(currentUser.uid)
+      .doc(id)
       .collection('posts')
-      .where('type', '==', 'Song of the Day.')
+      .where('type', '==', 'Post')
       .get()
       .then((snapshot) => {
         snapshot.forEach((doc) => {
@@ -52,12 +54,16 @@ const ProfileSongsOfTheDayFeed = ({refresh}) => {
           keyExtractor={(item) => item.docId}
           data={data}
           renderItem={({item}) => (
-            <ProfileSongOfTheDay refresh={() => refresh()} data={item} />
+            <UserPost
+              id={item.uid}
+              refresh={() => refreshComponent()}
+              data={item}
+            />
           )}
         />
       ) : (
         <Text style={styles.textDNE}>
-          You have't had a song of the day yet! Start listening to some music!
+          This user hasnt posted anything yet! They must hate music!
         </Text>
       )}
     </View>
@@ -78,4 +84,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProfileSongsOfTheDayFeed;
+export default UserPostsFeed;

@@ -5,13 +5,13 @@ import {useStateProviderValue} from '../../state/StateProvider';
 import ProfileSongOfTheDay from './ProfileSongOfTheDay';
 import ProfilePost from './ProfilePost';
 
-const ProfilePostsFeed = () => {
+const ProfilePostsFeed = ({refresh}) => {
   const [
     {currentUser, currentUserPictureURI},
     dispatch,
   ] = useStateProviderValue();
   const [data, setData] = useState([]);
-  const [refresh, setRefresh] = useState(false);
+  // const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
     let active = true;
@@ -21,9 +21,9 @@ const ProfilePostsFeed = () => {
     };
   }, []);
 
-  const refreshComponent = () => {
-    setRefresh(true);
-  };
+  // const refreshComponent = () => {
+  //   setRefresh(true);
+  // };
 
   const getUsersPosts = () => {
     let dataArray = [];
@@ -53,7 +53,7 @@ const ProfilePostsFeed = () => {
           keyExtractor={(item) => item.docId}
           data={data}
           renderItem={({item}) => (
-            <ProfilePost refresh={() => refreshComponent()} data={item} />
+            <ProfilePost refresh={() => refresh()} data={item} />
           )}
         />
       ) : (

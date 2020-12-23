@@ -51,6 +51,7 @@ const FollowingFeed = () => {
       .onSnapshot((snapshot) => {
         followingDataArray = [];
         setFollowingIdList(snapshot.data().followingIdList);
+
         setRefreshController(false);
         setRefresh(true);
       });
@@ -99,7 +100,7 @@ const FollowingFeed = () => {
 
 const styles = StyleSheet.create({
   flatlist: {
-    marginBottom: 14,
+    marginBottom: 1,
   },
   container: {
     flex: 1,

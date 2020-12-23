@@ -29,6 +29,7 @@ import LikeListScreen from './src/screens/LikeListScreen';
 import UserFollowingListScreen from './src/screens/UserFollowingListScreen';
 import UserFollowerListScreen from './src/screens/UserFollowerListScreen';
 import ArtistDetailScreen from './src/screens/ArtistDetailScreen';
+import FeedUserDetailScreen from './src/screens/FeedUserDetailScreen';
 
 // create bottom nav bar
 const Tabs = createMaterialBottomTabNavigator();
@@ -106,7 +107,8 @@ function myMainStack() {
           },
           headerTitleStyle: {
             color: '#c1c8d4',
-            fontSize: 22,
+            fontSize: 30,
+            fontWeight: '700',
           },
         }}
         name="vinyl"
@@ -122,7 +124,8 @@ function myMainStack() {
           },
           headerTitleStyle: {
             color: '#c1c8d4',
-            fontSize: 22,
+            fontSize: 30,
+            fontWeight: '700',
           },
           title: 'vinyl',
         }}
@@ -139,7 +142,8 @@ function myMainStack() {
           },
           headerTitleStyle: {
             color: '#c1c8d4',
-            fontSize: 22,
+            fontSize: 30,
+            fontWeight: '700',
           },
         }}
         name="SettingsScreen"
@@ -154,7 +158,8 @@ function myMainStack() {
           },
           headerTitleStyle: {
             color: '#c1c8d4',
-            fontSize: 22,
+            fontSize: 30,
+            fontWeight: '700',
           },
           title: 'vinyl',
         }}
@@ -171,7 +176,8 @@ function myMainStack() {
           },
           headerTitleStyle: {
             color: '#c1c8d4',
-            fontSize: 22,
+            fontSize: 30,
+            fontWeight: '700',
           },
           title: 'vinyl',
         }}
@@ -188,7 +194,8 @@ function myMainStack() {
           },
           headerTitleStyle: {
             color: '#c1c8d4',
-            fontSize: 22,
+            fontSize: 30,
+            fontWeight: '700',
           },
           title: 'vinyl',
         }}
@@ -205,7 +212,8 @@ function myMainStack() {
           },
           headerTitleStyle: {
             color: '#c1c8d4',
-            fontSize: 22,
+            fontSize: 30,
+            fontWeight: '700',
           },
           title: 'vinyl',
         }}
@@ -222,7 +230,8 @@ function myMainStack() {
           },
           headerTitleStyle: {
             color: '#c1c8d4',
-            fontSize: 22,
+            fontSize: 30,
+            fontWeight: '700',
           },
           title: 'vinyl',
         }}
@@ -239,7 +248,8 @@ function myMainStack() {
           },
           headerTitleStyle: {
             color: '#c1c8d4',
-            fontSize: 22,
+            fontSize: 30,
+            fontWeight: '700',
           },
           title: 'vinyl',
         }}
@@ -256,7 +266,8 @@ function myMainStack() {
           },
           headerTitleStyle: {
             color: '#c1c8d4',
-            fontSize: 22,
+            fontSize: 30,
+            fontWeight: '700',
           },
           title: 'vinyl',
         }}
@@ -273,12 +284,30 @@ function myMainStack() {
           },
           headerTitleStyle: {
             color: '#c1c8d4',
-            fontSize: 22,
+            fontSize: 30,
+            fontWeight: '700',
           },
           title: 'vinyl',
         }}
         name="ArtistDetailScreen"
         component={ArtistDetailScreen}
+      />
+      <MainStack.Screen
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#1E1C1C',
+            shadowColor: 'transparent',
+          },
+          headerTitleStyle: {
+            color: '#c1c8d4',
+            fontSize: 30,
+            fontWeight: '700',
+          },
+          title: 'vinyl',
+        }}
+        name="FeedUserDetailScreen"
+        component={FeedUserDetailScreen}
       />
     </MainStack.Navigator>
   );

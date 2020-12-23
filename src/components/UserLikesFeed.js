@@ -46,7 +46,7 @@ const UserLikesFeed = ({id}) => {
           renderItem={({item}) => <UserLike data={item} />}
         />
       ) : (
-        <Text style={styles.textDNE}>Nothing has been liked anything yet!</Text>
+        <Text style={styles.textDNE}>Nothing has been liked yet!</Text>
       )}
     </View>
   );

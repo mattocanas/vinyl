@@ -5,6 +5,7 @@ import AntIcon from 'react-native-vector-icons/AntDesign';
 import Sound from 'react-native-sound';
 import {db} from '../../firebase/firebase';
 import {useStateProviderValue} from '../../state/StateProvider';
+import IonIcon from 'react-native-vector-icons/Ionicons';
 
 const DailyMusicItem = ({
   title,
@@ -103,7 +104,8 @@ const DailyMusicItem = ({
           />
         </TouchableOpacity>
 
-        <View style={{flexDirection: 'row', marginTop: 6}}>
+        <View
+          style={{flexDirection: 'row', marginTop: 6, alignItems: 'center'}}>
           {liked == true ? (
             <TouchableOpacity onPress={unlikePost}>
               <AntIcon style={styles.heartIcon} name="heart" />
@@ -113,6 +115,11 @@ const DailyMusicItem = ({
               <AntIcon style={styles.heartIcon} name="hearto" />
             </TouchableOpacity>
           )}
+          <IonIcon
+            name="stop-circle-outline"
+            style={styles.stopIcon}
+            onPress={stopTrack}
+          />
 
           {/* <AntIcon style={styles.repostIcon} name="retweet" /> */}
         </View>
@@ -168,6 +175,12 @@ const styles = StyleSheet.create({
     fontSize: 12,
     letterSpacing: 1.1,
     marginTop: 6,
+  },
+  stopIcon: {
+    fontSize: 30,
+    // marginTop: 12,
+    marginLeft: 8,
+    color: '#22B3B2',
   },
 });
 
