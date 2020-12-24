@@ -30,6 +30,8 @@ import UserFollowingListScreen from './src/screens/UserFollowingListScreen';
 import UserFollowerListScreen from './src/screens/UserFollowerListScreen';
 import ArtistDetailScreen from './src/screens/ArtistDetailScreen';
 import FeedUserDetailScreen from './src/screens/FeedUserDetailScreen';
+import EditProfileScreen from './src/screens/EditProfileScreen';
+import DeleteAccountConfirmationScreen from './src/screens/DeleteAccountConfirmationScreen';
 
 // create bottom nav bar
 const Tabs = createMaterialBottomTabNavigator();
@@ -145,6 +147,7 @@ function myMainStack() {
             fontSize: 30,
             fontWeight: '700',
           },
+          title: 'vinyl',
         }}
         name="SettingsScreen"
         component={SettingsScreen}
@@ -183,6 +186,42 @@ function myMainStack() {
         }}
         name="ProfileFollowerListScreen"
         component={ProfileFollowerListScreen}
+      />
+
+      <MainStack.Screen
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#1E1C1C',
+            shadowColor: 'transparent',
+          },
+          headerTitleStyle: {
+            color: '#c1c8d4',
+            fontSize: 30,
+            fontWeight: '700',
+          },
+          title: 'vinyl',
+        }}
+        name="EditProfileScreen"
+        component={EditProfileScreen}
+      />
+
+      <MainStack.Screen
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#1E1C1C',
+            shadowColor: 'transparent',
+          },
+          headerTitleStyle: {
+            color: '#c1c8d4',
+            fontSize: 30,
+            fontWeight: '700',
+          },
+          title: 'vinyl',
+        }}
+        name="DeleteAccountConfirmationScreen"
+        component={DeleteAccountConfirmationScreen}
       />
 
       <MainStack.Screen

@@ -36,60 +36,66 @@ const SinginScreen = ({navigation}) => {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <KeyboardAwareScrollView>
           <View style={styles.container}>
-            {/* <Text style={styles.greeting}>Hey there, welcome back to bookd</Text> */}
-            <View style={styles.errorMessage}>
-              {errorMessage && <Text style={styles.error}>{errorMessage}</Text>}
-            </View>
-
-            <View style={styles.form}>
-              <View>
-                <Text style={styles.inputTitle}>Email</Text>
-                <TextInput
-                  onChangeText={(newEmail) => setEmail(newEmail)}
-                  value={email}
-                  style={styles.input}
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                />
+            <ImageBackground
+              style={{flex: 1, paddingTop: 260, paddingBottom: 200}}
+              source={require('../../assets/AuthScreen.png')}>
+              {/* <Text style={styles.greeting}>Hey there, welcome back to bookd</Text> */}
+              <View style={styles.errorMessage}>
+                {errorMessage && (
+                  <Text style={styles.error}>{errorMessage}</Text>
+                )}
               </View>
 
-              <View style={{marginTop: 32}}>
-                <Text style={styles.inputTitle}>Password</Text>
-                <TextInput
-                  onChangeText={(newPassword) => setPassword(newPassword)}
-                  value={password}
-                  style={styles.input}
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                  secureTextEntry
-                />
+              <View style={styles.form}>
+                <View>
+                  <Text style={styles.inputTitle}>Email</Text>
+                  <TextInput
+                    onChangeText={(newEmail) => setEmail(newEmail)}
+                    value={email}
+                    style={styles.input}
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                  />
+                </View>
+
+                <View style={{marginTop: 32}}>
+                  <Text style={styles.inputTitle}>Password</Text>
+                  <TextInput
+                    onChangeText={(newPassword) => setPassword(newPassword)}
+                    value={password}
+                    style={styles.input}
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    secureTextEntry
+                  />
+                </View>
               </View>
-            </View>
-            <TouchableOpacity style={styles.button} onPress={handleLogin}>
-              <Text style={{color: '#FFF', fontWeight: '500'}}>Sign in</Text>
-            </TouchableOpacity>
+              <TouchableOpacity style={styles.button} onPress={handleLogin}>
+                <Text style={{color: '#FFF', fontWeight: '500'}}>Sign in</Text>
+              </TouchableOpacity>
 
-            <TouchableOpacity
-              onPress={() => navigation.navigate('Signup')}
-              style={{alignSelf: 'center', marginTop: 32}}>
-              <Text style={{color: '#c1c8d4', fontSize: 13}}>
-                New to bookd?{' '}
-                <Text style={{color: '#1E8C8B', fontWeight: '500'}}>
-                  Sign up here!
+              <TouchableOpacity
+                onPress={() => navigation.navigate('Signup')}
+                style={{alignSelf: 'center', marginTop: 32}}>
+                <Text style={{color: '#c1c8d4', fontSize: 13}}>
+                  New to bookd?{' '}
+                  <Text style={{color: '#1E8C8B', fontWeight: '500'}}>
+                    Sign up here!
+                  </Text>
                 </Text>
-              </Text>
-            </TouchableOpacity>
+              </TouchableOpacity>
 
-            <TouchableOpacity
-              onPress={() => navigation.navigate('PasswordResetScreen')}
-              style={{alignSelf: 'center', marginTop: 32}}>
-              <Text style={{color: '#c1c8d4', fontSize: 13}}>
-                Forgot your password?{' '}
-                <Text style={{color: '#1E8C8B', fontWeight: '500'}}>
-                  Reset it here!
+              <TouchableOpacity
+                onPress={() => navigation.navigate('PasswordResetScreen')}
+                style={{alignSelf: 'center', marginTop: 32}}>
+                <Text style={{color: '#c1c8d4', fontSize: 13}}>
+                  Forgot your password?{' '}
+                  <Text style={{color: '#1E8C8B', fontWeight: '500'}}>
+                    Reset it here!
+                  </Text>
                 </Text>
-              </Text>
-            </TouchableOpacity>
+              </TouchableOpacity>
+            </ImageBackground>
           </View>
         </KeyboardAwareScrollView>
       </TouchableWithoutFeedback>
@@ -104,7 +110,7 @@ const styles = StyleSheet.create({
   },
   greeting: {
     color: '#1E8C8B',
-    marginTop: 32,
+    // marginTop: 32,
     fontSize: 18,
     fontWeight: '400',
     textAlign: 'center',

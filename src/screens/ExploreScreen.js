@@ -1,5 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, TextInput} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  Keyboard,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import {useStateProviderValue} from '../../state/StateProvider';
 import {db} from '../../firebase/firebase';
 import UserSearchResult from '../components/UserSearchResult';
@@ -28,24 +35,27 @@ const ExploreScreen = ({navigation}) => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.headerText}>Search for people to follow!</Text>
-      <TextInput
-        style={styles.searchBar}
-        value={searchTerm}
-        onChangeText={(newTerm) => setSearchTerm(newTerm)}
-        onSubmitEditing={searchForUser}
-        autoCapitalize="none"
-      />
-      <FlatList
-        style={styles.flatlist}
-        keyExtractor={(item) => item.uid}
-        data={results}
-        renderItem={({item}) => (
-          <UserSearchResult data={item} navigation={navigation} />
-        )}
-      />
-    </View>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View style={styles.container}>
+        <Text style={styles.headerText}>Search for people to follow!</Text>
+        <TextInput
+          returnKeyType="search"
+          style={styles.searchBar}
+          value={searchTerm}
+          onChangeText={(newTerm) => setSearchTerm(newTerm)}
+          onSubmitEditing={searchForUser}
+          autoCapitalize="none"
+        />
+        <FlatList
+          style={styles.flatlist}
+          keyExtractor={(item) => item.uid}
+          data={results}
+          renderItem={({item}) => (
+            <UserSearchResult data={item} navigation={navigation} />
+          )}
+        />
+      </View>
+    </TouchableWithoutFeedback>
   );
 };
 

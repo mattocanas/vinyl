@@ -5,12 +5,14 @@ import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIc
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import {useStateProviderValue} from '../../state/StateProvider';
 import {auth} from '../../firebase/firebase';
+import {useNavigation} from '@react-navigation/native';
 
 const SettingsScreen = () => {
   const [
     {currentUser, currentUserPictureURI, currentUserData},
     dispatch,
   ] = useStateProviderValue();
+  const navigation = useNavigation();
 
   const signoutUser = () => {
     dispatch({
@@ -23,8 +25,7 @@ const SettingsScreen = () => {
     <View style={styles.container}>
       <TouchableOpacity
         style={styles.componentContainer}
-        // onPress={() => navigation.navigate("EditProfileScreen")}
-      >
+        onPress={() => navigation.navigate('EditProfileScreen')}>
         <MaterialCommunityIcon
           name="face-profile"
           size={24}
@@ -49,9 +50,8 @@ const SettingsScreen = () => {
 
       {/* <TouchableOpacity
         style={styles.componentContainer}
-        onPress={deleteAccount}
-      >
-        <MaterialIcons name='delete-forever' size={24} style={styles.icon} />
+        onPress={() => navigation.navigate('DeleteAccountConfirmationScreen')}>
+        <MaterialIcon name="delete-forever" size={24} style={styles.icon} />
         <Text style={styles.labelText}>Delete account.</Text>
       </TouchableOpacity> */}
       <Text style={styles.verionNumber}>vinyl Version 1.0.0</Text>

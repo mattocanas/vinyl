@@ -41,6 +41,10 @@ const SignupScreen = ({navigation}) => {
       });
   };
 
+  const sendError = () => {
+    setErrorMessage('Please fill in all fields.');
+  };
+
   const handleSignUp = () => {
     let active = true;
 
@@ -82,85 +86,105 @@ const SignupScreen = ({navigation}) => {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <KeyboardAwareScrollView>
           <View style={styles.container}>
-            <View style={styles.errorMessage}>
-              {errorMessage && <Text style={styles.error}>{errorMessage}</Text>}
-            </View>
-
-            <View style={styles.form}>
-              <View>
-                <Text style={styles.inputTitle}>username</Text>
-                <TextInput
-                  onChangeText={(newUsername) => setUsername(newUsername)}
-                  value={username}
-                  style={styles.input}
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                />
-              </View>
-              <View style={{marginTop: 26}}>
-                <Text style={styles.inputTitle}>name</Text>
-                <TextInput
-                  onChangeText={(newName) => setName(newName)}
-                  value={name}
-                  style={styles.input}
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                />
-              </View>
-              <View style={{marginTop: 26}}>
-                <Text style={styles.inputTitle}>Email</Text>
-                <TextInput
-                  onChangeText={(newEmail) => setEmail(newEmail)}
-                  value={email}
-                  style={styles.input}
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                />
+            <ImageBackground
+              style={{flex: 0.6, paddingTop: 200, paddingBottom: 40}}
+              source={require('../../assets/AuthScreen.png')}>
+              <View style={styles.errorMessage}>
+                {errorMessage && (
+                  <Text style={styles.error}>{errorMessage}</Text>
+                )}
               </View>
 
-              <View style={{marginTop: 26}}>
-                <Text style={styles.inputTitle}>Password</Text>
-                <TextInput
-                  onChangeText={(newPassword) => setPassword(newPassword)}
-                  value={password}
-                  style={styles.input}
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                  secureTextEntry
-                />
+              <View style={styles.form}>
+                <View>
+                  <Text style={styles.inputTitle}>username</Text>
+                  <TextInput
+                    onChangeText={(newUsername) => setUsername(newUsername)}
+                    value={username}
+                    style={styles.input}
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                  />
+                </View>
+                <View style={{marginTop: 26}}>
+                  <Text style={styles.inputTitle}>name</Text>
+                  <TextInput
+                    onChangeText={(newName) => setName(newName)}
+                    value={name}
+                    style={styles.input}
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                  />
+                </View>
+                <View style={{marginTop: 26}}>
+                  <Text style={styles.inputTitle}>Email</Text>
+                  <TextInput
+                    onChangeText={(newEmail) => setEmail(newEmail)}
+                    value={email}
+                    style={styles.input}
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                  />
+                </View>
+
+                <View style={{marginTop: 26}}>
+                  <Text style={styles.inputTitle}>Password</Text>
+                  <TextInput
+                    onChangeText={(newPassword) => setPassword(newPassword)}
+                    value={password}
+                    style={styles.input}
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    secureTextEntry
+                  />
+                </View>
+
+                <View style={{marginTop: 26}}>
+                  <Text style={styles.inputTitle}>Bio</Text>
+                  <TextInput
+                    onChangeText={(newBio) => setBio(newBio)}
+                    value={bio}
+                    style={styles.input}
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    placeholder="Tell us about yourself!"
+                    placeholderTextColor="gray"
+                  />
+                </View>
               </View>
 
-              <View style={{marginTop: 26}}>
-                <Text style={styles.inputTitle}>Bio</Text>
-                <TextInput
-                  onChangeText={(newBio) => setBio(newBio)}
-                  value={bio}
-                  style={styles.input}
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                  placeholder="Tell us about yourself!"
-                  placeholderTextColor="gray"
-                />
-              </View>
-            </View>
-
-            <Text style={styles.termsOfService}>
-              By signing up for Bookd, you agree to all our terms or service.
-            </Text>
-            <TouchableOpacity onPress={checkUsername} style={styles.button}>
-              <Text style={{color: '#FFF', fontWeight: '500'}}>Sign up</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.signin}
-              onPress={() => navigation.navigate('Signin')}>
-              <Text style={{color: '#c1c8d4', fontSize: 13}}>
-                Already have an account?{' '}
-                <Text style={{color: '#1E8C8B', fontWeight: '500'}}>
-                  Sign in!
-                </Text>
+              <Text style={styles.termsOfService}>
+                By signing up for Bookd, you agree to all our terms or service.
               </Text>
-            </TouchableOpacity>
+              {(bio != '') &
+              (email != '') &
+              (password != '') &
+              (name != '') &
+              (username != '') ? (
+                <TouchableOpacity onPress={checkUsername} style={styles.button}>
+                  <Text style={{color: '#FFF', fontWeight: '500'}}>
+                    Sign up
+                  </Text>
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity onPress={sendError} style={styles.button}>
+                  <Text style={{color: '#FFF', fontWeight: '500'}}>
+                    Sign up
+                  </Text>
+                </TouchableOpacity>
+              )}
+
+              <TouchableOpacity
+                style={styles.signin}
+                onPress={() => navigation.navigate('Signin')}>
+                <Text style={{color: '#c1c8d4', fontSize: 13}}>
+                  Already have an account?{' '}
+                  <Text style={{color: '#1E8C8B', fontWeight: '500'}}>
+                    Sign in!
+                  </Text>
+                </Text>
+              </TouchableOpacity>
+            </ImageBackground>
           </View>
         </KeyboardAwareScrollView>
       </TouchableWithoutFeedback>
@@ -193,6 +217,7 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: '600',
     textAlign: 'center',
+    marginTop: 30,
   },
   form: {
     marginBottom: 48,

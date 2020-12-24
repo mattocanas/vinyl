@@ -11,6 +11,7 @@ const SearchBar = ({term, onTermChange, onTermSubmit}) => {
         Search for a track, artist, or album to share
       </Text>
       <TextInput
+        returnKeyType="search"
         spellCheck={false}
         style={styles.searchBar}
         value={term}
