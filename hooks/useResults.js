@@ -6,7 +6,7 @@ export default () => {
   const [errorMessage, setErrorMessage] = useState('');
 
   const searchApi = async (searchTerm) => {
-    console.log('hi there');
+    // console.log('hi there');
     try {
       const response = await deezer.get('/search', {
         params: {
@@ -15,7 +15,6 @@ export default () => {
         },
       });
       setResults(response.data.data);
-      // console.log(results);
     } catch (err) {
       setErrorMessage('Something went haywire!');
     }

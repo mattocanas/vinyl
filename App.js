@@ -21,10 +21,6 @@ import UserDetailScreen from './src/screens/UserDetailScreen';
 import SettingsScreen from './src/screens/SettingsScreen';
 import SongDetailScreen from './src/screens/SongDetailScreen';
 import PostFormScreen from './src/screens/PostFormScreen';
-
-//icons
-import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
-import OcticonIcon from 'react-native-vector-icons/Octicons';
 import LikeListScreen from './src/screens/LikeListScreen';
 import UserFollowingListScreen from './src/screens/UserFollowingListScreen';
 import UserFollowerListScreen from './src/screens/UserFollowerListScreen';
@@ -32,6 +28,14 @@ import ArtistDetailScreen from './src/screens/ArtistDetailScreen';
 import FeedUserDetailScreen from './src/screens/FeedUserDetailScreen';
 import EditProfileScreen from './src/screens/EditProfileScreen';
 import DeleteAccountConfirmationScreen from './src/screens/DeleteAccountConfirmationScreen';
+import PostDetailScreen from './src/screens/PostDetailScreen';
+import ReportPostScreen from './src/screens/ReportPostScreen';
+import UserSettingsScreen from './src/screens/UserSettingsScreen';
+
+//icons
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+import OcticonIcon from 'react-native-vector-icons/Octicons';
+import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 // create bottom nav bar
 const Tabs = createMaterialBottomTabNavigator();
@@ -152,6 +156,24 @@ function myMainStack() {
         name="SettingsScreen"
         component={SettingsScreen}
       />
+
+      <MainStack.Screen
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#1E1C1C',
+            shadowColor: 'transparent',
+          },
+          headerTitleStyle: {
+            color: '#c1c8d4',
+            fontSize: 30,
+            fontWeight: '700',
+          },
+          title: 'vinyl',
+        }}
+        name="UserSettingsScreen"
+        component={UserSettingsScreen}
+      />
       <MainStack.Screen
         options={{
           headerShown: true,
@@ -256,6 +278,24 @@ function myMainStack() {
           },
           title: 'vinyl',
         }}
+        name="PostDetailScreen"
+        component={PostDetailScreen}
+      />
+
+      <MainStack.Screen
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#1E1C1C',
+            shadowColor: 'transparent',
+          },
+          headerTitleStyle: {
+            color: '#c1c8d4',
+            fontSize: 30,
+            fontWeight: '700',
+          },
+          title: 'vinyl',
+        }}
         name="PostFormScreen"
         component={PostFormScreen}
       />
@@ -276,6 +316,24 @@ function myMainStack() {
         }}
         name="LikeListScreen"
         component={LikeListScreen}
+      />
+
+      <MainStack.Screen
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#1E1C1C',
+            shadowColor: 'transparent',
+          },
+          headerTitleStyle: {
+            color: '#c1c8d4',
+            fontSize: 30,
+            fontWeight: '700',
+          },
+          title: 'vinyl',
+        }}
+        name="ReportPostScreen"
+        component={ReportPostScreen}
       />
 
       <MainStack.Screen

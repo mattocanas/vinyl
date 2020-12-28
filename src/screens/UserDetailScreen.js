@@ -9,6 +9,7 @@ import {useNavigation} from '@react-navigation/native';
 import UserPostsFeed from '../components/UserPostsFeed';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AntIcon from 'react-native-vector-icons/AntDesign';
+import EntypoIcon from 'react-native-vector-icons/Entypo';
 
 const UserDetailScreen = ({route}) => {
   const [
@@ -23,7 +24,41 @@ const UserDetailScreen = ({route}) => {
   const [likesActive, setLikesActive] = useState(false);
   const [postsActive, setPostsActive] = useState(false);
   const [showPosts, setShowPosts] = useState(false);
+  const [blocked, setBlocked] = useState(false);
+  const [blocked2, setBlocked2] = useState(false);
   const navigationUse = useNavigation();
+
+  useEffect(() => {
+    let active = true;
+    checkIfBlocked();
+
+    return () => {
+      active = false;
+    };
+  }, [blocked, blocked2]);
+
+  const checkIfBlocked = () => {
+    db.collection('users')
+      .doc(currentUser.uid)
+      .get()
+      .then((doc) => {
+        if (doc.data().blockedUsersIdList.includes(data.uid)) {
+          setBlocked(true);
+        } else {
+          setBlocked(false);
+        }
+      });
+    db.collection('users')
+      .doc(data.uid)
+      .get()
+      .then((doc) => {
+        if (doc.data().blockedUsersIdList.includes(currentUser.uid)) {
+          setBlocked2(true);
+        } else {
+          false;
+        }
+      });
+  };
 
   const onFollow = () => {
     db.collection('users')
@@ -86,116 +121,152 @@ const UserDetailScreen = ({route}) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.profileInfoContainer}>
-        <View style={styles.photoNameContainer}>
-          <Image
-            style={styles.profilePicture}
-            source={{uri: data.profilePictureUrl}}
-          />
-          <Text style={styles.usernameText}>{data.username}</Text>
-        </View>
+      {(blocked != true) & (blocked2 != true) ? (
+        <>
+          <View style={styles.profileInfoContainer}>
+            <View style={styles.photoNameContainer}>
+              <Image
+                style={styles.profilePicture}
+                source={{uri: data.profilePictureUrl}}
+              />
+              <Text style={styles.usernameText}>{data.username}</Text>
+            </View>
 
-        <View style={{alignItems: 'center'}}>
-          <View style={{flexDirection: 'row'}}>
+            <View style={{alignItems: 'center'}}>
+              <View style={{flexDirection: 'row'}}>
+                <TouchableOpacity
+                  style={styles.followingContainer}
+                  onPress={() =>
+                    navigationUse.navigate('UserFollowingListScreen', {
+                      data: data,
+                    })
+                  }>
+                  <Text style={styles.followingNumber}>
+                    {data.followingIdList.length.toString()}
+                  </Text>
+
+                  <Text style={styles.followingText}>Following</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={styles.followersContainer}
+                  onPress={() =>
+                    navigationUse.navigate('UserFollowerListScreen', {
+                      data: data,
+                    })
+                  }>
+                  <Text style={styles.followersNumber}>
+                    {data.followerIdList.length.toString()}
+                  </Text>
+
+                  <Text style={styles.followersText}>Followers</Text>
+                </TouchableOpacity>
+              </View>
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                {currentUserData.followingIdList.includes(data.uid) ? (
+                  <TouchableOpacity
+                    style={styles.followButton}
+                    onPress={onUnfollow}>
+                    <Text style={styles.followText}>Following</Text>
+                  </TouchableOpacity>
+                ) : (
+                  <TouchableOpacity
+                    style={styles.followButton}
+                    onPress={onFollow}>
+                    <Text style={styles.followText}>Follow</Text>
+                  </TouchableOpacity>
+                )}
+                <MaterialCommunityIcon
+                  onPress={() =>
+                    navigationUse.navigate('UserSettingsScreen', {
+                      usersId: data.uid,
+                    })
+                  }
+                  name="dots-horizontal"
+                  style={{
+                    fontSize: 30,
+                    color: '#c1c8d4',
+                    marginRight: 10,
+                    marginTop: 20,
+                    marginLeft: 12,
+                  }}
+                />
+              </View>
+            </View>
+          </View>
+          <View style={styles.sectionsTabContainer}>
             <TouchableOpacity
-              style={styles.followingContainer}
-              onPress={() =>
-                navigationUse.navigate('UserFollowingListScreen', {
-                  data: data,
-                })
-              }>
-              <Text style={styles.followingNumber}>
-                {data.followingIdList.length.toString()}
-              </Text>
-
-              <Text style={styles.followingText}>Following</Text>
+              style={styles.songOfTheDaySection}
+              onPress={showSOTDFeed}>
+              {SOTDActive ? (
+                <View style={{flexDirection: 'row'}}>
+                  <MaterialCommunityIcon
+                    name="calendar-month"
+                    style={styles.songOfTheDayIconTextActive}
+                  />
+                  <Text style={styles.songOfTheDayTextActive}>
+                    Songs of the day
+                  </Text>
+                </View>
+              ) : (
+                <View style={{flexDirection: 'row', textAlign: 'center'}}>
+                  <MaterialCommunityIcon
+                    name="calendar-month"
+                    style={styles.songOfTheDayIconText}
+                  />
+                  <Text style={styles.songOfTheDayText}>Songs of the day</Text>
+                </View>
+              )}
             </TouchableOpacity>
-
             <TouchableOpacity
-              style={styles.followersContainer}
-              onPress={() =>
-                navigationUse.navigate('UserFollowerListScreen', {
-                  data: data,
-                })
-              }>
-              <Text style={styles.followersNumber}>
-                {data.followerIdList.length.toString()}
-              </Text>
-
-              <Text style={styles.followersText}>Followers</Text>
+              style={styles.likesSection}
+              onPress={showPostsFeed}>
+              {postsActive ? (
+                <View style={{flexDirection: 'row'}}>
+                  <MaterialCommunityIcon
+                    name="comment-text"
+                    style={styles.songOfTheDayIconTextActive}
+                  />
+                  <Text style={styles.postsTextActive}>Posts</Text>
+                </View>
+              ) : (
+                <View style={{flexDirection: 'row'}}>
+                  <MaterialCommunityIcon
+                    name="comment-text"
+                    style={styles.songOfTheDayIconText}
+                  />
+                  <Text style={styles.postsText}>Posts</Text>
+                </View>
+              )}
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.likesSection}
+              onPress={showLikesFeed}>
+              {likesActive ? (
+                <View style={{flexDirection: 'row'}}>
+                  <AntIcon
+                    name="heart"
+                    style={styles.songOfTheDayIconTextActive}
+                  />
+                  <Text style={styles.likesTextActive}>Likes</Text>
+                </View>
+              ) : (
+                <View style={{flexDirection: 'row'}}>
+                  <AntIcon name="heart" style={styles.songOfTheDayIconText} />
+                  <Text style={styles.likesText}>Likes</Text>
+                </View>
+              )}
             </TouchableOpacity>
           </View>
-          {currentUserData.followingIdList.includes(data.uid) ? (
-            <TouchableOpacity style={styles.followButton} onPress={onUnfollow}>
-              <Text style={styles.followText}>Following</Text>
-            </TouchableOpacity>
-          ) : (
-            <TouchableOpacity style={styles.followButton} onPress={onFollow}>
-              <Text style={styles.followText}>Follow</Text>
-            </TouchableOpacity>
-          )}
-        </View>
-      </View>
-      <View style={styles.sectionsTabContainer}>
-        <TouchableOpacity
-          style={styles.songOfTheDaySection}
-          onPress={showSOTDFeed}>
-          {SOTDActive ? (
-            <View style={{flexDirection: 'row'}}>
-              <MaterialCommunityIcon
-                name="calendar-month"
-                style={styles.songOfTheDayIconTextActive}
-              />
-              <Text style={styles.songOfTheDayTextActive}>
-                Songs of the day
-              </Text>
-            </View>
-          ) : (
-            <View style={{flexDirection: 'row', textAlign: 'center'}}>
-              <MaterialCommunityIcon
-                name="calendar-month"
-                style={styles.songOfTheDayIconText}
-              />
-              <Text style={styles.songOfTheDayText}>Songs of the day</Text>
-            </View>
-          )}
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.likesSection} onPress={showPostsFeed}>
-          {postsActive ? (
-            <View style={{flexDirection: 'row'}}>
-              <MaterialCommunityIcon
-                name="comment-text"
-                style={styles.songOfTheDayIconTextActive}
-              />
-              <Text style={styles.postsTextActive}>Posts</Text>
-            </View>
-          ) : (
-            <View style={{flexDirection: 'row'}}>
-              <MaterialCommunityIcon
-                name="comment-text"
-                style={styles.songOfTheDayIconText}
-              />
-              <Text style={styles.postsText}>Posts</Text>
-            </View>
-          )}
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.likesSection} onPress={showLikesFeed}>
-          {likesActive ? (
-            <View style={{flexDirection: 'row'}}>
-              <AntIcon name="heart" style={styles.songOfTheDayIconTextActive} />
-              <Text style={styles.likesTextActive}>Likes</Text>
-            </View>
-          ) : (
-            <View style={{flexDirection: 'row'}}>
-              <AntIcon name="heart" style={styles.songOfTheDayIconText} />
-              <Text style={styles.likesText}>Likes</Text>
-            </View>
-          )}
-        </TouchableOpacity>
-      </View>
-      {showSOTD ? <UserSongOfTheDayFeed id={data.uid} /> : null}
-      {showLikeFeed ? <UserLikesFeed id={data.uid} /> : null}
-      {showPosts ? <UserPostsFeed id={data.uid} /> : null}
+          {showSOTD ? <UserSongOfTheDayFeed id={data.uid} /> : null}
+          {showLikeFeed ? <UserLikesFeed id={data.uid} /> : null}
+          {showPosts ? <UserPostsFeed id={data.uid} /> : null}
+        </>
+      ) : (
+        <>
+          <Text>Unavailable</Text>
+        </>
+      )}
     </View>
   );
 };
@@ -348,6 +419,10 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
     fontWeight: '700',
     marginRight: 16,
+  },
+  menuButton: {
+    color: '#c1c8d4',
+    fontSize: 16,
   },
 });
 

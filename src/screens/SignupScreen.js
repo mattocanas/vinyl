@@ -66,6 +66,7 @@ const SignupScreen = ({navigation}) => {
           bio: bio,
           followerIdList: [],
           followingIdList: [],
+          blockedUsersIdList: [],
           username: username,
           uid: cred.user.uid,
           name: name,

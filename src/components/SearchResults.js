@@ -19,7 +19,6 @@ const SearchResultsScreen = ({searchResults}) => {
         keyExtractor={(result) => uuid()}
         data={searchResults}
         renderItem={({item}) => {
-          //   console.log(item);
           return (
             <SearchResultItem
               albumArt={item.album.cover}
