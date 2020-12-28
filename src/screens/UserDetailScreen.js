@@ -264,7 +264,7 @@ const UserDetailScreen = ({route}) => {
         </>
       ) : (
         <>
-          <Text>Unavailable</Text>
+          <Text style={styles.blockedText}>User Unavailable</Text>
         </>
       )}
     </View>
@@ -423,6 +423,11 @@ const styles = StyleSheet.create({
   menuButton: {
     color: '#c1c8d4',
     fontSize: 16,
+  },
+  blockedText: {
+    color: '#c1c8d4',
+    fontSize: 24,
+    padding: 16,
   },
 });
 

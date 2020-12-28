@@ -34,7 +34,7 @@ const SinginScreen = ({navigation}) => {
       behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
       style={styles.container}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <KeyboardAwareScrollView>
+        <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.container}>
             <ImageBackground
               style={{flex: 1, paddingTop: 260, paddingBottom: 200}}

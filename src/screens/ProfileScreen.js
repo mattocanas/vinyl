@@ -246,7 +246,7 @@ const styles = StyleSheet.create({
   sectionsTabContainer: {
     alignItems: 'center',
     flexDirection: 'row',
-    marginTop: 10,
+    marginTop: 14,
     borderBottomWidth: 2,
     borderBottomColor: 'gray',
     // paddingBottom: 8,

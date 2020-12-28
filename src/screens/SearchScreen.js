@@ -21,7 +21,7 @@ const SearchScreen = () => {
           onTermSubmit={() => searchApi(term)}
           onTermChange={setTerm}
         />
-        <SearchResultsScreen searchResults={results} />
+        {results ? <SearchResultsScreen searchResults={results} /> : null}
       </View>
     </TouchableWithoutFeedback>
   );

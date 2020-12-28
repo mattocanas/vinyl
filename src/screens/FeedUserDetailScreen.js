@@ -21,12 +21,13 @@ const FeedUserDetailScreen = ({route}) => {
   useEffect(() => {
     let active = true;
     getUserData();
-    console.log(data);
-    console.log(userData);
+    checkIfBlocked();
+    // console.log(data);
+    // console.log(userData);
     return () => {
       active = false;
     };
-  }, [userData]);
+  }, [userData, blocked, blocked2]);
 
   const getUserData = () => {
     db.collection('users')
@@ -50,16 +51,41 @@ const FeedUserDetailScreen = ({route}) => {
   const [showPosts, setShowPosts] = useState(false);
   const [userData, setUserData] = useState(null);
   const navigationUse = useNavigation();
+  const [blocked, setBlocked] = useState(false);
+  const [blocked2, setBlocked2] = useState(false);
+
+  const checkIfBlocked = () => {
+    db.collection('users')
+      .doc(currentUser.uid)
+      .get()
+      .then((doc) => {
+        if (doc.data().blockedUsersIdList.includes(data)) {
+          setBlocked(true);
+        } else {
+          setBlocked(false);
+        }
+      });
+    db.collection('users')
+      .doc(data)
+      .get()
+      .then((doc) => {
+        if (doc.data().blockedUsersIdList.includes(currentUser.uid)) {
+          setBlocked2(true);
+        } else {
+          false;
+        }
+      });
+  };
 
   const onFollow = () => {
     db.collection('users')
       .doc(currentUser.uid)
       .update({
-        followingIdList: firebase.firestore.FieldValue.arrayUnion(data.uid),
+        followingIdList: firebase.firestore.FieldValue.arrayUnion(data),
       });
 
     db.collection('users')
-      .doc(data.uid)
+      .doc(data)
       .update({
         followerIdList: firebase.firestore.FieldValue.arrayUnion(
           currentUser.uid,
@@ -71,11 +97,11 @@ const FeedUserDetailScreen = ({route}) => {
     db.collection('users')
       .doc(currentUser.uid)
       .update({
-        followingIdList: firebase.firestore.FieldValue.arrayRemove(data.uid),
+        followingIdList: firebase.firestore.FieldValue.arrayRemove(data),
       });
 
     db.collection('users')
-      .doc(data.uid)
+      .doc(data)
       .update({
         followerIdList: firebase.firestore.FieldValue.arrayRemove(
           currentUser.uid,
@@ -110,9 +136,13 @@ const FeedUserDetailScreen = ({route}) => {
     setShowPosts(true);
   };
 
-  return (
-    <View style={styles.container}>
-      {userData ? (
+  const rennder = () => {
+    if (blocked) {
+      return <Text>This user is currently unavailable.</Text>;
+    } else if (blocked2) {
+      return <Text>This user is currently unavailable.</Text>;
+    } else {
+      return (
         <>
           <View style={styles.profileInfoContainer}>
             <View style={styles.photoNameContainer}>
@@ -153,19 +183,38 @@ const FeedUserDetailScreen = ({route}) => {
                   <Text style={styles.followersText}>Followers</Text>
                 </TouchableOpacity>
               </View>
-              {currentUserData.followingIdList.includes(userData.uid) ? (
-                <TouchableOpacity
-                  style={styles.followButton}
-                  onPress={onUnfollow}>
-                  <Text style={styles.followText}>Following</Text>
-                </TouchableOpacity>
-              ) : (
-                <TouchableOpacity
-                  style={styles.followButton}
-                  onPress={onFollow}>
-                  <Text style={styles.followText}>Follow</Text>
-                </TouchableOpacity>
-              )}
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                {currentUserData.followingIdList.includes(userData.uid) ? (
+                  <TouchableOpacity
+                    style={styles.followButton}
+                    onPress={onUnfollow}>
+                    <Text style={styles.followText}>Following</Text>
+                  </TouchableOpacity>
+                ) : (
+                  <TouchableOpacity
+                    style={styles.followButton}
+                    onPress={onFollow}>
+                    <Text style={styles.followText}>Follow</Text>
+                  </TouchableOpacity>
+                )}
+                {userData.uid != currentUser.uid ? (
+                  <MaterialCommunityIcon
+                    onPress={() =>
+                      navigationUse.navigate('UserSettingsScreen', {
+                        usersId: data,
+                      })
+                    }
+                    name="dots-horizontal"
+                    style={{
+                      fontSize: 30,
+                      color: '#c1c8d4',
+                      marginRight: 10,
+                      marginTop: 20,
+                      marginLeft: 12,
+                    }}
+                  />
+                ) : null}
+              </View>
             </View>
           </View>
           <View style={styles.sectionsTabContainer}>
@@ -236,9 +285,17 @@ const FeedUserDetailScreen = ({route}) => {
           {showLikeFeed ? <UserLikesFeed id={userData.uid} /> : null}
           {showPosts ? <UserPostsFeed id={userData.uid} /> : null}
         </>
+      );
+    }
+  };
+
+  return (
+    <View style={styles.container}>
+      {userData ? (
+        rennder()
       ) : (
         <>
-          <ActivityIndicator size="large" />
+          <Text style={styles.blockedText}>User Unavailable.</Text>
         </>
       )}
     </View>
@@ -393,6 +450,11 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
     fontWeight: '700',
     marginRight: 16,
+  },
+  blockedText: {
+    color: '#c1c8d4',
+    fontSize: 24,
+    padding: 16,
   },
 });
 

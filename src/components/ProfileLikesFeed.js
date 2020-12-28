@@ -36,7 +36,7 @@ const ProfileLikesFeed = ({refresh}) => {
   };
 
   return (
-    <View>
+    <View style={{flex: 1}}>
       {data[0] != null ? (
         <FlatList
           style={styles.flatlist}

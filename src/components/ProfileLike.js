@@ -2,6 +2,7 @@ import React, {useEffect} from 'react';
 import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
 import Moment from 'react-moment';
 import Sound from 'react-native-sound';
+import IonIcon from 'react-native-vector-icons/Ionicons';
 
 const ProfileLike = ({data}) => {
   useEffect(() => {
@@ -24,6 +25,10 @@ const ProfileLike = ({data}) => {
     track.play();
   };
 
+  const stopTrack = () => {
+    track.stop();
+  };
+
   return (
     <View style={styles.container}>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -36,11 +41,20 @@ const ProfileLike = ({data}) => {
           {data.date}
         </Moment>
       </View>
-      <View style={{marginLeft: 70}}>
-        <Text style={styles.description}>{data.description}</Text>
+      <View style={{flexDirection: 'row'}}>
+        <View style={{marginLeft: 70, alignItems: 'flex-start'}}>
+          <Text style={styles.description}>{data.description}</Text>
 
-        <Text style={styles.title}>{data.title}</Text>
-        <Text style={styles.artist}>{data.artist}</Text>
+          <Text style={styles.title}>{data.title}</Text>
+          <Text style={styles.artist}>{data.artist}</Text>
+          <TouchableOpacity>
+            <IonIcon
+              name="stop-circle-outline"
+              style={styles.stopIcon}
+              onPress={stopTrack}
+            />
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
@@ -84,6 +98,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginLeft: 8,
     marginTop: 4,
+  },
+  stopIcon: {
+    fontSize: 30,
+    // marginTop: 12,
+
+    color: '#22B3B2',
   },
 });
 

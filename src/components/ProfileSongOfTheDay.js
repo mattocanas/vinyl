@@ -5,6 +5,7 @@ import Sound from 'react-native-sound';
 import {db} from '../../firebase/firebase';
 import {useStateProviderValue} from '../../state/StateProvider';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import IonIcon from 'react-native-vector-icons/Ionicons';
 
 const ProfileSongOfTheDay = ({data, refresh}) => {
   const [{currentUser}, dispatch] = useStateProviderValue();
@@ -27,6 +28,10 @@ const ProfileSongOfTheDay = ({data, refresh}) => {
 
   const playTrack = () => {
     track.play();
+  };
+
+  const stopTrack = () => {
+    track.stop();
   };
 
   const removeSongOfTheDay = () => {
@@ -57,9 +62,18 @@ const ProfileSongOfTheDay = ({data, refresh}) => {
         </TouchableOpacity>
       </View>
 
-      <View style={{marginLeft: 70}}>
-        <Text style={styles.title}>{data.title}</Text>
-        <Text style={styles.artist}>{data.artist}</Text>
+      <View style={{flexDirection: 'row'}}>
+        <View style={{marginLeft: 70}}>
+          <Text style={styles.title}>{data.title}</Text>
+          <Text style={styles.artist}>{data.artist}</Text>
+        </View>
+        <TouchableOpacity>
+          <IonIcon
+            name="stop-circle-outline"
+            style={styles.stopIcon}
+            onPress={stopTrack}
+          />
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -95,9 +109,16 @@ const styles = StyleSheet.create({
   deleteIcon: {
     color: '#c43b4c',
     fontSize: 24,
+    marginLeft: 10,
   },
   deleteContainer: {
     marginLeft: 50,
+  },
+  stopIcon: {
+    fontSize: 30,
+    // marginTop: 12,
+    marginLeft: 16,
+    color: '#22B3B2',
   },
 });
 
