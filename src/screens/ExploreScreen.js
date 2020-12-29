@@ -23,7 +23,11 @@ const ExploreScreen = ({navigation}) => {
   const searchForUser = () => {
     let usersArray = [];
     db.collection('users')
-      .where('name', '==', searchTerm)
+      .where(
+        'lowercaseName',
+        '==',
+        searchTerm.split(' ').join('').toLowerCase(),
+      )
       .get()
       .then((snapshot) => {
         snapshot.forEach((doc) => {
@@ -46,11 +50,7 @@ const ExploreScreen = ({navigation}) => {
           onSubmitEditing={searchForUser}
           autoCapitalize="none"
         />
-        <Text
-          style={{marginBottom: 20, color: 'gray', fontSize: 8, marginTop: 2}}>
-          Search is capital sensitive right now, so spell your friends' name
-          right!
-        </Text>
+
         <FlatList
           style={styles.flatlist}
           keyExtractor={(item) => item.uid}

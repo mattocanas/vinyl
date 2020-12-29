@@ -116,6 +116,8 @@ function myMainStack() {
             fontSize: 30,
             fontWeight: '700',
           },
+          headerTintColor: '#c1c8d4',
+          headerBackTitleVisible: false,
         }}
         name="vinyl"
         component={MyBottomTabs}
@@ -134,6 +136,8 @@ function myMainStack() {
             fontWeight: '700',
           },
           title: 'vinyl',
+          headerTintColor: '#c1c8d4',
+          headerBackTitleVisible: false,
         }}
         name="UserDetailScreen"
         component={UserDetailScreen}
@@ -152,6 +156,8 @@ function myMainStack() {
             fontWeight: '700',
           },
           title: 'vinyl',
+          headerTintColor: '#c1c8d4',
+          headerBackTitleVisible: false,
         }}
         name="SettingsScreen"
         component={SettingsScreen}
@@ -170,6 +176,8 @@ function myMainStack() {
             fontWeight: '700',
           },
           title: 'vinyl',
+          headerTintColor: '#c1c8d4',
+          headerBackTitleVisible: false,
         }}
         name="UserSettingsScreen"
         component={UserSettingsScreen}
@@ -187,6 +195,8 @@ function myMainStack() {
             fontWeight: '700',
           },
           title: 'vinyl',
+          headerTintColor: '#c1c8d4',
+          headerBackTitleVisible: false,
         }}
         name="ProfileFollowingListScreen"
         component={ProfileFollowingListScreen}
@@ -205,6 +215,8 @@ function myMainStack() {
             fontWeight: '700',
           },
           title: 'vinyl',
+          headerTintColor: '#c1c8d4',
+          headerBackTitleVisible: false,
         }}
         name="ProfileFollowerListScreen"
         component={ProfileFollowerListScreen}
@@ -223,6 +235,8 @@ function myMainStack() {
             fontWeight: '700',
           },
           title: 'vinyl',
+          headerTintColor: '#c1c8d4',
+          headerBackTitleVisible: false,
         }}
         name="EditProfileScreen"
         component={EditProfileScreen}
@@ -241,6 +255,8 @@ function myMainStack() {
             fontWeight: '700',
           },
           title: 'vinyl',
+          headerTintColor: '#c1c8d4',
+          headerBackTitleVisible: false,
         }}
         name="DeleteAccountConfirmationScreen"
         component={DeleteAccountConfirmationScreen}
@@ -259,6 +275,8 @@ function myMainStack() {
             fontWeight: '700',
           },
           title: 'vinyl',
+          headerTintColor: '#c1c8d4',
+          headerBackTitleVisible: false,
         }}
         name="SongDetailScreen"
         component={SongDetailScreen}
@@ -277,6 +295,8 @@ function myMainStack() {
             fontWeight: '700',
           },
           title: 'vinyl',
+          headerTintColor: '#c1c8d4',
+          headerBackTitleVisible: false,
         }}
         name="PostDetailScreen"
         component={PostDetailScreen}
@@ -295,6 +315,8 @@ function myMainStack() {
             fontWeight: '700',
           },
           title: 'vinyl',
+          headerTintColor: '#c1c8d4',
+          headerBackTitleVisible: false,
         }}
         name="PostFormScreen"
         component={PostFormScreen}
@@ -313,6 +335,8 @@ function myMainStack() {
             fontWeight: '700',
           },
           title: 'vinyl',
+          headerTintColor: '#c1c8d4',
+          headerBackTitleVisible: false,
         }}
         name="LikeListScreen"
         component={LikeListScreen}
@@ -331,6 +355,8 @@ function myMainStack() {
             fontWeight: '700',
           },
           title: 'vinyl',
+          headerTintColor: '#c1c8d4',
+          headerBackTitleVisible: false,
         }}
         name="ReportPostScreen"
         component={ReportPostScreen}
@@ -349,6 +375,8 @@ function myMainStack() {
             fontWeight: '700',
           },
           title: 'vinyl',
+          headerTintColor: '#c1c8d4',
+          headerBackTitleVisible: false,
         }}
         name="UserFollowingListScreen"
         component={UserFollowingListScreen}
@@ -367,6 +395,8 @@ function myMainStack() {
             fontWeight: '700',
           },
           title: 'vinyl',
+          headerTintColor: '#c1c8d4',
+          headerBackTitleVisible: false,
         }}
         name="UserFollowerListScreen"
         component={UserFollowerListScreen}
@@ -385,6 +415,8 @@ function myMainStack() {
             fontWeight: '700',
           },
           title: 'vinyl',
+          headerTintColor: '#c1c8d4',
+          headerBackTitleVisible: false,
         }}
         name="ArtistDetailScreen"
         component={ArtistDetailScreen}
@@ -402,6 +434,8 @@ function myMainStack() {
             fontWeight: '700',
           },
           title: 'vinyl',
+          headerTintColor: '#c1c8d4',
+          headerBackTitleVisible: false,
         }}
         name="FeedUserDetailScreen"
         component={FeedUserDetailScreen}

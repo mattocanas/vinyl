@@ -51,7 +51,7 @@ const UserPost = ({data, refresh, id}) => {
         <TouchableOpacity onPress={playTrack}>
           <Image style={styles.albumArt} source={{uri: data.albumArt}} />
         </TouchableOpacity>
-        <Text style={styles.usernameText}>{currentUser.displayName} |</Text>
+        <Text style={styles.usernameText}>{data.username} |</Text>
         <Moment element={Text} format="MMM Do YY" style={styles.date}>
           {data.date}
         </Moment>

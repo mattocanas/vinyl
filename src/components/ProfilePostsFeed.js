@@ -72,6 +72,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '600',
     marginTop: 40,
+    padding: 10,
   },
   container: {
     alignItems: 'flex-start',

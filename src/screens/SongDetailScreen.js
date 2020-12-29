@@ -107,14 +107,17 @@ const SongDetailScreen = ({route}) => {
           onPress={() => navigationUse.navigate('PostFormScreen', {data: data})}
         />
       </View>
+      <Text style={{fontSize: 8, color: 'gray', marginTop: 4}}>
+        Click the plus icon to make this your song of the day!
+      </Text>
       {songOfTheDay ? (
-        <Text style={styles.warning}>You already have a song of the day!</Text>
+        <Text style={styles.warning}>
+          You already have a song of the day! Head over to your profile if you
+          want to remove it.
+        </Text>
       ) : null}
       <Text style={styles.title}>{data.title}</Text>
-      <TouchableOpacity
-        onPress={() =>
-          navigationUse.navigate('ArtistDetailScreen', {data: data.artist})
-        }>
+      <TouchableOpacity>
         <Text style={styles.artist}>{data.artist.name}</Text>
       </TouchableOpacity>
       <Text style={styles.album}>{data.album.title}</Text>
@@ -149,6 +152,7 @@ const styles = StyleSheet.create({
     height: 200,
     width: 200,
     marginTop: 40,
+    borderRadius: 10,
   },
   songOfTheDayIcon: {
     fontSize: 30,
@@ -165,28 +169,28 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
   title: {
-    fontSize: 26,
+    fontSize: 28,
     color: '#5AB9B9',
     fontWeight: 'bold',
     marginTop: 20,
   },
   artist: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: '#5AB9B9',
+    fontSize: 22,
+    fontWeight: '500',
+    color: '#b8c2c2',
     marginTop: 4,
   },
   album: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#5AB9B9',
+    color: '#b8c2c2',
     marginTop: 4,
   },
   rank: {
     fontWeight: '200',
     fontSize: 18,
     color: '#c1c8d4',
-    marginTop: 4,
+    marginTop: 16,
   },
   duration: {
     fontWeight: '200',

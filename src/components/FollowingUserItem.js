@@ -29,7 +29,7 @@ const FollowingUserItem = ({data}) => {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 10,
+    marginTop: 20,
   },
   container2: {
     flexDirection: 'row',

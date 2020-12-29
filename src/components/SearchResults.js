@@ -13,24 +13,28 @@ const SearchResultsScreen = ({searchResults}) => {
 
   return (
     <View style={styles.container}>
-      <FlatList
-        showsVerticalScrollIndicator={false}
-        style={styles.flatlist}
-        keyExtractor={(result) => uuid()}
-        data={searchResults}
-        renderItem={({item}) => {
-          return (
-            <SearchResultItem
-              albumArt={item.album.cover}
-              title={item.title}
-              audio={item.preview}
-              artist={item.artist.name}
-              allData={item}
-              refresh={() => onSetRefresh()}
-            />
-          );
-        }}
-      />
+      {searchResults[0] != null ? (
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          style={styles.flatlist}
+          keyExtractor={(result) => uuid()}
+          data={searchResults}
+          renderItem={({item}) => {
+            return (
+              <SearchResultItem
+                albumArt={item.album.cover}
+                title={item.title}
+                audio={item.preview}
+                artist={item.artist.name}
+                allData={item}
+                refresh={() => onSetRefresh()}
+              />
+            );
+          }}
+        />
+      ) : (
+        <Text style={styles.errorText}>Couldn't find anything.</Text>
+      )}
     </View>
   );
 };
@@ -43,6 +47,11 @@ const styles = StyleSheet.create({
     marginBottom: 140,
     paddingBottom: 30,
     marginRight: 21,
+  },
+  errorText: {
+    color: '#c1c8d4',
+    fontSize: 20,
+    alignSelf: 'center',
   },
 });
 

@@ -176,21 +176,23 @@ const UserDetailScreen = ({route}) => {
                     <Text style={styles.followText}>Follow</Text>
                   </TouchableOpacity>
                 )}
-                <MaterialCommunityIcon
-                  onPress={() =>
-                    navigationUse.navigate('UserSettingsScreen', {
-                      usersId: data.uid,
-                    })
-                  }
-                  name="dots-horizontal"
-                  style={{
-                    fontSize: 30,
-                    color: '#c1c8d4',
-                    marginRight: 10,
-                    marginTop: 20,
-                    marginLeft: 12,
-                  }}
-                />
+                {data.uid != currentUser.uid ? (
+                  <MaterialCommunityIcon
+                    onPress={() =>
+                      navigationUse.navigate('UserSettingsScreen', {
+                        usersId: data.uid,
+                      })
+                    }
+                    name="dots-horizontal"
+                    style={{
+                      fontSize: 30,
+                      color: '#c1c8d4',
+                      marginRight: 10,
+                      marginTop: 20,
+                      marginLeft: 12,
+                    }}
+                  />
+                ) : null}
               </View>
             </View>
           </View>

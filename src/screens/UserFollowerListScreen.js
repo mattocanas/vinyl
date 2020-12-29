@@ -50,9 +50,8 @@ const UserFollowerListScreen = ({route}) => {
           renderItem={({item}) => <FollowingUserItem data={item} />}
         />
       ) : (
-        <Text>
-          Nobody follows you yet! Search for friends and they'll probably follow
-          you back!
+        <Text style={styles.noneText}>
+          Nobody follows this person yet! Be the first?
         </Text>
       )}
     </View>
@@ -68,6 +67,13 @@ const styles = StyleSheet.create({
   flatlist: {
     marginLeft: 20,
     marginTop: 30,
+  },
+  noneText: {
+    fontSize: 18,
+    color: '#c1c8d4',
+    padding: 16,
+    textAlign: 'center',
+    alignSelf: 'center',
   },
 });
 
