@@ -19,6 +19,10 @@ const SettingsScreen = () => {
       type: 'SET_USER',
       currentUser: null,
     });
+    dispatch({
+      type: 'GET_CURRENTUSERDATA',
+      currentUserData: null,
+    });
     auth.signOut();
   };
   return (

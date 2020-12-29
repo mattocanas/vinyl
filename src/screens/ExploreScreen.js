@@ -46,6 +46,11 @@ const ExploreScreen = ({navigation}) => {
           onSubmitEditing={searchForUser}
           autoCapitalize="none"
         />
+        <Text
+          style={{marginBottom: 20, color: 'gray', fontSize: 8, marginTop: 2}}>
+          Search is capital sensitive right now, so spell your friends' name
+          right!
+        </Text>
         <FlatList
           style={styles.flatlist}
           keyExtractor={(item) => item.uid}
@@ -72,7 +77,7 @@ const styles = StyleSheet.create({
     borderColor: 'gray',
     borderWidth: 2,
     color: '#c1c8d4',
-    marginBottom: 20,
+
     borderRadius: 20,
     paddingLeft: 8,
   },

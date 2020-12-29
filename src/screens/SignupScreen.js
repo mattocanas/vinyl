@@ -67,7 +67,7 @@ const SignupScreen = ({navigation}) => {
           followerIdList: [],
           followingIdList: [],
           blockedUsersIdList: [],
-          username: username,
+          username: username.toLowerCase(),
           uid: cred.user.uid,
           name: name,
           verified: false,

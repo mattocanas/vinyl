@@ -7,6 +7,7 @@ import {useStateProviderValue} from '../../state/StateProvider';
 import {db} from '../../firebase/firebase';
 import Sound from 'react-native-sound';
 import {useNavigation} from '@react-navigation/native';
+import {handleScheduleNotification} from '../notifications/notification.ios';
 
 const SongDetailScreen = ({route}) => {
   const navigationUse = useNavigation();
@@ -62,7 +63,13 @@ const SongDetailScreen = ({route}) => {
         description: '',
         type: 'Song of the Day.',
       })
-      .then(setSongOfTheDay(true));
+      .then(setSongOfTheDay(true))
+      .then(() => {
+        handleScheduleNotification(
+          'Share your music',
+          "Don't forget to add your song of the day!",
+        );
+      });
   };
 
   const checkIfSongOfTheDayExists = () => {
@@ -70,6 +77,7 @@ const SongDetailScreen = ({route}) => {
       .doc(currentUser.uid)
       .collection('posts')
       .where('date', '==', new Date().toDateString())
+      .where('type', '==', 'Song of the Day.')
       .get()
       .then((snapshot) => {
         snapshot.forEach((doc) => {
