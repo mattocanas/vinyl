@@ -281,7 +281,7 @@ const PostDetailScreen = ({route}) => {
 
 const styles = StyleSheet.create({
   mainContainer: {
-    backgroundColor: '#242525',
+    backgroundColor: '#2a2b2b',
     flexDirection: 'column',
     alignItems: 'flex-start',
 
@@ -359,6 +359,7 @@ const styles = StyleSheet.create({
     color: '#c1c8d4',
     fontSize: 17,
     marginTop: 16,
+    lineHeight: 24,
   },
   postTextView: {
     marginRight: 10,

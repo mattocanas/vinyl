@@ -9,20 +9,25 @@ import {
 import SearchBar from '../components/SearchBar';
 import useResults from '../../hooks/useResults';
 import SearchResultsScreen from '../components/SearchResults';
+import LinearGradient from 'react-native-linear-gradient';
 
 const SearchScreen = () => {
   const [term, setTerm] = useState('');
   const [searchApi, results, errorMessage] = useResults();
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View style={styles.container}>
+      <LinearGradient
+        colors={['#2a2b2b', '#242525', '#242525']}
+        style={styles.container}>
+        {/* <View style={styles.container}> */}
         <SearchBar
           term={term}
           onTermSubmit={() => searchApi(term)}
           onTermChange={setTerm}
         />
         {results ? <SearchResultsScreen searchResults={results} /> : null}
-      </View>
+        {/* </View> */}
+      </LinearGradient>
     </TouchableWithoutFeedback>
   );
 };

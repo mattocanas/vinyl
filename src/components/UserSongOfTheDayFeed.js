@@ -58,7 +58,7 @@ const UserSongOfTheDayFeed = ({id}) => {
         />
       ) : (
         <Text style={styles.textDNE}>
-          You have't had a song of the day yet! Start listening to some music!
+          This user hasn't had a song of the day yet!
         </Text>
       )}
     </View>

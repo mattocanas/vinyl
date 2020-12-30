@@ -40,10 +40,11 @@ const EditProfileScreen = ({route}) => {
     db.collection('users')
       .doc(currentUser.uid)
       .update({
-        username: username,
+        username: username.split(' ').join('').toLowerCase(),
         bio: bio,
 
         name: fullName,
+        lowercaseName: name.split(' ').join('').toLowerCase(),
       })
       .then(() => {
         setReady1(true);
@@ -167,7 +168,7 @@ const styles = StyleSheet.create({
     opacity: 0.8,
   },
   container: {
-    backgroundColor: '#242525',
+    backgroundColor: '#2a2b2b',
     flex: 1,
     alignItems: 'center',
     paddingTop: 20,

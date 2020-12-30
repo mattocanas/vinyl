@@ -105,7 +105,7 @@ const SinginScreen = ({navigation}) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#1E1C1C',
+    backgroundColor: '#2a2b2b',
     flex: 1,
   },
   greeting: {

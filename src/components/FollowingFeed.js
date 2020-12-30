@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, FlatList, StyleSheet, Text} from 'react-native';
+import {View, FlatList, StyleSheet, Text, RefreshControl} from 'react-native';
 import FeedItem from './FeedItem';
 import {db} from '../../firebase/firebase';
 import {useStateProviderValue} from '../../state/StateProvider';
@@ -69,9 +69,16 @@ const FollowingFeed = () => {
   return (
     <View style={styles.container}>
       <FlatList
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshController}
+            onRefresh={refreshComponent}
+            title="Pull for new tunes."
+            titleColor="#1E8C8B"
+            tintColor="#1E8C8B"
+          />
+        }
         style={styles.flatlist}
-        refreshing={refreshController}
-        onRefresh={refreshComponent}
         data={followingData}
         keyExtractor={(item) => item.docId}
         showsVerticalScrollIndicator={false}

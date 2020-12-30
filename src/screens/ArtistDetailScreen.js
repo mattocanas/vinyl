@@ -27,7 +27,7 @@ const ArtistDetailScreen = ({route}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#242525',
+    backgroundColor: '#2a2b2b',
     alignItems: 'center',
     paddingLeft: 12,
     paddingRight: 12,

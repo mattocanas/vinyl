@@ -77,12 +77,12 @@ const LikeListScreen = ({route}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#242525',
+    backgroundColor: '#2a2b2b',
     alignItems: 'flex-start',
   },
   container2: {
     flex: 1,
-    backgroundColor: '#242525',
+    backgroundColor: '#2a2b2b',
     alignItems: 'center',
   },
   profilePicture: {

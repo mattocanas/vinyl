@@ -11,6 +11,7 @@ import {useStateProviderValue} from '../../state/StateProvider';
 import {db} from '../../firebase/firebase';
 import UserSearchResult from '../components/UserSearchResult';
 import {FlatList} from 'react-native-gesture-handler';
+import LinearGradient from 'react-native-linear-gradient';
 
 const ExploreScreen = ({navigation}) => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -40,7 +41,10 @@ const ExploreScreen = ({navigation}) => {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View style={styles.container}>
+      <LinearGradient
+        colors={['#2a2b2b', '#242525', '#242525']}
+        style={styles.container}>
+        {/* <View style={styles.container}> */}
         <Text style={styles.headerText}>Search for people to follow!</Text>
         <TextInput
           returnKeyType="search"
@@ -59,7 +63,8 @@ const ExploreScreen = ({navigation}) => {
             <UserSearchResult data={item} navigation={navigation} />
           )}
         />
-      </View>
+        {/* </View> */}
+      </LinearGradient>
     </TouchableWithoutFeedback>
   );
 };

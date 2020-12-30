@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import {View, Text, TouchableOpacity, StyleSheet, Linking} from 'react-native';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
@@ -47,7 +47,11 @@ const SettingsScreen = () => {
         <Text style={styles.labelText}>Logout</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.componentContainer}>
+      <TouchableOpacity
+        style={styles.componentContainer}
+        onPress={() =>
+          Linking.openURL('https://www.thevinylapp.net/terms-and-conditions')
+        }>
         <FontAwesomeIcon name="legal" size={24} style={styles.icon} />
         <Text style={styles.labelText}>Terms of Service</Text>
       </TouchableOpacity>
@@ -66,7 +70,7 @@ const SettingsScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#242525',
+    backgroundColor: '#2a2b2b',
     alignItems: 'center',
   },
   componentContainer: {

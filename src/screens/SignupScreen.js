@@ -10,9 +10,10 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
   ImageBackground,
+  Linking,
 } from 'react-native';
 import {auth, db} from '../../firebase/firebase';
-
+import CheckBox from '@react-native-community/checkbox';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 const SignupScreen = ({navigation}) => {
@@ -24,6 +25,8 @@ const SignupScreen = ({navigation}) => {
   const [name, setName] = useState('');
   const [errorMessage, setErrorMessage] = useState(null);
   const [nameExistsError, setNameExistsError] = useState(false);
+  const [toggleCheckBox, setToggleCheckBox] = useState(false);
+  const [toggleCheckBox2, setToggleCheckBox2] = useState(false);
 
   const checkUsername = () => {
     db.collection('users')
@@ -70,7 +73,7 @@ const SignupScreen = ({navigation}) => {
             followerIdList: [],
             followingIdList: ['cp9Y6yEGQIdjfWbYmNi7wIT9eKx2'],
             blockedUsersIdList: [],
-            username: username.toLowerCase(),
+            username: username.split(' ').join('').toLowerCase(),
             uid: cred.user.uid,
             name: name,
             verified: false,
@@ -92,7 +95,7 @@ const SignupScreen = ({navigation}) => {
         <KeyboardAwareScrollView>
           <View style={styles.container}>
             <ImageBackground
-              style={{flex: 0.6, paddingTop: 200, paddingBottom: 40}}
+              style={{flex: 0.6, paddingTop: 220, paddingBottom: 40}}
               source={require('../../assets/AuthScreen.png')}>
               <View style={styles.errorMessage}>
                 {errorMessage && (
@@ -103,6 +106,9 @@ const SignupScreen = ({navigation}) => {
               <View style={styles.form}>
                 <View>
                   <Text style={styles.inputTitle}>username</Text>
+                  <Text style={{color: '#c1c8d4', fontSize: 10, marginTop: 2}}>
+                    psst, any spaces you use in your username will be ignored.
+                  </Text>
                   <TextInput
                     onChangeText={(newUsername) => setUsername(newUsername)}
                     value={username}
@@ -156,12 +162,67 @@ const SignupScreen = ({navigation}) => {
                     placeholderTextColor="gray"
                   />
                 </View>
+
+                <View
+                  style={{
+                    marginTop: 26,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                  }}>
+                  <CheckBox
+                    onCheckColor="#1E8C8B"
+                    onTintColor="#1E8C8B"
+                    style={styles.checkbox}
+                    disabled={false}
+                    value={toggleCheckBox}
+                    onValueChange={(newValue) => setToggleCheckBox(newValue)}
+                  />
+                  <Text style={styles.termsOfService}>I agree to Vinyl's </Text>
+                  <Text
+                    style={styles.link}
+                    onPress={() =>
+                      Linking.openURL(
+                        'https://www.thevinylapp.net/terms-and-conditions',
+                      )
+                    }>
+                    Terms of Service{' '}
+                  </Text>
+                  <Text style={styles.termsOfService}>and </Text>
+                  <Text
+                    style={styles.link}
+                    onPress={() =>
+                      Linking.openURL(
+                        'https://www.thevinylapp.net/privacy-policy',
+                      )
+                    }>
+                    Privacy Policy
+                  </Text>
+                </View>
+
+                <View
+                  style={{
+                    marginTop: 26,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                  }}>
+                  <CheckBox
+                    onCheckColor="#1E8C8B"
+                    onTintColor="#1E8C8B"
+                    style={styles.checkbox}
+                    disabled={false}
+                    value={toggleCheckBox2}
+                    onValueChange={(newValue) => setToggleCheckBox2(newValue)}
+                  />
+                  <Text style={styles.termsOfService}>
+                    I am 13 years of age or older, and have recieved parent
+                    permission if I'm between 13-18 years of age.
+                  </Text>
+                </View>
               </View>
 
-              <Text style={styles.termsOfService}>
-                By signing up for Bookd, you agree to all our terms or service.
-              </Text>
               {(bio != '') &
+              (toggleCheckBox2 == true) &
+              (toggleCheckBox == true) &
               (email != '') &
               (password != '') &
               (name != '') &
@@ -199,7 +260,7 @@ const SignupScreen = ({navigation}) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#1E1C1C',
+    backgroundColor: '#2a2b2b',
     flex: 1,
   },
   greeting: {
@@ -222,9 +283,10 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: '600',
     textAlign: 'center',
-    marginTop: 30,
+    marginTop: 60,
   },
   form: {
+    marginTop: 8,
     marginBottom: 48,
     marginHorizontal: 30,
   },
@@ -261,10 +323,19 @@ const styles = StyleSheet.create({
   },
   termsOfService: {
     color: '#c1c8d4',
-    fontSize: 12,
+    fontSize: 10,
     marginLeft: 4,
     marginRight: 4,
-    marginBottom: 10,
+
+    textAlign: 'center',
+  },
+  checkbox: {},
+  link: {
+    color: '#1E8C8B',
+    fontSize: 10,
+    // marginLeft: 4,
+    // marginRight: 4,
+
     textAlign: 'center',
   },
 });

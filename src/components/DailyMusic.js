@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {View, FlatList, Text, StyleSheet} from 'react-native';
 import DailyMusicItem from './DailyMusicItem';
 import {db} from '../../firebase/firebase';
+import LinearGradient from 'react-native-linear-gradient';
 
 const DailyMusic = () => {
   const [dailyMusicData, setDailyMusicData] = useState([]);
@@ -20,34 +21,38 @@ const DailyMusic = () => {
   }, []);
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.pageTitle}>Today in music</Text>
-      <FlatList
-        showsHorizontalScrollIndicator={false}
-        horizontal={true}
-        data={dailyMusicData}
-        keyExtractor={(item) => item.id}
-        renderItem={({item}) => (
-          <DailyMusicItem
-            title={item.title}
-            artist={item.artist}
-            description={item.description}
-            albumArt={item.albumArt}
-            likes={item.likes}
-            audio={item.audio}
-            date={item.date}
-            id={item.id}
+    <>
+      <LinearGradient colors={['#2a2b2b', '#242525', '#242525']}>
+        <View style={styles.container}>
+          <Text style={styles.pageTitle}>Today in music</Text>
+          <FlatList
+            showsHorizontalScrollIndicator={false}
+            horizontal={true}
+            data={dailyMusicData}
+            keyExtractor={(item) => item.id}
+            renderItem={({item}) => (
+              <DailyMusicItem
+                title={item.title}
+                artist={item.artist}
+                description={item.description}
+                albumArt={item.albumArt}
+                likes={item.likes}
+                audio={item.audio}
+                date={item.date}
+                id={item.id}
+              />
+            )}
           />
-        )}
-      />
-      <View
-        style={{
-          borderBottomWidth: 1,
-          borderBottomColor: 'rgba(193, 200, 212, 0.1)',
-          marginTop: 16,
-        }}
-      />
-    </View>
+          <View
+            style={{
+              borderBottomWidth: 1,
+              borderBottomColor: 'rgba(193, 200, 212, 0.1)',
+              marginTop: 16,
+            }}
+          />
+        </View>
+      </LinearGradient>
+    </>
   );
 };
 

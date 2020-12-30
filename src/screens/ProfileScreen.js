@@ -9,6 +9,7 @@ import ProfilePostsFeed from '../components/ProfilePostsFeed';
 import {useNavigation} from '@react-navigation/native';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AntIcon from 'react-native-vector-icons/AntDesign';
+import LinearGradient from 'react-native-linear-gradient';
 
 const ProfileScreen = ({navigation}) => {
   const navigationUse = useNavigation();
@@ -59,7 +60,10 @@ const ProfileScreen = ({navigation}) => {
   return (
     <>
       {currentUser ? (
-        <View style={styles.container}>
+        <LinearGradient
+          colors={['#2a2b2b', '#242525', '#242525']}
+          style={styles.container}>
+          {/* <View style={styles.container}> */}
           <View style={styles.profileInfoContainer}>
             <View style={styles.photoNameContainer}>
               <ProfilePicture refresh={() => refreshScreen()} />
@@ -106,20 +110,12 @@ const ProfileScreen = ({navigation}) => {
               onPress={showSOTDFeed}>
               {SOTDActive ? (
                 <View style={{flexDirection: 'row'}}>
-                  <MaterialCommunityIcon
-                    name="calendar-month"
-                    style={styles.songOfTheDayIconTextActive}
-                  />
                   <Text style={styles.songOfTheDayTextActive}>
                     Songs of the day
                   </Text>
                 </View>
               ) : (
                 <View style={{flexDirection: 'row', textAlign: 'center'}}>
-                  <MaterialCommunityIcon
-                    name="calendar-month"
-                    style={styles.songOfTheDayIconText}
-                  />
                   <Text style={styles.songOfTheDayText}>Songs of the day</Text>
                 </View>
               )}
@@ -129,18 +125,10 @@ const ProfileScreen = ({navigation}) => {
               onPress={showPostsFeed}>
               {postsActive ? (
                 <View style={{flexDirection: 'row'}}>
-                  <MaterialCommunityIcon
-                    name="comment-text"
-                    style={styles.songOfTheDayIconTextActive}
-                  />
                   <Text style={styles.postsTextActive}>Posts</Text>
                 </View>
               ) : (
                 <View style={{flexDirection: 'row'}}>
-                  <MaterialCommunityIcon
-                    name="comment-text"
-                    style={styles.songOfTheDayIconText}
-                  />
                   <Text style={styles.postsText}>Posts</Text>
                 </View>
               )}
@@ -150,15 +138,10 @@ const ProfileScreen = ({navigation}) => {
               onPress={showLikesFeed}>
               {likesActive ? (
                 <View style={{flexDirection: 'row'}}>
-                  <AntIcon
-                    name="heart"
-                    style={styles.songOfTheDayIconTextActive}
-                  />
                   <Text style={styles.likesTextActive}>Likes</Text>
                 </View>
               ) : (
                 <View style={{flexDirection: 'row'}}>
-                  <AntIcon name="heart" style={styles.songOfTheDayIconText} />
                   <Text style={styles.likesText}>Likes</Text>
                 </View>
               )}
@@ -175,7 +158,8 @@ const ProfileScreen = ({navigation}) => {
               <ProfilePostsFeed refresh={() => showSOTDFeed()} />
             ) : null}
           </View>
-        </View>
+          {/* </View> */}
+        </LinearGradient>
       ) : null}
     </>
   );
@@ -246,7 +230,7 @@ const styles = StyleSheet.create({
   sectionsTabContainer: {
     alignItems: 'center',
     flexDirection: 'row',
-    marginTop: 14,
+    marginTop: 30,
     borderBottomWidth: 2,
     borderBottomColor: 'gray',
     // paddingBottom: 8,

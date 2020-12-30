@@ -8,6 +8,7 @@ import {db} from '../../firebase/firebase';
 import Sound from 'react-native-sound';
 import {useNavigation} from '@react-navigation/native';
 import {handleScheduleNotification} from '../notifications/notification.ios';
+import LinearGradient from 'react-native-linear-gradient';
 
 const SongDetailScreen = ({route}) => {
   const navigationUse = useNavigation();
@@ -91,7 +92,10 @@ const SongDetailScreen = ({route}) => {
   };
 
   return (
-    <View style={styles.container}>
+    // <View style={styles.container}>
+    <LinearGradient
+      colors={['#2a2b2b', '#242525', '#242525']}
+      style={styles.container}>
       <Image style={styles.albumArt} source={{uri: data.album.cover}} />
       <View style={styles.iconContainer}>
         {songOfTheDay != true ? (
@@ -136,17 +140,18 @@ const SongDetailScreen = ({route}) => {
           doesn't have any bad words.
         </Text>
       )}
-    </View>
+    </LinearGradient>
+    // </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#242525',
+    backgroundColor: '#2a2b2b',
     alignItems: 'center',
-    paddingLeft: 12,
-    paddingRight: 12,
+    // paddingLeft: 12,
+    // paddingRight: 12,
   },
   albumArt: {
     height: 200,
@@ -169,7 +174,7 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
   title: {
-    fontSize: 28,
+    fontSize: 24,
     color: '#5AB9B9',
     fontWeight: 'bold',
     marginTop: 20,

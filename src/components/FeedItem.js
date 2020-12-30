@@ -313,17 +313,17 @@ const styles = StyleSheet.create({
     color: '#c1c8d4',
     fontWeight: 'bold',
     marginLeft: 8,
-    marginTop: 4,
-    fontSize: 14,
+    marginTop: 20,
+    fontSize: 18,
   },
   profileContainer: {
     flexDirection: 'row',
   },
   dateText: {
-    fontSize: 10,
+    fontSize: 12,
     marginLeft: 4,
     color: 'gray',
-    marginTop: 8,
+    marginTop: 24,
   },
   likeButton: {
     color: '#7F1535',
@@ -338,6 +338,7 @@ const styles = StyleSheet.create({
     color: '#c1c8d4',
     fontSize: 17,
     marginTop: 16,
+    lineHeight: 24,
   },
   postTextView: {
     marginRight: 10,

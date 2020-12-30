@@ -202,20 +202,12 @@ const UserDetailScreen = ({route}) => {
               onPress={showSOTDFeed}>
               {SOTDActive ? (
                 <View style={{flexDirection: 'row'}}>
-                  <MaterialCommunityIcon
-                    name="calendar-month"
-                    style={styles.songOfTheDayIconTextActive}
-                  />
                   <Text style={styles.songOfTheDayTextActive}>
                     Songs of the day
                   </Text>
                 </View>
               ) : (
                 <View style={{flexDirection: 'row', textAlign: 'center'}}>
-                  <MaterialCommunityIcon
-                    name="calendar-month"
-                    style={styles.songOfTheDayIconText}
-                  />
                   <Text style={styles.songOfTheDayText}>Songs of the day</Text>
                 </View>
               )}
@@ -225,18 +217,10 @@ const UserDetailScreen = ({route}) => {
               onPress={showPostsFeed}>
               {postsActive ? (
                 <View style={{flexDirection: 'row'}}>
-                  <MaterialCommunityIcon
-                    name="comment-text"
-                    style={styles.songOfTheDayIconTextActive}
-                  />
                   <Text style={styles.postsTextActive}>Posts</Text>
                 </View>
               ) : (
                 <View style={{flexDirection: 'row'}}>
-                  <MaterialCommunityIcon
-                    name="comment-text"
-                    style={styles.songOfTheDayIconText}
-                  />
                   <Text style={styles.postsText}>Posts</Text>
                 </View>
               )}
@@ -246,15 +230,10 @@ const UserDetailScreen = ({route}) => {
               onPress={showLikesFeed}>
               {likesActive ? (
                 <View style={{flexDirection: 'row'}}>
-                  <AntIcon
-                    name="heart"
-                    style={styles.songOfTheDayIconTextActive}
-                  />
                   <Text style={styles.likesTextActive}>Likes</Text>
                 </View>
               ) : (
                 <View style={{flexDirection: 'row'}}>
-                  <AntIcon name="heart" style={styles.songOfTheDayIconText} />
                   <Text style={styles.likesText}>Likes</Text>
                 </View>
               )}
@@ -276,7 +255,7 @@ const UserDetailScreen = ({route}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#242525',
+    backgroundColor: '#2a2b2b',
     alignItems: 'center',
   },
   profileInfoContainer: {
@@ -361,7 +340,7 @@ const styles = StyleSheet.create({
   sectionsTabContainer: {
     alignItems: 'center',
     flexDirection: 'row',
-    marginTop: 10,
+    marginTop: 30,
     borderBottomWidth: 2,
     borderBottomColor: 'gray',
     // paddingBottom: 8,

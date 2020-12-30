@@ -108,18 +108,18 @@ function myMainStack() {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: '#1E1C1C',
+            backgroundColor: '#2a2b2b',
             shadowColor: 'transparent',
           },
           headerTitleStyle: {
             color: '#c1c8d4',
-            fontSize: 30,
+            fontSize: 32,
             fontWeight: '700',
           },
           headerTintColor: '#c1c8d4',
           headerBackTitleVisible: false,
         }}
-        name="vinyl"
+        name="Vinyl"
         component={MyBottomTabs}
       />
 
@@ -127,15 +127,15 @@ function myMainStack() {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: '#1E1C1C',
+            backgroundColor: '#2a2b2b',
             shadowColor: 'transparent',
           },
           headerTitleStyle: {
             color: '#c1c8d4',
-            fontSize: 30,
+            fontSize: 32,
             fontWeight: '700',
           },
-          title: 'vinyl',
+          title: 'Vinyl',
           headerTintColor: '#c1c8d4',
           headerBackTitleVisible: false,
         }}
@@ -147,15 +147,15 @@ function myMainStack() {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: '#1E1C1C',
+            backgroundColor: '#2a2b2b',
             shadowColor: 'transparent',
           },
           headerTitleStyle: {
             color: '#c1c8d4',
-            fontSize: 30,
+            fontSize: 32,
             fontWeight: '700',
           },
-          title: 'vinyl',
+          title: 'Vinyl',
           headerTintColor: '#c1c8d4',
           headerBackTitleVisible: false,
         }}
@@ -167,15 +167,15 @@ function myMainStack() {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: '#1E1C1C',
+            backgroundColor: '#2a2b2b',
             shadowColor: 'transparent',
           },
           headerTitleStyle: {
             color: '#c1c8d4',
-            fontSize: 30,
+            fontSize: 32,
             fontWeight: '700',
           },
-          title: 'vinyl',
+          title: 'Vinyl',
           headerTintColor: '#c1c8d4',
           headerBackTitleVisible: false,
         }}
@@ -186,15 +186,15 @@ function myMainStack() {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: '#1E1C1C',
+            backgroundColor: '#2a2b2b',
             shadowColor: 'transparent',
           },
           headerTitleStyle: {
             color: '#c1c8d4',
-            fontSize: 30,
+            fontSize: 32,
             fontWeight: '700',
           },
-          title: 'vinyl',
+          title: 'Vinyl',
           headerTintColor: '#c1c8d4',
           headerBackTitleVisible: false,
         }}
@@ -206,15 +206,15 @@ function myMainStack() {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: '#1E1C1C',
+            backgroundColor: '#2a2b2b',
             shadowColor: 'transparent',
           },
           headerTitleStyle: {
             color: '#c1c8d4',
-            fontSize: 30,
+            fontSize: 32,
             fontWeight: '700',
           },
-          title: 'vinyl',
+          title: 'Vinyl',
           headerTintColor: '#c1c8d4',
           headerBackTitleVisible: false,
         }}
@@ -226,15 +226,15 @@ function myMainStack() {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: '#1E1C1C',
+            backgroundColor: '#2a2b2b',
             shadowColor: 'transparent',
           },
           headerTitleStyle: {
             color: '#c1c8d4',
-            fontSize: 30,
+            fontSize: 32,
             fontWeight: '700',
           },
-          title: 'vinyl',
+          title: 'Vinyl',
           headerTintColor: '#c1c8d4',
           headerBackTitleVisible: false,
         }}
@@ -246,15 +246,15 @@ function myMainStack() {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: '#1E1C1C',
+            backgroundColor: '#2a2b2b',
             shadowColor: 'transparent',
           },
           headerTitleStyle: {
             color: '#c1c8d4',
-            fontSize: 30,
+            fontSize: 32,
             fontWeight: '700',
           },
-          title: 'vinyl',
+          title: 'Vinyl',
           headerTintColor: '#c1c8d4',
           headerBackTitleVisible: false,
         }}
@@ -266,15 +266,15 @@ function myMainStack() {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: '#1E1C1C',
+            backgroundColor: '#2a2b2b',
             shadowColor: 'transparent',
           },
           headerTitleStyle: {
             color: '#c1c8d4',
-            fontSize: 30,
+            fontSize: 32,
             fontWeight: '700',
           },
-          title: 'vinyl',
+          title: 'Vinyl',
           headerTintColor: '#c1c8d4',
           headerBackTitleVisible: false,
         }}
@@ -286,15 +286,15 @@ function myMainStack() {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: '#1E1C1C',
+            backgroundColor: '#2a2b2b',
             shadowColor: 'transparent',
           },
           headerTitleStyle: {
             color: '#c1c8d4',
-            fontSize: 30,
+            fontSize: 32,
             fontWeight: '700',
           },
-          title: 'vinyl',
+          title: 'Vinyl',
           headerTintColor: '#c1c8d4',
           headerBackTitleVisible: false,
         }}
@@ -306,15 +306,15 @@ function myMainStack() {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: '#1E1C1C',
+            backgroundColor: '#2a2b2b',
             shadowColor: 'transparent',
           },
           headerTitleStyle: {
             color: '#c1c8d4',
-            fontSize: 30,
+            fontSize: 32,
             fontWeight: '700',
           },
-          title: 'vinyl',
+          title: 'Vinyl',
           headerTintColor: '#c1c8d4',
           headerBackTitleVisible: false,
         }}
@@ -326,15 +326,15 @@ function myMainStack() {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: '#1E1C1C',
+            backgroundColor: '#2a2b2b',
             shadowColor: 'transparent',
           },
           headerTitleStyle: {
             color: '#c1c8d4',
-            fontSize: 30,
+            fontSize: 32,
             fontWeight: '700',
           },
-          title: 'vinyl',
+          title: 'Vinyl',
           headerTintColor: '#c1c8d4',
           headerBackTitleVisible: false,
         }}
@@ -346,15 +346,15 @@ function myMainStack() {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: '#1E1C1C',
+            backgroundColor: '#2a2b2b',
             shadowColor: 'transparent',
           },
           headerTitleStyle: {
             color: '#c1c8d4',
-            fontSize: 30,
+            fontSize: 32,
             fontWeight: '700',
           },
-          title: 'vinyl',
+          title: 'Vinyl',
           headerTintColor: '#c1c8d4',
           headerBackTitleVisible: false,
         }}
@@ -366,15 +366,15 @@ function myMainStack() {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: '#1E1C1C',
+            backgroundColor: '#2a2b2b',
             shadowColor: 'transparent',
           },
           headerTitleStyle: {
             color: '#c1c8d4',
-            fontSize: 30,
+            fontSize: 32,
             fontWeight: '700',
           },
-          title: 'vinyl',
+          title: 'Vinyl',
           headerTintColor: '#c1c8d4',
           headerBackTitleVisible: false,
         }}
@@ -386,15 +386,15 @@ function myMainStack() {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: '#1E1C1C',
+            backgroundColor: '#2a2b2b',
             shadowColor: 'transparent',
           },
           headerTitleStyle: {
             color: '#c1c8d4',
-            fontSize: 30,
+            fontSize: 32,
             fontWeight: '700',
           },
-          title: 'vinyl',
+          title: 'Vinyl',
           headerTintColor: '#c1c8d4',
           headerBackTitleVisible: false,
         }}
@@ -406,15 +406,15 @@ function myMainStack() {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: '#1E1C1C',
+            backgroundColor: '#2a2b2b',
             shadowColor: 'transparent',
           },
           headerTitleStyle: {
             color: '#c1c8d4',
-            fontSize: 30,
+            fontSize: 32,
             fontWeight: '700',
           },
-          title: 'vinyl',
+          title: 'Vinyl',
           headerTintColor: '#c1c8d4',
           headerBackTitleVisible: false,
         }}
@@ -425,15 +425,15 @@ function myMainStack() {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: '#1E1C1C',
+            backgroundColor: '#2a2b2b',
             shadowColor: 'transparent',
           },
           headerTitleStyle: {
             color: '#c1c8d4',
-            fontSize: 30,
+            fontSize: 32,
             fontWeight: '700',
           },
-          title: 'vinyl',
+          title: 'Vinyl',
           headerTintColor: '#c1c8d4',
           headerBackTitleVisible: false,
         }}
