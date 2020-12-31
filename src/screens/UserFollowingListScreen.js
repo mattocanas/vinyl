@@ -33,7 +33,8 @@ const UserFollowingListScreen = ({route}) => {
     data.followingIdList.map((id) => {
       db.collection('users')
         .doc(id)
-        .onSnapshot((doc) => {
+        .get()
+        .then((doc) => {
           dataArray.push(doc.data());
           setFollowingData(dataArray);
         });

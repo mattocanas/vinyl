@@ -45,7 +45,7 @@ const ExploreScreen = ({navigation}) => {
         colors={['#2a2b2b', '#242525', '#242525']}
         style={styles.container}>
         {/* <View style={styles.container}> */}
-        <Text style={styles.headerText}>Search for people to follow!</Text>
+        <Text style={styles.headerText}>Search for people to follow</Text>
         <TextInput
           returnKeyType="search"
           style={styles.searchBar}

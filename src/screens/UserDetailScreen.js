@@ -341,8 +341,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     marginTop: 30,
-    borderBottomWidth: 2,
-    borderBottomColor: 'gray',
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(193, 200, 212, 0.1)',
     // paddingBottom: 8,
   },
   songOfTheDaySection: {

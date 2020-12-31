@@ -15,72 +15,72 @@ const DeleteAccountConfirmationScreen = () => {
   ] = useStateProviderValue();
   const navigation = useNavigation();
 
-  const deleteAccount = () => {
-    db.collection('users')
-      .where('followingIdList', 'array-contains', currentUser.uid)
-      .get()
-      .then((snapshot) => {
-        snapshot.forEach((doc) => {
-          doc.update({
-            followingIdList: firebase.firestore.FieldValue.arrayRemove(
-              currentUser.uid,
-            ),
-          });
-        });
-      })
+  // const deleteAccount = () => {
+  //   db.collection('users')
+  //     .where('followingIdList', 'array-contains', currentUser.uid)
+  //     .get()
+  //     .then((snapshot) => {
+  //       snapshot.forEach((doc) => {
+  //         doc.update({
+  //           followingIdList: firebase.firestore.FieldValue.arrayRemove(
+  //             currentUser.uid,
+  //           ),
+  //         });
+  //       });
+  //     })
 
-      .then(() => {
-        db.collection('users')
-          .where('followerIdList', 'array-contains', currentUser.uid)
-          .get()
-          .then((snapshot) => {
-            snapshot.forEach((doc) => {
-              doc.data().update({
-                followerIdList: firebase.firestore.FieldValue.arrayRemove(
-                  currentUser.uid,
-                ),
-              });
-            });
-          });
-      })
-      .then(() => {
-        db.collection('users').onSnapshot((snapshot) => {
-          snapshot.forEach((doc) => {
-            doc
-              .data()
-              .collection('posts')
-              .where('likes', 'array-contains', currentUser.uid)
-              .get()
-              .then((snapshot) => {
-                snapshot.forEach((doc) => {
-                  doc.data().update({
-                    likes: firebase.firestore.FieldValue.arrayRemove({
-                      uid: currentUser.uid,
-                      username: currentUser.displayName,
-                    }),
-                  });
-                });
-              });
-          });
-        });
-      })
-      .then(() => {
-        db.collection('users')
-          .doc(currentUser.uid)
-          .delete()
-          .then(() => {
-            auth.currentUser.delete();
-            // .then(() => {
-            //   navigation.navigate('SigninScreen');
-          })
-          .catch((error) => console.log(error));
-      })
-      .catch((error) => console.log(error));
+  //     .then(() => {
+  //       db.collection('users')
+  //         .where('followerIdList', 'array-contains', currentUser.uid)
+  //         .get()
+  //         .then((snapshot) => {
+  //           snapshot.forEach((doc) => {
+  //             doc.data().update({
+  //               followerIdList: firebase.firestore.FieldValue.arrayRemove(
+  //                 currentUser.uid,
+  //               ),
+  //             });
+  //           });
+  //         });
+  //     })
+  //     .then(() => {
+  //       db.collection('users').onSnapshot((snapshot) => {
+  //         snapshot.forEach((doc) => {
+  //           doc
+  //             .data()
+  //             .collection('posts')
+  //             .where('likes', 'array-contains', currentUser.uid)
+  //             .get()
+  //             .then((snapshot) => {
+  //               snapshot.forEach((doc) => {
+  //                 doc.data().update({
+  //                   likes: firebase.firestore.FieldValue.arrayRemove({
+  //                     uid: currentUser.uid,
+  //                     username: currentUser.displayName,
+  //                   }),
+  //                 });
+  //               });
+  //             });
+  //         });
+  //       });
+  //     })
+  //     .then(() => {
+  //       db.collection('users')
+  //         .doc(currentUser.uid)
+  //         .delete()
+  //         .then(() => {
+  //           auth.currentUser.delete();
+  //           // .then(() => {
+  //           //   navigation.navigate('SigninScreen');
+  //         })
+  //         .catch((error) => console.log(error));
+  //     })
+  //     .catch((error) => console.log(error));
 
-    auth.onAuthStateChanged((user) => {
-      navigation.navigate(user ? 'App' : 'Auth');
-    });
-  };
+  //   auth.onAuthStateChanged((user) => {
+  //     navigation.navigate(user ? 'App' : 'Auth');
+  //   });
+  // };
   return (
     <View style={styles.container}>
       <Text style={styles.labelText}>

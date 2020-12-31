@@ -48,7 +48,8 @@ const FollowingFeed = () => {
   const getFollowing = () => {
     db.collection('users')
       .doc(currentUser.uid)
-      .onSnapshot((snapshot) => {
+      .get()
+      .then((snapshot) => {
         followingDataArray = [];
         setFollowingIdList(snapshot.data().followingIdList);
 

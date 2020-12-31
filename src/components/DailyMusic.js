@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     color: '#c1c8d4',
     textAlign: 'center',
     fontWeight: '900',
-    marginTop: 14,
+    marginTop: 20,
     fontSize: 20,
   },
   container: {
