@@ -35,6 +35,7 @@ const PostFormScreen = ({route}) => {
     newDocRef
       .set({
         docId: newDocRef.id,
+
         artist: data.artist.name,
         title: data.title,
         albumArt: data.album.cover,

@@ -9,6 +9,7 @@ import {useStateProviderValue} from '../../state/StateProvider';
 import firebase from 'firebase';
 import {useState} from 'react/cjs/react.development';
 import {useNavigation} from '@react-navigation/native';
+import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 
 const FeedItem = ({
   title,
@@ -26,10 +27,6 @@ const FeedItem = ({
   docId,
   refresh,
 }) => {
-  const [{currentUser}, dispatch] = useStateProviderValue();
-  const [liked, setLiked] = useState(false);
-  const navigationUse = useNavigation();
-
   useEffect(() => {
     let active = true;
     Sound.setCategory('Playback');
@@ -39,6 +36,14 @@ const FeedItem = ({
       active = false;
     };
   }, [liked]);
+  const [{currentUser}, dispatch] = useStateProviderValue();
+  const [liked, setLiked] = useState(false);
+  const [postData, setPostData] = useState(null);
+  const navigationUse = useNavigation();
+  const options = {
+    enableVibrateFallback: true,
+    ignoreAndroidSystemSettings: false,
+  };
 
   const track = new Sound(audio, null, (e) => {
     if (e) {
@@ -50,10 +55,24 @@ const FeedItem = ({
 
   const playTrack = () => {
     track.play();
+    {
+      track.isPlaying() == false ? track.reset() : null;
+    }
   };
 
   const stopTrack = () => {
     track.stop();
+  };
+
+  const getData = () => {
+    db.collection('users')
+      .doc(uid)
+      .collection('posts')
+      .doc(docId)
+      .get()
+      .then((doc) => {
+        setPostData(doc.data());
+      });
   };
 
   const onLike = () => {
@@ -89,7 +108,8 @@ const FeedItem = ({
       })
       .then(() => {
         checkIfLiked();
-        refresh();
+        ReactNativeHapticFeedback.trigger('notificationSuccess', options);
+        // refresh();
       });
   };
 
@@ -117,11 +137,13 @@ const FeedItem = ({
       .then(() => {
         checkIfLiked();
         setLiked(false);
-        refresh();
+        ReactNativeHapticFeedback.trigger('notificationWarning', options);
+        // refresh();
       });
   };
 
   const checkIfLiked = () => {
+    getData();
     db.collection('users')
       .doc(uid)
       .collection('posts')
@@ -144,117 +166,121 @@ const FeedItem = ({
   };
 
   return (
-    <TouchableOpacity
-      onPress={() =>
-        navigationUse.navigate('PostDetailScreen', {
-          title,
-          artist,
-          audio,
-          albumArt,
-          profilePictureUrl,
-          uid,
-          username,
-          date,
-          likes,
-          comments,
-          type,
-          description,
-          docId,
-        })
-      }>
-      <View style={styles.mainContainer}>
-        <View style={styles.profileContainer}>
-          <TouchableOpacity
-            onPress={() =>
-              navigationUse.navigate('FeedUserDetailScreen', {data: uid})
-            }>
-            <Image
-              style={styles.profilePicture}
-              source={{
-                uri: profilePictureUrl,
-              }}
-            />
-          </TouchableOpacity>
-          <Text style={styles.usernameText}>{username} |</Text>
-          <Moment element={Text} format="MMM Do YY" style={styles.dateText}>
-            {date}
-          </Moment>
-        </View>
-        {description ? (
-          <View style={styles.postTextView}>
-            <Text style={styles.postContet}>{description}</Text>
+    <>
+      {postData ? (
+        <TouchableOpacity
+          onPress={() =>
+            navigationUse.navigate('PostDetailScreen', {
+              title,
+              artist,
+              audio,
+              albumArt,
+              profilePictureUrl,
+              uid,
+              username,
+              date,
+              likes,
+              comments,
+              type,
+              description,
+              docId,
+            })
+          }>
+          <View style={styles.mainContainer}>
+            <View style={styles.profileContainer}>
+              <TouchableOpacity
+                onPress={() =>
+                  navigationUse.navigate('FeedUserDetailScreen', {data: uid})
+                }>
+                <Image
+                  style={styles.profilePicture}
+                  source={{
+                    uri: profilePictureUrl,
+                  }}
+                />
+              </TouchableOpacity>
+              <Text style={styles.usernameText}>{postData.username} |</Text>
+              <Moment element={Text} format="MMM Do YY" style={styles.dateText}>
+                {date}
+              </Moment>
+            </View>
+            {description ? (
+              <View style={styles.postTextView}>
+                <Text style={styles.postContet}>{postData.description}</Text>
+              </View>
+            ) : null}
+            <View style={styles.postContentContainer}>
+              {type == 'Song of the Day.' ? (
+                <Text style={styles.postIntroText}>Song of the day:</Text>
+              ) : null}
+
+              <TouchableOpacity
+                style={{alignItems: 'center', flexDirection: 'row'}}
+                onPress={playTrack}>
+                <Image
+                  style={styles.albumArt}
+                  source={{
+                    uri: albumArt,
+                  }}
+                />
+              </TouchableOpacity>
+
+              <View style={{alignItems: 'flex-start', marginLeft: 8}}>
+                <Text style={styles.titleText}>{postData.title}</Text>
+
+                <Text style={styles.artistIntroText}> by </Text>
+                <Text style={styles.artistText}>{postData.artist}</Text>
+              </View>
+            </View>
+
+            {liked == true ? (
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <TouchableOpacity style={styles.buttonsTab} onPress={onUnlike}>
+                  <AntIcon name="heart" style={styles.likeButton} />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigationUse.navigate('LikeListScreen', {data: likes})
+                  }>
+                  <Text style={styles.likesNumber}>
+                    {postData.likes.length.toString()} likes
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity>
+                  <IonIcon
+                    name="stop-circle-outline"
+                    style={styles.stopIcon}
+                    onPress={stopTrack}
+                  />
+                </TouchableOpacity>
+              </View>
+            ) : (
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <TouchableOpacity style={styles.buttonsTab} onPress={onLike}>
+                  <AntIcon name="hearto" style={styles.likeButton} />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigationUse.navigate('LikeListScreen', {data: likes})
+                  }>
+                  <Text style={styles.likesNumber}>
+                    {postData.likes.length.toString()} likes
+                  </Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity>
+                  <IonIcon
+                    name="stop-circle-outline"
+                    style={styles.stopIcon}
+                    onPress={stopTrack}
+                  />
+                </TouchableOpacity>
+              </View>
+            )}
           </View>
-        ) : null}
-        <View style={styles.postContentContainer}>
-          {type == 'Song of the Day.' ? (
-            <Text style={styles.postIntroText}>Song of the day:</Text>
-          ) : null}
-
-          <TouchableOpacity
-            style={{alignItems: 'center', flexDirection: 'row'}}
-            onPress={playTrack}>
-            <Image
-              style={styles.albumArt}
-              source={{
-                uri: albumArt,
-              }}
-            />
-          </TouchableOpacity>
-
-          <View style={{alignItems: 'flex-start', marginLeft: 8}}>
-            <Text style={styles.titleText}>{title}</Text>
-
-            <Text style={styles.artistIntroText}> by </Text>
-            <Text style={styles.artistText}>{artist}</Text>
-          </View>
-        </View>
-
-        {liked == true ? (
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <TouchableOpacity style={styles.buttonsTab} onPress={onUnlike}>
-              <AntIcon name="heart" style={styles.likeButton} />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() =>
-                navigationUse.navigate('LikeListScreen', {data: likes})
-              }>
-              <Text style={styles.likesNumber}>
-                {likes.length.toString()} likes
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <IonIcon
-                name="stop-circle-outline"
-                style={styles.stopIcon}
-                onPress={stopTrack}
-              />
-            </TouchableOpacity>
-          </View>
-        ) : (
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <TouchableOpacity style={styles.buttonsTab} onPress={onLike}>
-              <AntIcon name="hearto" style={styles.likeButton} />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() =>
-                navigationUse.navigate('LikeListScreen', {data: likes})
-              }>
-              <Text style={styles.likesNumber}>
-                {likes.length.toString()} likes
-              </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity>
-              <IonIcon
-                name="stop-circle-outline"
-                style={styles.stopIcon}
-                onPress={stopTrack}
-              />
-            </TouchableOpacity>
-          </View>
-        )}
-      </View>
-    </TouchableOpacity>
+        </TouchableOpacity>
+      ) : null}
+    </>
   );
 };
 

@@ -36,6 +36,8 @@ import UserSettingsScreen from './src/screens/UserSettingsScreen';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import OcticonIcon from 'react-native-vector-icons/Octicons';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import SimpleLineIcon from 'react-native-vector-icons/SimpleLineIcons';
+import GlobalFeedScreen from './src/screens/GlobalFeedScreen';
 
 // create bottom nav bar
 const Tabs = createMaterialBottomTabNavigator();
@@ -64,11 +66,11 @@ function MyBottomTabs() {
           tabBarLabel: '',
           tabBarColor: '#1E1C1C',
           tabBarIcon: ({color}) => (
-            <OcticonIcon name="telescope" size={26} color={color} />
+            <SimpleLineIcon name="globe" size={24} color={color} />
           ),
         }}
-        name="SearchScreen"
-        component={SearchScreen}
+        name="GlobalFeedScreen"
+        component={GlobalFeedScreen}
       />
 
       <Tabs.Screen
@@ -76,12 +78,13 @@ function MyBottomTabs() {
           tabBarLabel: '',
           tabBarColor: '#1E1C1C',
           tabBarIcon: ({color}) => (
-            <MaterialIcon name="search" size={26} color={color} />
+            <OcticonIcon name="telescope" size={26} color={color} />
           ),
         }}
-        name="ExploreScreen"
-        component={ExploreScreen}
+        name="SearchScreen"
+        component={SearchScreen}
       />
+
       <Tabs.Screen
         options={{
           tabBarLabel: '',

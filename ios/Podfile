@@ -13,6 +13,8 @@ target 'socialmusic' do
   pod 'react-native-image-picker', :path => '../node_modules/react-native-image-picker'
 
 
+  pod 'RNReactNativeHapticFeedback', :path => '../node_modules/react-native-haptic-feedback'
+
   target 'socialmusicTests' do
     inherit! :complete
     # Pods for testing

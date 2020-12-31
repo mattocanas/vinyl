@@ -51,6 +51,7 @@ const SongDetailScreen = ({route}) => {
     newDocRef
       .set({
         docId: newDocRef.id,
+
         artist: data.artist.name,
         title: data.title,
         albumArt: data.album.cover,
@@ -213,9 +214,11 @@ const styles = StyleSheet.create({
     paddingLeft: 8,
   },
   warning: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: '500',
     color: '#7F1535',
+    textAlign: 'center',
+    padding: 10,
     marginTop: 8,
   },
 });

@@ -42,6 +42,9 @@ const SearchResultItem = ({
 
   const playTrack = () => {
     track.play();
+    {
+      track.isPlaying() == false ? track.reset() : null;
+    }
   };
 
   const stopTrack = () => {
