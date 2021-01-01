@@ -39,7 +39,6 @@ const SinginScreen = ({navigation}) => {
             <ImageBackground
               style={{flex: 1, paddingTop: 260, paddingBottom: 200}}
               source={require('../../assets/AuthScreen.png')}>
-              {/* <Text style={styles.greeting}>Hey there, welcome back to bookd</Text> */}
               <View style={styles.errorMessage}>
                 {errorMessage && (
                   <Text style={styles.error}>{errorMessage}</Text>

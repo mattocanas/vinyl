@@ -68,7 +68,6 @@ const ProfileScreen = ({navigation}) => {
             <View style={styles.photoNameContainer}>
               <ProfilePicture refresh={() => refreshScreen()} />
               <Text style={styles.usernameText}>{currentUser.displayName}</Text>
-              <Text style={styles.bio}>{currentUserData.bio}</Text>
             </View>
 
             <View style={{alignItems: 'center'}}>
@@ -104,6 +103,9 @@ const ProfileScreen = ({navigation}) => {
               </TouchableOpacity>
             </View>
           </View>
+
+          <Text style={styles.bio}>{currentUserData.bio}</Text>
+
           <View style={styles.sectionsTabContainer}>
             <TouchableOpacity
               style={styles.songOfTheDaySection}
@@ -187,7 +189,6 @@ const styles = StyleSheet.create({
   photoNameContainer: {
     alignItems: 'center',
     marginRight: 40,
-    marginLeft: 10,
   },
   usernameText: {
     fontSize: 20,
@@ -296,6 +297,8 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#c1c8d4',
     marginTop: 10,
+    marginLeft: 66,
+    alignSelf: 'flex-start',
   },
 });
 

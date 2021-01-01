@@ -6,9 +6,14 @@ import {db} from '../../firebase/firebase';
 import {useStateProviderValue} from '../../state/StateProvider';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import IonIcon from 'react-native-vector-icons/Ionicons';
+import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 
 const UserPost = ({data, refresh, id}) => {
   const [{currentUser}, dispatch] = useStateProviderValue();
+  const options = {
+    enableVibrateFallback: true,
+    ignoreAndroidSystemSettings: false,
+  };
 
   useEffect(() => {
     let active = true;
@@ -28,29 +33,22 @@ const UserPost = ({data, refresh, id}) => {
 
   const playTrack = () => {
     track.play();
+    ReactNativeHapticFeedback.trigger('notificationSuccess', options);
   };
 
   const stopTrack = () => {
     track.stop();
-  };
-
-  const removePost = () => {
-    db.collection('users')
-      .doc(currentUser.uid)
-      .collection('posts')
-      .doc(data.docId)
-      .delete()
-      .then(() => {
-        refresh();
-      });
+    ReactNativeHapticFeedback.trigger('notificationWarning', options);
   };
 
   return (
     <View style={styles.container}>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
-        <TouchableOpacity onPress={playTrack}>
-          <Image style={styles.albumArt} source={{uri: data.albumArt}} />
-        </TouchableOpacity>
+        <Image
+          style={styles.profilePicture}
+          source={{uri: data.profilePictureUrl}}
+        />
+
         <Text style={styles.usernameText}>{data.username} |</Text>
         <Moment element={Text} format="MMM Do YY" style={styles.date}>
           {data.date}
@@ -60,6 +58,9 @@ const UserPost = ({data, refresh, id}) => {
       <View style={{marginLeft: 70, marginRight: 30}}>
         <Text style={styles.postText}>{data.description}</Text>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <TouchableOpacity onPress={playTrack}>
+            <Image style={styles.albumArt} source={{uri: data.albumArt}} />
+          </TouchableOpacity>
           <View style={{flexDirection: 'column'}}>
             <Text style={styles.title}>{data.title}</Text>
             <Text style={styles.artist}>{data.artist}</Text>
@@ -81,8 +82,9 @@ const styles = StyleSheet.create({
   albumArt: {
     height: 50,
     width: 50,
-    borderRadius: 30,
-    marginLeft: 20,
+    borderRadius: 4,
+    marginRight: 6,
+    marginLeft: 4,
   },
   container: {
     // flexDirection: 'row',
@@ -119,7 +121,9 @@ const styles = StyleSheet.create({
   postText: {
     color: '#c1c8d4',
     fontSize: 17,
-    marginTop: 16,
+    marginTop: 4,
+    marginBottom: 10,
+    marginLeft: 6,
   },
   usernameText: {
     color: '#c1c8d4',
@@ -133,6 +137,13 @@ const styles = StyleSheet.create({
     // marginTop: 12,
     marginLeft: 16,
     color: '#22B3B2',
+  },
+  profilePicture: {
+    height: 50,
+    width: 50,
+    borderRadius: 30,
+    marginLeft: 20,
+    marginLeft: 16,
   },
 });
 

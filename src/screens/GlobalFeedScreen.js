@@ -42,21 +42,6 @@ const GlobalFeedScreen = () => {
         getPosts();
         setRefreshController(false);
       });
-    //   .then(() => {
-    //     uidArray.map((id) => {
-    //       db.collection('users')
-    //         .doc(id)
-    //         .collection('posts')
-    //         .where('type', '==', 'Song of the Day.')
-    //         .get()
-    //         .then((snapshot) => {
-    //           snapshot.forEach((doc) => {
-    //             dataArray.push(doc.data());
-    //           });
-    //           setData(dataArray);
-    //         });
-    //     });
-    //   });
   };
 
   const getPosts = () => {
@@ -66,6 +51,7 @@ const GlobalFeedScreen = () => {
         .doc(id)
         .collection('posts')
         .where('type', '==', 'Song of the Day.')
+        .limit(120)
         .get()
         .then((snapshot) => {
           snapshot.forEach((doc) => {
@@ -83,6 +69,7 @@ const GlobalFeedScreen = () => {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.headerText}>Discover music from all over! 🌎</Text>
       <FlatList
         refreshControl={
           <RefreshControl
@@ -121,6 +108,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#2a2b2b',
+  },
+  headerText: {
+    fontSize: 18,
+    color: '#c1c8d4',
+    alignSelf: 'center',
+    marginTop: 14,
+    marginBottom: 14,
+    fontWeight: 'bold',
   },
 });
 

@@ -11,7 +11,7 @@ import useResults from '../../hooks/useResults';
 import SearchResultsScreen from '../components/SearchResults';
 import LinearGradient from 'react-native-linear-gradient';
 import ExploreScreen from './ExploreScreen';
-
+import SearchDeezer from '../components/SearchDeezer';
 const SearchScreen = () => {
   const [term, setTerm] = useState('');
   const [searchApi, results, errorMessage] = useResults();
@@ -33,7 +33,6 @@ const SearchScreen = () => {
       <LinearGradient
         colors={['#2a2b2b', '#242525', '#242525']}
         style={styles.container}>
-        {/* <View style={styles.container}> */}
         {musicActive ? (
           <View style={styles.selectionContainer}>
             <Text style={styles.optionTextActive} onPress={onMusicSelect}>
@@ -54,17 +53,7 @@ const SearchScreen = () => {
           </View>
         )}
 
-        {musicActive ? (
-          <SearchBar
-            term={term}
-            onTermSubmit={() => searchApi(term)}
-            onTermChange={setTerm}
-          />
-        ) : (
-          <ExploreScreen />
-        )}
-        {results ? <SearchResultsScreen searchResults={results} /> : null}
-        {/* </View> */}
+        {musicActive ? <SearchDeezer /> : <ExploreScreen />}
       </LinearGradient>
     </TouchableWithoutFeedback>
   );
@@ -75,22 +64,23 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#242525',
     alignItems: 'center',
+    paddingBottom: 60,
   },
   selectionContainer: {
     flexDirection: 'row',
-    marginTop: 30,
+    marginTop: 36,
     borderBottomWidth: 1,
     borderBottomColor: 'gray',
   },
   optionText: {
-    fontSize: 18,
+    fontSize: 22,
     color: '#c1c8d4',
     paddingLeft: 5,
     paddingRight: 5,
     textAlign: 'center',
   },
   optionTextActive: {
-    fontSize: 18,
+    fontSize: 22,
     color: '#1E8C8B',
     paddingLeft: 5,
     paddingRight: 5,

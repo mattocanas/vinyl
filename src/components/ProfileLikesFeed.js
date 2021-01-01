@@ -30,6 +30,11 @@ const ProfileLikesFeed = ({refresh}) => {
       .then((snapshot) => {
         snapshot.forEach((doc) => {
           dataArray.push(doc.data());
+          dataArray.sort((a, b) => {
+            let a_date = new Date(a.date);
+            let b_date = new Date(b.date);
+            return b_date - a_date;
+          });
           setData(dataArray);
         });
       });

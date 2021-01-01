@@ -67,6 +67,7 @@ const PostFormScreen = ({route}) => {
           <Text style={styles.artist}>{data.artist.name}</Text>
 
           <TextInput
+            enablesReturnKeyAutomatically={true}
             placeholder="Why this song?"
             placeholderTextColor="rgba(193, 200, 212, 0.2)"
             multiline={true}

@@ -196,6 +196,8 @@ const UserDetailScreen = ({route}) => {
               </View>
             </View>
           </View>
+          <Text style={styles.bio}>{data.bio}</Text>
+
           <View style={styles.sectionsTabContainer}>
             <TouchableOpacity
               style={styles.songOfTheDaySection}
@@ -261,11 +263,8 @@ const styles = StyleSheet.create({
   profileInfoContainer: {
     flexDirection: 'row',
     alignItems: 'flex-start',
-    // marginLeft: 40,
+
     marginTop: 36,
-    // borderBottomWidth: 2,
-    // borderBottomColor: 'gray',
-    // // paddingBottom: 8,
   },
   followingContainer: {
     alignItems: 'center',
@@ -276,7 +275,7 @@ const styles = StyleSheet.create({
   },
   photoNameContainer: {
     alignItems: 'center',
-    marginRight: 40,
+    marginRight: 30,
   },
   usernameText: {
     fontSize: 20,
@@ -409,6 +408,14 @@ const styles = StyleSheet.create({
     color: '#c1c8d4',
     fontSize: 24,
     padding: 16,
+  },
+  bio: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#c1c8d4',
+    marginTop: 10,
+    marginLeft: 40,
+    alignSelf: 'flex-start',
   },
 });
 

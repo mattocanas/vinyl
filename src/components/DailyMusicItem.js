@@ -6,6 +6,7 @@ import Sound from 'react-native-sound';
 import {db} from '../../firebase/firebase';
 import {useStateProviderValue} from '../../state/StateProvider';
 import IonIcon from 'react-native-vector-icons/Ionicons';
+import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 
 const DailyMusicItem = ({
   title,
@@ -20,6 +21,10 @@ const DailyMusicItem = ({
   const [playing, setPlaying] = useState(false);
   const [{currentUser}, dispatch] = useStateProviderValue();
   const [liked, setLiked] = useState(false);
+  const options = {
+    enableVibrateFallback: true,
+    ignoreAndroidSystemSettings: false,
+  };
 
   useEffect(() => {
     let active = true;
@@ -40,9 +45,11 @@ const DailyMusicItem = ({
 
   const playTrack = () => {
     track.play();
+    ReactNativeHapticFeedback.trigger('notificationSuccess', options);
   };
 
   const stopTrack = () => {
+    ReactNativeHapticFeedback.trigger('notificationWarning', options);
     setPlaying(false);
     track.stop();
   };
@@ -63,6 +70,7 @@ const DailyMusicItem = ({
       })
       .then(() => {
         setLiked(true);
+        ReactNativeHapticFeedback.trigger('notificationSuccess', options);
       });
   };
 
@@ -89,6 +97,7 @@ const DailyMusicItem = ({
       .delete()
       .then(() => {
         setLiked(false);
+        ReactNativeHapticFeedback.trigger('notificationWarning', options);
       });
   };
 

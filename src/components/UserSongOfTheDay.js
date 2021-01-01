@@ -5,9 +5,15 @@ import Sound from 'react-native-sound';
 import {db} from '../../firebase/firebase';
 import {useStateProviderValue} from '../../state/StateProvider';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import IonIcon from 'react-native-vector-icons/Ionicons';
+import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 
 const UserSongOfTheDay = ({data, refresh}) => {
   const [{currentUser}, dispatch] = useStateProviderValue();
+  const options = {
+    enableVibrateFallback: true,
+    ignoreAndroidSystemSettings: false,
+  };
 
   useEffect(() => {
     let active = true;
@@ -27,6 +33,12 @@ const UserSongOfTheDay = ({data, refresh}) => {
 
   const playTrack = () => {
     track.play();
+    ReactNativeHapticFeedback.trigger('notificationSuccess', options);
+  };
+
+  const stopTrack = () => {
+    track.stop();
+    ReactNativeHapticFeedback.trigger('notificationError', options);
   };
 
   const removeSongOfTheDay = () => {
@@ -43,17 +55,35 @@ const UserSongOfTheDay = ({data, refresh}) => {
   return (
     <View style={styles.container}>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
-        <TouchableOpacity onPress={playTrack}>
-          <Image style={styles.albumArt} source={{uri: data.albumArt}} />
-        </TouchableOpacity>
+        <Image
+          style={styles.profilePicture}
+          source={{uri: data.profilePictureUrl}}
+        />
+
         <Moment element={Text} format="MMM Do YY" style={styles.date}>
           {data.date}
         </Moment>
       </View>
 
-      <View style={{marginLeft: 70}}>
-        <Text style={styles.title}>{data.title}</Text>
-        <Text style={styles.artist}>{data.artist}</Text>
+      <View style={{marginLeft: 70, alignItems: 'flex-start'}}>
+        <View style={{flexDirection: 'row'}}>
+          <TouchableOpacity onPress={playTrack}>
+            <Image style={styles.albumArt} source={{uri: data.albumArt}} />
+          </TouchableOpacity>
+          <View style={{flexDirection: 'row'}}>
+            <View style={{marginLeft: 10}}>
+              <Text style={styles.title}>{data.title}</Text>
+              <Text style={styles.artist}>{data.artist}</Text>
+            </View>
+            <TouchableOpacity>
+              <IonIcon
+                name="stop-circle-outline"
+                style={styles.stopIcon}
+                onPress={stopTrack}
+              />
+            </TouchableOpacity>
+          </View>
+        </View>
       </View>
     </View>
   );
@@ -61,6 +91,13 @@ const UserSongOfTheDay = ({data, refresh}) => {
 
 const styles = StyleSheet.create({
   albumArt: {
+    height: 50,
+    width: 50,
+    borderRadius: 4,
+    marginRight: 4,
+    marginLeft: 4,
+  },
+  profilePicture: {
     height: 50,
     width: 50,
     borderRadius: 30,
@@ -92,6 +129,11 @@ const styles = StyleSheet.create({
   },
   deleteContainer: {
     marginLeft: 50,
+  },
+  stopIcon: {
+    fontSize: 30,
+    marginLeft: 24,
+    color: '#22B3B2',
   },
 });
 

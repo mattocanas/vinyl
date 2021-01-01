@@ -45,8 +45,11 @@ const ExploreScreen = ({navigation}) => {
         colors={['#2a2b2b', '#242525', '#242525']}
         style={styles.container}>
         {/* <View style={styles.container}> */}
-        <Text style={styles.headerText}>Search for people to follow</Text>
+        {/* <Text style={styles.headerText}>Search for people to follow</Text> */}
         <TextInput
+          placeholder="Search for people to follow"
+          placeholderTextColor="rgba(193, 200, 212, 0.3)"
+          enablesReturnKeyAutomatically={true}
           returnKeyType="search"
           style={styles.searchBar}
           value={searchTerm}
@@ -76,7 +79,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   searchBar: {
-    marginTop: 20,
+    marginTop: 16,
     height: 30,
     width: 300,
     borderColor: 'gray',
@@ -90,9 +93,9 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   headerText: {
-    marginTop: 40,
+    marginTop: 20,
     fontSize: 24,
-    fontWeight: '700',
+    fontWeight: '600',
     color: '#1E8C8B',
     textAlign: 'center',
   },

@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import Moment from 'react-moment';
 import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import Sound from 'react-native-sound';
@@ -7,7 +7,7 @@ import IonIcon from 'react-native-vector-icons/Ionicons';
 import {db} from '../../firebase/firebase';
 import {useStateProviderValue} from '../../state/StateProvider';
 import firebase from 'firebase';
-import {useState} from 'react/cjs/react.development';
+
 import {useNavigation} from '@react-navigation/native';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 
@@ -204,79 +204,83 @@ const FeedItem = ({
                 {date}
               </Moment>
             </View>
-            {description ? (
-              <View style={styles.postTextView}>
-                <Text style={styles.postContet}>{postData.description}</Text>
-              </View>
-            ) : null}
-            <View style={styles.postContentContainer}>
-              {type == 'Song of the Day.' ? (
-                <Text style={styles.postIntroText}>Song of the day:</Text>
+            <View style={{marginLeft: 60}}>
+              {description ? (
+                <View style={styles.postTextView}>
+                  <Text style={styles.postContet}>{postData.description}</Text>
+                </View>
               ) : null}
+              <View style={styles.postContentContainer}>
+                {type == 'Song of the Day.' ? (
+                  <Text style={styles.postIntroText}>Song of the day:</Text>
+                ) : null}
 
-              <TouchableOpacity
-                style={{alignItems: 'center', flexDirection: 'row'}}
-                onPress={playTrack}>
-                <Image
-                  style={styles.albumArt}
-                  source={{
-                    uri: albumArt,
-                  }}
-                />
-              </TouchableOpacity>
+                <TouchableOpacity
+                  style={{alignItems: 'center', flexDirection: 'row'}}
+                  onPress={playTrack}>
+                  <Image
+                    style={styles.albumArt}
+                    source={{
+                      uri: albumArt,
+                    }}
+                  />
+                </TouchableOpacity>
 
-              <View style={{alignItems: 'flex-start', marginLeft: 8}}>
-                <Text style={styles.titleText}>{postData.title}</Text>
+                <View style={{alignItems: 'flex-start', marginLeft: 8}}>
+                  <Text style={styles.titleText}>{postData.title}</Text>
 
-                <Text style={styles.artistIntroText}> by </Text>
-                <Text style={styles.artistText}>{postData.artist}</Text>
+                  <Text style={styles.artistIntroText}> by </Text>
+                  <Text style={styles.artistText}>{postData.artist}</Text>
+                </View>
               </View>
+
+              {liked == true ? (
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                  <TouchableOpacity
+                    style={styles.buttonsTab}
+                    onPress={onUnlike}>
+                    <AntIcon name="heart" style={styles.likeButton} />
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() =>
+                      navigationUse.navigate('LikeListScreen', {data: likes})
+                    }>
+                    <Text style={styles.likesNumber}>
+                      {postData.likes.length.toString()} likes
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity>
+                    <IonIcon
+                      name="stop-circle-outline"
+                      style={styles.stopIcon}
+                      onPress={stopTrack}
+                    />
+                  </TouchableOpacity>
+                </View>
+              ) : (
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                  <TouchableOpacity style={styles.buttonsTab} onPress={onLike}>
+                    <AntIcon name="hearto" style={styles.likeButton} />
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() =>
+                      navigationUse.navigate('LikeListScreen', {data: likes})
+                    }>
+                    <Text style={styles.likesNumber}>
+                      {postData.likes.length.toString()} likes
+                    </Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity>
+                    <IonIcon
+                      name="stop-circle-outline"
+                      style={styles.stopIcon}
+                      onPress={stopTrack}
+                    />
+                  </TouchableOpacity>
+                </View>
+              )}
             </View>
-
-            {liked == true ? (
-              <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <TouchableOpacity style={styles.buttonsTab} onPress={onUnlike}>
-                  <AntIcon name="heart" style={styles.likeButton} />
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() =>
-                    navigationUse.navigate('LikeListScreen', {data: likes})
-                  }>
-                  <Text style={styles.likesNumber}>
-                    {postData.likes.length.toString()} likes
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity>
-                  <IonIcon
-                    name="stop-circle-outline"
-                    style={styles.stopIcon}
-                    onPress={stopTrack}
-                  />
-                </TouchableOpacity>
-              </View>
-            ) : (
-              <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <TouchableOpacity style={styles.buttonsTab} onPress={onLike}>
-                  <AntIcon name="hearto" style={styles.likeButton} />
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() =>
-                    navigationUse.navigate('LikeListScreen', {data: likes})
-                  }>
-                  <Text style={styles.likesNumber}>
-                    {postData.likes.length.toString()} likes
-                  </Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity>
-                  <IonIcon
-                    name="stop-circle-outline"
-                    style={styles.stopIcon}
-                    onPress={stopTrack}
-                  />
-                </TouchableOpacity>
-              </View>
-            )}
           </View>
         </TouchableOpacity>
       ) : null}
@@ -293,7 +297,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
     paddingBottom: 12,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: 'rgba(193, 200, 212, 0.2)',
+    borderBottomColor: 'rgba(193, 200, 212, 0.6)',
     flex: 1,
   },
   postContentContainer: {
@@ -317,8 +321,9 @@ const styles = StyleSheet.create({
   },
   postIntroText: {
     color: '#c1c8d4',
-    fontSize: 14,
+    fontSize: 16,
     marginRight: 8,
+    fontWeight: '500',
   },
   titleText: {
     color: '#1E8C8B',
@@ -363,7 +368,7 @@ const styles = StyleSheet.create({
   postContet: {
     color: '#c1c8d4',
     fontSize: 17,
-    marginTop: 16,
+    marginTop: 2,
     lineHeight: 24,
   },
   postTextView: {
