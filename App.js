@@ -267,7 +267,7 @@ function myMainStack() {
 
       <MainStack.Screen
         options={{
-          headerShown: true,
+          headerShown: false,
           headerStyle: {
             backgroundColor: '#2a2b2b',
             shadowColor: 'transparent',
@@ -287,7 +287,7 @@ function myMainStack() {
 
       <MainStack.Screen
         options={{
-          headerShown: true,
+          headerShown: false,
           headerStyle: {
             backgroundColor: '#2a2b2b',
             shadowColor: 'transparent',
@@ -307,7 +307,7 @@ function myMainStack() {
 
       <MainStack.Screen
         options={{
-          headerShown: true,
+          headerShown: false,
           headerStyle: {
             backgroundColor: '#2a2b2b',
             shadowColor: 'transparent',

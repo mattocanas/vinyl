@@ -57,21 +57,21 @@ const ProfileLike = ({data}) => {
           <Text style={styles.description}>Song of the day:</Text>
         )}
 
-        <View style={{flexDirection: 'row'}}>
+        <View style={{flexDirection: 'row', marginBottom: 4}}>
           <TouchableOpacity onPress={playTrack}>
             <Image style={styles.albumArt} source={{uri: data.albumArt}} />
           </TouchableOpacity>
           <View style={{marginLeft: 10}}>
             <Text style={styles.title}>{data.title}</Text>
             <Text style={styles.artist}>{data.artist}</Text>
-            <TouchableOpacity>
-              <IonIcon
-                name="stop-circle-outline"
-                style={styles.stopIcon}
-                onPress={stopTrack}
-              />
-            </TouchableOpacity>
           </View>
+          <TouchableOpacity>
+            <IonIcon
+              name="stop-circle-outline"
+              style={styles.stopIcon}
+              onPress={stopTrack}
+            />
+          </TouchableOpacity>
         </View>
       </View>
     </View>
@@ -94,7 +94,11 @@ const styles = StyleSheet.create({
   container: {
     // flexDirection: 'row',
     alignItems: 'flex-start',
-    marginTop: 20,
+    marginTop: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(193, 200, 212, 0.1)',
+    paddingLeft: 10,
+    paddingBottom: 6,
   },
   date: {
     fontSize: 12,
@@ -125,10 +129,9 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   stopIcon: {
-    fontSize: 30,
-    // marginTop: 12,
-
-    color: '#22B3B2',
+    fontSize: 32,
+    marginLeft: 16,
+    color: '#1E8C8B',
   },
 });
 

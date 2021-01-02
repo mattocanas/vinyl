@@ -1,5 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  ImageBackground,
+  ScrollView,
+  Dimensions,
+} from 'react-native';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome5';
@@ -9,9 +18,16 @@ import Sound from 'react-native-sound';
 import {useNavigation} from '@react-navigation/native';
 import {handleScheduleNotification} from '../notifications/notification.ios';
 import LinearGradient from 'react-native-linear-gradient';
+import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
+
+const dimensions = Dimensions.get('screen');
 
 const SongDetailScreen = ({route}) => {
   const navigationUse = useNavigation();
+  const options = {
+    enableVibrateFallback: true,
+    ignoreAndroidSystemSettings: false,
+  };
 
   const {data} = route.params;
   const [
@@ -39,6 +55,15 @@ const SongDetailScreen = ({route}) => {
 
   const playTrack = () => {
     track.play();
+    ReactNativeHapticFeedback.trigger('notificationSuccess', options);
+    {
+      track.isPlaying() == false ? track.reset() : null;
+    }
+  };
+
+  const stopTrack = () => {
+    ReactNativeHapticFeedback.trigger('notificationWarning', options);
+    track.stop();
   };
 
   const addSongOfTheDay = () => {
@@ -54,7 +79,7 @@ const SongDetailScreen = ({route}) => {
 
         artist: data.artist.name,
         title: data.title,
-        albumArt: data.album.cover,
+        albumArt: data.album.cover_xl,
         audio: data.preview,
         username: currentUser.displayName,
         uid: currentUser.uid,
@@ -94,55 +119,83 @@ const SongDetailScreen = ({route}) => {
 
   return (
     // <View style={styles.container}>
+
     <LinearGradient
       colors={['#2a2b2b', '#242525', '#242525']}
       style={styles.container}>
-      <Image style={styles.albumArt} source={{uri: data.album.cover}} />
-      <View style={styles.iconContainer}>
-        {songOfTheDay != true ? (
-          <MaterialIcon
-            name="library-add"
-            style={styles.songOfTheDayIcon}
-            onPress={addSongOfTheDay}
+      <ScrollView
+        contentContainerStyle={{alignItems: 'center'}}
+        showsVerticalScrollIndicator={false}>
+        <View style={{flexDirection: 'row'}}>
+          <Image style={styles.albumArt} source={{uri: data.album.cover_xl}} />
+        </View>
+        <View style={{flexDirection: 'row', marginTop: -34}}>
+          <TouchableOpacity style={styles.playButton} onPress={playTrack}>
+            <IonIcon name="play-circle-outline" style={styles.playIcon} />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.stopButton} onPress={stopTrack}>
+            <IonIcon name="stop-circle-outline" style={styles.stopIcon} />
+          </TouchableOpacity>
+        </View>
+
+        <Text style={styles.title}>{data.title}</Text>
+        <View
+          style={{
+            alignItems: 'center',
+            flexDirection: 'row',
+            marginTop: 8,
+          }}>
+          <Image
+            source={{uri: data.artist.picture_xl}}
+            style={styles.artistPhoto}
           />
+          <View style={{marginLeft: 4}}>
+            <Text style={styles.artist}>{data.artist.name}</Text>
+            <Text style={styles.album}>{data.album.title}</Text>
+          </View>
+        </View>
+
+        {songOfTheDay ? (
+          <Text style={styles.warning}>
+            You already have a song of the day! Head over to your profile if you
+            want to remove it.
+          </Text>
         ) : null}
-        <IonIcon
-          name="paper-plane"
-          style={styles.repostIcon}
-          onPress={() => navigationUse.navigate('PostFormScreen', {data: data})}
-        />
-      </View>
-      <Text style={{fontSize: 8, color: 'gray', marginTop: 4}}>
-        Click the plus icon to make this your song of the day!
-      </Text>
-      {songOfTheDay ? (
-        <Text style={styles.warning}>
-          You already have a song of the day! Head over to your profile if you
-          want to remove it.
+        <Text style={styles.rank}>Deezer Rank: {data.rank.toString()}</Text>
+        <Text style={styles.duration}>
+          Song Duration: {data.duration.toString()} seconds.
         </Text>
-      ) : null}
-      <Text style={styles.title}>{data.title}</Text>
-      <TouchableOpacity>
-        <Text style={styles.artist}>{data.artist.name}</Text>
-      </TouchableOpacity>
-      <Text style={styles.album}>{data.album.title}</Text>
-      <Text style={styles.rank}>Deezer Rank: {data.rank.toString()}</Text>
-      <Text style={styles.duration}>
-        Song Duration: {data.duration.toString()} seconds.
-      </Text>
-      {data.explicit_lyrics ? (
-        <Text style={styles.explcitWarning}>
-          Your grandparents might not appreciate this song. It contains explicit
-          lyrics.
+        {data.explicit_lyrics ? (
+          <Text style={styles.explcitWarning}>
+            Your grandparents might not appreciate this song. It contains
+            explicit lyrics.
+          </Text>
+        ) : null}
+        <View style={styles.iconContainer}>
+          {songOfTheDay != true ? (
+            <TouchableOpacity style={styles.songOfTheDayButton}>
+              <MaterialIcon
+                name="library-add"
+                style={styles.songOfTheDayIcon}
+                onPress={addSongOfTheDay}
+              />
+            </TouchableOpacity>
+          ) : null}
+          <TouchableOpacity style={styles.songOfTheDayButton}>
+            <IonIcon
+              name="paper-plane"
+              style={styles.repostIcon}
+              onPress={() =>
+                navigationUse.navigate('PostFormScreen', {data: data})
+              }
+            />
+          </TouchableOpacity>
+        </View>
+        <Text style={{fontSize: 8, color: 'gray', marginTop: 4}}>
+          Click the plus icon to make this your song of the day!
         </Text>
-      ) : (
-        <Text style={styles.explcitWarning}>
-          You don't have to change this song when your parents come in. It
-          doesn't have any bad words.
-        </Text>
-      )}
+      </ScrollView>
     </LinearGradient>
-    // </View>
   );
 };
 
@@ -155,30 +208,29 @@ const styles = StyleSheet.create({
     // paddingRight: 12,
   },
   albumArt: {
-    height: 200,
-    width: 200,
-    marginTop: 40,
-    borderRadius: 10,
+    height: dimensions.height / 2,
+    width: dimensions.width,
+    borderBottomLeftRadius: 60,
   },
   songOfTheDayIcon: {
     fontSize: 30,
-    color: '#5AB9B9',
-    marginLeft: 10,
+    color: '#c1c8d4',
   },
   repostIcon: {
     fontSize: 28,
     color: '#c1c8d4',
-    marginLeft: 16,
   },
   iconContainer: {
     flexDirection: 'row',
     marginTop: 16,
   },
   title: {
-    fontSize: 24,
+    fontSize: 28,
     color: '#5AB9B9',
     fontWeight: 'bold',
-    marginTop: 20,
+    marginTop: 16,
+    textAlign: 'center',
+    width: dimensions.width - 80,
   },
   artist: {
     fontSize: 22,
@@ -206,20 +258,60 @@ const styles = StyleSheet.create({
   },
   explcitWarning: {
     fontWeight: '200',
-    fontSize: 16,
+    fontSize: 14,
     color: '#c1c8d4',
-    marginTop: 12,
+    marginTop: 6,
     textAlign: 'center',
-    paddingRight: 8,
-    paddingLeft: 8,
+    width: dimensions.width - 80,
   },
   warning: {
     fontSize: 14,
     fontWeight: '500',
     color: '#7F1535',
     textAlign: 'center',
-    padding: 10,
+    padding: 4,
     marginTop: 8,
+    width: dimensions.width - 80,
+  },
+  songOfTheDayButton: {
+    backgroundColor: '#1E8C8B',
+    padding: 14,
+    borderRadius: 40,
+    margin: 10,
+  },
+  stopIcon: {
+    fontSize: 32,
+    color: '#c1c8d4',
+    marginTop: 13,
+    marginLeft: 2,
+  },
+  playIcon: {
+    fontSize: 32,
+    marginTop: 13,
+    color: '#c1c8d4',
+    marginLeft: 2,
+  },
+  playButton: {
+    backgroundColor: '#1E8C8B',
+    borderRadius: 30,
+    alignItems: 'center',
+    marginRight: 12,
+    width: 60,
+    height: 60,
+  },
+  stopButton: {
+    backgroundColor: '#1E8C8B',
+    borderRadius: 30,
+    alignItems: 'center',
+    marginRight: 12,
+    width: 60,
+    height: 60,
+  },
+  artistPhoto: {
+    height: 60,
+    width: 60,
+    borderRadius: 10,
+    marginRight: 8,
   },
 });
 

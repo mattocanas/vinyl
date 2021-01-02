@@ -1,5 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, FlatList, RefreshControl} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  RefreshControl,
+  ActivityIndicator,
+} from 'react-native';
 import {useStateProviderValue} from '../../state/StateProvider';
 import {db} from '../../firebase/firebase';
 import FeedItem from '../components/FeedItem';
@@ -24,6 +31,7 @@ const GlobalFeedScreen = () => {
   const [allData, setData] = useState([]);
   const [uidData, setUidData] = useState([]);
   const [refreshController, setRefreshController] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const refreshComponent = () => {
     setRefreshController(true);
@@ -41,6 +49,7 @@ const GlobalFeedScreen = () => {
       .then(() => {
         getPosts();
         setRefreshController(false);
+        setLoading(false);
       });
   };
 
@@ -70,6 +79,7 @@ const GlobalFeedScreen = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.headerText}>Discover music from all over! 🌎</Text>
+      {loading ? <ActivityIndicator size="large" color="#1E8C8B" /> : null}
       <FlatList
         refreshControl={
           <RefreshControl

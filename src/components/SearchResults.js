@@ -22,7 +22,7 @@ const SearchResultsScreen = ({searchResults}) => {
           renderItem={({item}) => {
             return (
               <SearchResultItem
-                albumArt={item.album.cover}
+                albumArt={item.album.cover_xl}
                 title={item.title}
                 audio={item.preview}
                 artist={item.artist.name}
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     marginLeft: 12,
   },
   flatlist: {
-    marginBottom: 140,
+    marginBottom: 90,
     paddingBottom: 30,
     marginRight: 21,
   },

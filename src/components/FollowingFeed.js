@@ -1,5 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {View, FlatList, StyleSheet, Text, RefreshControl} from 'react-native';
+import {
+  View,
+  FlatList,
+  StyleSheet,
+  Text,
+  RefreshControl,
+  ActivityIndicator,
+} from 'react-native';
 import FeedItem from './FeedItem';
 import {db} from '../../firebase/firebase';
 import {useStateProviderValue} from '../../state/StateProvider';
@@ -10,6 +17,7 @@ const FollowingFeed = () => {
   const [followingData, setFollowingData] = useState([]);
   const [refresh, setRefresh] = useState(false);
   const [refreshController, setRefreshController] = useState(false);
+  const [loading, setLoading] = useState(true);
   let followingDataArray = [];
 
   useEffect(() => {
@@ -55,6 +63,9 @@ const FollowingFeed = () => {
 
         setRefreshController(false);
         setRefresh(true);
+      })
+      .then(() => {
+        setLoading(false);
       });
   };
 
@@ -69,6 +80,7 @@ const FollowingFeed = () => {
 
   return (
     <View style={styles.container}>
+      {loading ? <ActivityIndicator size="large" color="#1E8C8B" /> : null}
       <FlatList
         refreshControl={
           <RefreshControl

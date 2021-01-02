@@ -73,14 +73,14 @@ const styles = StyleSheet.create({
     borderBottomColor: 'gray',
   },
   optionText: {
-    fontSize: 22,
+    fontSize: 30,
     color: '#c1c8d4',
     paddingLeft: 5,
     paddingRight: 5,
     textAlign: 'center',
   },
   optionTextActive: {
-    fontSize: 22,
+    fontSize: 30,
     color: '#1E8C8B',
     paddingLeft: 5,
     paddingRight: 5,

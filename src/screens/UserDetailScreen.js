@@ -123,80 +123,82 @@ const UserDetailScreen = ({route}) => {
     <View style={styles.container}>
       {(blocked != true) & (blocked2 != true) ? (
         <>
-          <View style={styles.profileInfoContainer}>
-            <View style={styles.photoNameContainer}>
-              <Image
-                style={styles.profilePicture}
-                source={{uri: data.profilePictureUrl}}
-              />
-              <Text style={styles.usernameText}>{data.username}</Text>
-            </View>
-
-            <View style={{alignItems: 'center'}}>
-              <View style={{flexDirection: 'row'}}>
-                <TouchableOpacity
-                  style={styles.followingContainer}
-                  onPress={() =>
-                    navigationUse.navigate('UserFollowingListScreen', {
-                      data: data,
-                    })
-                  }>
-                  <Text style={styles.followingNumber}>
-                    {data.followingIdList.length.toString()}
-                  </Text>
-
-                  <Text style={styles.followingText}>Following</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                  style={styles.followersContainer}
-                  onPress={() =>
-                    navigationUse.navigate('UserFollowerListScreen', {
-                      data: data,
-                    })
-                  }>
-                  <Text style={styles.followersNumber}>
-                    {data.followerIdList.length.toString()}
-                  </Text>
-
-                  <Text style={styles.followersText}>Followers</Text>
-                </TouchableOpacity>
+          <View style={{alignItems: 'flex-start'}}>
+            <View style={styles.profileInfoContainer}>
+              <View style={styles.photoNameContainer}>
+                <Image
+                  style={styles.profilePicture}
+                  source={{uri: data.profilePictureUrl}}
+                />
+                <Text style={styles.usernameText}>{data.username}</Text>
               </View>
-              <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                {currentUserData.followingIdList.includes(data.uid) ? (
+
+              <View style={{alignItems: 'center'}}>
+                <View style={{flexDirection: 'row'}}>
                   <TouchableOpacity
-                    style={styles.followButton}
-                    onPress={onUnfollow}>
-                    <Text style={styles.followText}>Following</Text>
-                  </TouchableOpacity>
-                ) : (
-                  <TouchableOpacity
-                    style={styles.followButton}
-                    onPress={onFollow}>
-                    <Text style={styles.followText}>Follow</Text>
-                  </TouchableOpacity>
-                )}
-                {data.uid != currentUser.uid ? (
-                  <MaterialCommunityIcon
+                    style={styles.followingContainer}
                     onPress={() =>
-                      navigationUse.navigate('UserSettingsScreen', {
-                        usersId: data.uid,
+                      navigationUse.navigate('UserFollowingListScreen', {
+                        data: data,
                       })
-                    }
-                    name="dots-horizontal"
-                    style={{
-                      fontSize: 30,
-                      color: '#c1c8d4',
-                      marginRight: 10,
-                      marginTop: 20,
-                      marginLeft: 12,
-                    }}
-                  />
-                ) : null}
+                    }>
+                    <Text style={styles.followingNumber}>
+                      {data.followingIdList.length.toString()}
+                    </Text>
+
+                    <Text style={styles.followingText}>Following</Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    style={styles.followersContainer}
+                    onPress={() =>
+                      navigationUse.navigate('UserFollowerListScreen', {
+                        data: data,
+                      })
+                    }>
+                    <Text style={styles.followersNumber}>
+                      {data.followerIdList.length.toString()}
+                    </Text>
+
+                    <Text style={styles.followersText}>Followers</Text>
+                  </TouchableOpacity>
+                </View>
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                  {currentUserData.followingIdList.includes(data.uid) ? (
+                    <TouchableOpacity
+                      style={styles.followButton}
+                      onPress={onUnfollow}>
+                      <Text style={styles.followText}>Following</Text>
+                    </TouchableOpacity>
+                  ) : (
+                    <TouchableOpacity
+                      style={styles.followButton}
+                      onPress={onFollow}>
+                      <Text style={styles.followText}>Follow</Text>
+                    </TouchableOpacity>
+                  )}
+                  {data.uid != currentUser.uid ? (
+                    <MaterialCommunityIcon
+                      onPress={() =>
+                        navigationUse.navigate('UserSettingsScreen', {
+                          usersId: data.uid,
+                        })
+                      }
+                      name="dots-horizontal"
+                      style={{
+                        fontSize: 30,
+                        color: '#c1c8d4',
+                        marginRight: 10,
+                        marginTop: 20,
+                        marginLeft: 12,
+                      }}
+                    />
+                  ) : null}
+                </View>
               </View>
             </View>
+            <Text style={styles.bio}>{data.bio}</Text>
           </View>
-          <Text style={styles.bio}>{data.bio}</Text>
 
           <View style={styles.sectionsTabContainer}>
             <TouchableOpacity
@@ -274,11 +276,12 @@ const styles = StyleSheet.create({
     marginLeft: 40,
   },
   photoNameContainer: {
-    alignItems: 'center',
+    alignItems: 'flex-start',
     marginRight: 30,
+    marginLeft: 10,
   },
   usernameText: {
-    fontSize: 20,
+    fontSize: 24,
     color: '#c1c8d4',
     fontWeight: 'bold',
     marginTop: 6,
@@ -340,8 +343,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     marginTop: 30,
-    borderBottomWidth: 1,
-    borderBottomColor: 'rgba(193, 200, 212, 0.1)',
     // paddingBottom: 8,
   },
   songOfTheDaySection: {
@@ -349,53 +350,42 @@ const styles = StyleSheet.create({
   },
   songOfTheDayText: {
     color: '#c1c8d4',
-    fontSize: 16,
+    fontSize: 22,
 
     fontWeight: '700',
   },
-  songOfTheDayIconText: {
-    color: '#c1c8d4',
-    fontSize: 16,
-    marginTop: 2.8,
-    fontWeight: '700',
-  },
+
   likesSection: {
     marginLeft: 4,
   },
   likesText: {
     color: '#c1c8d4',
-    fontSize: 16,
+    fontSize: 22,
 
     fontWeight: '700',
   },
   songOfTheDayTextActive: {
     color: '#1E8C8B',
-    fontSize: 16,
+    fontSize: 22,
     textDecorationLine: 'underline',
     fontWeight: '700',
   },
-  songOfTheDayIconTextActive: {
-    color: '#1E8C8B',
-    fontSize: 16,
-    // textDecorationLine: 'underline',
-    fontWeight: '700',
-    marginTop: 2.8,
-  },
+
   likesTextActive: {
     color: '#1E8C8B',
-    fontSize: 16,
+    fontSize: 22,
     textDecorationLine: 'underline',
     fontWeight: '700',
   },
   postsText: {
     color: '#c1c8d4',
-    fontSize: 16,
+    fontSize: 22,
     fontWeight: '700',
     marginRight: 16,
   },
   postsTextActive: {
     color: '#1E8C8B',
-    fontSize: 16,
+    fontSize: 22,
     textDecorationLine: 'underline',
     fontWeight: '700',
     marginRight: 16,
@@ -414,8 +404,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#c1c8d4',
     marginTop: 10,
-    marginLeft: 40,
-    alignSelf: 'flex-start',
+    marginLeft: 10,
   },
 });
 

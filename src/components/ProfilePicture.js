@@ -95,12 +95,6 @@ const ProfilePicture = ({refresh}) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    // backgroundColor: '#222831',
-    // flex: 1,
-    alignItems: 'center',
-  },
-
   profilePicture: {
     width: 100,
     height: 100,

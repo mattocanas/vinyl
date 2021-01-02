@@ -29,7 +29,7 @@ const ReportPostScreen = ({route}) => {
     dispatch,
   ] = useStateProviderValue();
   const navigation = useNavigation();
-  const [reported, setReported] = useState(true);
+  const [reported, setReported] = useState(false);
 
   useEffect(() => {
     let active = true;
@@ -43,28 +43,33 @@ const ReportPostScreen = ({route}) => {
   const onReport = () => {
     const newDocRef = db.collection('reports').doc();
 
-    newDocRef.set({
-      reportId: newDocRef.id,
-      reportedBy: currentUser.uid,
-      title,
-      artist,
-      audio,
-      albumArt,
-      profilePictureUrl,
-      uid,
-      username,
-      date,
-      likes,
-      comments,
-      type,
-      description,
-      docId,
-    });
+    newDocRef
+      .set({
+        reportId: newDocRef.id,
+        reportedBy: currentUser.uid,
+        title,
+        artist,
+        audio,
+        albumArt,
+        profilePictureUrl,
+        uid,
+        username,
+        date,
+        likes,
+        comments,
+        type,
+        description,
+        docId,
+      })
+      .then(() => {
+        navigation.navigate('HomeScreen');
+      });
   };
 
   const checkIfReported = () => {
     db.collection('reports')
       .where('reportedBy', '==', currentUser.uid)
+      .where('docId', '==', docId)
       .get()
       .then((snapshot) => {
         snapshot.forEach((doc) => {
@@ -74,9 +79,6 @@ const ReportPostScreen = ({route}) => {
             setReported(false);
           }
         });
-      })
-      .then(() => {
-        navigation.navigate('HomeScreen');
       });
   };
 

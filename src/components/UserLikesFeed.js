@@ -55,7 +55,6 @@ const UserLikesFeed = ({id}) => {
 const styles = StyleSheet.create({
   flatlist: {
     marginTop: 20,
-    marginLeft: 20,
   },
   textDNE: {
     textAlign: 'center',

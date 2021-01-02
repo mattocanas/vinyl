@@ -7,6 +7,7 @@ import {db} from '../../firebase/firebase';
 import uuid from 'react-uuid';
 import {useNavigation} from '@react-navigation/native';
 import IonIcon from 'react-native-vector-icons/Ionicons';
+import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 
 const SearchResultItem = ({
   albumArt,
@@ -17,6 +18,10 @@ const SearchResultItem = ({
   refresh,
 }) => {
   const navigationUse = useNavigation();
+  const options = {
+    enableVibrateFallback: true,
+    ignoreAndroidSystemSettings: false,
+  };
 
   const [
     {currentUser, currentUserPictureURI, currentUserData},
@@ -48,6 +53,7 @@ const SearchResultItem = ({
   };
 
   const stopTrack = () => {
+    ReactNativeHapticFeedback.trigger('notificationWarning', options);
     track.stop();
   };
 
@@ -169,7 +175,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   artist: {
-    fontSize: 12,
+    fontSize: 14,
     color: '#c1c8d4',
   },
   songOfTheDayIcon: {
@@ -186,10 +192,10 @@ const styles = StyleSheet.create({
     color: '#c1c8d4',
   },
   stopIcon: {
-    fontSize: 30,
+    fontSize: 34,
     marginTop: 12,
     // marginLeft: 16,
-    color: '#22B3B2',
+    color: '#1E8C8B',
   },
 });
 

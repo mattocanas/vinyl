@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
   stopIcon: {
     fontSize: 30,
     marginLeft: 24,
-    color: '#22B3B2',
+    color: '#1E8C8B',
   },
 });
 

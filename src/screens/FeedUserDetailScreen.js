@@ -144,78 +144,81 @@ const FeedUserDetailScreen = ({route}) => {
     } else {
       return (
         <>
-          <View style={styles.profileInfoContainer}>
-            <View style={styles.photoNameContainer}>
-              <Image
-                style={styles.profilePicture}
-                source={{uri: userData.profilePictureUrl}}
-              />
-              <Text style={styles.usernameText}>{userData.username}</Text>
-            </View>
-
-            <View style={{alignItems: 'center'}}>
-              <View style={{flexDirection: 'row'}}>
-                <TouchableOpacity
-                  style={styles.followingContainer}
-                  onPress={() =>
-                    navigationUse.navigate('UserFollowingListScreen', {
-                      data: userData,
-                    })
-                  }>
-                  <Text style={styles.followingNumber}>
-                    {userData.followingIdList.length.toString()}
-                  </Text>
-
-                  <Text style={styles.followingText}>Following</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                  style={styles.followersContainer}
-                  onPress={() =>
-                    navigationUse.navigate('UserFollowerListScreen', {
-                      data: userData,
-                    })
-                  }>
-                  <Text style={styles.followersNumber}>
-                    {userData.followerIdList.length.toString()}
-                  </Text>
-
-                  <Text style={styles.followersText}>Followers</Text>
-                </TouchableOpacity>
+          <View style={{alignItems: 'flex-start'}}>
+            <View style={styles.profileInfoContainer}>
+              <View style={styles.photoNameContainer}>
+                <Image
+                  style={styles.profilePicture}
+                  source={{uri: userData.profilePictureUrl}}
+                />
+                <Text style={styles.usernameText}>{userData.username}</Text>
               </View>
-              <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                {currentUserData.followingIdList.includes(userData.uid) ? (
+
+              <View style={{alignItems: 'center'}}>
+                <View style={{flexDirection: 'row'}}>
                   <TouchableOpacity
-                    style={styles.followButton}
-                    onPress={onUnfollow}>
-                    <Text style={styles.followText}>Following</Text>
-                  </TouchableOpacity>
-                ) : (
-                  <TouchableOpacity
-                    style={styles.followButton}
-                    onPress={onFollow}>
-                    <Text style={styles.followText}>Follow</Text>
-                  </TouchableOpacity>
-                )}
-                {userData.uid != currentUser.uid ? (
-                  <MaterialCommunityIcon
+                    style={styles.followingContainer}
                     onPress={() =>
-                      navigationUse.navigate('UserSettingsScreen', {
-                        usersId: data,
+                      navigationUse.navigate('UserFollowingListScreen', {
+                        data: userData,
                       })
-                    }
-                    name="dots-horizontal"
-                    style={{
-                      fontSize: 30,
-                      color: '#c1c8d4',
-                      marginRight: 10,
-                      marginTop: 20,
-                      marginLeft: 12,
-                    }}
-                  />
-                ) : null}
+                    }>
+                    <Text style={styles.followingNumber}>
+                      {userData.followingIdList.length.toString()}
+                    </Text>
+
+                    <Text style={styles.followingText}>Following</Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    style={styles.followersContainer}
+                    onPress={() =>
+                      navigationUse.navigate('UserFollowerListScreen', {
+                        data: userData,
+                      })
+                    }>
+                    <Text style={styles.followersNumber}>
+                      {userData.followerIdList.length.toString()}
+                    </Text>
+
+                    <Text style={styles.followersText}>Followers</Text>
+                  </TouchableOpacity>
+                </View>
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                  {currentUserData.followingIdList.includes(userData.uid) ? (
+                    <TouchableOpacity
+                      style={styles.followButton}
+                      onPress={onUnfollow}>
+                      <Text style={styles.followText}>Following</Text>
+                    </TouchableOpacity>
+                  ) : (
+                    <TouchableOpacity
+                      style={styles.followButton}
+                      onPress={onFollow}>
+                      <Text style={styles.followText}>Follow</Text>
+                    </TouchableOpacity>
+                  )}
+                  {userData.uid != currentUser.uid ? (
+                    <MaterialCommunityIcon
+                      onPress={() =>
+                        navigationUse.navigate('UserSettingsScreen', {
+                          usersId: data,
+                        })
+                      }
+                      name="dots-horizontal"
+                      style={{
+                        fontSize: 30,
+                        color: '#c1c8d4',
+                        marginRight: 10,
+                        marginTop: 20,
+                        marginLeft: 12,
+                      }}
+                    />
+                  ) : null}
+                </View>
               </View>
             </View>
+            <Text style={styles.bio}>{userData.bio}</Text>
           </View>
           <View style={styles.sectionsTabContainer}>
             <TouchableOpacity
@@ -290,11 +293,8 @@ const styles = StyleSheet.create({
   profileInfoContainer: {
     flexDirection: 'row',
     alignItems: 'flex-start',
-    // marginLeft: 40,
+
     marginTop: 36,
-    // borderBottomWidth: 2,
-    // borderBottomColor: 'gray',
-    // // paddingBottom: 8,
   },
   followingContainer: {
     alignItems: 'center',
@@ -304,11 +304,12 @@ const styles = StyleSheet.create({
     marginLeft: 40,
   },
   photoNameContainer: {
-    alignItems: 'center',
-    marginRight: 40,
+    alignItems: 'flex-start',
+    marginRight: 30,
+    marginLeft: 10,
   },
   usernameText: {
-    fontSize: 20,
+    fontSize: 24,
     color: '#c1c8d4',
     fontWeight: 'bold',
     marginTop: 6,
@@ -339,7 +340,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: '#c1c8d4',
     borderRadius: 10,
-    marginTop: 10,
+    marginTop: 20,
   },
   settingsText: {
     fontSize: 16,
@@ -370,70 +371,67 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     marginTop: 30,
-    borderBottomWidth: 1,
-    borderBottomColor: 'rgba(193, 200, 212, 0.1)',
-    // paddingBottom: 8,
   },
   songOfTheDaySection: {
     marginRight: 12,
   },
   songOfTheDayText: {
     color: '#c1c8d4',
-    fontSize: 16,
+    fontSize: 22,
 
     fontWeight: '700',
   },
-  songOfTheDayIconText: {
-    color: '#c1c8d4',
-    fontSize: 16,
-    marginTop: 2.8,
-    fontWeight: '700',
-  },
+
   likesSection: {
     marginLeft: 4,
   },
   likesText: {
     color: '#c1c8d4',
-    fontSize: 16,
+    fontSize: 22,
 
     fontWeight: '700',
   },
   songOfTheDayTextActive: {
     color: '#1E8C8B',
-    fontSize: 16,
+    fontSize: 22,
     textDecorationLine: 'underline',
     fontWeight: '700',
   },
-  songOfTheDayIconTextActive: {
-    color: '#1E8C8B',
-    fontSize: 16,
-    // textDecorationLine: 'underline',
-    fontWeight: '700',
-    marginTop: 2.8,
-  },
+
   likesTextActive: {
     color: '#1E8C8B',
-    fontSize: 16,
+    fontSize: 22,
     textDecorationLine: 'underline',
     fontWeight: '700',
   },
   postsText: {
     color: '#c1c8d4',
-    fontSize: 16,
+    fontSize: 22,
     fontWeight: '700',
     marginRight: 16,
   },
   postsTextActive: {
     color: '#1E8C8B',
-    fontSize: 16,
+    fontSize: 22,
     textDecorationLine: 'underline',
     fontWeight: '700',
     marginRight: 16,
+  },
+  menuButton: {
+    color: '#c1c8d4',
+    fontSize: 16,
   },
   blockedText: {
     color: '#c1c8d4',
     fontSize: 24,
     padding: 16,
+  },
+  bio: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#c1c8d4',
+    marginTop: 10,
+    marginLeft: 10,
   },
 });
 

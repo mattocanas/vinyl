@@ -43,31 +43,35 @@ const ProfileSongOfTheDay = ({data, refresh}) => {
 
   return (
     <View style={styles.container}>
-      <View style={{flexDirection: 'row'}}>
+      <View style={{flexDirection: 'row', alignItems: 'center'}}>
         <Image
           style={styles.profilePicture}
           source={{uri: data.profilePictureUrl}}
         />
 
-        <View style={{marginLeft: 10}}>
-          <View style={{flexDirection: 'row'}}>
-            <TouchableOpacity onPress={playTrack}>
-              <Image style={styles.albumArt} source={{uri: data.albumArt}} />
-            </TouchableOpacity>
-            <Moment element={Text} format="MMM Do YY" style={styles.date}>
-              {data.date}
-            </Moment>
+        <Text style={styles.usernameText}>{data.username} |</Text>
+        <Moment element={Text} format="MMM Do YY" style={styles.date}>
+          {data.date}
+        </Moment>
+      </View>
+
+      <View style={{marginLeft: 70, marginRight: 30}}>
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <TouchableOpacity onPress={playTrack}>
+            <Image style={styles.albumArt} source={{uri: data.albumArt}} />
+          </TouchableOpacity>
+          <View style={{flexDirection: 'column'}}>
+            <Text style={styles.title}>{data.title}</Text>
+            <Text style={styles.artist}>{data.artist}</Text>
           </View>
-          <Text style={styles.title}>{data.title}</Text>
-          <Text style={styles.artist}>{data.artist}</Text>
+          <TouchableOpacity>
+            <IonIcon
+              name="stop-circle-outline"
+              style={styles.stopIcon}
+              onPress={stopTrack}
+            />
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity>
-          <IonIcon
-            name="stop-circle-outline"
-            style={styles.stopIcon}
-            onPress={stopTrack}
-          />
-        </TouchableOpacity>
       </View>
     </View>
   );
@@ -78,18 +82,16 @@ const styles = StyleSheet.create({
     height: 50,
     width: 50,
     borderRadius: 4,
-    marginRight: 4,
+    marginRight: 6,
     marginLeft: 4,
-  },
-  profilePicture: {
-    height: 50,
-    width: 50,
-    borderRadius: 30,
   },
   container: {
     // flexDirection: 'row',
     alignItems: 'flex-start',
     marginTop: 20,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: 'rgba(193, 200, 212, 0.2)',
+    paddingBottom: 12,
   },
   date: {
     fontSize: 12,
@@ -101,18 +103,45 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '700',
     color: '#1E8C8B',
+    marginTop: 4,
   },
   artist: {
     fontWeight: '300',
     fontSize: 14,
     color: '#5AB9B9',
   },
-
+  deleteIcon: {
+    color: '#c43b4c',
+    fontSize: 24,
+  },
+  deleteContainer: {
+    marginLeft: 100,
+  },
+  postText: {
+    color: '#c1c8d4',
+    fontSize: 17,
+    marginTop: 4,
+    marginBottom: 10,
+    marginLeft: 6,
+  },
+  usernameText: {
+    color: '#c1c8d4',
+    fontWeight: 'bold',
+    marginLeft: 8,
+    marginTop: 4,
+    fontSize: 14,
+  },
   stopIcon: {
     fontSize: 30,
     // marginTop: 12,
     marginLeft: 16,
     color: '#22B3B2',
+  },
+  profilePicture: {
+    height: 50,
+    width: 50,
+    borderRadius: 30,
+    marginLeft: 16,
   },
 });
 

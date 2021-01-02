@@ -38,7 +38,7 @@ const PostFormScreen = ({route}) => {
 
         artist: data.artist.name,
         title: data.title,
-        albumArt: data.album.cover,
+        albumArt: data.album.cover_xl,
         audio: data.preview,
         username: currentUser.displayName,
         uid: currentUser.uid,
@@ -61,7 +61,7 @@ const PostFormScreen = ({route}) => {
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{alignItems: 'center'}}
           style={styles.container}>
-          <Image style={styles.albumArt} source={{uri: data.album.cover}} />
+          <Image style={styles.albumArt} source={{uri: data.album.cover_xl}} />
 
           <Text style={styles.title}>{data.title}</Text>
           <Text style={styles.artist}>{data.artist.name}</Text>
@@ -90,18 +90,21 @@ const styles = StyleSheet.create({
     backgroundColor: '#2a2b2b',
   },
   albumArt: {
-    height: 200,
-    width: 200,
-    marginTop: 40,
-    borderRadius: 10,
+    height: 400,
+    width: 420,
+    paddingTop: 10,
+    borderBottomLeftRadius: 64,
+    marginLeft: 10,
   },
   title: {
     fontSize: 26,
-    color: '#5AB9B9',
+    color: '#1E8C8B',
     fontWeight: 'bold',
     marginTop: 20,
     marginLeft: 8,
     marginRight: 8,
+    textAlign: 'center',
+    width: 260,
   },
   artist: {
     fontSize: 24,
@@ -110,8 +113,8 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   input: {
-    width: 300,
-    height: 100,
+    width: 340,
+    height: 140,
     borderWidth: 2,
     borderColor: '#c1c8d4',
     color: '#c1c8d4',
@@ -125,10 +128,10 @@ const styles = StyleSheet.create({
   },
   postButton: {
     backgroundColor: '#1E8C8B',
-    padding: 6,
-    borderRadius: 10,
+    padding: 10,
+    borderRadius: 20,
     marginTop: 20,
-    marginLeft: 200,
+    marginLeft: 240,
   },
   shareText: {
     color: '#212121',

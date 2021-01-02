@@ -204,7 +204,7 @@ const FeedItem = ({
                 {date}
               </Moment>
             </View>
-            <View style={{marginLeft: 60}}>
+            <View style={{marginLeft: 10}}>
               {description ? (
                 <View style={styles.postTextView}>
                   <Text style={styles.postContet}>{postData.description}</Text>
@@ -292,13 +292,15 @@ const styles = StyleSheet.create({
   mainContainer: {
     flexDirection: 'column',
     alignItems: 'flex-start',
-    marginLeft: 20,
-    marginTop: 8,
-    marginRight: 10,
+    paddingLeft: 16,
+    // marginTop: 8,
+    paddingRight: 10,
     paddingBottom: 12,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: 'rgba(193, 200, 212, 0.6)',
+    borderBottomColor: 'rgba(193, 200, 212, 0.4)',
     flex: 1,
+    marginBottom: 8,
+    // backgroundColor: 'rgba(18, 18, 18,0.4)',
   },
   postContentContainer: {
     flexDirection: 'row',
@@ -316,29 +318,32 @@ const styles = StyleSheet.create({
     height: 50,
     width: 50,
     borderRadius: 4,
-    marginRight: 4,
+    marginRight: 0,
     marginLeft: 4,
   },
   postIntroText: {
     color: '#c1c8d4',
-    fontSize: 16,
-    marginRight: 8,
-    fontWeight: '500',
+    fontSize: 18,
+    marginRight: 6,
+    fontWeight: '600',
   },
   titleText: {
     color: '#1E8C8B',
-    fontSize: 14,
-    fontWeight: '500',
+    fontSize: 16,
+    fontWeight: '700',
+    width: 164,
   },
   artistIntroText: {
     color: '#c1c8d4',
-    fontSize: 14,
+    fontSize: 16,
     marginLeft: 2,
+    width: 164,
   },
   artistText: {
     color: '#5AB9B9',
-    fontSize: 14,
-    fontWeight: '500',
+    fontSize: 16,
+    fontWeight: '700',
+    width: 164,
   },
   usernameText: {
     color: '#c1c8d4',
@@ -368,17 +373,17 @@ const styles = StyleSheet.create({
   postContet: {
     color: '#c1c8d4',
     fontSize: 17,
-    marginTop: 2,
+    marginTop: 12,
     lineHeight: 24,
   },
   postTextView: {
     marginRight: 10,
   },
   stopIcon: {
-    fontSize: 30,
+    fontSize: 34,
     marginTop: 12,
     marginLeft: 12,
-    color: '#22B3B2',
+    color: '#1E8C8B',
   },
   likesNumber: {
     marginTop: 10,

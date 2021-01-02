@@ -1,6 +1,14 @@
 import React, {useEffect} from 'react';
 import Moment from 'react-moment';
-import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  Dimensions,
+  ScrollView,
+} from 'react-native';
 import Sound from 'react-native-sound';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import IonIcon from 'react-native-vector-icons/Ionicons';
@@ -9,6 +17,10 @@ import {useStateProviderValue} from '../../state/StateProvider';
 import firebase from 'firebase';
 import {useState} from 'react/cjs/react.development';
 import {useNavigation} from '@react-navigation/native';
+import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
+import AntIcon from 'react-native-vector-icons/AntDesign';
+
+const dimensions = Dimensions.get('screen');
 
 const PostDetailScreen = ({route}) => {
   const {
@@ -30,6 +42,10 @@ const PostDetailScreen = ({route}) => {
   const [{currentUser}, dispatch] = useStateProviderValue();
   const [liked, setLiked] = useState(false);
   const navigationUse = useNavigation();
+  const options = {
+    enableVibrateFallback: true,
+    ignoreAndroidSystemSettings: false,
+  };
 
   useEffect(() => {
     let active = true;
@@ -51,9 +67,14 @@ const PostDetailScreen = ({route}) => {
 
   const playTrack = () => {
     track.play();
+    ReactNativeHapticFeedback.trigger('notificationSuccess', options);
+    {
+      track.isPlaying() == false ? track.reset() : null;
+    }
   };
 
   const stopTrack = () => {
+    ReactNativeHapticFeedback.trigger('notificationWarning', options);
     track.stop();
   };
 
@@ -144,207 +165,206 @@ const PostDetailScreen = ({route}) => {
 
   return (
     <View style={styles.mainContainer}>
-      <View style={styles.profileContainer}>
-        <TouchableOpacity
-          onPress={() =>
-            navigationUse.navigate('FeedUserDetailScreen', {data: uid})
-          }>
-          <Image
-            style={styles.profilePicture}
-            source={{
-              uri: profilePictureUrl,
-            }}
-          />
-        </TouchableOpacity>
-        <Text style={styles.usernameText}>{username} |</Text>
-        <Moment element={Text} format="MMM Do YY" style={styles.dateText}>
-          {date}
-        </Moment>
-      </View>
-      {description ? (
-        <View style={styles.postTextView}>
-          <Text style={styles.postContet}>{description}</Text>
+      <ScrollView
+        contentContainerStyle={{alignItems: 'flex-start'}}
+        showsVerticalScrollIndicator={false}>
+        <Image
+          style={styles.albumArt}
+          source={{
+            uri: albumArt,
+          }}
+        />
+
+        <View style={styles.profileContainer}>
+          <TouchableOpacity
+            onPress={() =>
+              navigationUse.navigate('FeedUserDetailScreen', {data: uid})
+            }>
+            <Image
+              style={styles.profilePicture}
+              source={{
+                uri: profilePictureUrl,
+              }}
+            />
+          </TouchableOpacity>
+          <Text style={styles.usernameText}>{username} |</Text>
+          <Moment element={Text} format="MMM Do YY" style={styles.dateText}>
+            {date}
+          </Moment>
         </View>
-      ) : null}
-      <View style={styles.postContentContainer}>
-        {type == 'Song of the Day.' ? (
-          <Text style={styles.postIntroText}>Song of the day:</Text>
+        {description ? (
+          <View style={styles.postTextView}>
+            <Text style={styles.postContet}>{description}</Text>
+          </View>
         ) : null}
+        <View style={styles.postContentContainer}>
+          {type == 'Song of the Day.' ? (
+            <Text style={styles.postIntroText}>Song of the day:</Text>
+          ) : null}
 
-        <TouchableOpacity
-          style={{alignItems: 'center', flexDirection: 'row'}}
-          onPress={playTrack}>
-          <Image
-            style={styles.albumArt}
-            source={{
-              uri: albumArt,
-            }}
-          />
-        </TouchableOpacity>
+          <View style={{alignItems: 'center', marginLeft: 0}}>
+            <Text style={styles.titleText}>{title}</Text>
 
-        <View style={{alignItems: 'flex-start', marginLeft: 8}}>
-          <Text style={styles.titleText}>{title}</Text>
-
-          <Text style={styles.artistIntroText}> by </Text>
-          <Text style={styles.artistText}>{artist}</Text>
+            <Text style={styles.artistIntroText}> by </Text>
+            <Text style={styles.artistText}>{artist}</Text>
+          </View>
         </View>
-      </View>
 
-      {liked == true ? (
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          {/* <TouchableOpacity style={styles.buttonsTab} onPress={onUnlike}>
-            <AntIcon name="heart" style={styles.likeButton} />
-          </TouchableOpacity> */}
+        {liked == true ? (
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            {/* <TouchableOpacity style={styles.buttonsTab} onPress={onUnlike}>
+              <AntIcon name="heart" style={styles.likeButton} />
+            </TouchableOpacity> */}
 
-          <TouchableOpacity
-            onPress={() =>
-              navigationUse.navigate('LikeListScreen', {data: likes})
-            }>
-            <Text style={styles.likesNumber}>
-              {likes.length.toString()} likes
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <IonIcon
-              name="stop-circle-outline"
-              style={styles.stopIcon}
-              onPress={stopTrack}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() =>
-              navigationUse.navigate('ReportPostScreen', {
-                title,
-                artist,
-                audio,
-                albumArt,
-                profilePictureUrl,
-                uid,
-                username,
-                date,
-                likes,
-                comments,
-                type,
-                description,
-                docId,
-              })
-            }>
-            <MaterialIcon name="report" style={styles.reportButton} />
-          </TouchableOpacity>
-        </View>
-      ) : (
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          {/* <TouchableOpacity style={styles.buttonsTab} onPress={onLike}>
-            <AntIcon name="hearto" style={styles.likeButton} />
-          </TouchableOpacity> */}
-          <TouchableOpacity
-            onPress={() =>
-              navigationUse.navigate('LikeListScreen', {data: likes})
-            }>
-            <Text style={styles.likesNumber}>
-              {likes.length.toString()} likes
-            </Text>
-          </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() =>
+                navigationUse.navigate('LikeListScreen', {data: likes})
+              }>
+              <Text style={styles.likesNumber}>
+                {likes.length.toString()} likes
+              </Text>
+            </TouchableOpacity>
 
-          <TouchableOpacity>
-            <IonIcon
-              name="stop-circle-outline"
-              style={styles.stopIcon}
-              onPress={stopTrack}
-            />
+            <TouchableOpacity
+              onPress={() =>
+                navigationUse.navigate('ReportPostScreen', {
+                  title,
+                  artist,
+                  audio,
+                  albumArt,
+                  profilePictureUrl,
+                  uid,
+                  username,
+                  date,
+                  likes,
+                  comments,
+                  type,
+                  description,
+                  docId,
+                })
+              }>
+              <MaterialIcon name="report" style={styles.reportButton} />
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            {/* <TouchableOpacity style={styles.buttonsTab} onPress={onLike}>
+              <AntIcon name="hearto" style={styles.likeButton} />
+            </TouchableOpacity> */}
+            <TouchableOpacity
+              onPress={() =>
+                navigationUse.navigate('LikeListScreen', {data: likes})
+              }>
+              <Text style={styles.likesNumber}>
+                {likes.length.toString()} likes
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() =>
+                navigationUse.navigate('ReportPostScreen', {
+                  title,
+                  artist,
+                  audio,
+                  albumArt,
+                  profilePictureUrl,
+                  uid,
+                  username,
+                  date,
+                  likes,
+                  comments,
+                  type,
+                  description,
+                  docId,
+                })
+              }>
+              <MaterialIcon name="report" style={styles.reportButton} />
+            </TouchableOpacity>
+          </View>
+        )}
+        <View
+          style={{flexDirection: 'row', alignSelf: 'center', marginTop: 30}}>
+          <TouchableOpacity style={styles.playButton} onPress={playTrack}>
+            <IonIcon name="play-circle-outline" style={styles.playIcon} />
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() =>
-              navigationUse.navigate('ReportPostScreen', {
-                title,
-                artist,
-                audio,
-                albumArt,
-                profilePictureUrl,
-                uid,
-                username,
-                date,
-                likes,
-                comments,
-                type,
-                description,
-                docId,
-              })
-            }>
-            <MaterialIcon name="report" style={styles.reportButton} />
+          <TouchableOpacity style={styles.stopButton} onPress={stopTrack}>
+            <IonIcon name="stop-circle-outline" style={styles.stopIcon} />
           </TouchableOpacity>
         </View>
-      )}
+      </ScrollView>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   mainContainer: {
-    backgroundColor: '#2a2b2b',
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-
-    paddingBottom: 12,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: 'rgba(193, 200, 212, 0.2)',
     flex: 1,
-    padding: 20,
+    backgroundColor: '#2a2b2b',
+    alignItems: 'center',
+    // paddingLeft: 12,
+    // paddingRight: 12,
   },
   postContentContainer: {
     flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: 14,
-    marginLeft: 0,
+
+    marginTop: 24,
+    marginLeft: 34,
   },
 
   profilePicture: {
-    height: 60,
-    width: 60,
-    borderRadius: 30,
+    height: 90,
+    width: 90,
+    borderRadius: 60,
+    marginLeft: 30,
+    marginTop: -50,
+    borderColor: '#1E8C8B',
+    borderWidth: 2,
   },
   albumArt: {
-    height: 50,
-    width: 50,
-    borderRadius: 4,
-    marginRight: 4,
-    marginLeft: 4,
+    height: dimensions.height / 2,
+    width: dimensions.width,
+    borderBottomRightRadius: 60,
   },
   postIntroText: {
     color: '#c1c8d4',
-    fontSize: 14,
-    marginRight: 8,
+    fontSize: 18,
+    marginRight: 0,
   },
   titleText: {
     color: '#1E8C8B',
-    fontSize: 14,
+    fontSize: 18,
     fontWeight: '500',
+    width: 200,
+    marginLeft: 8,
   },
   artistIntroText: {
     color: '#c1c8d4',
-    fontSize: 14,
+    fontSize: 16,
     marginLeft: 2,
+
+    width: 200,
   },
   artistText: {
     color: '#5AB9B9',
-    fontSize: 14,
+    fontSize: 18,
     fontWeight: '500',
+    width: 200,
   },
   usernameText: {
     color: '#c1c8d4',
     fontWeight: 'bold',
     marginLeft: 8,
     marginTop: 4,
-    fontSize: 14,
+    fontSize: 20,
   },
   profileContainer: {
     flexDirection: 'row',
   },
   dateText: {
-    fontSize: 10,
+    fontSize: 12,
     marginLeft: 4,
     color: 'gray',
-    marginTop: 8,
+    marginTop: 10,
   },
   likeButton: {
     color: '#7F1535',
@@ -352,35 +372,61 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   buttonsTab: {
-    marginLeft: 15,
+    marginLeft: 44,
     marginTop: 4,
   },
   postContet: {
     color: '#c1c8d4',
-    fontSize: 17,
+    fontSize: 18,
     marginTop: 16,
     lineHeight: 24,
+    marginLeft: 44,
+    width: dimensions.width - 60,
   },
   postTextView: {
     marginRight: 10,
   },
   stopIcon: {
-    fontSize: 30,
-    marginTop: 12,
-    marginLeft: 12,
-    color: '#22B3B2',
+    fontSize: 32,
+    color: '#c1c8d4',
+    marginTop: 13,
+    marginLeft: 2,
+  },
+  playIcon: {
+    fontSize: 32,
+    marginTop: 13,
+    color: '#c1c8d4',
+    marginLeft: 2,
+  },
+  playButton: {
+    backgroundColor: '#1E8C8B',
+    borderRadius: 30,
+    alignItems: 'center',
+    marginRight: 16,
+    width: 60,
+    height: 60,
+    marginBottom: 60,
+  },
+  stopButton: {
+    backgroundColor: '#1E8C8B',
+    borderRadius: 30,
+    alignItems: 'center',
+    marginRight: 16,
+    width: 60,
+    height: 60,
+    marginBottom: 60,
   },
   likesNumber: {
-    marginTop: 10,
-    fontSize: 16,
-    fontWeight: '400',
+    marginTop: 14,
+    fontSize: 20,
+    fontWeight: '500',
     color: '#c1c8d4',
-    marginLeft: 10,
+    marginLeft: 50,
   },
   reportButton: {
     color: '#7F1535',
     fontSize: 30,
-    marginTop: 12,
+    marginTop: 16,
     marginLeft: 12,
   },
 });

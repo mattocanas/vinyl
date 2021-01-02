@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     // marginTop: 12,
     marginLeft: 16,
-    color: '#22B3B2',
+    color: '#1E8C8B',
   },
   profilePicture: {
     height: 50,
