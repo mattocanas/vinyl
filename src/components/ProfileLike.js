@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     borderBottomWidth: 1,
     borderBottomColor: 'rgba(193, 200, 212, 0.1)',
-    paddingLeft: 10,
+    paddingLeft: 20,
     paddingBottom: 6,
   },
   date: {

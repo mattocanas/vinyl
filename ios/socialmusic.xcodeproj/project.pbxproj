@@ -15,7 +15,6 @@
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* socialmusicTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* socialmusicTests.m */; };
-		53CFBCD025A1742400FF81CA /* libRNTrackPlayer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 53CFBCCA25A173E400FF81CA /* libRNTrackPlayer.a */; };
 		58841EA02D1A4C2AD234253C /* libPods-socialmusic-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C3CD3D97C28819BAA2146B3 /* libPods-socialmusic-tvOS.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		A9FFD230DE2C43A010BB05F2 /* libPods-socialmusic-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 71FAE62EAA241948E0CBCB4C /* libPods-socialmusic-tvOSTests.a */; };
@@ -44,13 +43,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 19825A1E1BD4A89800EE0337;
 			remoteInfo = RNSound;
-		};
-		53CFBCC925A173E400FF81CA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 53CFBCC425A173E400FF81CA /* RNTrackPlayer.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 9B0E28291F07D76F00B71D2A;
-			remoteInfo = RNTrackPlayer;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -93,7 +85,6 @@
 		53946EE2258ABB9D000A8D1E /* Foundation.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Foundation.ttf; sourceTree = "<group>"; };
 		53946EE3258ABB9D000A8D1E /* EvilIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = EvilIcons.ttf; sourceTree = "<group>"; };
 		53ACE429259EE956001F7B2F /* socialmusicRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = socialmusicRelease.entitlements; path = socialmusic/socialmusicRelease.entitlements; sourceTree = "<group>"; };
-		53CFBCC425A173E400FF81CA /* RNTrackPlayer.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNTrackPlayer.xcodeproj; path = "../node_modules/react-native-track-player/ios/RNTrackPlayer.xcodeproj"; sourceTree = "<group>"; };
 		53CFBCDF25A1747D00FF81CA /* socialmusic-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "socialmusic-Bridging-Header.h"; sourceTree = "<group>"; };
 		53D57E38259AAF7A008B8E8D /* socialmusic.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = socialmusic.entitlements; path = socialmusic/socialmusic.entitlements; sourceTree = "<group>"; };
 		5BEF68FB39514D709FF45614 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
@@ -134,7 +125,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				53CFBCD025A1742400FF81CA /* libRNTrackPlayer.a in Frameworks */,
 				BF337376AE3A0A57668A2FFC /* libPods-socialmusic.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -275,18 +265,9 @@
 			name = Fonts;
 			sourceTree = "<group>";
 		};
-		53CFBCC525A173E400FF81CA /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				53CFBCCA25A173E400FF81CA /* libRNTrackPlayer.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				53CFBCC425A173E400FF81CA /* RNTrackPlayer.xcodeproj */,
 				53303C5E259EAFD7001DDC70 /* RNSound.xcodeproj */,
 			);
 			name = Libraries;
@@ -445,10 +426,6 @@
 					ProductGroup = 53303C5F259EAFD7001DDC70 /* Products */;
 					ProjectRef = 53303C5E259EAFD7001DDC70 /* RNSound.xcodeproj */;
 				},
-				{
-					ProductGroup = 53CFBCC525A173E400FF81CA /* Products */;
-					ProjectRef = 53CFBCC425A173E400FF81CA /* RNTrackPlayer.xcodeproj */;
-				},
 			);
 			projectRoot = "";
 			targets = (
@@ -466,13 +443,6 @@
 			fileType = archive.ar;
 			path = libRNSound.a;
 			remoteRef = 53303C62259EAFD7001DDC70 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		53CFBCCA25A173E400FF81CA /* libRNTrackPlayer.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRNTrackPlayer.a;
-			remoteRef = 53CFBCC925A173E400FF81CA /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -880,7 +850,7 @@
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = KRQVHNR8QP;
 				ENABLE_BITCODE = NO;
-				EXCLUDED_ARCHS = "";
+				EXCLUDED_ARCHS = arm64;
 				INFOPLIST_FILE = socialmusic/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 1.1;
@@ -907,7 +877,7 @@
 				CODE_SIGN_ENTITLEMENTS = socialmusic/socialmusicRelease.entitlements;
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = KRQVHNR8QP;
-				EXCLUDED_ARCHS = "";
+				EXCLUDED_ARCHS = arm64;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = socialmusic/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

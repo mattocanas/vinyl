@@ -56,6 +56,7 @@ const UserPostsFeed = ({id}) => {
     <View style={styles.container}>
       {data[0] != null ? (
         <FlatList
+          contentContainerStyle={{paddingBottom: 300}}
           keyExtractor={(item) => item.docId}
           data={data}
           renderItem={({item}) => (

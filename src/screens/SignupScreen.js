@@ -79,7 +79,7 @@ const SignupScreen = ({navigation}) => {
             verified: false,
             lowercase: name.split(' ').join('').toLowerCase(),
             profilePictureUrl:
-              'https://s3.us-west-2.amazonaws.com/secure.notion-static.com/0d02fd8f-1763-46c2-98ff-7311b19b5795/defaultProfilePicture.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20201229%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20201229T174635Z&X-Amz-Expires=86400&X-Amz-Signature=fd03a33f11e25092fe35db26f6b5c46db50788326d391089cd9cad50725d61aa&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22defaultProfilePicture.jpg%22',
+              'https://static.wixstatic.com/media/9ce729_4d97f1f5b18547d8a9039d0268c83a41~mv2.jpg/v1/fill/w_830,h_830,al_c,q_85/defaultProfilePicture.webp',
           });
       });
     return () => {

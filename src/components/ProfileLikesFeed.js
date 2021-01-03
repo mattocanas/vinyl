@@ -1,5 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  StyleSheet,
+  SafeAreaView,
+} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 import {get} from 'react-native/Libraries/Utilities/PixelRatio';
 import {db} from '../../firebase/firebase';
@@ -41,24 +48,30 @@ const ProfileLikesFeed = ({refresh}) => {
   };
 
   return (
-    <View style={{flex: 1}}>
+    <>
       {data[0] != null ? (
-        <FlatList
-          style={styles.flatlist}
-          keyExtractor={(item) => item.docId}
-          data={data}
-          renderItem={({item}) => <ProfileLike data={item} />}
-        />
+        <SafeAreaView style={styles.container}>
+          <FlatList
+            contentContainerStyle={{paddingBottom: 300}}
+            style={styles.flatlist}
+            keyExtractor={(item) => item.docId}
+            data={data}
+            renderItem={({item}) => <ProfileLike data={item} />}
+          />
+        </SafeAreaView>
       ) : (
         <Text style={styles.textDNE}>You havent liked anything yet!</Text>
       )}
-    </View>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
   flatlist: {
-    marginTop: 20,
+    marginBottom: 1,
+  },
+  container: {
+    flex: 1,
   },
   textDNE: {
     textAlign: 'center',
