@@ -9,10 +9,12 @@ import {
 } from 'react-native';
 import {auth} from '../../firebase/firebase';
 import {useStateProviderValue} from '../../state/StateProvider';
+import Sound from 'react-native-sound';
 
 const App = ({navigation}) => {
   const [{currentUser}, dispatch] = useStateProviderValue();
   useEffect(() => {
+    Sound.setCategory('Playback');
     auth.onAuthStateChanged((user) => {
       if (user) {
         dispatch({

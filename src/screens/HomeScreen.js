@@ -4,6 +4,7 @@ import DailyMusic from '../components/DailyMusic';
 import FollowingFeed from '../components/FollowingFeed';
 import {useStateProviderValue} from '../../state/StateProvider';
 import {db} from '../../firebase/firebase';
+import Sound from 'react-native-sound';
 
 const HomeScreen = () => {
   const [

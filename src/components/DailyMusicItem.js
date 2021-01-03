@@ -21,6 +21,7 @@ const DailyMusicItem = ({
   const [playing, setPlaying] = useState(false);
   const [{currentUser}, dispatch] = useStateProviderValue();
   const [liked, setLiked] = useState(false);
+  const [song, setSong] = useState(null);
   const options = {
     enableVibrateFallback: true,
     ignoreAndroidSystemSettings: false,
@@ -28,12 +29,12 @@ const DailyMusicItem = ({
 
   useEffect(() => {
     let active = true;
-    Sound.setCategory('Playback');
     checkIfLiked();
+    setSong(track);
     return () => {
       active = false;
     };
-  }, [liked]);
+  }, [liked, track]);
 
   const track = new Sound(audio, null, (e) => {
     if (e) {
@@ -44,14 +45,15 @@ const DailyMusicItem = ({
   });
 
   const playTrack = () => {
-    track.play();
+    song.play();
     ReactNativeHapticFeedback.trigger('notificationSuccess', options);
   };
 
   const stopTrack = () => {
     ReactNativeHapticFeedback.trigger('notificationWarning', options);
     setPlaying(false);
-    track.stop();
+    song.stop();
+    song.reset();
   };
 
   const likePost = () => {

@@ -118,28 +118,26 @@ const SearchResultItem = ({
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => playTrack()}>
+      <TouchableOpacity
+        style={{flexDirection: 'row', alignItems: 'center'}}
+        onPress={() =>
+          navigationUse.navigate('SongDetailScreen', {data: allData})
+        }>
         <Image style={styles.albumArt} source={{uri: albumArt}} />
-      </TouchableOpacity>
-
-      <View style={styles.songInfoContainer}>
-        <TouchableOpacity
-          onPress={() =>
-            navigationUse.navigate('SongDetailScreen', {data: allData})
-          }>
+        <View style={styles.songInfoContainer}>
           <Text style={styles.title}>{title}</Text>
 
           <Text style={styles.artist}>{artist}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity>
+
+          {/* <TouchableOpacity>
           <IonIcon
             name="stop-circle-outline"
             style={styles.stopIcon}
             onPress={stopTrack}
           />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
-        {/* {songOfTheDay ? (
+          {/* {songOfTheDay ? (
           <TouchableOpacity>
             <Text style={styles.songOfTheDayWarning}>
               You already have a song of the day!
@@ -152,7 +150,8 @@ const SearchResultItem = ({
             onPress={addSongOfTheDay}
           />
         )} */}
-      </View>
+        </View>
+      </TouchableOpacity>
     </View>
   );
 };

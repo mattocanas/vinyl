@@ -7,7 +7,6 @@ import IonIcon from 'react-native-vector-icons/Ionicons';
 import {db} from '../../firebase/firebase';
 import {useStateProviderValue} from '../../state/StateProvider';
 import firebase from 'firebase';
-
 import {useNavigation} from '@react-navigation/native';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 
@@ -27,23 +26,23 @@ const FeedItem = ({
   docId,
   refresh,
 }) => {
-  useEffect(() => {
-    let active = true;
-    Sound.setCategory('Playback');
-    checkIfLiked();
-
-    return () => {
-      active = false;
-    };
-  }, [liked]);
   const [{currentUser}, dispatch] = useStateProviderValue();
   const [liked, setLiked] = useState(false);
   const [postData, setPostData] = useState(null);
   const navigationUse = useNavigation();
+  const [song, setSong] = useState(null);
   const options = {
     enableVibrateFallback: true,
     ignoreAndroidSystemSettings: false,
   };
+  useEffect(() => {
+    let active = true;
+    checkIfLiked();
+    setSong(track);
+    return () => {
+      active = false;
+    };
+  }, [liked, track]);
 
   const track = new Sound(audio, null, (e) => {
     if (e) {
@@ -54,14 +53,14 @@ const FeedItem = ({
   });
 
   const playTrack = () => {
-    track.play();
-    {
-      track.isPlaying() == false ? track.reset() : null;
-    }
+    song.play();
+    ReactNativeHapticFeedback.trigger('notificationSuccess', options);
   };
 
   const stopTrack = () => {
-    track.stop();
+    ReactNativeHapticFeedback.trigger('notificationWarning', options);
+    song.stop();
+    song.reset();
   };
 
   const getData = () => {
