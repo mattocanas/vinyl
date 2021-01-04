@@ -71,9 +71,7 @@ const UserSongOfTheDay = ({data, refresh}) => {
 
       <View style={{marginLeft: 70, alignItems: 'flex-start'}}>
         <View style={{flexDirection: 'row'}}>
-          <TouchableOpacity onPress={playTrack}>
-            <Image style={styles.albumArt} source={{uri: data.albumArt}} />
-          </TouchableOpacity>
+          <Image style={styles.albumArt} source={{uri: data.albumArt}} />
           <View style={{flexDirection: 'row'}}>
             <View style={{marginLeft: 10}}>
               <Text style={styles.title}>{data.title}</Text>
@@ -132,8 +130,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '700',
     color: '#1E8C8B',
-    marginRight: 12,
-    width: 134,
+    marginRight: 0,
+    width: 124,
   },
   artist: {
     fontWeight: '300',

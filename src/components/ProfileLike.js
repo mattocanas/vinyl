@@ -62,9 +62,7 @@ const ProfileLike = ({data}) => {
         )}
 
         <View style={{flexDirection: 'row', marginBottom: 4}}>
-          <TouchableOpacity onPress={playTrack}>
-            <Image style={styles.albumArt} source={{uri: data.albumArt}} />
-          </TouchableOpacity>
+          <Image style={styles.albumArt} source={{uri: data.albumArt}} />
           <View style={{marginLeft: 10}}>
             <Text style={styles.title}>{data.title}</Text>
             <Text style={styles.artist}>{data.artist}</Text>
@@ -125,8 +123,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '700',
     color: '#1E8C8B',
-    marginRight: 12,
-    width: 134,
+    marginRight: 0,
+    width: 124,
   },
   artist: {
     fontWeight: '300',

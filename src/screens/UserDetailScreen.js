@@ -123,7 +123,12 @@ const UserDetailScreen = ({route}) => {
     <View style={styles.container}>
       {(blocked != true) & (blocked2 != true) ? (
         <>
-          <View style={{alignItems: 'flex-start'}}>
+          <View
+            style={{
+              alignItems: 'flex-start',
+              borderBottomWidth: 1,
+              borderBottomColor: 'gray',
+            }}>
             <View style={styles.profileInfoContainer}>
               <View style={styles.photoNameContainer}>
                 <Image
@@ -405,6 +410,7 @@ const styles = StyleSheet.create({
     color: '#c1c8d4',
     marginTop: 10,
     marginLeft: 10,
+    marginBottom: 4,
   },
 });
 

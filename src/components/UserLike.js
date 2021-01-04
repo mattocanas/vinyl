@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
 import Moment from 'react-moment';
 import Sound from 'react-native-sound';
@@ -124,8 +124,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '700',
     color: '#1E8C8B',
-    marginRight: 12,
-    width: 134,
+    marginRight: 0,
+    width: 124,
   },
   artist: {
     fontWeight: '300',

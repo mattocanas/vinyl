@@ -1,5 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  StyleSheet,
+  Dimensions,
+} from 'react-native';
 import Sound from 'react-native-sound';
 import ProfilePicture from '../components/ProfilePicture';
 import {useStateProviderValue} from '../../state/StateProvider';
@@ -10,6 +17,8 @@ import {useNavigation} from '@react-navigation/native';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AntIcon from 'react-native-vector-icons/AntDesign';
 import LinearGradient from 'react-native-linear-gradient';
+
+const dimensions = Dimensions.get('screen');
 
 const ProfileScreen = ({navigation}) => {
   const navigationUse = useNavigation();
@@ -64,7 +73,12 @@ const ProfileScreen = ({navigation}) => {
           colors={['#2a2b2b', '#242525', '#242525']}
           style={styles.container}>
           {/* <View style={styles.container}> */}
-          <View style={{alignItems: 'flex-start'}}>
+          <View
+            style={{
+              alignItems: 'center',
+              borderBottomWidth: 1,
+              borderBottomColor: 'gray',
+            }}>
             <View style={styles.profileInfoContainer}>
               <View style={styles.photoNameContainer}>
                 <ProfilePicture refresh={() => refreshScreen()} />
@@ -73,7 +87,10 @@ const ProfileScreen = ({navigation}) => {
                 </Text>
               </View>
 
-              <View style={{alignItems: 'center'}}>
+              <View
+                style={{
+                  alignItems: 'center',
+                }}>
                 <View style={{flexDirection: 'row'}}>
                   <TouchableOpacity
                     style={styles.followingContainer}
@@ -178,7 +195,7 @@ const styles = StyleSheet.create({
   },
   profileInfoContainer: {
     flexDirection: 'row',
-
+    alignItems: 'flex-start',
     // marginLeft: 40,
     marginTop: 36,
   },
@@ -289,6 +306,8 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#c1c8d4',
     marginTop: 10,
+    alignSelf: 'flex-start',
+    marginBottom: 4,
   },
 });
 

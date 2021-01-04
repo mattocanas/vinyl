@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
-import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome5';
+import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useStateProviderValue} from '../../state/StateProvider';
 import {db} from '../../firebase/firebase';
 import Sound from 'react-native-sound';
@@ -157,14 +157,35 @@ const SongDetailScreen = ({route}) => {
             style={styles.artistPhoto}
           /> */}
           <View style={{alignItems: 'center'}}>
-            <Text style={styles.artist}>{data.artist.name}</Text>
-            <Text
-              onPress={() =>
-                navigationUse.navigate('AlbumDetailScreen', {id: data.album.id})
-              }
-              style={styles.album}>
-              {data.album.title}
-            </Text>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                alignSelf: 'center',
+              }}>
+              <MaterialCommunityIcon
+                name="microphone-variant"
+                style={styles.artist}
+              />
+              <Text style={styles.artist}>{data.artist.name}</Text>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                alignSelf: 'center',
+              }}>
+              <MaterialIcon name="album" style={styles.album} />
+              <Text
+                onPress={() =>
+                  navigationUse.navigate('AlbumDetailScreen', {
+                    id: data.album.id,
+                  })
+                }
+                style={styles.album}>
+                {data.album.title}
+              </Text>
+            </View>
           </View>
         </View>
 
@@ -238,39 +259,42 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
   title: {
-    fontSize: 28,
-    color: '#5AB9B9',
-    fontWeight: 'bold',
-    marginTop: 16,
+    fontSize: 32,
+    color: '#1E8C8B',
+    fontWeight: '400',
+    width: 300,
     textAlign: 'center',
+    marginTop: 16,
     width: dimensions.width - 80,
   },
   artist: {
-    fontSize: 22,
-    fontWeight: '500',
+    fontSize: 30,
     color: '#b8c2c2',
-    marginTop: 4,
+    fontWeight: '300',
+    textAlign: 'center',
+    marginTop: 0,
   },
   album: {
-    fontSize: 16,
-    fontWeight: '600',
+    fontSize: 28,
+    fontWeight: '300',
     color: '#b8c2c2',
     marginTop: 4,
+    padding: 2,
   },
   rank: {
-    fontWeight: '200',
+    fontWeight: '300',
     fontSize: 18,
     color: '#c1c8d4',
     marginTop: 16,
   },
   duration: {
-    fontWeight: '200',
+    fontWeight: '300',
     fontSize: 18,
     color: '#c1c8d4',
     marginTop: 4,
   },
   explcitWarning: {
-    fontWeight: '200',
+    fontWeight: '300',
     fontSize: 14,
     color: '#c1c8d4',
     marginTop: 6,

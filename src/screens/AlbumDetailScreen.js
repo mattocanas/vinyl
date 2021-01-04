@@ -108,6 +108,7 @@ const styles = StyleSheet.create({
     width: 300,
     textAlign: 'center',
     marginTop: 8,
+    width: dimensions.width - 80,
   },
   artistNameText: {
     fontSize: 22,
