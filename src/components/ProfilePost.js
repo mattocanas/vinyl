@@ -10,6 +10,8 @@ import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 
 const ProfilePost = ({data, refresh}) => {
   const [{currentUser}, dispatch] = useStateProviderValue();
+  const [ready, setReady] = useState(false);
+
   const options = {
     enableVibrateFallback: true,
     ignoreAndroidSystemSettings: false,
@@ -21,13 +23,14 @@ const ProfilePost = ({data, refresh}) => {
     return () => {
       active = false;
     };
-  }, []);
+  }, [ready]);
 
   const track = new Sound(data.audio, null, (e) => {
     if (e) {
       console.log('error', e);
     } else {
       // all good
+      setReady(true);
     }
   });
 
@@ -59,20 +62,31 @@ const ProfilePost = ({data, refresh}) => {
       <View style={{marginLeft: 70, marginRight: 30}}>
         <Text style={styles.postText}>{data.description}</Text>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <TouchableOpacity onPress={playTrack}>
+          <View>
             <Image style={styles.albumArt} source={{uri: data.albumArt}} />
-          </TouchableOpacity>
+          </View>
           <View style={{flexDirection: 'column'}}>
             <Text style={styles.title}>{data.title}</Text>
             <Text style={styles.artist}>{data.artist}</Text>
           </View>
-          <TouchableOpacity>
-            <IonIcon
-              name="stop-circle-outline"
-              style={styles.stopIcon}
-              onPress={stopTrack}
-            />
-          </TouchableOpacity>
+          {ready ? (
+            <>
+              <TouchableOpacity>
+                <IonIcon
+                  name="play-circle-outline"
+                  style={styles.stopIcon}
+                  onPress={playTrack}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity>
+                <IonIcon
+                  name="stop-circle-outline"
+                  style={styles.stopIcon}
+                  onPress={stopTrack}
+                />
+              </TouchableOpacity>
+            </>
+          ) : null}
         </View>
       </View>
     </View>
@@ -105,7 +119,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '700',
     color: '#1E8C8B',
-    marginTop: 4,
+    marginRight: 12,
+    width: 134,
   },
   artist: {
     fontWeight: '300',
@@ -134,10 +149,9 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   stopIcon: {
-    fontSize: 30,
-    // marginTop: 12,
-    marginLeft: 16,
-    color: '#22B3B2',
+    fontSize: 32,
+    marginRight: 4,
+    color: '#1E8C8B',
   },
   profilePicture: {
     height: 50,

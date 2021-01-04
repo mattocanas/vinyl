@@ -23,7 +23,16 @@ import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 const dimensions = Dimensions.get('screen');
 
 const SongDetailScreen = ({route}) => {
+  useEffect(() => {
+    let active = true;
+    Sound.setCategory('Playback');
+    checkIfSongOfTheDayExists();
+    return () => {
+      active = false;
+    };
+  }, [ready]);
   const navigationUse = useNavigation();
+  const [ready, setReady] = useState(false);
   const options = {
     enableVibrateFallback: true,
     ignoreAndroidSystemSettings: false,
@@ -36,34 +45,24 @@ const SongDetailScreen = ({route}) => {
   ] = useStateProviderValue();
 
   const [songOfTheDay, setSongOfTheDay] = useState(false);
-  useEffect(() => {
-    let active = true;
-    Sound.setCategory('Playback');
-    checkIfSongOfTheDayExists();
-    return () => {
-      active = false;
-    };
-  }, []);
 
   const track = new Sound(data.preview, null, (e) => {
     if (e) {
       console.log('error', e);
     } else {
-      // all good
+      setReady(true);
     }
   });
 
   const playTrack = () => {
     track.play();
     ReactNativeHapticFeedback.trigger('notificationSuccess', options);
-    {
-      track.isPlaying() == false ? track.reset() : null;
-    }
   };
 
   const stopTrack = () => {
     ReactNativeHapticFeedback.trigger('notificationWarning', options);
     track.stop();
+    track.reset();
   };
 
   const addSongOfTheDay = () => {
@@ -135,14 +134,16 @@ const SongDetailScreen = ({route}) => {
         <View style={{flexDirection: 'row'}}>
           <Image style={styles.albumArt} source={{uri: data.album.cover_xl}} />
         </View>
-        <View style={{flexDirection: 'row', marginTop: -34}}>
-          <TouchableOpacity style={styles.playButton} onPress={playTrack}>
-            <IonIcon name="play-circle-outline" style={styles.playIcon} />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.stopButton} onPress={stopTrack}>
-            <IonIcon name="stop-circle-outline" style={styles.stopIcon} />
-          </TouchableOpacity>
-        </View>
+        {ready ? (
+          <View style={{flexDirection: 'row', marginTop: -34}}>
+            <TouchableOpacity style={styles.playButton} onPress={playTrack}>
+              <IonIcon name="play-circle-outline" style={styles.playIcon} />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.stopButton} onPress={stopTrack}>
+              <IonIcon name="stop-circle-outline" style={styles.stopIcon} />
+            </TouchableOpacity>
+          </View>
+        ) : null}
 
         <Text style={styles.title}>{data.title}</Text>
         <View

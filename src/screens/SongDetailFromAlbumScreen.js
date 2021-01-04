@@ -26,6 +26,8 @@ const dimensions = Dimensions.get('screen');
 
 const SongDetailFromAlbumScreen = ({route}) => {
   const navigationUse = useNavigation();
+  const [ready, setReady] = useState(false);
+
   const options = {
     enableVibrateFallback: true,
     ignoreAndroidSystemSettings: false,
@@ -49,7 +51,7 @@ const SongDetailFromAlbumScreen = ({route}) => {
     return () => {
       active = false;
     };
-  }, []);
+  }, [ready]);
 
   const addSongOfTheDay = () => {
     let newDocRef = db
@@ -116,7 +118,7 @@ const SongDetailFromAlbumScreen = ({route}) => {
         if (e) {
           console.log('error', e);
         } else {
-          // all good
+          setReady(true);
         }
       });
 
@@ -143,14 +145,16 @@ const SongDetailFromAlbumScreen = ({route}) => {
               source={{uri: data.album.cover_xl}}
             />
           </View>
-          <View style={{flexDirection: 'row', marginTop: -34}}>
-            <TouchableOpacity style={styles.playButton} onPress={playTrack}>
-              <IonIcon name="play-circle-outline" style={styles.playIcon} />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.stopButton} onPress={stopTrack}>
-              <IonIcon name="stop-circle-outline" style={styles.stopIcon} />
-            </TouchableOpacity>
-          </View>
+          {ready ? (
+            <View style={{flexDirection: 'row', marginTop: -34}}>
+              <TouchableOpacity style={styles.playButton} onPress={playTrack}>
+                <IonIcon name="play-circle-outline" style={styles.playIcon} />
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.stopButton} onPress={stopTrack}>
+                <IonIcon name="stop-circle-outline" style={styles.stopIcon} />
+              </TouchableOpacity>
+            </View>
+          ) : null}
 
           <Text style={styles.title}>{data.title}</Text>
           <View

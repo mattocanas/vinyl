@@ -6,13 +6,15 @@ import IonIcon from 'react-native-vector-icons/Ionicons';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 
 const UserLike = ({data}) => {
+  const [ready, setReady] = useState(false);
+
   useEffect(() => {
     let active = true;
     Sound.setCategory('Playback');
     return () => {
       active = false;
     };
-  }, []);
+  }, [ready]);
   const options = {
     enableVibrateFallback: true,
     ignoreAndroidSystemSettings: false,
@@ -23,6 +25,7 @@ const UserLike = ({data}) => {
       console.log('error', e);
     } else {
       // all good
+      setReady(true);
     }
   });
 
@@ -65,13 +68,24 @@ const UserLike = ({data}) => {
             <Text style={styles.title}>{data.title}</Text>
             <Text style={styles.artist}>{data.artist}</Text>
           </View>
-          <TouchableOpacity>
-            <IonIcon
-              name="stop-circle-outline"
-              style={styles.stopIcon}
-              onPress={stopTrack}
-            />
-          </TouchableOpacity>
+          {ready ? (
+            <>
+              <TouchableOpacity>
+                <IonIcon
+                  name="play-circle-outline"
+                  style={styles.stopIcon}
+                  onPress={playTrack}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity>
+                <IonIcon
+                  name="stop-circle-outline"
+                  style={styles.stopIcon}
+                  onPress={stopTrack}
+                />
+              </TouchableOpacity>
+            </>
+          ) : null}
         </View>
       </View>
     </View>
@@ -110,6 +124,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '700',
     color: '#1E8C8B',
+    marginRight: 12,
+    width: 134,
   },
   artist: {
     fontWeight: '300',
@@ -130,7 +146,7 @@ const styles = StyleSheet.create({
   },
   stopIcon: {
     fontSize: 32,
-    marginLeft: 16,
+    marginRight: 4,
     color: '#1E8C8B',
   },
 });

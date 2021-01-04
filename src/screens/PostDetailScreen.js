@@ -47,6 +47,8 @@ const PostDetailScreen = ({route}) => {
   const [{currentUser}, dispatch] = useStateProviderValue();
   const [liked, setLiked] = useState(false);
   const navigationUse = useNavigation();
+  const [ready, setReady] = useState(false);
+
   const options = {
     enableVibrateFallback: true,
     ignoreAndroidSystemSettings: false,
@@ -60,13 +62,14 @@ const PostDetailScreen = ({route}) => {
     return () => {
       active = false;
     };
-  }, []);
+  }, [ready]);
 
   const track = new Sound(audio, null, (e) => {
     if (e) {
       console.log('error', e);
     } else {
       // all good
+      setReady(true);
     }
   });
 
@@ -329,15 +332,17 @@ const PostDetailScreen = ({route}) => {
             </TouchableOpacity>
           </View>
         )}
-        <View
-          style={{flexDirection: 'row', alignSelf: 'center', marginTop: 30}}>
-          <TouchableOpacity style={styles.playButton} onPress={playTrack}>
-            <IonIcon name="play-circle-outline" style={styles.playIcon} />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.stopButton} onPress={stopTrack}>
-            <IonIcon name="stop-circle-outline" style={styles.stopIcon} />
-          </TouchableOpacity>
-        </View>
+        {ready ? (
+          <View
+            style={{flexDirection: 'row', alignSelf: 'center', marginTop: 30}}>
+            <TouchableOpacity style={styles.playButton} onPress={playTrack}>
+              <IonIcon name="play-circle-outline" style={styles.playIcon} />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.stopButton} onPress={stopTrack}>
+              <IonIcon name="stop-circle-outline" style={styles.stopIcon} />
+            </TouchableOpacity>
+          </View>
+        ) : null}
       </ScrollView>
     </View>
   );

@@ -14,6 +14,7 @@ const HomeScreen = () => {
 
   useEffect(() => {
     let active = true;
+    Sound.setCategory('Playback');
     db.collection('users')
       .doc(currentUser.uid)
       .onSnapshot((doc) => {
@@ -27,6 +28,18 @@ const HomeScreen = () => {
           currentUserData: data,
         });
       });
+
+    const track = new Sound(
+      'https://developers.deezer.com/%22https://cdns-preview-4.dzcdn.net/stream/c-44d3354d6fb4a85a6cbad12731f1d9be-4.mp3/%22',
+      null,
+      (e) => {
+        if (e) {
+          console.log('error', e);
+        } else {
+          // all good
+        }
+      },
+    );
     return () => {
       active = false;
     };

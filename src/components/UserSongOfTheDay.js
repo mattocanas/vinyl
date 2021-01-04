@@ -10,6 +10,8 @@ import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 
 const UserSongOfTheDay = ({data, refresh}) => {
   const [{currentUser}, dispatch] = useStateProviderValue();
+  const [ready, setReady] = useState(false);
+
   const options = {
     enableVibrateFallback: true,
     ignoreAndroidSystemSettings: false,
@@ -21,13 +23,14 @@ const UserSongOfTheDay = ({data, refresh}) => {
     return () => {
       active = false;
     };
-  }, []);
+  }, [ready]);
 
   const track = new Sound(data.audio, null, (e) => {
     if (e) {
       console.log('error', e);
     } else {
       // all good
+      setReady(true);
     }
   });
 
@@ -76,13 +79,24 @@ const UserSongOfTheDay = ({data, refresh}) => {
               <Text style={styles.title}>{data.title}</Text>
               <Text style={styles.artist}>{data.artist}</Text>
             </View>
-            <TouchableOpacity>
-              <IonIcon
-                name="stop-circle-outline"
-                style={styles.stopIcon}
-                onPress={stopTrack}
-              />
-            </TouchableOpacity>
+            {ready ? (
+              <>
+                <TouchableOpacity>
+                  <IonIcon
+                    name="play-circle-outline"
+                    style={styles.stopIcon}
+                    onPress={playTrack}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity>
+                  <IonIcon
+                    name="stop-circle-outline"
+                    style={styles.stopIcon}
+                    onPress={stopTrack}
+                  />
+                </TouchableOpacity>
+              </>
+            ) : null}
           </View>
         </View>
       </View>
@@ -118,6 +132,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '700',
     color: '#1E8C8B',
+    marginRight: 12,
+    width: 134,
   },
   artist: {
     fontWeight: '300',
@@ -132,8 +148,8 @@ const styles = StyleSheet.create({
     marginLeft: 50,
   },
   stopIcon: {
-    fontSize: 30,
-    marginLeft: 24,
+    fontSize: 32,
+    marginRight: 4,
     color: '#1E8C8B',
   },
 });
