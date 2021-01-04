@@ -75,6 +75,7 @@ const SignupScreen = ({navigation}) => {
             blockedUsersIdList: [],
             username: username.split(' ').join('').toLowerCase(),
             uid: cred.user.uid,
+            points: 0,
             name: name,
             verified: false,
             lowercase: name.split(' ').join('').toLowerCase(),

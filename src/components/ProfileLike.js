@@ -33,6 +33,7 @@ const ProfileLike = ({data}) => {
 
   const stopTrack = () => {
     track.stop();
+    track.reset();
     ReactNativeHapticFeedback.trigger('notificationWarning', options);
   };
 

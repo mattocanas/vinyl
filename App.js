@@ -38,6 +38,8 @@ import OcticonIcon from 'react-native-vector-icons/Octicons';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import SimpleLineIcon from 'react-native-vector-icons/SimpleLineIcons';
 import GlobalFeedScreen from './src/screens/GlobalFeedScreen';
+import AlbumDetailScreen from './src/screens/AlbumDetailScreen';
+import SongDetailFromAlbumScreen from './src/screens/SongDetailFromAlbumScreen';
 
 // create bottom nav bar
 const Tabs = createMaterialBottomTabNavigator();
@@ -367,6 +369,26 @@ function myMainStack() {
 
       <MainStack.Screen
         options={{
+          headerShown: false,
+          headerStyle: {
+            backgroundColor: '#2a2b2b',
+            shadowColor: 'transparent',
+          },
+          headerTitleStyle: {
+            color: '#c1c8d4',
+            fontSize: 32,
+            fontWeight: '700',
+          },
+          title: 'Vinyl',
+          headerTintColor: '#c1c8d4',
+          headerBackTitleVisible: false,
+        }}
+        name="AlbumDetailScreen"
+        component={AlbumDetailScreen}
+      />
+
+      <MainStack.Screen
+        options={{
           headerShown: true,
           headerStyle: {
             backgroundColor: '#2a2b2b',
@@ -403,6 +425,26 @@ function myMainStack() {
         }}
         name="UserFollowerListScreen"
         component={UserFollowerListScreen}
+      />
+
+      <MainStack.Screen
+        options={{
+          headerShown: false,
+          headerStyle: {
+            backgroundColor: '#2a2b2b',
+            shadowColor: 'transparent',
+          },
+          headerTitleStyle: {
+            color: '#c1c8d4',
+            fontSize: 32,
+            fontWeight: '700',
+          },
+          title: 'Vinyl',
+          headerTintColor: '#c1c8d4',
+          headerBackTitleVisible: false,
+        }}
+        name="SongDetailFromAlbumScreen"
+        component={SongDetailFromAlbumScreen}
       />
 
       <MainStack.Screen

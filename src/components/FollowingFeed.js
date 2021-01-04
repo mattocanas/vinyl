@@ -110,6 +110,12 @@ const FollowingFeed = () => {
             docId={item.docId}
             type={item.type}
             description={item.description}
+            albumId={item.albumId}
+            albumName={item.albumName}
+            albumTracklist={item.albumTracklist}
+            artistId={item.artistId}
+            artistTracklist={item.artistTracklist}
+            trackId={item.trackId}
             refresh={() => refreshProp()}
           />
         )}

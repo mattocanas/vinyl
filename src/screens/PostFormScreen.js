@@ -39,6 +39,12 @@ const PostFormScreen = ({route}) => {
         artist: data.artist.name,
         title: data.title,
         albumArt: data.album.cover_xl,
+        albumId: data.album.id,
+        artistId: data.artist.id,
+        artistTracklist: data.artist.tracklist,
+        albumTracklist: data.album.tracklist,
+        albumName: data.album.title,
+        trackId: data.id,
         audio: data.preview,
         username: currentUser.displayName,
         uid: currentUser.uid,
@@ -47,6 +53,7 @@ const PostFormScreen = ({route}) => {
         likes: [],
         comments: {},
         description: text,
+        imageURL: '',
         type: 'Post',
       })
       .then(() => navigationUse.navigate('HomeScreen'));

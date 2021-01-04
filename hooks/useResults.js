@@ -4,6 +4,8 @@ import deezer from '../api/deezer';
 export default () => {
   const [results, setResults] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
+  const [albumTracklist, setAlbumTracklist] = useState('');
+  const [albumData, setAlbumData] = useState(null);
 
   const searchApi = async (searchTerm) => {
     // console.log('hi there');

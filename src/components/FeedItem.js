@@ -23,6 +23,12 @@ const FeedItem = ({
   comments,
   type,
   description,
+  albumId,
+  albumName,
+  albumTracklist,
+  artistId,
+  artistTracklist,
+  trackId,
   docId,
   refresh,
 }) => {
@@ -93,6 +99,12 @@ const FeedItem = ({
         docId: docId,
         description: description,
         type: type,
+        albumId,
+        albumName,
+        albumTracklist,
+        artistId,
+        artistTracklist,
+        trackId,
       });
 
     db.collection('users')
@@ -182,6 +194,12 @@ const FeedItem = ({
               comments,
               type,
               description,
+              albumId,
+              albumName,
+              albumTracklist,
+              artistId,
+              artistTracklist,
+              trackId,
               docId,
             })
           }>

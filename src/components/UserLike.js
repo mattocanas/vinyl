@@ -28,6 +28,7 @@ const UserLike = ({data}) => {
 
   const playTrack = () => {
     track.play();
+    track.reset();
     ReactNativeHapticFeedback.trigger('notificationSuccess', options);
   };
 

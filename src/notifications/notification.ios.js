@@ -9,7 +9,7 @@ const showNotification = (title, message) => {
 
 const handleScheduleNotification = (title, message) => {
   const date = new Date();
-  date.setSeconds(date.getSeconds() * 90000);
+  date.setSeconds(date.getSeconds() * 10000);
   PushNotificationIOS.scheduleLocalNotification({
     alertTitle: title,
     alertBody: message,

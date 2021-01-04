@@ -38,6 +38,7 @@ const UserSongOfTheDay = ({data, refresh}) => {
 
   const stopTrack = () => {
     track.stop();
+    track.reset();
     ReactNativeHapticFeedback.trigger('notificationError', options);
   };
 

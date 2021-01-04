@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import Moment from 'react-moment';
 import {
   View,
@@ -15,7 +15,6 @@ import IonIcon from 'react-native-vector-icons/Ionicons';
 import {db} from '../../firebase/firebase';
 import {useStateProviderValue} from '../../state/StateProvider';
 import firebase from 'firebase';
-import {useState} from 'react/cjs/react.development';
 import {useNavigation} from '@react-navigation/native';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import AntIcon from 'react-native-vector-icons/AntDesign';
@@ -36,6 +35,12 @@ const PostDetailScreen = ({route}) => {
     comments,
     type,
     description,
+    albumId,
+    albumName,
+    albumTracklist,
+    artistId,
+    artistTracklist,
+    trackId,
     docId,
   } = route.params;
 
@@ -49,7 +54,7 @@ const PostDetailScreen = ({route}) => {
 
   useEffect(() => {
     let active = true;
-    Sound.setCategory('Playback');
+
     checkIfLiked();
 
     return () => {
@@ -76,6 +81,7 @@ const PostDetailScreen = ({route}) => {
   const stopTrack = () => {
     ReactNativeHapticFeedback.trigger('notificationWarning', options);
     track.stop();
+    track.reset();
   };
 
   const onLike = () => {
@@ -199,15 +205,56 @@ const PostDetailScreen = ({route}) => {
         ) : null}
         <View style={styles.postContentContainer}>
           {type == 'Song of the Day.' ? (
-            <Text style={styles.postIntroText}>Song of the day:</Text>
-          ) : null}
+            <View>
+              <Text style={styles.postIntroText}>Song of the day:</Text>
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <Text
+                  onPress={() =>
+                    navigationUse.navigate('SongDetailFromAlbumScreen', {
+                      id: trackId,
+                    })
+                  }
+                  style={styles.titleTextSOTD}>
+                  {title}
+                </Text>
+                <Text style={styles.albumIntroTextSOTD}>from</Text>
+                <Text
+                  onPress={() =>
+                    navigationUse.navigate('AlbumDetailScreen', {id: albumId})
+                  }
+                  style={styles.albumTextSOTD}>
+                  {albumName}
+                </Text>
+              </View>
 
-          <View style={{alignItems: 'center', marginLeft: 0}}>
-            <Text style={styles.titleText}>{title}</Text>
+              <Text style={styles.artistIntroTextSOTD}> by </Text>
+              <Text style={styles.artistTextSOTD}>{artist}</Text>
+            </View>
+          ) : (
+            <View>
+              <Text
+                onPress={() =>
+                  navigationUse.navigate('SongDetailFromAlbumScreen', {
+                    id: trackId,
+                  })
+                }
+                style={styles.titleText}>
+                {title}
+              </Text>
 
-            <Text style={styles.artistIntroText}> by </Text>
-            <Text style={styles.artistText}>{artist}</Text>
-          </View>
+              <Text style={styles.albumIntroText}>from</Text>
+              <Text
+                onPress={() =>
+                  navigationUse.navigate('AlbumDetailScreen', {id: albumId})
+                }
+                style={styles.albumText}>
+                {albumName}
+              </Text>
+
+              <Text style={styles.artistIntroText}> by </Text>
+              <Text style={styles.artistText}>{artist}</Text>
+            </View>
+          )}
         </View>
 
         {liked == true ? (
@@ -306,7 +353,6 @@ const styles = StyleSheet.create({
   },
   postContentContainer: {
     flexDirection: 'row',
-
     marginTop: 24,
     marginLeft: 34,
   },
@@ -327,28 +373,25 @@ const styles = StyleSheet.create({
   },
   postIntroText: {
     color: '#c1c8d4',
-    fontSize: 18,
-    marginRight: 0,
+    fontSize: 24,
+    fontWeight: '700',
+    marginBottom: 8,
   },
   titleText: {
     color: '#1E8C8B',
-    fontSize: 18,
-    fontWeight: '500',
-    width: 200,
-    marginLeft: 8,
+    fontSize: 24,
+    fontWeight: '300',
+    marginBottom: 8,
   },
   artistIntroText: {
     color: '#c1c8d4',
-    fontSize: 16,
+    fontSize: 18,
     marginLeft: 2,
-
-    width: 200,
   },
   artistText: {
     color: '#5AB9B9',
-    fontSize: 18,
-    fontWeight: '500',
-    width: 200,
+    fontSize: 24,
+    fontWeight: '300',
   },
   usernameText: {
     color: '#c1c8d4',
@@ -417,7 +460,7 @@ const styles = StyleSheet.create({
     marginBottom: 60,
   },
   likesNumber: {
-    marginTop: 14,
+    marginTop: 24,
     fontSize: 20,
     fontWeight: '500',
     color: '#c1c8d4',
@@ -426,8 +469,45 @@ const styles = StyleSheet.create({
   reportButton: {
     color: '#7F1535',
     fontSize: 30,
-    marginTop: 16,
+    marginTop: 24,
     marginLeft: 12,
+  },
+  albumIntroText: {
+    color: '#c1c8d4',
+    fontSize: 18,
+    marginBottom: 2,
+  },
+  albumText: {
+    color: '#1E8C8B',
+    fontSize: 24,
+    fontWeight: '300',
+    width: 310,
+    marginBottom: 8,
+  },
+  albumIntroTextSOTD: {
+    color: '#c1c8d4',
+    fontSize: 18,
+    marginRight: 8,
+    marginLeft: 8,
+  },
+  albumTextSOTD: {
+    color: '#1E8C8B',
+    fontSize: 24,
+    fontWeight: '300',
+  },
+  artistIntroTextSOTD: {
+    color: '#c1c8d4',
+    fontSize: 18,
+  },
+  artistTextSOTD: {
+    color: '#5AB9B9',
+    fontSize: 24,
+    fontWeight: '300',
+  },
+  titleTextSOTD: {
+    color: '#1E8C8B',
+    fontSize: 24,
+    fontWeight: '300',
   },
 });
 

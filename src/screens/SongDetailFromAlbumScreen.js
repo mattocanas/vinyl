@@ -8,6 +8,7 @@ import {
   ImageBackground,
   ScrollView,
   Dimensions,
+  ActivityIndicator,
 } from 'react-native';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
@@ -19,52 +20,36 @@ import {useNavigation} from '@react-navigation/native';
 import {handleScheduleNotification} from '../notifications/notification.ios';
 import LinearGradient from 'react-native-linear-gradient';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
+import axios from 'axios';
 
 const dimensions = Dimensions.get('screen');
 
-const SongDetailScreen = ({route}) => {
+const SongDetailFromAlbumScreen = ({route}) => {
   const navigationUse = useNavigation();
   const options = {
     enableVibrateFallback: true,
     ignoreAndroidSystemSettings: false,
   };
 
-  const {data} = route.params;
+  const {id} = route.params;
   const [
     {currentUser, currentUserPictureURI, currentUserData},
     dispatch,
   ] = useStateProviderValue();
 
   const [songOfTheDay, setSongOfTheDay] = useState(false);
+  const [data, setData] = useState(null);
   useEffect(() => {
     let active = true;
+    axios.get(`https://api.deezer.com/track/${id}`).then((response) => {
+      setData(response.data);
+    });
     Sound.setCategory('Playback');
     checkIfSongOfTheDayExists();
     return () => {
       active = false;
     };
   }, []);
-
-  const track = new Sound(data.preview, null, (e) => {
-    if (e) {
-      console.log('error', e);
-    } else {
-      // all good
-    }
-  });
-
-  const playTrack = () => {
-    track.play();
-    ReactNativeHapticFeedback.trigger('notificationSuccess', options);
-    {
-      track.isPlaying() == false ? track.reset() : null;
-    }
-  };
-
-  const stopTrack = () => {
-    ReactNativeHapticFeedback.trigger('notificationWarning', options);
-    track.stop();
-  };
 
   const addSongOfTheDay = () => {
     let newDocRef = db
@@ -85,7 +70,6 @@ const SongDetailScreen = ({route}) => {
         artistTracklist: data.artist.tracklist,
         albumTracklist: data.album.tracklist,
         albumName: data.album.title,
-        trackId: data.id,
         audio: data.preview,
         username: currentUser.displayName,
         uid: currentUser.uid,
@@ -102,6 +86,9 @@ const SongDetailScreen = ({route}) => {
           'Share your music',
           "Don't forget to add your song of the day!",
         );
+      })
+      .then(() => {
+        navigationUse.navigate('SearchScreen');
       });
   };
 
@@ -123,90 +110,126 @@ const SongDetailScreen = ({route}) => {
       });
   };
 
+  const render = () => {
+    if (data) {
+      const track = new Sound(data.preview, null, (e) => {
+        if (e) {
+          console.log('error', e);
+        } else {
+          // all good
+        }
+      });
+
+      const playTrack = () => {
+        track.play();
+        ReactNativeHapticFeedback.trigger('notificationSuccess', options);
+        {
+          track.isPlaying() == false ? track.reset() : null;
+        }
+      };
+
+      const stopTrack = () => {
+        ReactNativeHapticFeedback.trigger('notificationWarning', options);
+        track.stop();
+        track.reset();
+      };
+      return (
+        <ScrollView
+          contentContainerStyle={{alignItems: 'center'}}
+          showsVerticalScrollIndicator={false}>
+          <View style={{flexDirection: 'row'}}>
+            <Image
+              style={styles.albumArt}
+              source={{uri: data.album.cover_xl}}
+            />
+          </View>
+          <View style={{flexDirection: 'row', marginTop: -34}}>
+            <TouchableOpacity style={styles.playButton} onPress={playTrack}>
+              <IonIcon name="play-circle-outline" style={styles.playIcon} />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.stopButton} onPress={stopTrack}>
+              <IonIcon name="stop-circle-outline" style={styles.stopIcon} />
+            </TouchableOpacity>
+          </View>
+
+          <Text style={styles.title}>{data.title}</Text>
+          <View
+            style={{
+              alignItems: 'center',
+              flexDirection: 'row',
+              marginTop: 8,
+            }}>
+            {/* <Image
+              source={{uri: data.artist.picture_xl}}
+              style={styles.artistPhoto}
+            /> */}
+            <View style={{alignItems: 'center'}}>
+              <Text style={styles.artist}>{data.artist.name}</Text>
+              <Text
+                onPress={() =>
+                  navigationUse.navigate('AlbumDetailScreen', {
+                    id: data.album.id,
+                  })
+                }
+                style={styles.album}>
+                {data.album.title}
+              </Text>
+            </View>
+          </View>
+
+          {songOfTheDay ? (
+            <Text style={styles.warning}>
+              You already have a song of the day! Head over to your profile if
+              you want to remove it.
+            </Text>
+          ) : null}
+          <Text style={styles.rank}>Deezer Rank: {data.rank.toString()}</Text>
+          <Text style={styles.duration}>
+            Song Duration: {data.duration.toString()} seconds.
+          </Text>
+          {data.explicit_lyrics ? (
+            <Text style={styles.explcitWarning}>
+              Your grandparents might not appreciate this song. It contains
+              explicit lyrics.
+            </Text>
+          ) : null}
+          <View style={styles.iconContainer}>
+            {songOfTheDay != true ? (
+              <TouchableOpacity style={styles.songOfTheDayButton}>
+                <MaterialIcon
+                  name="library-add"
+                  style={styles.songOfTheDayIcon}
+                  onPress={addSongOfTheDay}
+                />
+              </TouchableOpacity>
+            ) : null}
+            <TouchableOpacity style={styles.songOfTheDayButton}>
+              <IonIcon
+                name="paper-plane"
+                style={styles.repostIcon}
+                onPress={() =>
+                  navigationUse.navigate('PostFormScreen', {data: data})
+                }
+              />
+            </TouchableOpacity>
+          </View>
+          <Text style={{fontSize: 8, color: 'gray', marginTop: 4}}>
+            Click the plus icon to make this your song of the day!
+          </Text>
+        </ScrollView>
+      );
+    } else {
+      return <ActivityIndicator size="large" color="#1E8C8B" />;
+    }
+  };
+
   return (
     // <View style={styles.container}>
 
     <LinearGradient
       colors={['#2a2b2b', '#242525', '#242525']}
       style={styles.container}>
-      <ScrollView
-        contentContainerStyle={{alignItems: 'center'}}
-        showsVerticalScrollIndicator={false}>
-        <View style={{flexDirection: 'row'}}>
-          <Image style={styles.albumArt} source={{uri: data.album.cover_xl}} />
-        </View>
-        <View style={{flexDirection: 'row', marginTop: -34}}>
-          <TouchableOpacity style={styles.playButton} onPress={playTrack}>
-            <IonIcon name="play-circle-outline" style={styles.playIcon} />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.stopButton} onPress={stopTrack}>
-            <IonIcon name="stop-circle-outline" style={styles.stopIcon} />
-          </TouchableOpacity>
-        </View>
-
-        <Text style={styles.title}>{data.title}</Text>
-        <View
-          style={{
-            alignItems: 'center',
-            flexDirection: 'row',
-            marginTop: 8,
-          }}>
-          {/* <Image
-            source={{uri: data.artist.picture_xl}}
-            style={styles.artistPhoto}
-          /> */}
-          <View style={{alignItems: 'center'}}>
-            <Text style={styles.artist}>{data.artist.name}</Text>
-            <Text
-              onPress={() =>
-                navigationUse.navigate('AlbumDetailScreen', {id: data.album.id})
-              }
-              style={styles.album}>
-              {data.album.title}
-            </Text>
-          </View>
-        </View>
-
-        {songOfTheDay ? (
-          <Text style={styles.warning}>
-            You already have a song of the day! Head over to your profile if you
-            want to remove it.
-          </Text>
-        ) : null}
-        <Text style={styles.rank}>Deezer Rank: {data.rank.toString()}</Text>
-        <Text style={styles.duration}>
-          Song Duration: {data.duration.toString()} seconds.
-        </Text>
-        {data.explicit_lyrics ? (
-          <Text style={styles.explcitWarning}>
-            Your grandparents might not appreciate this song. It contains
-            explicit lyrics.
-          </Text>
-        ) : null}
-        <View style={styles.iconContainer}>
-          {songOfTheDay != true ? (
-            <TouchableOpacity style={styles.songOfTheDayButton}>
-              <MaterialIcon
-                name="library-add"
-                style={styles.songOfTheDayIcon}
-                onPress={addSongOfTheDay}
-              />
-            </TouchableOpacity>
-          ) : null}
-          <TouchableOpacity style={styles.songOfTheDayButton}>
-            <IonIcon
-              name="paper-plane"
-              style={styles.repostIcon}
-              onPress={() =>
-                navigationUse.navigate('PostFormScreen', {data: data})
-              }
-            />
-          </TouchableOpacity>
-        </View>
-        <Text style={{fontSize: 8, color: 'gray', marginTop: 4}}>
-          Click the plus icon to make this your song of the day!
-        </Text>
-      </ScrollView>
+      {data ? render() : null}
     </LinearGradient>
   );
 };
@@ -327,4 +350,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SongDetailScreen;
+export default SongDetailFromAlbumScreen;

@@ -33,6 +33,7 @@ const ProfileSongOfTheDay = ({data, refresh}) => {
 
   const playTrack = () => {
     track.play();
+    track.reset();
     ReactNativeHapticFeedback.trigger('notificationSuccess', options);
   };
 
