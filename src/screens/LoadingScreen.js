@@ -29,6 +29,8 @@ const App = ({navigation}) => {
       }
       // navigation.navigate(user ? 'App' : 'Auth');
     });
+
+    return () => {};
   });
 
   useEffect(() => {

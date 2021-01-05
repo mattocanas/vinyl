@@ -82,9 +82,23 @@ const ProfileScreen = ({navigation}) => {
             <View style={styles.profileInfoContainer}>
               <View style={styles.photoNameContainer}>
                 <ProfilePicture refresh={() => refreshScreen()} />
-                <Text style={styles.usernameText}>
-                  {currentUser.displayName}
-                </Text>
+
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    alignSelf: 'center',
+                  }}>
+                  <Text style={styles.usernameText}>
+                    {currentUser.displayName}
+                  </Text>
+                  {currentUserData.verified ? (
+                    <MaterialCommunityIcon
+                      name="check-decagram"
+                      style={styles.verifiedCheck}
+                    />
+                  ) : null}
+                </View>
               </View>
 
               <View
@@ -308,6 +322,13 @@ const styles = StyleSheet.create({
     marginTop: 10,
     alignSelf: 'flex-start',
     marginBottom: 4,
+  },
+  verifiedCheck: {
+    fontSize: 20,
+    color: '#c1c8d4',
+    textAlign: 'center',
+    marginTop: 8,
+    marginLeft: 6,
   },
 });
 

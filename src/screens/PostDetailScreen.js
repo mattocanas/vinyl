@@ -210,7 +210,7 @@ const PostDetailScreen = ({route}) => {
           {type == 'Song of the Day.' ? (
             <View>
               <Text style={styles.postIntroText}>Song of the day:</Text>
-              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <View style={{flexDirection: 'column', alignItems: 'center'}}>
                 <Text
                   onPress={() =>
                     navigationUse.navigate('SongDetailFromAlbumScreen', {
@@ -228,10 +228,9 @@ const PostDetailScreen = ({route}) => {
                   style={styles.albumTextSOTD}>
                   {albumName}
                 </Text>
+                <Text style={styles.artistIntroTextSOTD}> by </Text>
+                <Text style={styles.artistTextSOTD}>{artist}</Text>
               </View>
-
-              <Text style={styles.artistIntroTextSOTD}> by </Text>
-              <Text style={styles.artistTextSOTD}>{artist}</Text>
             </View>
           ) : (
             <View>
@@ -387,6 +386,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: '300',
     marginBottom: 8,
+    width: 200,
   },
   artistIntroText: {
     color: '#c1c8d4',
@@ -486,7 +486,7 @@ const styles = StyleSheet.create({
     color: '#1E8C8B',
     fontSize: 24,
     fontWeight: '300',
-    width: 310,
+    width: 200,
     marginBottom: 8,
   },
   albumIntroTextSOTD: {
@@ -499,6 +499,8 @@ const styles = StyleSheet.create({
     color: '#1E8C8B',
     fontSize: 24,
     fontWeight: '300',
+    width: 280,
+    textAlign: 'center',
   },
   artistIntroTextSOTD: {
     color: '#c1c8d4',
@@ -508,11 +510,15 @@ const styles = StyleSheet.create({
     color: '#5AB9B9',
     fontSize: 24,
     fontWeight: '300',
+    width: 260,
+    textAlign: 'center',
   },
   titleTextSOTD: {
     color: '#1E8C8B',
     fontSize: 24,
     fontWeight: '300',
+    textAlign: 'center',
+    marginRight: 8,
   },
 });
 

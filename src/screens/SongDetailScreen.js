@@ -95,13 +95,13 @@ const SongDetailScreen = ({route}) => {
         description: '',
         type: 'Song of the Day.',
       })
-      .then(setSongOfTheDay(true))
-      .then(() => {
-        handleScheduleNotification(
-          'Share your music',
-          "Don't forget to add your song of the day!",
-        );
-      });
+      .then(setSongOfTheDay(true));
+    // .then(() => {
+    //   handleScheduleNotification(
+    //     'Share your music',
+    //     "Don't forget to add your song of the day!",
+    //   );
+    // });
   };
 
   const checkIfSongOfTheDayExists = () => {
@@ -156,17 +156,16 @@ const SongDetailScreen = ({route}) => {
             source={{uri: data.artist.picture_xl}}
             style={styles.artistPhoto}
           /> */}
-          <View style={{alignItems: 'center'}}>
+          <View style={{flex: 1, alignItems: 'center'}}>
             <View
               style={{
                 flexDirection: 'row',
-                alignItems: 'center',
                 alignSelf: 'center',
               }}>
-              <MaterialCommunityIcon
+              {/* <MaterialCommunityIcon
                 name="microphone-variant"
-                style={styles.artist}
-              />
+                style={styles.artistIcon}
+              /> */}
               <Text style={styles.artist}>{data.artist.name}</Text>
             </View>
             <View
@@ -175,7 +174,7 @@ const SongDetailScreen = ({route}) => {
                 alignItems: 'center',
                 alignSelf: 'center',
               }}>
-              <MaterialIcon name="album" style={styles.album} />
+              {/* <MaterialIcon name="album" style={styles.albumIcon} /> */}
               <Text
                 onPress={() =>
                   navigationUse.navigate('AlbumDetailScreen', {
@@ -259,27 +258,36 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
   title: {
-    fontSize: 32,
+    fontSize: 38,
     color: '#1E8C8B',
     fontWeight: '400',
     width: 300,
     textAlign: 'center',
     marginTop: 16,
-    width: dimensions.width - 80,
+    width: dimensions.width - 100,
   },
   artist: {
-    fontSize: 30,
+    fontSize: 32,
     color: '#b8c2c2',
     fontWeight: '300',
-    textAlign: 'center',
     marginTop: 0,
+    textAlign: 'center',
+    marginLeft: 2,
+    marginRight: 2,
+    alignSelf: 'center',
+    width: dimensions.width - 150,
   },
   album: {
-    fontSize: 28,
+    fontSize: 24,
     fontWeight: '300',
     color: '#b8c2c2',
     marginTop: 4,
     padding: 2,
+    textAlign: 'center',
+    marginLeft: 2,
+    marginRight: 2,
+    alignSelf: 'center',
+    width: dimensions.width - 150,
   },
   rank: {
     fontWeight: '300',

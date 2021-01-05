@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
   container: {
     // flexDirection: 'row',
     alignItems: 'flex-start',
-    marginTop: 10,
+    marginTop: 16,
     borderBottomWidth: 1,
     borderBottomColor: 'rgba(193, 200, 212, 0.1)',
     paddingLeft: 20,
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '700',
     color: '#1E8C8B',
-    marginRight: 0,
+    marginRight: 10,
     width: 124,
   },
   artist: {

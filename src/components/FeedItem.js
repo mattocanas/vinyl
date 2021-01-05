@@ -16,6 +16,7 @@ import {useStateProviderValue} from '../../state/StateProvider';
 import firebase from 'firebase';
 import {useNavigation} from '@react-navigation/native';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
+import {TypingAnimation} from 'react-native-typing-animation';
 
 const FeedItem = ({
   title,
@@ -310,15 +311,17 @@ const FeedItem = ({
                     </TouchableOpacity>
                   </>
                 ) : (
-                  <Text
-                    style={{
-                      alignSelf: 'center',
-                      color: '#1E8C8B',
-                      marginLeft: 8,
-                      marginTop: 12,
-                    }}>
-                    Loading tunes...
-                  </Text>
+                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                    <Text
+                      style={{
+                        color: '#1E8C8B',
+                        marginLeft: 8,
+                        marginTop: 12,
+                      }}>
+                      Loading tunes
+                    </Text>
+                    <TypingAnimation dotColor="#1E8C8B" />
+                  </View>
                 )}
               </View>
             </View>

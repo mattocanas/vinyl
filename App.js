@@ -1,7 +1,7 @@
 import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {StateProvider} from './state/StateProvider';
 import reducer, {initialState} from './state/reducer';
 import {NavigationContainer} from '@react-navigation/native';
@@ -40,11 +40,13 @@ import SimpleLineIcon from 'react-native-vector-icons/SimpleLineIcons';
 import GlobalFeedScreen from './src/screens/GlobalFeedScreen';
 import AlbumDetailScreen from './src/screens/AlbumDetailScreen';
 import SongDetailFromAlbumScreen from './src/screens/SongDetailFromAlbumScreen';
+import messaging from '@react-native-firebase/messaging';
 
 // create bottom nav bar
 const Tabs = createMaterialBottomTabNavigator();
 
 function MyBottomTabs() {
+  //
   return (
     <Tabs.Navigator
       barStyle={{backgroundColor: '#1E1C1C', shadowRadius: 0}}

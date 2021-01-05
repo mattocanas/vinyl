@@ -135,7 +135,20 @@ const UserDetailScreen = ({route}) => {
                   style={styles.profilePicture}
                   source={{uri: data.profilePictureUrl}}
                 />
-                <Text style={styles.usernameText}>{data.username}</Text>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    alignSelf: 'center',
+                  }}>
+                  <Text style={styles.usernameText}>{data.username}</Text>
+                  {data.verified ? (
+                    <MaterialCommunityIcon
+                      name="check-decagram"
+                      style={styles.verifiedCheck}
+                    />
+                  ) : null}
+                </View>
               </View>
 
               <View style={{alignItems: 'center'}}>
@@ -411,6 +424,13 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginLeft: 10,
     marginBottom: 4,
+  },
+  verifiedCheck: {
+    fontSize: 20,
+    color: '#c1c8d4',
+    textAlign: 'center',
+    marginTop: 8,
+    marginLeft: 6,
   },
 });
 
