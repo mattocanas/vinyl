@@ -7,6 +7,7 @@ import {useStateProviderValue} from '../../state/StateProvider';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
+import FastImage from 'react-native-fast-image';
 
 const ProfilePost = ({data, refresh}) => {
   const [{currentUser}, dispatch] = useStateProviderValue();
@@ -48,9 +49,13 @@ const ProfilePost = ({data, refresh}) => {
   return (
     <View style={styles.container}>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
-        <Image
+        <FastImage
           style={styles.profilePicture}
-          source={{uri: data.profilePictureUrl}}
+          source={{
+            uri: data.profilePictureUrl,
+            priority: FastImage.priority.normal,
+          }}
+          resizeMode={FastImage.resizeMode.contain}
         />
 
         <Text style={styles.usernameText}>{data.username} |</Text>
@@ -63,7 +68,11 @@ const ProfilePost = ({data, refresh}) => {
         <Text style={styles.postText}>{data.description}</Text>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <View>
-            <Image style={styles.albumArt} source={{uri: data.albumArt}} />
+            <FastImage
+              style={styles.albumArt}
+              source={{uri: data.albumArt, priority: FastImage.priority.normal}}
+              // resizeMode={FastImage.resizeMode.contain}
+            />
           </View>
           <View style={{flexDirection: 'column'}}>
             <Text style={styles.title}>{data.title}</Text>

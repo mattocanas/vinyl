@@ -3,6 +3,7 @@ import {View, Text, Image, StyleSheet} from 'react-native';
 import {FlatList, TouchableOpacity} from 'react-native-gesture-handler';
 import {db} from '../../firebase/firebase';
 import {useNavigation} from '@react-navigation/native';
+import FastImage from 'react-native-fast-image';
 
 const LikeListScreen = ({route}) => {
   const {data} = route.params;
@@ -50,9 +51,13 @@ const LikeListScreen = ({route}) => {
                     marginLeft: 10,
                     marginBottom: 20,
                   }}>
-                  <Image
+                  <FastImage
                     style={styles.profilePicture}
-                    source={{uri: item.profilePictureUrl}}
+                    source={{
+                      uri: item.profilePictureUrl,
+                      priority: FastImage.priority.normal,
+                    }}
+                    // resizeMode={FastImage.resizeMode.contain}
                   />
                   <View style={{marginLeft: 10}}>
                     <Text style={styles.username}>{item.username}</Text>

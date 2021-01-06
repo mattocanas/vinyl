@@ -3,6 +3,7 @@ import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 import {db, storage, auth} from '../../firebase/firebase';
 import {useStateProviderValue} from '../../state/StateProvider';
+import FastImage from 'react-native-fast-image';
 
 const ProfilePicture = ({refresh}) => {
   useEffect(() => {
@@ -83,9 +84,13 @@ const ProfilePicture = ({refresh}) => {
           <TouchableOpacity
             style={styles.editProfilePicture}
             onPress={changeImage}>
-            <Image
+            <FastImage
               style={styles.profilePicture}
-              source={{uri: currentUserPictureURI}}
+              source={{
+                uri: currentUserPictureURI,
+                priority: FastImage.priority.normal,
+              }}
+              // resizeMode={FastImage.resizeMode.contain}
             />
           </TouchableOpacity>
         </>

@@ -10,6 +10,7 @@ import UserPostsFeed from '../components/UserPostsFeed';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AntIcon from 'react-native-vector-icons/AntDesign';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
+import FastImage from 'react-native-fast-image';
 
 const UserDetailScreen = ({route}) => {
   const [
@@ -131,9 +132,13 @@ const UserDetailScreen = ({route}) => {
             }}>
             <View style={styles.profileInfoContainer}>
               <View style={styles.photoNameContainer}>
-                <Image
+                <FastImage
                   style={styles.profilePicture}
-                  source={{uri: data.profilePictureUrl}}
+                  source={{
+                    uri: data.profilePictureUrl,
+                    priority: FastImage.priority.normal,
+                  }}
+                  // resizeMode={FastImage.resizeMode.contain}
                 />
                 <View
                   style={{

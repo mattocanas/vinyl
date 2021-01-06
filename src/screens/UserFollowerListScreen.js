@@ -10,6 +10,7 @@ import {
 import {useStateProviderValue} from '../../state/StateProvider';
 import {db} from '../../firebase/firebase';
 import FollowingUserItem from '../components/FollowingUserItem';
+import FastImage from 'react-native-fast-image';
 
 const UserFollowerListScreen = ({route}) => {
   useEffect(() => {

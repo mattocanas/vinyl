@@ -78,7 +78,7 @@ const SignupScreen = ({navigation}) => {
             points: 0,
             name: name,
             verified: false,
-            lowercase: name.split(' ').join('').toLowerCase(),
+            lowercaseName: name.split(' ').join('').toLowerCase(),
             profilePictureUrl:
               'https://static.wixstatic.com/media/9ce729_4d97f1f5b18547d8a9039d0268c83a41~mv2.jpg/v1/fill/w_830,h_830,al_c,q_85/defaultProfilePicture.webp',
           });

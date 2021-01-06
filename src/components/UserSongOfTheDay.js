@@ -7,6 +7,7 @@ import {useStateProviderValue} from '../../state/StateProvider';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
+import FastImage from 'react-native-fast-image';
 
 const UserSongOfTheDay = ({data, refresh}) => {
   const [{currentUser}, dispatch] = useStateProviderValue();
@@ -59,9 +60,13 @@ const UserSongOfTheDay = ({data, refresh}) => {
   return (
     <View style={styles.container}>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
-        <Image
+        <FastImage
           style={styles.profilePicture}
-          source={{uri: data.profilePictureUrl}}
+          source={{
+            uri: data.profilePictureUrl,
+            priority: FastImage.priority.normal,
+          }}
+          // resizeMode={FastImage.resizeMode.contain}
         />
 
         <Moment element={Text} format="MMM Do YY" style={styles.date}>
@@ -71,7 +76,11 @@ const UserSongOfTheDay = ({data, refresh}) => {
 
       <View style={{marginLeft: 70, alignItems: 'flex-start'}}>
         <View style={{flexDirection: 'row'}}>
-          <Image style={styles.albumArt} source={{uri: data.albumArt}} />
+          <FastImage
+            style={styles.albumArt}
+            source={{uri: data.albumArt, priority: FastImage.priority.normal}}
+            // resizeMode={FastImage.resizeMode.contain}
+          />
           <View style={{flexDirection: 'row'}}>
             <View style={{marginLeft: 10}}>
               <Text style={styles.title}>{data.title}</Text>

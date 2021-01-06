@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Image, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import FastImage from 'react-native-fast-image';
 
 const UserSearchResult = ({data, navigation}) => {
   const navigationUse = useNavigation();
@@ -12,9 +13,13 @@ const UserSearchResult = ({data, navigation}) => {
           data: data,
         })
       }>
-      <Image
+      <FastImage
         style={styles.profilePicture}
-        source={{uri: data.profilePictureUrl}}
+        source={{
+          uri: data.profilePictureUrl,
+          priority: FastImage.priority.normal,
+        }}
+        // resizeMode={FastImage.resizeMode.contain}
       />
       <Text style={styles.usernameText}>{data.username}</Text>
     </TouchableOpacity>

@@ -18,6 +18,7 @@ import firebase from 'firebase';
 import {useNavigation} from '@react-navigation/native';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import AntIcon from 'react-native-vector-icons/AntDesign';
+import FastImage from 'react-native-fast-image';
 
 const dimensions = Dimensions.get('screen');
 
@@ -177,11 +178,13 @@ const PostDetailScreen = ({route}) => {
       <ScrollView
         contentContainerStyle={{alignItems: 'flex-start'}}
         showsVerticalScrollIndicator={false}>
-        <Image
+        <FastImage
           style={styles.albumArt}
           source={{
             uri: albumArt,
+            priority: FastImage.priority.normal,
           }}
+          // resizeMode={FastImage.resizeMode.contain}
         />
 
         <View style={styles.profileContainer}>
@@ -189,11 +192,13 @@ const PostDetailScreen = ({route}) => {
             onPress={() =>
               navigationUse.navigate('FeedUserDetailScreen', {data: uid})
             }>
-            <Image
+            <FastImage
               style={styles.profilePicture}
               source={{
                 uri: profilePictureUrl,
+                priority: FastImage.priority.normal,
               }}
+              // resizeMode={FastImage.resizeMode.contain}
             />
           </TouchableOpacity>
           <Text style={styles.usernameText}>{username} |</Text>

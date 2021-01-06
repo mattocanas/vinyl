@@ -44,7 +44,7 @@ const EditProfileScreen = ({route}) => {
         bio: bio,
 
         name: fullName,
-        lowercaseName: name.split(' ').join('').toLowerCase(),
+        lowercaseName: fullName.split(' ').join('').toLowerCase(),
       })
       .then(() => {
         setReady1(true);

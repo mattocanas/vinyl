@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {View, Image, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import FastImage from 'react-native-fast-image';
 
 const FollowingUserItem = ({data}) => {
   const navigationUse = useNavigation();
@@ -14,9 +15,13 @@ const FollowingUserItem = ({data}) => {
             data: data,
           })
         }>
-        <Image
-          source={{uri: data.profilePictureUrl}}
+        <FastImage
+          source={{
+            uri: data.profilePictureUrl,
+            priority: FastImage.priority.normal,
+          }}
           style={styles.profilePicture}
+          // resizeMode={FastImage.resizeMode.contain}
         />
         <View style={styles.nameContainer}>
           <Text style={styles.usernameText}>{data.username}</Text>

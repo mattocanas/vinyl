@@ -7,6 +7,7 @@ import {db} from '../../firebase/firebase';
 import {useStateProviderValue} from '../../state/StateProvider';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
+import FastImage from 'react-native-fast-image';
 
 const DailyMusicItem = ({
   title,
@@ -107,11 +108,13 @@ const DailyMusicItem = ({
     <View style={styles.mainContainer}>
       <View style={styles.albumArtContainer}>
         <TouchableOpacity onPress={playTrack}>
-          <Image
+          <FastImage
             style={styles.albumArt}
             source={{
               uri: albumArt,
+              priority: FastImage.priority.normal,
             }}
+            // resizeMode={FastImage.resizeMode.contain}
           />
         </TouchableOpacity>
 

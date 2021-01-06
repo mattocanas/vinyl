@@ -77,7 +77,7 @@ const SinginScreen = ({navigation}) => {
                 onPress={() => navigation.navigate('Signup')}
                 style={{alignSelf: 'center', marginTop: 32}}>
                 <Text style={{color: '#c1c8d4', fontSize: 13}}>
-                  New to bookd?{' '}
+                  New to Vinyl?{' '}
                   <Text style={{color: '#1E8C8B', fontWeight: '500'}}>
                     Sign up here!
                   </Text>

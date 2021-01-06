@@ -4,6 +4,7 @@ import Moment from 'react-moment';
 import Sound from 'react-native-sound';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
+import FastImage from 'react-native-fast-image';
 
 const ProfileLike = ({data}) => {
   const [ready, setReady] = useState(false);
@@ -43,9 +44,13 @@ const ProfileLike = ({data}) => {
   return (
     <View style={styles.container}>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
-        <Image
+        <FastImage
           style={styles.profilePicture}
-          source={{uri: data.profilePictureUrl}}
+          source={{
+            uri: data.profilePictureUrl,
+            priority: FastImage.priority.normal,
+          }}
+          // resizeMode={FastImage.resizeMode.contain}
         />
         <Text style={styles.usernameText}>{data.username} |</Text>
 

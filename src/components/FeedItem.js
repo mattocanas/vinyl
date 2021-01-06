@@ -17,6 +17,7 @@ import firebase from 'firebase';
 import {useNavigation} from '@react-navigation/native';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import {TypingAnimation} from 'react-native-typing-animation';
+import FastImage from 'react-native-fast-image';
 
 const FeedItem = ({
   title,
@@ -220,11 +221,13 @@ const FeedItem = ({
                 onPress={() =>
                   navigationUse.navigate('FeedUserDetailScreen', {data: uid})
                 }>
-                <Image
+                <FastImage
                   style={styles.profilePicture}
                   source={{
                     uri: profilePictureUrl,
+                    priority: FastImage.priority.normal,
                   }}
+                  // resizeMode={FastImage.resizeMode.contain}
                 />
               </TouchableOpacity>
               <Text style={styles.usernameText}>{postData.username} |</Text>

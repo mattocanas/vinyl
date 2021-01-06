@@ -62,7 +62,7 @@ const SettingsScreen = () => {
         <MaterialIcon name="delete-forever" size={24} style={styles.icon} />
         <Text style={styles.labelText}>Delete account.</Text>
       </TouchableOpacity> */}
-      <Text style={styles.verionNumber}>vinyl Version 1.0.0</Text>
+      <Text style={styles.verionNumber}>vinyl Version 1.3.1</Text>
     </View>
   );
 };

@@ -16,6 +16,7 @@ import {useNavigation} from '@react-navigation/native';
 import UserPostsFeed from '../components/UserPostsFeed';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AntIcon from 'react-native-vector-icons/AntDesign';
+import FastImage from 'react-native-fast-image';
 
 const FeedUserDetailScreen = ({route}) => {
   useEffect(() => {
@@ -152,9 +153,13 @@ const FeedUserDetailScreen = ({route}) => {
             }}>
             <View style={styles.profileInfoContainer}>
               <View style={styles.photoNameContainer}>
-                <Image
+                <FastImage
                   style={styles.profilePicture}
-                  source={{uri: userData.profilePictureUrl}}
+                  source={{
+                    uri: userData.profilePictureUrl,
+                    priority: FastImage.priority.normal,
+                  }}
+                  // resizeMode={FastImage.resizeMode.contain}
                 />
 
                 <View
