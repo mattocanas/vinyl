@@ -115,7 +115,7 @@ function myMainStack() {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: '#2a2b2b',
+            backgroundColor: '#171818',
             shadowColor: 'transparent',
           },
           headerTitleStyle: {

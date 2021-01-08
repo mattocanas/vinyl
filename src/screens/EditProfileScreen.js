@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
     opacity: 0.8,
   },
   container: {
-    backgroundColor: '#2a2b2b',
+    backgroundColor: '#171818',
     flex: 1,
     alignItems: 'center',
     paddingTop: 20,

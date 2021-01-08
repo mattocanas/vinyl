@@ -18,6 +18,7 @@ import {useNavigation} from '@react-navigation/native';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import {TypingAnimation} from 'react-native-typing-animation';
 import FastImage from 'react-native-fast-image';
+import {read} from 'react-native-fs';
 
 const FeedItem = ({
   title,
@@ -54,31 +55,37 @@ const FeedItem = ({
 
   useEffect(() => {
     let active = true;
-
     checkIfLiked();
 
+    Sound.setCategory('Playback');
     return () => {
       active = false;
     };
   }, [liked, ready]);
 
-  const track = new Sound(audio, null, (e) => {
-    if (e) {
-      console.log('error', e);
-    } else {
-      setReady(true);
-    }
-  });
-
-  const playTrack = () => {
-    track.play();
-    ReactNativeHapticFeedback.trigger('notificationSuccess', options);
+  const handleAudio = (url) => {
+    track = new Sound(url, null, (e) => {
+      if (e) {
+        console.log('error', e);
+      } else {
+        setReady(true);
+        console.log(track.isLoaded());
+        setSong(track);
+        track.play();
+      }
+    });
   };
 
   const stopTrack = () => {
     ReactNativeHapticFeedback.trigger('notificationWarning', options);
-    track.stop();
-    track.reset();
+    song.stop();
+    song.reset();
+  };
+
+  const playTrack = () => {
+    song.play();
+
+    ReactNativeHapticFeedback.trigger('notificationSuccess', options);
   };
 
   const getData = () => {
@@ -296,20 +303,24 @@ const FeedItem = ({
                     </TouchableOpacity>
                   </>
                 )}
-                {ready ? (
+                {true ? (
                   <>
                     <TouchableOpacity>
                       <IonIcon
                         name="play-circle-outline"
                         style={styles.playIcon}
-                        onPress={playTrack}
+                        onPress={() => {
+                          handleAudio(audio);
+                        }}
                       />
                     </TouchableOpacity>
                     <TouchableOpacity>
                       <IonIcon
                         name="stop-circle-outline"
                         style={styles.stopIcon}
-                        onPress={stopTrack}
+                        onPress={() => {
+                          song.stop();
+                        }}
                       />
                     </TouchableOpacity>
                   </>

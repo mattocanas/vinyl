@@ -23,6 +23,7 @@ const DailyMusicItem = ({
   const [{currentUser}, dispatch] = useStateProviderValue();
   const [liked, setLiked] = useState(false);
   const [song, setSong] = useState(null);
+  const [ready, setReady] = useState(false);
   const options = {
     enableVibrateFallback: true,
     ignoreAndroidSystemSettings: false,
@@ -31,19 +32,24 @@ const DailyMusicItem = ({
   useEffect(() => {
     let active = true;
     checkIfLiked();
-    setSong(track);
+
     return () => {
       active = false;
     };
-  }, [liked, track]);
+  }, [liked]);
 
-  const track = new Sound(audio, null, (e) => {
-    if (e) {
-      console.log('error', e);
-    } else {
-      // all good
-    }
-  });
+  const handleAudio = (url) => {
+    track = new Sound(url, null, (e) => {
+      if (e) {
+        console.log('error', e);
+      } else {
+        setReady(true);
+        console.log(track.isLoaded());
+        setSong(track);
+        track.play();
+      }
+    });
+  };
 
   const playTrack = () => {
     song.play();
@@ -107,7 +113,10 @@ const DailyMusicItem = ({
   return (
     <View style={styles.mainContainer}>
       <View style={styles.albumArtContainer}>
-        <TouchableOpacity onPress={playTrack}>
+        <TouchableOpacity
+          onPress={() => {
+            handleAudio(audio);
+          }}>
           <FastImage
             style={styles.albumArt}
             source={{
@@ -132,7 +141,7 @@ const DailyMusicItem = ({
           <IonIcon
             name="stop-circle-outline"
             style={styles.stopIcon}
-            onPress={stopTrack}
+            onPress={() => song.stop()}
           />
 
           {/* <AntIcon style={styles.repostIcon} name="retweet" /> */}
@@ -186,7 +195,7 @@ const styles = StyleSheet.create({
   },
   descriptionText: {
     color: '#c1c8d4',
-    fontSize: 12,
+    fontSize: 10,
     letterSpacing: 1.1,
     marginTop: 6,
   },

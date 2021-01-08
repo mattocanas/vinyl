@@ -18,6 +18,8 @@ const HomeScreen = () => {
 
   useEffect(() => {
     let active = true;
+    // Sound.setCategory('Playback');
+
     fcmService.registerAppWithFCM();
     fcmService.register(onRegister, onNotification, onOpenNotification);
     localNotificationService.configure(onOpenNotification);
@@ -40,7 +42,6 @@ const HomeScreen = () => {
 
     function onOpenNotification(notify) {}
     // requestUserPermission();
-    Sound.setCategory('Playback');
     db.collection('users')
       .doc(currentUser.uid)
       .onSnapshot((doc) => {
@@ -55,17 +56,6 @@ const HomeScreen = () => {
         });
       });
 
-    const track = new Sound(
-      'https://developers.deezer.com/%22https://cdns-preview-4.dzcdn.net/stream/c-44d3354d6fb4a85a6cbad12731f1d9be-4.mp3/%22',
-      null,
-      (e) => {
-        if (e) {
-          console.log('error', e);
-        } else {
-          // all good
-        }
-      },
-    );
     return () => {
       fcmService.unRegister();
       localNotificationService.unregister();
@@ -126,7 +116,8 @@ const HomeScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#242525',
+    backgroundColor: '#171818',
+    paddingTop: -10,
   },
 });
 

@@ -355,7 +355,7 @@ const PostDetailScreen = ({route}) => {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    backgroundColor: '#2a2b2b',
+    backgroundColor: '#171818',
     alignItems: 'center',
     // paddingLeft: 12,
     // paddingRight: 12,

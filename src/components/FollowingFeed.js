@@ -22,6 +22,7 @@ const FollowingFeed = () => {
 
   useEffect(() => {
     let active = true;
+
     getFollowing();
     getFollowingData();
 
@@ -92,6 +93,7 @@ const FollowingFeed = () => {
           />
         }
         style={styles.flatlist}
+        // horizontal={true}
         data={followingData}
         keyExtractor={(item) => item.docId}
         showsVerticalScrollIndicator={false}
@@ -130,6 +132,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+    backgroundColor: '#171818',
   },
 });
 

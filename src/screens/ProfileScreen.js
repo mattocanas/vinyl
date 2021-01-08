@@ -71,7 +71,7 @@ const ProfileScreen = ({navigation}) => {
     <>
       {currentUser ? (
         <LinearGradient
-          colors={['#2a2b2b', '#242525', '#242525']}
+          colors={['#171818', '#171818', '#171818']}
           style={styles.container}>
           {/* <View style={styles.container}> */}
           <View
@@ -205,7 +205,7 @@ const ProfileScreen = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#242525',
+    backgroundColor: '#171818',
     alignItems: 'center',
   },
   profileInfoContainer: {

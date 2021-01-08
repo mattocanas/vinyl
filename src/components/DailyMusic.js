@@ -45,8 +45,8 @@ const DailyMusic = () => {
           />
           <View
             style={{
-              borderBottomWidth: 1,
-              borderBottomColor: 'rgba(193, 200, 212, 0.1)',
+              // borderBottomWidth: 1,
+              // borderBottomColor: 'rgba(193, 200, 212, 0.1)',
               marginTop: 16,
             }}
           />
@@ -66,6 +66,7 @@ const styles = StyleSheet.create({
   },
   container: {
     // marginBottom: 30,
+    backgroundColor: '#171818',
   },
 });
 

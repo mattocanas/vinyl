@@ -45,14 +45,20 @@ const SongDetailScreen = ({route}) => {
   ] = useStateProviderValue();
 
   const [songOfTheDay, setSongOfTheDay] = useState(false);
+  const [song, setSong] = useState(null);
 
-  const track = new Sound(data.preview, null, (e) => {
-    if (e) {
-      console.log('error', e);
-    } else {
-      setReady(true);
-    }
-  });
+  const handleAudio = (url) => {
+    track = new Sound(url, null, (e) => {
+      if (e) {
+        console.log('error', e);
+      } else {
+        setReady(true);
+        console.log(track.isLoaded());
+        setSong(track);
+        track.play();
+      }
+    });
+  };
 
   const playTrack = () => {
     track.play();
@@ -126,7 +132,7 @@ const SongDetailScreen = ({route}) => {
     // <View style={styles.container}>
 
     <LinearGradient
-      colors={['#2a2b2b', '#242525', '#242525']}
+      colors={['#171818', '#171818', '#171818']}
       style={styles.container}>
       <ScrollView
         contentContainerStyle={{alignItems: 'center'}}
@@ -134,12 +140,16 @@ const SongDetailScreen = ({route}) => {
         <View style={{flexDirection: 'row'}}>
           <Image style={styles.albumArt} source={{uri: data.album.cover_xl}} />
         </View>
-        {ready ? (
+        {true ? (
           <View style={{flexDirection: 'row', marginTop: -34}}>
-            <TouchableOpacity style={styles.playButton} onPress={playTrack}>
+            <TouchableOpacity
+              style={styles.playButton}
+              onPress={() => handleAudio(data.preview)}>
               <IonIcon name="play-circle-outline" style={styles.playIcon} />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.stopButton} onPress={stopTrack}>
+            <TouchableOpacity
+              style={styles.stopButton}
+              onPress={() => song.stop()}>
               <IonIcon name="stop-circle-outline" style={styles.stopIcon} />
             </TouchableOpacity>
           </View>
@@ -235,7 +245,7 @@ const SongDetailScreen = ({route}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#2a2b2b',
+    backgroundColor: '#171818',
     alignItems: 'center',
     // paddingLeft: 12,
     // paddingRight: 12,

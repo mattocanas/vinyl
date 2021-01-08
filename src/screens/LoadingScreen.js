@@ -14,7 +14,18 @@ import Sound from 'react-native-sound';
 const App = ({navigation}) => {
   const [{currentUser}, dispatch] = useStateProviderValue();
   useEffect(() => {
-    Sound.setCategory('Playback');
+    // const track = new Sound(
+    //   'https://developers.deezer.com/%22https://cdns-preview-4.dzcdn.net/stream/c-44d3354d6fb4a85a6cbad12731f1d9be-4.mp3/%22',
+    //   null,
+    //   (e) => {
+    //     if (e) {
+    //       console.log('error', e);
+    //     } else {
+    //       // all good
+    //       track.reset();
+    //     }
+    //   },
+    // );
     auth.onAuthStateChanged((user) => {
       if (user) {
         dispatch({
@@ -50,7 +61,7 @@ const App = ({navigation}) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#2a2b2b',
+    backgroundColor: '#171818',
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',

@@ -8,10 +8,10 @@ import FastImage from 'react-native-fast-image';
 
 const UserLike = ({data}) => {
   const [ready, setReady] = useState(false);
+  const [song, setSong] = useState(null);
 
   useEffect(() => {
     let active = true;
-    Sound.setCategory('Playback');
     return () => {
       active = false;
     };
@@ -21,14 +21,18 @@ const UserLike = ({data}) => {
     ignoreAndroidSystemSettings: false,
   };
 
-  const track = new Sound(data.audio, null, (e) => {
-    if (e) {
-      console.log('error', e);
-    } else {
-      // all good
-      setReady(true);
-    }
-  });
+  const handleAudio = (url) => {
+    track = new Sound(url, null, (e) => {
+      if (e) {
+        console.log('error', e);
+      } else {
+        setReady(true);
+        console.log(track.isLoaded());
+        setSong(track);
+        track.play();
+      }
+    });
+  };
 
   const playTrack = () => {
     track.play();
@@ -66,7 +70,7 @@ const UserLike = ({data}) => {
           <Text style={styles.description}>Song of the day:</Text>
         )}
         <View style={{flexDirection: 'row'}}>
-          <TouchableOpacity onPress={playTrack}>
+          <TouchableOpacity>
             <FastImage
               style={styles.albumArt}
               source={{uri: data.albumArt, priority: FastImage.priority.normal}}
@@ -77,20 +81,20 @@ const UserLike = ({data}) => {
             <Text style={styles.title}>{data.title}</Text>
             <Text style={styles.artist}>{data.artist}</Text>
           </View>
-          {ready ? (
+          {true ? (
             <>
               <TouchableOpacity>
                 <IonIcon
                   name="play-circle-outline"
                   style={styles.stopIcon}
-                  onPress={playTrack}
+                  onPress={() => handleAudio(data.audio)}
                 />
               </TouchableOpacity>
               <TouchableOpacity>
                 <IonIcon
                   name="stop-circle-outline"
                   style={styles.stopIcon}
-                  onPress={stopTrack}
+                  onPress={() => song.stop()}
                 />
               </TouchableOpacity>
             </>

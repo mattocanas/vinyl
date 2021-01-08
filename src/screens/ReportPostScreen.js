@@ -113,7 +113,7 @@ const ReportPostScreen = ({route}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#2a2b2b',
+    backgroundColor: '#171818',
     alignItems: 'center',
   },
 
