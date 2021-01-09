@@ -6,6 +6,9 @@ import {
   Text,
   RefreshControl,
   ActivityIndicator,
+  Animated,
+  Easing,
+  Image,
 } from 'react-native';
 import FeedItem from './FeedItem';
 import {db} from '../../firebase/firebase';
@@ -22,7 +25,6 @@ const FollowingFeed = () => {
 
   useEffect(() => {
     let active = true;
-
     getFollowing();
     getFollowingData();
 

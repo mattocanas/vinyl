@@ -70,6 +70,7 @@ const ProfileSongsOfTheDayFeed = ({refresh}) => {
           contentContainerStyle={{paddingBottom: 300}}
           keyExtractor={(item) => item.docId}
           data={data}
+          showsVerticalScrollIndicator={false}
           renderItem={({item}) => (
             <Swipeable
               rightThreshold={30}

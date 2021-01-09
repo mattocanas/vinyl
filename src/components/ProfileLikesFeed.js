@@ -53,6 +53,7 @@ const ProfileLikesFeed = ({refresh}) => {
         <SafeAreaView style={styles.container}>
           <FlatList
             contentContainerStyle={{paddingBottom: 300}}
+            showsVerticalScrollIndicator={false}
             style={styles.flatlist}
             keyExtractor={(item) => item.docId}
             data={data}

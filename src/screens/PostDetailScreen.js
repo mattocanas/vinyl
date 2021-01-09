@@ -263,6 +263,17 @@ const PostDetailScreen = ({route}) => {
             </View>
           )}
         </View>
+        {ready ? (
+          <View
+            style={{flexDirection: 'row', alignSelf: 'center', marginTop: 30}}>
+            <TouchableOpacity style={styles.playButton} onPress={playTrack}>
+              <IonIcon name="play-circle-outline" style={styles.playIcon} />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.stopButton} onPress={stopTrack}>
+              <IonIcon name="stop-circle-outline" style={styles.stopIcon} />
+            </TouchableOpacity>
+          </View>
+        ) : null}
 
         {liked == true ? (
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -336,17 +347,6 @@ const PostDetailScreen = ({route}) => {
             </TouchableOpacity>
           </View>
         )}
-        {ready ? (
-          <View
-            style={{flexDirection: 'row', alignSelf: 'center', marginTop: 30}}>
-            <TouchableOpacity style={styles.playButton} onPress={playTrack}>
-              <IonIcon name="play-circle-outline" style={styles.playIcon} />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.stopButton} onPress={stopTrack}>
-              <IonIcon name="stop-circle-outline" style={styles.stopIcon} />
-            </TouchableOpacity>
-          </View>
-        ) : null}
       </ScrollView>
     </View>
   );
@@ -376,7 +376,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
   },
   albumArt: {
-    height: dimensions.height / 2,
+    height: dimensions.height / 2.3,
     width: dimensions.width,
     borderBottomRightRadius: 60,
   },
@@ -388,19 +388,19 @@ const styles = StyleSheet.create({
   },
   titleText: {
     color: '#1E8C8B',
-    fontSize: 24,
+    fontSize: 18,
     fontWeight: '300',
     marginBottom: 8,
     width: 200,
   },
   artistIntroText: {
     color: '#c1c8d4',
-    fontSize: 18,
-    marginLeft: 2,
+    fontSize: 16,
+    marginLeft: 0,
   },
   artistText: {
     color: '#5AB9B9',
-    fontSize: 24,
+    fontSize: 18,
     fontWeight: '300',
   },
   usernameText: {
@@ -430,8 +430,8 @@ const styles = StyleSheet.create({
   },
   postContet: {
     color: '#c1c8d4',
-    fontSize: 18,
-    marginTop: 16,
+    fontSize: 22,
+    marginTop: 20,
     lineHeight: 24,
     marginLeft: 44,
     width: dimensions.width - 60,
@@ -458,7 +458,7 @@ const styles = StyleSheet.create({
     marginRight: 16,
     width: 60,
     height: 60,
-    marginBottom: 60,
+    marginBottom: 10,
   },
   stopButton: {
     backgroundColor: '#1E8C8B',
@@ -467,14 +467,14 @@ const styles = StyleSheet.create({
     marginRight: 16,
     width: 60,
     height: 60,
-    marginBottom: 60,
+    marginBottom: 10,
   },
   likesNumber: {
     marginTop: 24,
     fontSize: 20,
     fontWeight: '500',
     color: '#c1c8d4',
-    marginLeft: 50,
+    marginLeft: 40,
   },
   reportButton: {
     color: '#7F1535',
@@ -484,44 +484,44 @@ const styles = StyleSheet.create({
   },
   albumIntroText: {
     color: '#c1c8d4',
-    fontSize: 18,
+    fontSize: 16,
     marginBottom: 2,
   },
   albumText: {
     color: '#1E8C8B',
-    fontSize: 24,
+    fontSize: 18,
     fontWeight: '300',
     width: 200,
     marginBottom: 8,
   },
   albumIntroTextSOTD: {
     color: '#c1c8d4',
-    fontSize: 18,
+    fontSize: 16,
     marginRight: 8,
     marginLeft: 8,
   },
   albumTextSOTD: {
     color: '#1E8C8B',
-    fontSize: 24,
-    fontWeight: '300',
+    fontSize: 22,
+    fontWeight: '600',
     width: 280,
     textAlign: 'center',
   },
   artistIntroTextSOTD: {
     color: '#c1c8d4',
-    fontSize: 18,
+    fontSize: 16,
   },
   artistTextSOTD: {
     color: '#5AB9B9',
-    fontSize: 24,
-    fontWeight: '300',
+    fontSize: 22,
+    fontWeight: '600',
     width: 260,
     textAlign: 'center',
   },
   titleTextSOTD: {
     color: '#1E8C8B',
-    fontSize: 24,
-    fontWeight: '300',
+    fontSize: 22,
+    fontWeight: '600',
     textAlign: 'center',
     marginRight: 8,
   },

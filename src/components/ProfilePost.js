@@ -59,7 +59,7 @@ const ProfilePost = ({data, refresh}) => {
             uri: data.profilePictureUrl,
             priority: FastImage.priority.normal,
           }}
-          resizeMode={FastImage.resizeMode.contain}
+          // resizeMode={FastImage.resizeMode.contain}
         />
 
         <Text style={styles.usernameText}>{data.username} |</Text>
@@ -88,16 +88,34 @@ const ProfilePost = ({data, refresh}) => {
                 <IonIcon
                   name="play-circle-outline"
                   style={styles.stopIcon}
-                  onPress={() => handleAudio(data.audio)}
+                  onPress={() => {
+                    ReactNativeHapticFeedback.trigger(
+                      'notificationSuccess',
+                      options,
+                    );
+                    handleAudio(data.audio);
+                  }}
                 />
               </TouchableOpacity>
-              <TouchableOpacity>
-                <IonIcon
-                  name="stop-circle-outline"
-                  style={styles.stopIcon}
-                  onPress={() => song.stop()}
-                />
-              </TouchableOpacity>
+              {song ? (
+                <TouchableOpacity>
+                  <IonIcon
+                    name="stop-circle-outline"
+                    style={styles.stopIcon}
+                    onPress={() => {
+                      ReactNativeHapticFeedback.trigger(
+                        'notificationError',
+                        options,
+                      );
+                      song.stop();
+                    }}
+                  />
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity>
+                  <IonIcon name="stop-circle-outline" style={styles.stopIcon} />
+                </TouchableOpacity>
+              )}
             </>
           ) : null}
         </View>

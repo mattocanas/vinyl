@@ -65,6 +65,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#171818',
     alignItems: 'center',
     paddingBottom: 60,
+    paddingTop: 80,
   },
   selectionContainer: {
     flexDirection: 'row',

@@ -432,7 +432,7 @@ const styles = StyleSheet.create({
   },
   verifiedCheck: {
     fontSize: 20,
-    color: '#c1c8d4',
+    color: '#1E8C8B',
     textAlign: 'center',
     marginTop: 8,
     marginLeft: 6,

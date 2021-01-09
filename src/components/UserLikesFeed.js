@@ -41,6 +41,7 @@ const UserLikesFeed = ({id}) => {
       {data[0] != null ? (
         <FlatList
           contentContainerStyle={{paddingBottom: 300}}
+          showsVerticalScrollIndicator={false}
           style={styles.flatlist}
           keyExtractor={(item) => item.docId}
           data={data}

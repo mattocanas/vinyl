@@ -115,6 +115,8 @@ const DailyMusicItem = ({
       <View style={styles.albumArtContainer}>
         <TouchableOpacity
           onPress={() => {
+            ReactNativeHapticFeedback.trigger('notificationSuccess', options);
+
             handleAudio(audio);
           }}>
           <FastImage
@@ -138,11 +140,25 @@ const DailyMusicItem = ({
               <AntIcon style={styles.heartIcon} name="hearto" />
             </TouchableOpacity>
           )}
-          <IonIcon
-            name="stop-circle-outline"
-            style={styles.stopIcon}
-            onPress={() => song.stop()}
-          />
+          {song ? (
+            <TouchableOpacity>
+              <IonIcon
+                name="stop-circle-outline"
+                style={styles.stopIcon}
+                onPress={() => {
+                  ReactNativeHapticFeedback.trigger(
+                    'notificationError',
+                    options,
+                  );
+                  song.stop();
+                }}
+              />
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity>
+              <IonIcon name="stop-circle-outline" style={styles.stopIcon} />
+            </TouchableOpacity>
+          )}
 
           {/* <AntIcon style={styles.repostIcon} name="retweet" /> */}
         </View>
@@ -160,7 +176,7 @@ const styles = StyleSheet.create({
   mainContainer: {
     flexDirection: 'row',
     flex: 1,
-    marginTop: 20,
+    marginTop: 16,
     marginLeft: 10,
     marginRight: 110,
     width: 160,
@@ -168,7 +184,7 @@ const styles = StyleSheet.create({
   albumArt: {
     height: 100,
     width: 100,
-    borderRadius: 4,
+    borderRadius: 30,
   },
   albumArtContainer: {
     alignItems: 'center',

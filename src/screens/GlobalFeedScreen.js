@@ -92,6 +92,7 @@ const GlobalFeedScreen = () => {
         }
         data={allData}
         keyExtractor={(item) => item.docId}
+        showsVerticalScrollIndicator={false}
         renderItem={({item}) => (
           <FeedItem
             title={item.title}
@@ -125,13 +126,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#171818',
+    paddingTop: 80,
   },
   headerText: {
     fontSize: 18,
     color: '#c1c8d4',
     alignSelf: 'center',
     marginTop: 14,
-    marginBottom: 14,
+    marginBottom: 24,
     fontWeight: 'bold',
   },
 });

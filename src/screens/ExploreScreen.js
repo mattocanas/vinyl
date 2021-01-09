@@ -42,7 +42,7 @@ const ExploreScreen = ({navigation}) => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <LinearGradient
-        colors={['#2a2b2b', '#242525', '#242525']}
+        colors={['#171818', '#171818', '#171818']}
         style={styles.container}>
         {/* <View style={styles.container}> */}
         {/* <Text style={styles.headerText}>Search for people to follow</Text> */}

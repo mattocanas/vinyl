@@ -49,14 +49,14 @@ function MyBottomTabs() {
   //
   return (
     <Tabs.Navigator
-      barStyle={{backgroundColor: '#1E1C1C', shadowRadius: 0}}
+      barStyle={{backgroundColor: '#171818', shadowRadius: 0}}
       activeColor="#1E8C8B"
       inactiveColor="#c1c8d4"
       initialRouteName="Home">
       <Tabs.Screen
         options={{
           tabBarLabel: '',
-          tabBarColor: '#1E1C1C',
+          tabBarColor: '#171818',
           tabBarIcon: ({color}) => (
             <MaterialIcon name="album" size={26} color={color} />
           ),
@@ -68,7 +68,7 @@ function MyBottomTabs() {
       <Tabs.Screen
         options={{
           tabBarLabel: '',
-          tabBarColor: '#1E1C1C',
+          tabBarColor: '#171818',
           tabBarIcon: ({color}) => (
             <SimpleLineIcon name="globe" size={24} color={color} />
           ),
@@ -80,7 +80,7 @@ function MyBottomTabs() {
       <Tabs.Screen
         options={{
           tabBarLabel: '',
-          tabBarColor: '#1E1C1C',
+          tabBarColor: '#171818',
           tabBarIcon: ({color}) => (
             <OcticonIcon name="telescope" size={26} color={color} />
           ),
@@ -93,7 +93,7 @@ function MyBottomTabs() {
         options={{
           tabBarLabel: '',
 
-          tabBarColor: '#1E1C1C',
+          tabBarColor: '#171818',
           tabBarIcon: ({color}) => (
             <MaterialIcon name="account-circle" size={26} color={color} />
           ),
@@ -113,7 +113,7 @@ function myMainStack() {
     <MainStack.Navigator>
       <MainStack.Screen
         options={{
-          headerShown: true,
+          headerShown: false,
           headerStyle: {
             backgroundColor: '#171818',
             shadowColor: 'transparent',
@@ -134,7 +134,7 @@ function myMainStack() {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: '#2a2b2b',
+            backgroundColor: '#171818',
             shadowColor: 'transparent',
           },
           headerTitleStyle: {
@@ -154,7 +154,7 @@ function myMainStack() {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: '#2a2b2b',
+            backgroundColor: '#171818',
             shadowColor: 'transparent',
           },
           headerTitleStyle: {
@@ -174,7 +174,7 @@ function myMainStack() {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: '#2a2b2b',
+            backgroundColor: '#171818',
             shadowColor: 'transparent',
           },
           headerTitleStyle: {
@@ -193,7 +193,7 @@ function myMainStack() {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: '#2a2b2b',
+            backgroundColor: '#171818',
             shadowColor: 'transparent',
           },
           headerTitleStyle: {
@@ -213,7 +213,7 @@ function myMainStack() {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: '#2a2b2b',
+            backgroundColor: '#171818',
             shadowColor: 'transparent',
           },
           headerTitleStyle: {
@@ -233,7 +233,7 @@ function myMainStack() {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: '#2a2b2b',
+            backgroundColor: '#171818',
             shadowColor: 'transparent',
           },
           headerTitleStyle: {
@@ -253,7 +253,7 @@ function myMainStack() {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: '#2a2b2b',
+            backgroundColor: '#171818',
             shadowColor: 'transparent',
           },
           headerTitleStyle: {
@@ -273,7 +273,7 @@ function myMainStack() {
         options={{
           headerShown: false,
           headerStyle: {
-            backgroundColor: '#2a2b2b',
+            backgroundColor: '#171818',
             shadowColor: 'transparent',
           },
           headerTitleStyle: {
@@ -293,7 +293,7 @@ function myMainStack() {
         options={{
           headerShown: false,
           headerStyle: {
-            backgroundColor: '#2a2b2b',
+            backgroundColor: '#171818',
             shadowColor: 'transparent',
           },
           headerTitleStyle: {
@@ -313,7 +313,7 @@ function myMainStack() {
         options={{
           headerShown: false,
           headerStyle: {
-            backgroundColor: '#2a2b2b',
+            backgroundColor: '#171818',
             shadowColor: 'transparent',
           },
           headerTitleStyle: {
@@ -333,7 +333,7 @@ function myMainStack() {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: '#2a2b2b',
+            backgroundColor: '#171818',
             shadowColor: 'transparent',
           },
           headerTitleStyle: {
@@ -353,7 +353,7 @@ function myMainStack() {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: '#2a2b2b',
+            backgroundColor: '#171818',
             shadowColor: 'transparent',
           },
           headerTitleStyle: {
@@ -373,7 +373,7 @@ function myMainStack() {
         options={{
           headerShown: false,
           headerStyle: {
-            backgroundColor: '#2a2b2b',
+            backgroundColor: '#171818',
             shadowColor: 'transparent',
           },
           headerTitleStyle: {
@@ -393,7 +393,7 @@ function myMainStack() {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: '#2a2b2b',
+            backgroundColor: '#171818',
             shadowColor: 'transparent',
           },
           headerTitleStyle: {
@@ -413,7 +413,7 @@ function myMainStack() {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: '#2a2b2b',
+            backgroundColor: '#171818',
             shadowColor: 'transparent',
           },
           headerTitleStyle: {
@@ -433,7 +433,7 @@ function myMainStack() {
         options={{
           headerShown: false,
           headerStyle: {
-            backgroundColor: '#2a2b2b',
+            backgroundColor: '#171818',
             shadowColor: 'transparent',
           },
           headerTitleStyle: {
@@ -453,7 +453,7 @@ function myMainStack() {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: '#2a2b2b',
+            backgroundColor: '#171818',
             shadowColor: 'transparent',
           },
           headerTitleStyle: {
@@ -472,7 +472,7 @@ function myMainStack() {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: '#2a2b2b',
+            backgroundColor: '#171818',
             shadowColor: 'transparent',
           },
           headerTitleStyle: {

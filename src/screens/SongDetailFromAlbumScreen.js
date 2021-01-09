@@ -154,16 +154,56 @@ const SongDetailFromAlbumScreen = ({route}) => {
             <View style={{flexDirection: 'row', marginTop: -34}}>
               <TouchableOpacity
                 style={styles.playButton}
-                onPress={() => handleAudio(data.audio)}>
+                onPress={() => {
+                  ReactNativeHapticFeedback.trigger(
+                    'notificationSuccess',
+                    options,
+                  );
+                  handleAudio(data.preview);
+                }}>
                 <IonIcon name="play-circle-outline" style={styles.playIcon} />
               </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.stopButton}
-                onPress={() => songOfTheDay.stop()}>
-                <IonIcon name="stop-circle-outline" style={styles.stopIcon} />
+              {song ? (
+                <TouchableOpacity
+                  style={styles.stopButton}
+                  onPress={() => {
+                    ReactNativeHapticFeedback.trigger(
+                      'notificationError',
+                      options,
+                    );
+
+                    song.stop();
+                  }}>
+                  <IonIcon name="stop-circle-outline" style={styles.stopIcon} />
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity style={styles.stopButton}>
+                  <IonIcon name="stop-circle-outline" style={styles.stopIcon} />
+                </TouchableOpacity>
+              )}
+              {songOfTheDay != true ? (
+                <TouchableOpacity style={styles.songOfTheDayButton}>
+                  <MaterialIcon
+                    name="library-add"
+                    style={styles.songOfTheDayIcon}
+                    onPress={addSongOfTheDay}
+                  />
+                </TouchableOpacity>
+              ) : null}
+              <TouchableOpacity style={styles.songOfTheDayButton}>
+                <IonIcon
+                  name="paper-plane"
+                  style={styles.repostIcon}
+                  onPress={() =>
+                    navigationUse.navigate('PostFormScreen', {data: data})
+                  }
+                />
               </TouchableOpacity>
             </View>
           ) : null}
+          <Text style={{fontSize: 8, color: 'gray', marginTop: 10}}>
+            Click the plus icon to make this your song of the day!
+          </Text>
 
           <Text style={styles.title}>{data.title}</Text>
           <View
@@ -225,29 +265,6 @@ const SongDetailFromAlbumScreen = ({route}) => {
               explicit lyrics.
             </Text>
           ) : null}
-          <View style={styles.iconContainer}>
-            {songOfTheDay != true ? (
-              <TouchableOpacity style={styles.songOfTheDayButton}>
-                <MaterialIcon
-                  name="library-add"
-                  style={styles.songOfTheDayIcon}
-                  onPress={addSongOfTheDay}
-                />
-              </TouchableOpacity>
-            ) : null}
-            <TouchableOpacity style={styles.songOfTheDayButton}>
-              <IonIcon
-                name="paper-plane"
-                style={styles.repostIcon}
-                onPress={() =>
-                  navigationUse.navigate('PostFormScreen', {data: data})
-                }
-              />
-            </TouchableOpacity>
-          </View>
-          <Text style={{fontSize: 8, color: 'gray', marginTop: 4}}>
-            Click the plus icon to make this your song of the day!
-          </Text>
         </ScrollView>
       );
     } else {
@@ -280,19 +297,23 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 60,
   },
   songOfTheDayIcon: {
-    fontSize: 30,
+    fontSize: 32,
     color: '#c1c8d4',
+    marginTop: 13,
+    marginLeft: 2,
   },
   repostIcon: {
-    fontSize: 28,
+    fontSize: 32,
     color: '#c1c8d4',
+    marginTop: 13,
+    marginLeft: 2,
   },
   iconContainer: {
     flexDirection: 'row',
     marginTop: 16,
   },
   title: {
-    fontSize: 38,
+    fontSize: 40,
     color: '#1E8C8B',
     fontWeight: '400',
     width: 300,
@@ -354,21 +375,23 @@ const styles = StyleSheet.create({
   },
   songOfTheDayButton: {
     backgroundColor: '#1E8C8B',
-    padding: 14,
-    borderRadius: 40,
-    margin: 10,
+    borderRadius: 30,
+    alignItems: 'center',
+    marginRight: 12,
+    width: 60,
+    height: 60,
   },
   stopIcon: {
-    fontSize: 32,
+    fontSize: 40,
     color: '#c1c8d4',
-    marginTop: 13,
-    marginLeft: 2,
+    marginTop: 9,
+    marginLeft: 4,
   },
   playIcon: {
-    fontSize: 32,
-    marginTop: 13,
+    fontSize: 40,
     color: '#c1c8d4',
-    marginLeft: 2,
+    marginTop: 9,
+    marginLeft: 4,
   },
   playButton: {
     backgroundColor: '#1E8C8B',

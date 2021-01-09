@@ -57,6 +57,7 @@ const UserPostsFeed = ({id}) => {
       {data[0] != null ? (
         <FlatList
           contentContainerStyle={{paddingBottom: 300}}
+          showsVerticalScrollIndicator={false}
           keyExtractor={(item) => item.docId}
           data={data}
           renderItem={({item}) => (
