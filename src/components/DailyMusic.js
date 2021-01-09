@@ -32,13 +32,13 @@ const DailyMusic = () => {
         <View
           style={{
             paddingTop: 42,
-            backgroundColor: '#1E8C8B',
-            paddingBottom: 36,
+            backgroundColor: 'transparent',
+            paddingBottom: 10,
             borderBottomLeftRadius: 0,
-            borderBottomRightRadius: 46,
+            // borderBottomRightRadius: 46,
             borderColor: 'white',
             borderBottomWidth: 1,
-            borderRightWidth: 1,
+            // borderRightWidth: 1,
           }}>
           {currentUserData ? (
             <>
@@ -77,8 +77,8 @@ const DailyMusic = () => {
           />
           <View
             style={{
-              // borderBottomWidth: 1,
-              // borderBottomColor: 'rgba(193, 200, 212, 0.1)',
+              borderBottomWidth: 1,
+              borderBottomColor: 'rgba(193, 200, 212, 0.1)',
               marginTop: 16,
             }}
           />
@@ -104,11 +104,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#171818',
   },
   welcomeText: {
-    color: '#171818',
+    color: '#1E8C8B',
     fontSize: 30,
     fontWeight: '800',
     marginLeft: 4,
-    marginTop: 40,
+    marginTop: 30,
   },
   nameText: {
     fontSize: 26,
@@ -118,11 +118,11 @@ const styles = StyleSheet.create({
     marginLeft: 80,
   },
   welcomeIcon: {
-    color: '#171818',
+    color: '#1E8C8B',
     fontSize: 30,
     fontWeight: '800',
     marginLeft: 22,
-    marginTop: 40,
+    marginTop: 30,
   },
 });
 

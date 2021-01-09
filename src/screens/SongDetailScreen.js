@@ -95,6 +95,7 @@ const SongDetailScreen = ({route}) => {
         username: currentUser.displayName,
         uid: currentUser.uid,
         date: new Date().toDateString(),
+        preciseDate: new Date(),
         profilePictureUrl: currentUserData.profilePictureUrl,
         likes: [],
         comments: {},

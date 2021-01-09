@@ -354,133 +354,189 @@ const FeedItem = ({
               borderBottomWidth: StyleSheet.hairlineWidth,
               borderBottomColor: 'rgba(193, 200, 212, 0.2)',
               marginBottom: 12,
+              paddingLeft: 12,
+              paddingBottom: 8,
             }}>
-            <View style={styles.mainContainer}>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <TouchableOpacity
+                onPress={() =>
+                  navigationUse.navigate('FeedUserDetailScreen', {data: uid})
+                }>
+                <FastImage
+                  style={styles.profilePicture}
+                  source={{
+                    uri: profilePictureUrl,
+                    priority: FastImage.priority.normal,
+                  }}
+                  // resizeMode={FastImage.resizeMode.contain}
+                />
+              </TouchableOpacity>
               <View>
-                <TouchableOpacity
-                  onPress={() =>
-                    navigationUse.navigate('FeedUserDetailScreen', {data: uid})
-                  }>
-                  <FastImage
-                    style={styles.profilePicture}
-                    source={{
-                      uri: profilePictureUrl,
-                      priority: FastImage.priority.normal,
-                    }}
-                    // resizeMode={FastImage.resizeMode.contain}
-                  />
-                </TouchableOpacity>
-                <Text style={styles.usernameText}>{postData.username}</Text>
+                <Text style={styles.usernameText}>{username}</Text>
+                <Text style={styles.subUsername}>@{username}</Text>
               </View>
-
-              <View style={{alignItems: 'center', marginLeft: 30}}>
-                {type == 'Song of the Day.' ? (
+              <Text style={{fontSize: 6, alignSelf: 'center', marginLeft: 10}}>
+                ⚪️
+              </Text>
+              <Moment element={Text} format="MMM Do YY" style={styles.dateText}>
+                {date}
+              </Moment>
+            </View>
+            {type == 'Song of the Day.' ? (
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <FastImage
+                  style={styles.albumArt}
+                  source={{
+                    uri: albumArt,
+                    priority: FastImage.priority.normal,
+                  }}
+                  // resizeMode={FastImage.resizeMode.contain}
+                />
+                <View>
                   <Text style={styles.SOTDText}>Song of the day:</Text>
-                ) : null}
-                {description ? (
-                  <Text style={styles.description}>{description}</Text>
-                ) : null}
-                <View style={{flexDirection: 'row'}}>
-                  <FastImage
-                    style={styles.albumArt}
-                    source={{
-                      uri: albumArt,
-                      priority: FastImage.priority.normal,
-                    }}
-                    // resizeMode={FastImage.resizeMode.contain}
-                  />
-
+                  <Text style={styles.titleText}>{title}</Text>
+                  <Text style={styles.artistText}>{artist}</Text>
                   <View
                     style={{
-                      marginTop: 16,
-                      alignItems: 'center',
-                      marginLeft: 4,
-                      width: 140,
+                      flexDirection: 'row',
+                      alignSelf: 'center',
                     }}>
-                    <Text style={styles.titleText}>{title}</Text>
-                    <Text style={styles.artistText}>{artist}</Text>
-                    <View style={{flexDirection: 'row'}}>
+                    <TouchableOpacity>
+                      <IonIcon
+                        name="play-circle-outline"
+                        style={styles.playIcon}
+                        onPress={() => {
+                          ReactNativeHapticFeedback.trigger(
+                            'notificationSuccess',
+                            options,
+                          );
+                          handleAudio(audio);
+                        }}
+                      />
+                    </TouchableOpacity>
+                    {song ? (
                       <TouchableOpacity>
                         <IonIcon
-                          name="play-circle-outline"
-                          style={styles.playIcon}
+                          name="stop-circle-outline"
+                          style={styles.stopIcon}
                           onPress={() => {
                             ReactNativeHapticFeedback.trigger(
-                              'notificationSuccess',
+                              'notificationError',
                               options,
                             );
-                            handleAudio(audio);
+                            song.stop();
                           }}
                         />
                       </TouchableOpacity>
-                      {song ? (
-                        <TouchableOpacity>
-                          <IonIcon
-                            name="stop-circle-outline"
-                            style={styles.stopIcon}
-                            onPress={() => {
-                              ReactNativeHapticFeedback.trigger(
-                                'notificationError',
-                                options,
-                              );
-                              song.stop();
-                            }}
-                          />
-                        </TouchableOpacity>
-                      ) : (
-                        <TouchableOpacity>
-                          <IonIcon
-                            name="stop-circle-outline"
-                            style={styles.stopIcon}
-                          />
-                        </TouchableOpacity>
-                      )}
-                    </View>
+                    ) : (
+                      <TouchableOpacity>
+                        <IonIcon
+                          name="stop-circle-outline"
+                          style={styles.stopIcon}
+                        />
+                      </TouchableOpacity>
+                    )}
                   </View>
                 </View>
               </View>
-              <View>
-                <Moment
-                  element={Text}
-                  format="MMM Do YY"
-                  style={styles.dateText}>
-                  {date}
-                </Moment>
-              </View>
-            </View>
-            {liked == true ? (
-              <View style={{flexDirection: 'row'}}>
-                <TouchableOpacity style={styles.buttonsTab} onPress={onUnlike}>
-                  <AntIcon name="heart" style={styles.likeButton} />
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() =>
-                    navigationUse.navigate('LikeListScreen', {
-                      data: likes,
-                    })
-                  }>
-                  <Text style={styles.likesNumber}>
-                    {postData.likes.length.toString()} likes
-                  </Text>
-                </TouchableOpacity>
-              </View>
             ) : (
-              <View style={{flexDirection: 'row'}}>
-                <TouchableOpacity style={styles.buttonsTab} onPress={onLike}>
-                  <AntIcon name="hearto" style={styles.likeButton} />
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() =>
-                    navigationUse.navigate('LikeListScreen', {
-                      data: likes,
-                    })
-                  }>
-                  <Text style={styles.likesNumber}>
-                    {postData.likes.length.toString()} likes
-                  </Text>
-                </TouchableOpacity>
+              <View style={{alignItems: 'center'}}>
+                <Text style={styles.description}>{description}</Text>
+
+                <FastImage
+                  style={styles.albumArtPost}
+                  source={{
+                    uri: albumArt,
+                    priority: FastImage.priority.normal,
+                  }}
+                  // resizeMode={FastImage.resizeMode.contain}
+                />
+                <View>
+                  <Text style={styles.titleText}>{title}</Text>
+                  <Text style={styles.artistText}>{artist}</Text>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignSelf: 'center',
+                    }}>
+                    <TouchableOpacity>
+                      <IonIcon
+                        name="play-circle-outline"
+                        style={styles.playIcon}
+                        onPress={() => {
+                          ReactNativeHapticFeedback.trigger(
+                            'notificationSuccess',
+                            options,
+                          );
+                          handleAudio(audio);
+                        }}
+                      />
+                    </TouchableOpacity>
+                    {song ? (
+                      <TouchableOpacity>
+                        <IonIcon
+                          name="stop-circle-outline"
+                          style={styles.stopIcon}
+                          onPress={() => {
+                            ReactNativeHapticFeedback.trigger(
+                              'notificationError',
+                              options,
+                            );
+                            song.stop();
+                          }}
+                        />
+                      </TouchableOpacity>
+                    ) : (
+                      <TouchableOpacity>
+                        <IonIcon
+                          name="stop-circle-outline"
+                          style={styles.stopIcon}
+                        />
+                      </TouchableOpacity>
+                    )}
+                  </View>
+                </View>
               </View>
             )}
+
+            <View
+              style={{
+                flexDirection: 'row',
+                alignSelf: 'flex-start',
+                marginTop: 20,
+              }}>
+              {liked == true ? (
+                <>
+                  <TouchableOpacity
+                    style={styles.buttonsTab}
+                    onPress={onUnlike}>
+                    <AntIcon name="heart" style={styles.likeButton} />
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() =>
+                      navigationUse.navigate('LikeListScreen', {data: likes})
+                    }>
+                    <Text style={styles.likesNumber}>
+                      {postData.likes.length.toString()} likes
+                    </Text>
+                  </TouchableOpacity>
+                </>
+              ) : (
+                <>
+                  <TouchableOpacity style={styles.buttonsTab} onPress={onLike}>
+                    <AntIcon name="hearto" style={styles.likeButton} />
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() =>
+                      navigationUse.navigate('LikeListScreen', {data: likes})
+                    }>
+                    <Text style={styles.likesNumber}>
+                      {postData.likes.length.toString()} likes
+                    </Text>
+                  </TouchableOpacity>
+                </>
+              )}
+            </View>
           </View>
         </TouchableOpacity>
       ) : null}
@@ -510,17 +566,26 @@ const styles = StyleSheet.create({
   },
 
   profilePicture: {
-    height: 50,
-    width: 50,
-    borderRadius: 16,
+    height: 34,
+    width: 34,
+    borderRadius: 20,
   },
   albumArt: {
-    height: 100,
-    width: 100,
-    borderRadius: 30,
+    height: 160,
+    width: 160,
+    borderRadius: 2,
     marginLeft: 0,
-    marginTop: 2,
-    alignItems: 'center',
+    marginTop: 20,
+    alignSelf: 'flex-start',
+    // marginRight: 6,
+  },
+  albumArtPost: {
+    height: 160,
+    width: 160,
+    borderRadius: 2,
+    marginLeft: 0,
+    marginTop: 20,
+    alignSelf: 'center',
     // marginRight: 6,
   },
   postIntroText: {
@@ -531,9 +596,11 @@ const styles = StyleSheet.create({
   },
   titleText: {
     color: '#1E8C8B',
-    fontSize: 14,
+    fontSize: 18,
     fontWeight: '700',
-    alignSelf: 'center',
+    marginLeft: 14,
+    marginTop: 10,
+    width: 156,
     textAlign: 'center',
   },
   artistIntroText: {
@@ -544,16 +611,18 @@ const styles = StyleSheet.create({
   },
   artistText: {
     color: '#5AB9B9',
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: '700',
-    alignSelf: 'center',
+    marginLeft: 14,
+    marginTop: 4,
+    width: 156,
     textAlign: 'center',
   },
   usernameText: {
     color: '#c1c8d4',
     fontWeight: '500',
-    marginTop: 6,
     fontSize: 16,
+    marginLeft: 10,
   },
   profileContainer: {
     flexDirection: 'row',
@@ -561,13 +630,14 @@ const styles = StyleSheet.create({
   dateText: {
     fontSize: 12,
     color: 'gray',
-    marginLeft: -16,
+    alignSelf: 'center',
+    marginLeft: 10,
   },
   likeButton: {
     color: '#7F1535',
     fontSize: 28,
     marginBottom: 2,
-    marginLeft: 20,
+    marginLeft: 0,
   },
   buttonsTab: {
     marginTop: 0,
@@ -582,9 +652,9 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   stopIcon: {
-    fontSize: 34,
+    fontSize: 36,
     marginTop: 12,
-    marginLeft: 2,
+    marginLeft: 8,
     color: '#1E8C8B',
   },
   likesNumber: {
@@ -596,27 +666,31 @@ const styles = StyleSheet.create({
     marginLeft: 6,
   },
   playIcon: {
-    fontSize: 34,
+    fontSize: 36,
     marginTop: 12,
-    marginLeft: 2,
+    marginLeft: 14,
     color: '#1E8C8B',
   },
   description: {
     fontSize: 18,
     color: '#c1c8d4',
     marginTop: 20,
-    marginLeft: 2,
-    width: 260,
-    marginBottom: 30,
-    fontWeight: '500',
+    marginLeft: 10,
+    marginRight: 20,
+    fontWeight: '400',
     // textAlign: 'center',
   },
   SOTDText: {
     marginTop: 12,
-    fontSize: 20,
+    fontSize: 18,
     color: '#c1c8d4',
-    marginBottom: 23,
     fontWeight: 'bold',
+    textAlign: 'center',
+    marginLeft: 14,
+  },
+  subUsername: {
+    color: 'gray',
+    marginLeft: 10,
   },
 });
 
