@@ -77,6 +77,7 @@ const SongDetailFromAlbumScreen = ({route}) => {
         uid: currentUser.uid,
         date: new Date().toDateString(),
         preciseDate: new Date(),
+        userNotificationTokens: currentUserData.tokens,
         profilePictureUrl: currentUserData.profilePictureUrl,
         likes: [],
         comments: {},
@@ -151,8 +152,15 @@ const SongDetailFromAlbumScreen = ({route}) => {
               source={{uri: data.album.cover_xl}}
             />
           </View>
+
+          <Text style={{fontSize: 8, color: 'gray', marginTop: 10}}>
+            Click the plus icon to make this your song of the day!
+          </Text>
+
+          <Text style={styles.title}>{data.title}</Text>
           {true ? (
-            <View style={{flexDirection: 'row', marginTop: -34}}>
+            <View
+              style={{flexDirection: 'row', marginTop: 10, marginBottom: 4}}>
               <TouchableOpacity
                 style={styles.playButton}
                 onPress={() => {
@@ -162,7 +170,7 @@ const SongDetailFromAlbumScreen = ({route}) => {
                   );
                   handleAudio(data.preview);
                 }}>
-                <IonIcon name="play-circle-outline" style={styles.playIcon} />
+                <IonIcon name="play" style={styles.playIcon} />
               </TouchableOpacity>
               {song ? (
                 <TouchableOpacity
@@ -175,11 +183,11 @@ const SongDetailFromAlbumScreen = ({route}) => {
 
                     song.stop();
                   }}>
-                  <IonIcon name="stop-circle-outline" style={styles.stopIcon} />
+                  <IonIcon name="stop" style={styles.stopIcon} />
                 </TouchableOpacity>
               ) : (
                 <TouchableOpacity style={styles.stopButton}>
-                  <IonIcon name="stop-circle-outline" style={styles.stopIcon} />
+                  <IonIcon name="stop" style={styles.stopIcon} />
                 </TouchableOpacity>
               )}
               {songOfTheDay != true ? (
@@ -202,11 +210,6 @@ const SongDetailFromAlbumScreen = ({route}) => {
               </TouchableOpacity>
             </View>
           ) : null}
-          <Text style={{fontSize: 8, color: 'gray', marginTop: 10}}>
-            Click the plus icon to make this your song of the day!
-          </Text>
-
-          <Text style={styles.title}>{data.title}</Text>
           <View
             style={{
               alignItems: 'center',
@@ -256,10 +259,10 @@ const SongDetailFromAlbumScreen = ({route}) => {
               you want to remove it.
             </Text>
           ) : null}
-          <Text style={styles.rank}>Deezer Rank: {data.rank.toString()}</Text>
+          {/* <Text style={styles.rank}>Deezer Rank: {data.rank.toString()}</Text>
           <Text style={styles.duration}>
             Song Duration: {data.duration.toString()} seconds.
-          </Text>
+          </Text> */}
           {data.explicit_lyrics ? (
             <Text style={styles.explcitWarning}>
               Your grandparents might not appreciate this song. It contains
@@ -293,9 +296,10 @@ const styles = StyleSheet.create({
     // paddingRight: 12,
   },
   albumArt: {
-    height: dimensions.height / 2,
+    height: dimensions.height / 2.0,
     width: dimensions.width,
-    borderBottomLeftRadius: 60,
+    borderBottomRightRadius: 80,
+    borderBottomLeftRadius: 80,
   },
   songOfTheDayIcon: {
     fontSize: 32,

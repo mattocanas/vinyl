@@ -99,11 +99,11 @@ const UserLike = ({data}) => {
               {song ? (
                 <TouchableOpacity>
                   <IonIcon
-                    name="stop-circle-outline"
+                    name="stop"
                     style={styles.stopIcon}
                     onPress={() => {
                       ReactNativeHapticFeedback.trigger(
-                        'notificationError',
+                        'notificationWarning',
                         options,
                       );
                       song.stop();
@@ -112,7 +112,7 @@ const UserLike = ({data}) => {
                 </TouchableOpacity>
               ) : (
                 <TouchableOpacity>
-                  <IonIcon name="stop-circle-outline" style={styles.stopIcon} />
+                  <IonIcon name="stop" style={styles.stopIcon} />
                 </TouchableOpacity>
               )}
             </>

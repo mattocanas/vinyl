@@ -49,6 +49,7 @@ const PostDetailScreen = ({route}) => {
   const [liked, setLiked] = useState(false);
   const navigationUse = useNavigation();
   const [ready, setReady] = useState(false);
+  const [song, setSong] = useState(null);
 
   const options = {
     enableVibrateFallback: true,
@@ -63,7 +64,7 @@ const PostDetailScreen = ({route}) => {
     return () => {
       active = false;
     };
-  }, [ready]);
+  }, [ready, song]);
 
   const track = new Sound(audio, null, (e) => {
     if (e) {
@@ -76,6 +77,7 @@ const PostDetailScreen = ({route}) => {
 
   const playTrack = () => {
     track.play();
+    setSong(track);
     ReactNativeHapticFeedback.trigger('notificationSuccess', options);
     {
       track.isPlaying() == false ? track.reset() : null;
@@ -86,6 +88,7 @@ const PostDetailScreen = ({route}) => {
     ReactNativeHapticFeedback.trigger('notificationWarning', options);
     track.stop();
     track.reset();
+    setSong(null);
   };
 
   const onLike = () => {
@@ -176,7 +179,7 @@ const PostDetailScreen = ({route}) => {
   return (
     <View style={styles.mainContainer}>
       <ScrollView
-        contentContainerStyle={{alignItems: 'flex-start'}}
+        contentContainerStyle={{alignItems: 'center'}}
         showsVerticalScrollIndicator={false}>
         <FastImage
           style={styles.albumArt}
@@ -206,7 +209,63 @@ const PostDetailScreen = ({route}) => {
             {date}
           </Moment>
         </View>
-        {description ? (
+
+        {type == 'Song of the Day.' ? (
+          <View
+            style={{alignItems: 'center', alignSelf: 'center', marginTop: 16}}>
+            <Text style={styles.SOTDText}>Song of the day:</Text>
+            <Text
+              onPress={() =>
+                navigationUse.navigate('SongDetailFromAlbumScreen', {
+                  id: trackId,
+                })
+              }
+              style={styles.titleTextSOTD}>
+              {title}
+            </Text>
+            <Text style={styles.albumIntroTextSOTD}>from</Text>
+            <Text
+              onPress={() =>
+                navigationUse.navigate('AlbumDetailScreen', {id: albumId})
+              }
+              style={styles.albumTextSOTD}>
+              {albumName}
+            </Text>
+            <Text style={styles.artistIntroTextSOTD}>by</Text>
+            <Text style={styles.artistTextSOTD}>{artist}</Text>
+          </View>
+        ) : (
+          <View style={{alignItems: 'center'}}>
+            <Text style={styles.description}>{description}</Text>
+            <View
+              style={{
+                alignItems: 'center',
+                alignSelf: 'center',
+                marginTop: 16,
+              }}>
+              <Text
+                onPress={() =>
+                  navigationUse.navigate('SongDetailFromAlbumScreen', {
+                    id: trackId,
+                  })
+                }
+                style={styles.titleTextSOTD}>
+                {title}
+              </Text>
+              <Text style={styles.albumIntroTextSOTD}>from</Text>
+              <Text
+                onPress={() =>
+                  navigationUse.navigate('AlbumDetailScreen', {id: albumId})
+                }
+                style={styles.albumTextSOTD}>
+                {albumName}
+              </Text>
+              <Text style={styles.artistIntroTextSOTD}>by</Text>
+              <Text style={styles.artistTextSOTD}>{artist}</Text>
+            </View>
+          </View>
+        )}
+        {/* {description ? (
           <View style={styles.postTextView}>
             <Text style={styles.postContet}>{description}</Text>
           </View>
@@ -262,18 +321,17 @@ const PostDetailScreen = ({route}) => {
               <Text style={styles.artistText}>{artist}</Text>
             </View>
           )}
+        </View> */}
+
+        <View
+          style={{flexDirection: 'row', alignSelf: 'center', marginTop: 30}}>
+          <TouchableOpacity onPress={playTrack}>
+            <IonIcon name="play" style={styles.playIcon} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => song.stop()}>
+            <IonIcon name="stop" style={styles.stopIcon} />
+          </TouchableOpacity>
         </View>
-        {ready ? (
-          <View
-            style={{flexDirection: 'row', alignSelf: 'center', marginTop: 30}}>
-            <TouchableOpacity style={styles.playButton} onPress={playTrack}>
-              <IonIcon name="play-circle-outline" style={styles.playIcon} />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.stopButton} onPress={stopTrack}>
-              <IonIcon name="stop-circle-outline" style={styles.stopIcon} />
-            </TouchableOpacity>
-          </View>
-        ) : null}
 
         {liked == true ? (
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -312,7 +370,7 @@ const PostDetailScreen = ({route}) => {
             </TouchableOpacity>
           </View>
         ) : (
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <View style={{flexDirection: 'row'}}>
             {/* <TouchableOpacity style={styles.buttonsTab} onPress={onLike}>
               <AntIcon name="hearto" style={styles.likeButton} />
             </TouchableOpacity> */}
@@ -376,12 +434,13 @@ const styles = StyleSheet.create({
     borderWidth: 2,
   },
   albumArt: {
-    height: dimensions.height / 2.3,
+    height: dimensions.height / 2.0,
     width: dimensions.width,
-    borderBottomRightRadius: 60,
+    borderBottomRightRadius: 80,
+    borderBottomLeftRadius: 80,
   },
   postIntroText: {
-    color: '#c1c8d4',
+    color: '#1E8C8B',
     fontSize: 24,
     fontWeight: '700',
     marginBottom: 8,
@@ -394,12 +453,12 @@ const styles = StyleSheet.create({
     width: 200,
   },
   artistIntroText: {
-    color: '#c1c8d4',
+    color: '#1E8C8B',
     fontSize: 16,
     marginLeft: 0,
   },
   artistText: {
-    color: '#5AB9B9',
+    color: '#c1c8d4',
     fontSize: 18,
     fontWeight: '300',
   },
@@ -412,6 +471,7 @@ const styles = StyleSheet.create({
   },
   profileContainer: {
     flexDirection: 'row',
+    alignSelf: 'flex-start',
   },
   dateText: {
     fontSize: 12,
@@ -424,10 +484,7 @@ const styles = StyleSheet.create({
     fontSize: 28,
     marginTop: 10,
   },
-  buttonsTab: {
-    marginLeft: 44,
-    marginTop: 4,
-  },
+  buttonsTab: {},
   postContet: {
     color: '#c1c8d4',
     fontSize: 22,
@@ -440,16 +497,16 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   stopIcon: {
-    fontSize: 32,
+    fontSize: 50,
     color: '#c1c8d4',
-    marginTop: 13,
-    marginLeft: 2,
+    marginTop: 11,
+    marginLeft: 4,
   },
   playIcon: {
-    fontSize: 32,
-    marginTop: 13,
+    fontSize: 50,
+    marginTop: 11,
     color: '#c1c8d4',
-    marginLeft: 2,
+    marginLeft: 4,
   },
   playButton: {
     backgroundColor: '#1E8C8B',
@@ -474,56 +531,68 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '500',
     color: '#c1c8d4',
-    marginLeft: 40,
+    paddingBottom: 40,
   },
   reportButton: {
     color: '#7F1535',
     fontSize: 30,
     marginTop: 24,
     marginLeft: 12,
+    paddingBottom: 40,
   },
   albumIntroText: {
-    color: '#c1c8d4',
+    color: '#1E8C8B',
     fontSize: 16,
     marginBottom: 2,
   },
   albumText: {
-    color: '#1E8C8B',
+    color: '#c1c8d4',
     fontSize: 18,
     fontWeight: '300',
     width: 200,
     marginBottom: 8,
   },
   albumIntroTextSOTD: {
-    color: '#c1c8d4',
+    color: '#1E8C8B',
     fontSize: 16,
     marginRight: 8,
     marginLeft: 8,
   },
   albumTextSOTD: {
-    color: '#1E8C8B',
+    color: '#c1c8d4',
     fontSize: 22,
     fontWeight: '600',
     width: 280,
     textAlign: 'center',
   },
   artistIntroTextSOTD: {
-    color: '#c1c8d4',
+    color: '#1E8C8B',
     fontSize: 16,
   },
   artistTextSOTD: {
-    color: '#5AB9B9',
+    color: '#c1c8d4',
     fontSize: 22,
     fontWeight: '600',
     width: 260,
     textAlign: 'center',
   },
   titleTextSOTD: {
-    color: '#1E8C8B',
+    color: '#c1c8d4',
     fontSize: 22,
     fontWeight: '600',
     textAlign: 'center',
-    marginRight: 8,
+    marginTop: 10,
+  },
+  SOTDText: {
+    fontSize: 30,
+    color: '#1E8C8B',
+  },
+  description: {
+    color: '#c1c8d4',
+    fontSize: 20,
+    marginLeft: 20,
+    marginRight: 20,
+    marginTop: 16,
   },
 });
 

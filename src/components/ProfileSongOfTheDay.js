@@ -82,7 +82,7 @@ const ProfileSongOfTheDay = ({data, refresh}) => {
             <>
               <TouchableOpacity>
                 <IonIcon
-                  name="play-circle-outline"
+                  name="play"
                   style={styles.stopIcon}
                   onPress={() => {
                     ReactNativeHapticFeedback.trigger(
@@ -96,11 +96,11 @@ const ProfileSongOfTheDay = ({data, refresh}) => {
               {song ? (
                 <TouchableOpacity>
                   <IonIcon
-                    name="stop-circle-outline"
+                    name="stop"
                     style={styles.stopIcon}
                     onPress={() => {
                       ReactNativeHapticFeedback.trigger(
-                        'notificationError',
+                        'notificationWarning',
                         options,
                       );
                       song.stop();
@@ -109,7 +109,7 @@ const ProfileSongOfTheDay = ({data, refresh}) => {
                 </TouchableOpacity>
               ) : (
                 <TouchableOpacity>
-                  <IonIcon name="stop-circle-outline" style={styles.stopIcon} />
+                  <IonIcon name="stop" style={styles.stopIcon} />
                 </TouchableOpacity>
               )}
             </>
@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '700',
     color: '#1E8C8B',
-    marginRight: 0,
+    marginRight: 6,
     width: 124,
   },
   artist: {

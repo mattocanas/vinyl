@@ -97,6 +97,7 @@ const SongDetailScreen = ({route}) => {
         date: new Date().toDateString(),
         preciseDate: new Date(),
         profilePictureUrl: currentUserData.profilePictureUrl,
+        userNotificationTokens: currentUserData.tokens,
         likes: [],
         comments: {},
         description: '',
@@ -141,8 +142,14 @@ const SongDetailScreen = ({route}) => {
         <View style={{flexDirection: 'row'}}>
           <Image style={styles.albumArt} source={{uri: data.album.cover_xl}} />
         </View>
+
+        <Text style={{fontSize: 8, color: 'gray', marginTop: 10}}>
+          Click the plus icon to make this your song of the day!
+        </Text>
+
+        <Text style={styles.title}>{data.title}</Text>
         {true ? (
-          <View style={{flexDirection: 'row', marginTop: -34}}>
+          <View style={{flexDirection: 'row', marginTop: 10, marginBottom: 4}}>
             <TouchableOpacity
               style={styles.playButton}
               onPress={() => {
@@ -152,7 +159,7 @@ const SongDetailScreen = ({route}) => {
                 );
                 handleAudio(data.preview);
               }}>
-              <IonIcon name="play-circle-outline" style={styles.playIcon} />
+              <IonIcon name="play" style={styles.playIcon} />
             </TouchableOpacity>
             {song ? (
               <TouchableOpacity
@@ -165,11 +172,11 @@ const SongDetailScreen = ({route}) => {
 
                   song.stop();
                 }}>
-                <IonIcon name="stop-circle-outline" style={styles.stopIcon} />
+                <IonIcon name="stop" style={styles.stopIcon} />
               </TouchableOpacity>
             ) : (
               <TouchableOpacity style={styles.stopButton}>
-                <IonIcon name="stop-circle-outline" style={styles.stopIcon} />
+                <IonIcon name="stop" style={styles.stopIcon} />
               </TouchableOpacity>
             )}
             {songOfTheDay != true ? (
@@ -193,11 +200,6 @@ const SongDetailScreen = ({route}) => {
           </View>
         ) : null}
 
-        <Text style={{fontSize: 8, color: 'gray', marginTop: 10}}>
-          Click the plus icon to make this your song of the day!
-        </Text>
-
-        <Text style={styles.title}>{data.title}</Text>
         <View
           style={{
             alignItems: 'center',
@@ -246,10 +248,10 @@ const SongDetailScreen = ({route}) => {
             want to remove it.
           </Text>
         ) : null}
-        <Text style={styles.rank}>Deezer Rank: {data.rank.toString()}</Text>
+        {/* <Text style={styles.rank}>Deezer Rank: {data.rank.toString()}</Text>
         <Text style={styles.duration}>
           Song Duration: {data.duration.toString()} seconds.
-        </Text>
+        </Text> */}
         {data.explicit_lyrics ? (
           <Text style={styles.explcitWarning}>
             Your grandparents might not appreciate this song. It contains
@@ -270,9 +272,10 @@ const styles = StyleSheet.create({
     // paddingRight: 12,
   },
   albumArt: {
-    height: dimensions.height / 2,
+    height: dimensions.height / 2.0,
     width: dimensions.width,
-    borderBottomLeftRadius: 60,
+    borderBottomRightRadius: 80,
+    borderBottomLeftRadius: 80,
   },
   songOfTheDayIcon: {
     fontSize: 32,
@@ -283,8 +286,8 @@ const styles = StyleSheet.create({
   repostIcon: {
     fontSize: 32,
     color: '#c1c8d4',
-    marginTop: 13,
-    marginLeft: 2,
+    marginTop: 14,
+    marginLeft: 0,
   },
   iconContainer: {
     flexDirection: 'row',
@@ -293,7 +296,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 40,
     color: '#1E8C8B',
-    fontWeight: '400',
+    fontWeight: '500',
     width: 300,
     textAlign: 'center',
     marginTop: 16,

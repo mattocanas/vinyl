@@ -80,7 +80,7 @@ const ProfileLike = ({data}) => {
             <>
               <TouchableOpacity>
                 <IonIcon
-                  name="play-circle-outline"
+                  name="play"
                   style={styles.stopIcon}
                   onPress={() => {
                     ReactNativeHapticFeedback.trigger(
@@ -94,11 +94,11 @@ const ProfileLike = ({data}) => {
               {song ? (
                 <TouchableOpacity>
                   <IonIcon
-                    name="stop-circle-outline"
+                    name="stop"
                     style={styles.stopIcon}
                     onPress={() => {
                       ReactNativeHapticFeedback.trigger(
-                        'notificationError',
+                        'notificationWarning',
                         options,
                       );
                       song.stop();
@@ -107,7 +107,7 @@ const ProfileLike = ({data}) => {
                 </TouchableOpacity>
               ) : (
                 <TouchableOpacity>
-                  <IonIcon name="stop-circle-outline" style={styles.stopIcon} />
+                  <IonIcon name="stop" style={styles.stopIcon} />
                 </TouchableOpacity>
               )}
             </>

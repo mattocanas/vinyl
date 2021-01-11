@@ -19,7 +19,6 @@ import {useNavigation} from '@react-navigation/native';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import {TypingAnimation} from 'react-native-typing-animation';
 import FastImage from 'react-native-fast-image';
-import {read} from 'react-native-fs';
 
 const FeedItem = ({
   title,
@@ -43,7 +42,7 @@ const FeedItem = ({
   docId,
   refresh,
 }) => {
-  const [{currentUser}, dispatch] = useStateProviderValue();
+  const [{currentUser, currentUserData}, dispatch] = useStateProviderValue();
   const [liked, setLiked] = useState(false);
   const [postData, setPostData] = useState(null);
   const navigationUse = useNavigation();
@@ -354,7 +353,7 @@ const FeedItem = ({
               borderBottomWidth: StyleSheet.hairlineWidth,
               borderBottomColor: 'rgba(193, 200, 212, 0.2)',
               marginBottom: 12,
-              paddingLeft: 12,
+              paddingLeft: 16,
               paddingBottom: 8,
             }}>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -403,7 +402,7 @@ const FeedItem = ({
                     }}>
                     <TouchableOpacity>
                       <IonIcon
-                        name="play-circle-outline"
+                        name="play"
                         style={styles.playIcon}
                         onPress={() => {
                           ReactNativeHapticFeedback.trigger(
@@ -417,11 +416,11 @@ const FeedItem = ({
                     {song ? (
                       <TouchableOpacity>
                         <IonIcon
-                          name="stop-circle-outline"
+                          name="stop"
                           style={styles.stopIcon}
                           onPress={() => {
                             ReactNativeHapticFeedback.trigger(
-                              'notificationError',
+                              'notificationWarning',
                               options,
                             );
                             song.stop();
@@ -430,10 +429,7 @@ const FeedItem = ({
                       </TouchableOpacity>
                     ) : (
                       <TouchableOpacity>
-                        <IonIcon
-                          name="stop-circle-outline"
-                          style={styles.stopIcon}
-                        />
+                        <IonIcon name="stop" style={styles.stopIcon} />
                       </TouchableOpacity>
                     )}
                   </View>
@@ -461,7 +457,7 @@ const FeedItem = ({
                     }}>
                     <TouchableOpacity>
                       <IonIcon
-                        name="play-circle-outline"
+                        name="play"
                         style={styles.playIcon}
                         onPress={() => {
                           ReactNativeHapticFeedback.trigger(
@@ -475,7 +471,7 @@ const FeedItem = ({
                     {song ? (
                       <TouchableOpacity>
                         <IonIcon
-                          name="stop-circle-outline"
+                          name="stop"
                           style={styles.stopIcon}
                           onPress={() => {
                             ReactNativeHapticFeedback.trigger(
@@ -488,10 +484,7 @@ const FeedItem = ({
                       </TouchableOpacity>
                     ) : (
                       <TouchableOpacity>
-                        <IonIcon
-                          name="stop-circle-outline"
-                          style={styles.stopIcon}
-                        />
+                        <IonIcon name="stop" style={styles.stopIcon} />
                       </TouchableOpacity>
                     )}
                   </View>
@@ -548,7 +541,7 @@ const styles = StyleSheet.create({
   mainContainer: {
     flexDirection: 'row',
     alignItems: 'flex-start',
-    paddingLeft: 16,
+    paddingLeft: 20,
     // marginTop: 8,
     paddingRight: 10,
     paddingBottom: 12,

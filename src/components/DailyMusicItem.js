@@ -147,7 +147,7 @@ const DailyMusicItem = ({
                 style={styles.stopIcon}
                 onPress={() => {
                   ReactNativeHapticFeedback.trigger(
-                    'notificationError',
+                    'notificationWarning',
                     options,
                   );
                   song.stop();

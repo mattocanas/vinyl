@@ -5,6 +5,7 @@ import {db} from '../../firebase/firebase';
 import LinearGradient from 'react-native-linear-gradient';
 import {useStateProviderValue} from '../../state/StateProvider';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome5';
 
 const DailyMusic = () => {
   const [
@@ -35,16 +36,18 @@ const DailyMusic = () => {
             backgroundColor: 'transparent',
             paddingBottom: 10,
             borderBottomLeftRadius: 0,
-            // borderBottomRightRadius: 46,
+            borderBottomRightRadius: 40,
+            borderBottomLeftRadius: 40,
             borderColor: 'white',
             borderBottomWidth: 1,
             // borderRightWidth: 1,
+            // borderLeftWidth: 1,
           }}>
           {currentUserData ? (
             <>
               <View style={{flexDirection: 'row'}}>
-                <MaterialCommunityIcon
-                  name="disc-player"
+                <FontAwesomeIcon
+                  name="compact-disc"
                   style={styles.welcomeIcon}
                 />
                 <Text style={styles.welcomeText}>Welcome, </Text>
@@ -115,13 +118,13 @@ const styles = StyleSheet.create({
     color: '#c1c8d4',
     fontWeight: '700',
     marginTop: 4,
-    marginLeft: 80,
+    marginLeft: 88,
   },
   welcomeIcon: {
     color: '#1E8C8B',
     fontSize: 30,
     fontWeight: '800',
-    marginLeft: 22,
+    marginLeft: 30,
     marginTop: 30,
   },
 });

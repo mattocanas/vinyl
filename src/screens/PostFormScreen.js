@@ -50,6 +50,7 @@ const PostFormScreen = ({route}) => {
         uid: currentUser.uid,
         date: new Date().toDateString(),
         preciseDate: new Date(),
+        userNotificationTokens: currentUserData.tokens,
         profilePictureUrl: currentUserData.profilePictureUrl,
         likes: [],
         comments: {},

@@ -95,14 +95,15 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#171818',
     alignItems: 'center',
+    paddingBottom: 30,
   },
   albumArt: {
-    height: dimensions.height / 2.3,
+    height: dimensions.height / 2.5,
     width: dimensions.width,
     borderBottomLeftRadius: 60,
   },
   titleText: {
-    fontSize: 32,
+    fontSize: 34,
     color: '#1E8C8B',
     fontWeight: '500',
     width: 300,

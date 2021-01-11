@@ -20,7 +20,7 @@
     "@react-navigation/native": "^5.8.10",
     "@react-navigation/stack": "^5.12.8",
     "axios": "^0.21.0",
-    "firebase": "^8.2.0",
+    "firebase": "^8.2.2",
     "moment": "^2.29.1",
     "react": "16.13.1",
     "react-moment": "^1.0.0",

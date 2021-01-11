@@ -84,7 +84,7 @@ const UserPost = ({data, refresh, id}) => {
             <>
               <TouchableOpacity>
                 <IonIcon
-                  name="play-circle-outline"
+                  name="play"
                   style={styles.stopIcon}
                   onPress={() => {
                     ReactNativeHapticFeedback.trigger(
@@ -98,11 +98,11 @@ const UserPost = ({data, refresh, id}) => {
               {song ? (
                 <TouchableOpacity>
                   <IonIcon
-                    name="stop-circle-outline"
+                    name="stop"
                     style={styles.stopIcon}
                     onPress={() => {
                       ReactNativeHapticFeedback.trigger(
-                        'notificationError',
+                        'notificationWarning',
                         options,
                       );
                       song.stop();
@@ -111,7 +111,7 @@ const UserPost = ({data, refresh, id}) => {
                 </TouchableOpacity>
               ) : (
                 <TouchableOpacity>
-                  <IonIcon name="stop-circle-outline" style={styles.stopIcon} />
+                  <IonIcon name="stop" style={styles.stopIcon} />
                 </TouchableOpacity>
               )}
             </>
