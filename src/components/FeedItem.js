@@ -12,6 +12,7 @@ import {
 import Sound from 'react-native-sound';
 import AntIcon from 'react-native-vector-icons/AntDesign';
 import IonIcon from 'react-native-vector-icons/Ionicons';
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import {db} from '../../firebase/firebase';
 import {useStateProviderValue} from '../../state/StateProvider';
 import firebase from 'firebase';
@@ -40,11 +41,13 @@ const FeedItem = ({
   artistTracklist,
   trackId,
   docId,
+  navigateBackTo,
   refresh,
 }) => {
   const [{currentUser, currentUserData}, dispatch] = useStateProviderValue();
   const [liked, setLiked] = useState(false);
   const [postData, setPostData] = useState(null);
+  const [userData, setUserData] = useState(null);
   const navigationUse = useNavigation();
   const [song, setSong] = useState(null);
   const [ready, setReady] = useState(false);
@@ -55,13 +58,12 @@ const FeedItem = ({
 
   useEffect(() => {
     let active = true;
-    checkIfLiked();
-
+    // checkIfLiked();
     Sound.setCategory('Playback');
     return () => {
       active = false;
     };
-  }, [liked, ready]);
+  }, []);
 
   const handleAudio = (url) => {
     track = new Sound(url, null, (e) => {
@@ -69,23 +71,11 @@ const FeedItem = ({
         console.log('error', e);
       } else {
         setReady(true);
-        console.log(track.isLoaded());
+
         setSong(track);
         track.play();
       }
     });
-  };
-
-  const stopTrack = () => {
-    ReactNativeHapticFeedback.trigger('notificationWarning', options);
-    song.stop();
-    song.reset();
-  };
-
-  const playTrack = () => {
-    song.play();
-
-    ReactNativeHapticFeedback.trigger('notificationSuccess', options);
   };
 
   const getData = () => {
@@ -173,6 +163,7 @@ const FeedItem = ({
   };
 
   const checkIfLiked = () => {
+    // getUserData();
     getData();
     db.collection('users')
       .doc(uid)
@@ -195,9 +186,18 @@ const FeedItem = ({
       });
   };
 
+  const getUserData = () => {
+    db.collection('users')
+      .doc(uid)
+      .get()
+      .then((doc) => {
+        setUserData(doc.data());
+      });
+  };
+
   return (
     <>
-      {postData ? (
+      {true ? (
         <TouchableOpacity
           onPress={() =>
             navigationUse.navigate('PostDetailScreen', {
@@ -219,135 +219,10 @@ const FeedItem = ({
               artistId,
               artistTracklist,
               trackId,
+              navigateBackTo,
               docId,
             })
           }>
-          {/* <View style={styles.mainContainer}>
-            <View style={styles.profileContainer}>
-              <TouchableOpacity
-                onPress={() =>
-                  navigationUse.navigate('FeedUserDetailScreen', {data: uid})
-                }>
-                <FastImage
-                  style={styles.profilePicture}
-                  source={{
-                    uri: profilePictureUrl,
-                    priority: FastImage.priority.normal,
-                  }}
-                  // resizeMode={FastImage.resizeMode.contain}
-                />
-              </TouchableOpacity>
-              <Text style={styles.usernameText}>{postData.username} |</Text>
-              <Moment element={Text} format="MMM Do YY" style={styles.dateText}>
-                {date}
-              </Moment>
-            </View>
-            <View style={{marginLeft: 10}}>
-              {description ? (
-                <View style={styles.postTextView}>
-                  <Text style={styles.postContet}>{postData.description}</Text>
-                </View>
-              ) : null}
-              <View style={styles.postContentContainer}>
-                {type == 'Song of the Day.' ? (
-                  <Text style={styles.postIntroText}>Song of the day:</Text>
-                ) : null}
-
-                <View style={{alignItems: 'center', flexDirection: 'row'}}>
-                  <Image
-                    style={styles.albumArt}
-                    source={{
-                      uri: albumArt,
-                    }}
-                  />
-                </View>
-
-                <View style={{alignItems: 'flex-start', marginLeft: 8}}>
-                  <Text style={styles.titleText}>{postData.title}</Text>
-
-                  <Text style={styles.artistIntroText}> by </Text>
-                  <Text style={styles.artistText}>{postData.artist}</Text>
-                </View>
-              </View>
-              <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                {liked == true ? (
-                  <>
-                    <TouchableOpacity
-                      style={styles.buttonsTab}
-                      onPress={onUnlike}>
-                      <AntIcon name="heart" style={styles.likeButton} />
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      onPress={() =>
-                        navigationUse.navigate('LikeListScreen', {data: likes})
-                      }>
-                      <Text style={styles.likesNumber}>
-                        {postData.likes.length.toString()} likes
-                      </Text>
-                    </TouchableOpacity>
-                  </>
-                ) : (
-                  <>
-                    <TouchableOpacity
-                      style={styles.buttonsTab}
-                      onPress={onLike}>
-                      <AntIcon name="hearto" style={styles.likeButton} />
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      onPress={() =>
-                        navigationUse.navigate('LikeListScreen', {data: likes})
-                      }>
-                      <Text style={styles.likesNumber}>
-                        {postData.likes.length.toString()} likes
-                      </Text>
-                    </TouchableOpacity>
-                  </>
-                )}
-                {true ? (
-                  <>
-                    <TouchableOpacity>
-                      <IonIcon
-                        name="play-circle-outline"
-                        style={styles.playIcon}
-                        onPress={() => {
-                          ReactNativeHapticFeedback.trigger(
-                            'notificationSuccess',
-                            options,
-                          );
-                          handleAudio(audio);
-                        }}
-                      />
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                      <IonIcon
-                        name="stop-circle-outline"
-                        style={styles.stopIcon}
-                        onPress={() => {
-                          ReactNativeHapticFeedback.trigger(
-                            'notificationError',
-                            options,
-                          );
-                          song.stop();
-                        }}
-                      />
-                    </TouchableOpacity>
-                  </>
-                ) : (
-                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                    <Text
-                      style={{
-                        color: '#1E8C8B',
-                        marginLeft: 8,
-                        marginTop: 12,
-                      }}>
-                      Loading tunes
-                    </Text>
-                    <TypingAnimation dotColor="#1E8C8B" />
-                  </View>
-                )}
-              </View>
-            </View>
-          </View> */}
           <View
             style={{
               borderBottomWidth: StyleSheet.hairlineWidth,
@@ -492,7 +367,7 @@ const FeedItem = ({
               </View>
             )}
 
-            <View
+            {/* <View
               style={{
                 flexDirection: 'row',
                 alignSelf: 'flex-start',
@@ -513,6 +388,16 @@ const FeedItem = ({
                       {postData.likes.length.toString()} likes
                     </Text>
                   </TouchableOpacity>
+                  <IonIcon
+                    name="chatbubble-outline"
+                    style={styles.commentIcon}
+                    onPress={() =>
+                      navigationUse.navigate('CommentsScreen', {
+                        docId: docId,
+                        uid: uid,
+                      })
+                    }
+                  />
                 </>
               ) : (
                 <>
@@ -527,9 +412,19 @@ const FeedItem = ({
                       {postData.likes.length.toString()} likes
                     </Text>
                   </TouchableOpacity>
+                  <IonIcon
+                    name="chatbubble-outline"
+                    style={styles.commentIcon}
+                    onPress={() =>
+                      navigationUse.navigate('CommentsScreen', {
+                        docId: docId,
+                        uid: uid,
+                      })
+                    }
+                  />
                 </>
               )}
-            </View>
+            </View> */}
           </View>
         </TouchableOpacity>
       ) : null}
@@ -684,6 +579,12 @@ const styles = StyleSheet.create({
   subUsername: {
     color: 'gray',
     marginLeft: 10,
+  },
+  commentIcon: {
+    fontSize: 28,
+    marginBottom: 2,
+    color: '#c1c8d4',
+    marginLeft: 16,
   },
 });
 

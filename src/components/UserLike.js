@@ -85,7 +85,7 @@ const UserLike = ({data}) => {
             <>
               <TouchableOpacity>
                 <IonIcon
-                  name="play-circle-outline"
+                  name="play"
                   style={styles.stopIcon}
                   onPress={() => {
                     ReactNativeHapticFeedback.trigger(

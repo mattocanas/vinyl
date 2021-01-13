@@ -70,7 +70,7 @@ const EditProfileScreen = ({route}) => {
       .updateEmail(email)
       .then(() => {
         {
-          ready1 && ready2 ? navigation.navigate('ProfileScreen') : null;
+          ready1 & ready2 ? navigation.navigate('ProfileScreen') : null;
         }
       })
       .catch((error) => setEmailUpdateError(error.message));

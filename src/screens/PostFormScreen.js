@@ -46,7 +46,7 @@ const PostFormScreen = ({route}) => {
         albumName: data.album.title,
         trackId: data.id,
         audio: data.preview,
-        username: currentUser.displayName,
+        username: currentUserData.username,
         uid: currentUser.uid,
         date: new Date().toDateString(),
         preciseDate: new Date(),

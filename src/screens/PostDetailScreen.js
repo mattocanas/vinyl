@@ -42,6 +42,7 @@ const PostDetailScreen = ({route}) => {
     artistId,
     artistTracklist,
     trackId,
+    navigateBackTo,
     docId,
   } = route.params;
 
@@ -50,6 +51,7 @@ const PostDetailScreen = ({route}) => {
   const navigationUse = useNavigation();
   const [ready, setReady] = useState(false);
   const [song, setSong] = useState(null);
+  const [likesNumber, setLikesNumber] = useState(likes.length);
 
   const options = {
     enableVibrateFallback: true,
@@ -60,11 +62,11 @@ const PostDetailScreen = ({route}) => {
     let active = true;
 
     checkIfLiked();
-
+    console.log(likesNumber + 1);
     return () => {
       active = false;
     };
-  }, [ready, song]);
+  }, []);
 
   const track = new Sound(audio, null, (e) => {
     if (e) {
@@ -125,6 +127,8 @@ const PostDetailScreen = ({route}) => {
       .then(() => {
         checkIfLiked();
         setLiked(true);
+        setLikesNumber(likes.length + 1);
+        ReactNativeHapticFeedback.trigger('notificationSuccess', options);
       });
   };
 
@@ -151,6 +155,8 @@ const PostDetailScreen = ({route}) => {
       .then(() => {
         checkIfLiked();
         setLiked(false);
+        setLikesNumber(likes.length);
+        ReactNativeHapticFeedback.trigger('notificationWarning', options);
       });
   };
 
@@ -188,6 +194,18 @@ const PostDetailScreen = ({route}) => {
             priority: FastImage.priority.normal,
           }}
           // resizeMode={FastImage.resizeMode.contain}
+        />
+        <MaterialIcon
+          onPress={() => navigationUse.navigate(navigateBackTo)}
+          name="arrow-back-ios"
+          color="white"
+          style={{
+            fontSize: 40,
+            position: 'absolute',
+            marginTop: 50,
+            alignSelf: 'flex-start',
+            marginLeft: 30,
+          }}
         />
 
         <View style={styles.profileContainer}>
@@ -265,63 +283,6 @@ const PostDetailScreen = ({route}) => {
             </View>
           </View>
         )}
-        {/* {description ? (
-          <View style={styles.postTextView}>
-            <Text style={styles.postContet}>{description}</Text>
-          </View>
-        ) : null}
-        <View style={styles.postContentContainer}>
-          {type == 'Song of the Day.' ? (
-            <View>
-              <Text style={styles.postIntroText}>Song of the day:</Text>
-              <View style={{flexDirection: 'column', alignItems: 'center'}}>
-                <Text
-                  onPress={() =>
-                    navigationUse.navigate('SongDetailFromAlbumScreen', {
-                      id: trackId,
-                    })
-                  }
-                  style={styles.titleTextSOTD}>
-                  {title}
-                </Text>
-                <Text style={styles.albumIntroTextSOTD}>from</Text>
-                <Text
-                  onPress={() =>
-                    navigationUse.navigate('AlbumDetailScreen', {id: albumId})
-                  }
-                  style={styles.albumTextSOTD}>
-                  {albumName}
-                </Text>
-                <Text style={styles.artistIntroTextSOTD}> by </Text>
-                <Text style={styles.artistTextSOTD}>{artist}</Text>
-              </View>
-            </View>
-          ) : (
-            <View>
-              <Text
-                onPress={() =>
-                  navigationUse.navigate('SongDetailFromAlbumScreen', {
-                    id: trackId,
-                  })
-                }
-                style={styles.titleText}>
-                {title}
-              </Text>
-
-              <Text style={styles.albumIntroText}>from</Text>
-              <Text
-                onPress={() =>
-                  navigationUse.navigate('AlbumDetailScreen', {id: albumId})
-                }
-                style={styles.albumText}>
-                {albumName}
-              </Text>
-
-              <Text style={styles.artistIntroText}> by </Text>
-              <Text style={styles.artistText}>{artist}</Text>
-            </View>
-          )}
-        </View> */}
 
         <View
           style={{flexDirection: 'row', alignSelf: 'center', marginTop: 30}}>
@@ -334,18 +295,26 @@ const PostDetailScreen = ({route}) => {
         </View>
 
         {liked == true ? (
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            {/* <TouchableOpacity style={styles.buttonsTab} onPress={onUnlike}>
+          <View style={{flexDirection: 'row'}}>
+            <IonIcon
+              name="chatbubble-outline"
+              style={styles.commentIcon}
+              onPress={() =>
+                navigationUse.navigate('CommentsScreen', {
+                  docId: docId,
+                  uid: uid,
+                })
+              }
+            />
+            <TouchableOpacity style={styles.buttonsTab} onPress={onUnlike}>
               <AntIcon name="heart" style={styles.likeButton} />
-            </TouchableOpacity> */}
+            </TouchableOpacity>
 
             <TouchableOpacity
               onPress={() =>
                 navigationUse.navigate('LikeListScreen', {data: likes})
               }>
-              <Text style={styles.likesNumber}>
-                {likes.length.toString()} likes
-              </Text>
+              <Text style={styles.likesNumber}>{likesNumber} likes</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -371,16 +340,24 @@ const PostDetailScreen = ({route}) => {
           </View>
         ) : (
           <View style={{flexDirection: 'row'}}>
-            {/* <TouchableOpacity style={styles.buttonsTab} onPress={onLike}>
+            <IonIcon
+              name="chatbubble-outline"
+              style={styles.commentIcon}
+              onPress={() =>
+                navigationUse.navigate('CommentsScreen', {
+                  docId: docId,
+                  uid: uid,
+                })
+              }
+            />
+            <TouchableOpacity style={styles.buttonsTab} onPress={onLike}>
               <AntIcon name="hearto" style={styles.likeButton} />
-            </TouchableOpacity> */}
+            </TouchableOpacity>
             <TouchableOpacity
               onPress={() =>
                 navigationUse.navigate('LikeListScreen', {data: likes})
               }>
-              <Text style={styles.likesNumber}>
-                {likes.length.toString()} likes
-              </Text>
+              <Text style={styles.likesNumber}>{likesNumber} likes</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -484,7 +461,10 @@ const styles = StyleSheet.create({
     fontSize: 28,
     marginTop: 10,
   },
-  buttonsTab: {},
+  buttonsTab: {
+    marginTop: 14,
+    marginRight: 10,
+  },
   postContet: {
     color: '#c1c8d4',
     fontSize: 22,
@@ -537,7 +517,7 @@ const styles = StyleSheet.create({
     color: '#7F1535',
     fontSize: 30,
     marginTop: 24,
-    marginLeft: 12,
+    marginLeft: 20,
     paddingBottom: 40,
   },
   albumIntroText: {
@@ -593,6 +573,13 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     marginRight: 20,
     marginTop: 16,
+  },
+  commentIcon: {
+    fontSize: 28,
+    marginBottom: 2,
+    color: '#c1c8d4',
+    marginRight: 20,
+    marginTop: 22,
   },
 });
 

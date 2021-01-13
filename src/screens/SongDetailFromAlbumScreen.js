@@ -73,7 +73,7 @@ const SongDetailFromAlbumScreen = ({route}) => {
         albumTracklist: data.album.tracklist,
         albumName: data.album.title,
         audio: data.preview,
-        username: currentUser.displayName,
+        username: currentUserData.username,
         uid: currentUser.uid,
         date: new Date().toDateString(),
         preciseDate: new Date(),

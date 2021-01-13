@@ -92,7 +92,7 @@ const SongDetailScreen = ({route}) => {
         albumName: data.album.title,
         trackId: data.id,
         audio: data.preview,
-        username: currentUser.displayName,
+        username: currentUserData.username,
         uid: currentUser.uid,
         date: new Date().toDateString(),
         preciseDate: new Date(),
@@ -141,6 +141,18 @@ const SongDetailScreen = ({route}) => {
         showsVerticalScrollIndicator={false}>
         <View style={{flexDirection: 'row'}}>
           <Image style={styles.albumArt} source={{uri: data.album.cover_xl}} />
+          <MaterialIcon
+            onPress={() => navigationUse.navigate('SearchScreen')}
+            name="arrow-back-ios"
+            color="white"
+            style={{
+              fontSize: 40,
+              position: 'absolute',
+              marginTop: 50,
+              alignSelf: 'flex-start',
+              marginLeft: 30,
+            }}
+          />
         </View>
 
         <Text style={{fontSize: 8, color: 'gray', marginTop: 10}}>
@@ -166,7 +178,7 @@ const SongDetailScreen = ({route}) => {
                 style={styles.stopButton}
                 onPress={() => {
                   ReactNativeHapticFeedback.trigger(
-                    'notificationError',
+                    'notificationWarning',
                     options,
                   );
 
@@ -181,8 +193,8 @@ const SongDetailScreen = ({route}) => {
             )}
             {songOfTheDay != true ? (
               <TouchableOpacity style={styles.songOfTheDayButton}>
-                <MaterialIcon
-                  name="library-add"
+                <IonIcon
+                  name="today"
                   style={styles.songOfTheDayIcon}
                   onPress={addSongOfTheDay}
                 />

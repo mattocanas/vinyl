@@ -120,6 +120,7 @@ const FollowingFeed = () => {
             artistId={item.artistId}
             artistTracklist={item.artistTracklist}
             trackId={item.trackId}
+            navigateBackTo={'HomeScreen'}
             refresh={() => refreshProp()}
           />
         )}

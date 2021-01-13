@@ -83,23 +83,6 @@ const ProfileScreen = ({navigation}) => {
             <View style={styles.profileInfoContainer}>
               <View style={styles.photoNameContainer}>
                 <ProfilePicture refresh={() => refreshScreen()} />
-
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    alignSelf: 'center',
-                  }}>
-                  <Text style={styles.usernameText}>
-                    {currentUser.displayName}
-                  </Text>
-                  {currentUserData.verified ? (
-                    <MaterialCommunityIcon
-                      name="check-decagram"
-                      style={styles.verifiedCheck}
-                    />
-                  ) : null}
-                </View>
               </View>
 
               <View
@@ -137,6 +120,22 @@ const ProfileScreen = ({navigation}) => {
                   <Text style={styles.settingsText}>Settings</Text>
                 </TouchableOpacity>
               </View>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                alignSelf: 'flex-start',
+                marginTop: 8,
+                marginLeft: 10,
+              }}>
+              <Text style={styles.usernameText}>{currentUser.displayName}</Text>
+              {currentUserData.verified ? (
+                <MaterialCommunityIcon
+                  name="check-decagram"
+                  style={styles.verifiedCheck}
+                />
+              ) : null}
             </View>
             <Text style={styles.bio}>{currentUserData.bio}</Text>
           </View>
@@ -227,9 +226,9 @@ const styles = StyleSheet.create({
     marginRight: 40,
   },
   usernameText: {
-    fontSize: 24,
+    fontSize: 18,
     color: '#c1c8d4',
-    fontWeight: 'bold',
+    fontWeight: '700',
     marginTop: 6,
   },
   followingNumber: {

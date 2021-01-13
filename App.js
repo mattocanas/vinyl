@@ -41,6 +41,8 @@ import GlobalFeedScreen from './src/screens/GlobalFeedScreen';
 import AlbumDetailScreen from './src/screens/AlbumDetailScreen';
 import SongDetailFromAlbumScreen from './src/screens/SongDetailFromAlbumScreen';
 import messaging from '@react-native-firebase/messaging';
+import CommentsScreen from './src/screens/CommentsScreen';
+import PostCommentScreen from './src/screens/PostCommentScreen';
 
 // create bottom nav bar
 const Tabs = createMaterialBottomTabNavigator();
@@ -486,6 +488,46 @@ function myMainStack() {
         }}
         name="FeedUserDetailScreen"
         component={FeedUserDetailScreen}
+      />
+
+      <MainStack.Screen
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#171818',
+            shadowColor: 'transparent',
+          },
+          headerTitleStyle: {
+            color: '#c1c8d4',
+            fontSize: 32,
+            fontWeight: '700',
+          },
+          title: 'Vinyl',
+          headerTintColor: '#c1c8d4',
+          headerBackTitleVisible: false,
+        }}
+        name="CommentsScreen"
+        component={CommentsScreen}
+      />
+
+      <MainStack.Screen
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#171818',
+            shadowColor: 'transparent',
+          },
+          headerTitleStyle: {
+            color: '#c1c8d4',
+            fontSize: 32,
+            fontWeight: '700',
+          },
+          title: 'Vinyl',
+          headerTintColor: '#c1c8d4',
+          headerBackTitleVisible: false,
+        }}
+        name="PostCommentScreen"
+        component={PostCommentScreen}
       />
     </MainStack.Navigator>
   );

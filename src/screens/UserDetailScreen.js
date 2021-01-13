@@ -140,20 +140,6 @@ const UserDetailScreen = ({route}) => {
                   }}
                   // resizeMode={FastImage.resizeMode.contain}
                 />
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    alignSelf: 'center',
-                  }}>
-                  <Text style={styles.usernameText}>{data.username}</Text>
-                  {data.verified ? (
-                    <MaterialCommunityIcon
-                      name="check-decagram"
-                      style={styles.verifiedCheck}
-                    />
-                  ) : null}
-                </View>
               </View>
 
               <View style={{alignItems: 'center'}}>
@@ -219,6 +205,22 @@ const UserDetailScreen = ({route}) => {
                   ) : null}
                 </View>
               </View>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                alignSelf: 'flex-start',
+                marginTop: 8,
+                marginLeft: 10,
+              }}>
+              <Text style={styles.usernameText}>{data.username}</Text>
+              {data.verified ? (
+                <MaterialCommunityIcon
+                  name="check-decagram"
+                  style={styles.verifiedCheck}
+                />
+              ) : null}
             </View>
             <Text style={styles.bio}>{data.bio}</Text>
           </View>
@@ -304,9 +306,9 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   usernameText: {
-    fontSize: 24,
+    fontSize: 16,
     color: '#c1c8d4',
-    fontWeight: 'bold',
+    fontWeight: '700',
     marginTop: 6,
   },
   followingNumber: {

@@ -59,8 +59,9 @@ const GlobalFeedScreen = () => {
       db.collection('users')
         .doc(id)
         .collection('posts')
+
+        .where('date', '==', new Date().toDateString())
         .where('type', '==', 'Song of the Day.')
-        .limit(120)
         .get()
         .then((snapshot) => {
           snapshot.forEach((doc) => {
@@ -114,6 +115,7 @@ const GlobalFeedScreen = () => {
             artistId={item.artistId}
             artistTracklist={item.artistTracklist}
             trackId={item.trackId}
+            navigateBackTo={'GlobalFeedScreen'}
             refresh={() => refreshProp()}
           />
         )}
