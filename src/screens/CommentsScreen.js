@@ -91,7 +91,7 @@ const CommentsScreen = ({docId, uid}) => {
               <View
                 style={{
                   alignItems: 'flex-start',
-                  marginTop: 30,
+                  marginTop: 20,
                   paddingLeft: 20,
                 }}>
                 <Comment

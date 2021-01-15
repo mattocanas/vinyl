@@ -40,6 +40,7 @@ const FollowingFeed = () => {
         .collection('users')
         .doc(id)
         .collection('posts')
+        .limit(12)
         .get()
         .then((snapshot) => {
           snapshot.forEach((doc) => {

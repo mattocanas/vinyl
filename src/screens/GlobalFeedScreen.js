@@ -111,6 +111,7 @@ const GlobalFeedScreen = () => {
             docId={item.docId}
             type={item.type}
             description={item.description}
+            verified={item.verified}
             albumId={item.albumId}
             albumName={item.albumName}
             albumTracklist={item.albumTracklist}

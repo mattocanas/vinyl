@@ -60,7 +60,7 @@ const PostCommentScreen = ({route}) => {
       <KeyboardAvoidingView>
         <View
           style={{
-            marginTop: 80,
+            marginTop: 20,
             marginLeft: 14,
             alignItems: 'center',
           }}>
@@ -77,8 +77,8 @@ const PostCommentScreen = ({route}) => {
               height: 40,
               width: 3,
               borderRadius: 20,
-              alignSelf: 'flex-start',
-              marginLeft: 20,
+              alignSelf: 'center',
+              marginLeft: -200,
               marginBottom: -2,
               marginTop: 1,
             }}
@@ -110,17 +110,18 @@ const styles = StyleSheet.create({
     height: 50,
     width: 50,
     borderRadius: 30,
-    alignSelf: 'flex-start',
+    alignSelf: 'center',
     borderWidth: 1,
     borderColor: '#1E8C8B',
+    marginLeft: -200,
   },
   input: {
-    width: 380,
+    width: 320,
     height: 140,
     borderWidth: 2,
     borderColor: '#c1c8d4',
     color: '#c1c8d4',
-
+    alignSelf: 'center',
     borderRadius: 10,
     textAlign: 'left',
     paddingRight: 10,
@@ -129,18 +130,21 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   postButton: {
+    marginHorizontal: 30,
     backgroundColor: '#1E8C8B',
-    width: 250,
-    height: 30,
-    marginTop: 30,
+    borderRadius: 4,
+    height: 32,
     alignItems: 'center',
-    borderRadius: 10,
+    justifyContent: 'center',
+    marginTop: 20,
   },
   buttonText: {
     marginTop: 2,
     color: '#c1c8d4',
     fontSize: 20,
     fontWeight: '600',
+    paddingLeft: 100,
+    paddingRight: 100,
   },
 });
 

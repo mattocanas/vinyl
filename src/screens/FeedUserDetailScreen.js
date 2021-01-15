@@ -19,18 +19,19 @@ import AntIcon from 'react-native-vector-icons/AntDesign';
 import FastImage from 'react-native-fast-image';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import Moment from 'react-moment';
+import {useFocusEffect} from '@react-navigation/native';
 
 const FeedUserDetailScreen = ({route}) => {
-  useEffect(() => {
-    let active = true;
-    getUserData();
-    checkIfBlocked();
-    // console.log(data);
-    // console.log(userData);
-    return () => {
-      active = false;
-    };
-  }, [userData, blocked, blocked2]);
+  // useEffect(() => {
+  //   let active = true;
+  //   getUserData();
+  //   checkIfBlocked();
+  //   // console.log(data);
+  //   // console.log(userData);
+  //   return () => {
+  //     active = false;
+  //   };
+  // }, [userData, blocked, blocked2]);
 
   const getUserData = () => {
     db.collection('users')
@@ -40,6 +41,16 @@ const FeedUserDetailScreen = ({route}) => {
         setUserData(doc.data());
       });
   };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      let active = true;
+      getUserData();
+      checkIfBlocked();
+
+      return () => (active = false);
+    }, [userData, blocked, blocked2]),
+  );
 
   const [
     {currentUser, currentUserPictureURI, currentUserData},

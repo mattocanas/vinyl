@@ -4,6 +4,7 @@ import {db} from '../../firebase/firebase';
 import {useStateProviderValue} from '../../state/StateProvider';
 import ProfileSongOfTheDay from './ProfileSongOfTheDay';
 import UserSongOfTheDay from './UserSongOfTheDay';
+import {useFocusEffect} from '@react-navigation/native';
 
 const UserSongOfTheDayFeed = ({id}) => {
   const [
@@ -13,13 +14,23 @@ const UserSongOfTheDayFeed = ({id}) => {
   const [data, setData] = useState([]);
   const [refresh, setRefresh] = useState(false);
 
-  useEffect(() => {
-    let active = true;
-    getUsersSOTD();
-    return () => {
-      active = false;
-    };
-  }, []);
+  // useEffect(() => {
+  //   let active = true;
+  //   getUsersSOTD();
+  //   return () => {
+  //     active = false;
+  //   };
+  // }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      let active = true;
+      getUsersSOTD();
+      return () => {
+        active = false;
+      };
+    }, [id]),
+  );
 
   const refreshComponent = () => {
     setRefresh(true);

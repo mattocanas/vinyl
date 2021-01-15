@@ -36,6 +36,7 @@ const PostDetailScreen = ({route}) => {
     username,
     date,
     likes,
+    likesNumber,
     comments,
     type,
     description,
@@ -55,7 +56,7 @@ const PostDetailScreen = ({route}) => {
   const navigationUse = useNavigation();
   const [ready, setReady] = useState(false);
   const [song, setSong] = useState(null);
-  const [likesNumber, setLikesNumber] = useState(likes.length);
+  // const [likesNumber, setLikesNumber] = useState(likes.length);
   const [refresh, setRefresh] = useState(false);
 
   const options = {
@@ -132,7 +133,7 @@ const PostDetailScreen = ({route}) => {
       .then(() => {
         checkIfLiked();
         setLiked(true);
-        setLikesNumber(likes.length + 1);
+        // setLikesNumber(likes.length + 1);
         ReactNativeHapticFeedback.trigger('notificationSuccess', options);
       });
   };
@@ -160,7 +161,7 @@ const PostDetailScreen = ({route}) => {
       .then(() => {
         checkIfLiked();
         setLiked(false);
-        setLikesNumber(likes.length);
+        // setLikesNumber(likes.length);
         ReactNativeHapticFeedback.trigger('notificationWarning', options);
       });
   };
@@ -246,7 +247,7 @@ const PostDetailScreen = ({route}) => {
 
         {type == 'Song of the Day.' ? (
           <View
-            style={{alignItems: 'center', alignSelf: 'center', marginTop: 16}}>
+            style={{alignItems: 'center', alignSelf: 'center', marginTop: 14}}>
             <Text style={styles.SOTDText}>Song of the day:</Text>
             <Text
               onPress={() =>
@@ -315,7 +316,7 @@ const PostDetailScreen = ({route}) => {
           </TouchableOpacity>
         </View>
 
-        {liked == true ? (
+        {/* {liked == true ? (
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <IonIcon
               name="chatbubble-outline"
@@ -402,7 +403,40 @@ const PostDetailScreen = ({route}) => {
               <MaterialIcon name="report" style={styles.reportButton} />
             </TouchableOpacity>
           </View>
-        )}
+        )} */}
+
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <IonIcon
+            name="chatbubble-outline"
+            style={styles.commentIcon}
+            onPress={() =>
+              navigationUse.navigate('PostCommentScreen', {
+                uid: uid,
+                docId: docId,
+              })
+            }
+          />
+          <TouchableOpacity
+            onPress={() =>
+              navigationUse.navigate('ReportPostScreen', {
+                title,
+                artist,
+                audio,
+                albumArt,
+                profilePictureUrl,
+                uid,
+                username,
+                date,
+                likes,
+                comments,
+                type,
+                description,
+                docId,
+              })
+            }>
+            <MaterialIcon name="report" style={styles.reportButton} />
+          </TouchableOpacity>
+        </View>
 
         <CommentsScreen docId={docId} uid={uid} />
       </ScrollView>
@@ -500,13 +534,13 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   stopIcon: {
-    fontSize: 40,
+    fontSize: 36,
     color: '#a3adbf',
     marginTop: 2,
     marginLeft: 4,
   },
   playIcon: {
-    fontSize: 40,
+    fontSize: 36,
     marginTop: 2,
     color: '#a3adbf',
     marginLeft: 4,
@@ -538,8 +572,8 @@ const styles = StyleSheet.create({
   reportButton: {
     color: '#7F1535',
     fontSize: 32,
-    marginTop: 24,
-    marginLeft: 50,
+    marginTop: 14,
+    marginLeft: 10,
   },
   albumIntroText: {
     color: '#1E8C8B',
@@ -599,8 +633,8 @@ const styles = StyleSheet.create({
     fontSize: 30,
     marginBottom: 2,
     color: '#c1c8d4',
-    marginRight: 56,
-    marginTop: 22,
+    marginRight: 10,
+    marginTop: 12,
   },
   verifiedCheck: {
     fontSize: 20,

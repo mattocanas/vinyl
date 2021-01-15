@@ -54,7 +54,7 @@ const UserLike = ({data}) => {
             uri: data.profilePictureUrl,
             priority: FastImage.priority.normal,
           }}
-          resizeMode={FastImage.resizeMode.contain}
+          // resizeMode={FastImage.resizeMode.contain}
         />
         <Text style={styles.usernameText}>{data.username} |</Text>
 

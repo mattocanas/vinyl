@@ -37,11 +37,11 @@ const DailyMusic = () => {
             paddingBottom: 0,
             borderBottomLeftRadius: 0,
             // borderBottomRightRadius: 40,
-            borderBottomLeftRadius: 40,
+            // borderBottomLeftRadius: 40,
             borderColor: '#a3adbf',
             borderBottomWidth: 3,
             // borderRightWidth: 3,
-            borderLeftWidth: 3,
+            // borderLeftWidth: 3,
           }}>
           {currentUserData ? (
             <>

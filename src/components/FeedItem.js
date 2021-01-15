@@ -21,6 +21,7 @@ import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import {TypingAnimation} from 'react-native-typing-animation';
 import FastImage from 'react-native-fast-image';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {useFocusEffect} from '@react-navigation/native';
 
 const FeedItem = ({
   title,
@@ -46,6 +47,7 @@ const FeedItem = ({
   verified,
   refresh,
 }) => {
+  const [likesNumber, setLikesNumber] = useState(likes.length);
   const [{currentUser, currentUserData}, dispatch] = useStateProviderValue();
   const [liked, setLiked] = useState(false);
   const [postData, setPostData] = useState(null);
@@ -53,19 +55,22 @@ const FeedItem = ({
   const navigationUse = useNavigation();
   const [song, setSong] = useState(null);
   const [ready, setReady] = useState(false);
+
   const options = {
     enableVibrateFallback: true,
     ignoreAndroidSystemSettings: false,
   };
 
-  useEffect(() => {
-    let active = true;
-    // checkIfLiked();
-    Sound.setCategory('Playback');
-    return () => {
-      active = false;
-    };
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      let active = true;
+
+      checkIfLiked();
+      Sound.setCategory('Playback');
+
+      return () => (active = false);
+    }, []),
+  );
 
   const handleAudio = (url) => {
     track = new Sound(url, null, (e) => {
@@ -78,17 +83,6 @@ const FeedItem = ({
         track.play();
       }
     });
-  };
-
-  const getData = () => {
-    db.collection('users')
-      .doc(uid)
-      .collection('posts')
-      .doc(docId)
-      .get()
-      .then((doc) => {
-        setPostData(doc.data());
-      });
   };
 
   const onLike = () => {
@@ -129,22 +123,27 @@ const FeedItem = ({
         }),
       })
       .then(() => {
-        checkIfLiked();
+        // checkIfLiked();
+        setLiked(true);
+        if (likesNumber == likes.length) {
+          setLikesNumber(likes.length + 1);
+        } else {
+          setLikesNumber(likes.length);
+        }
+
         ReactNativeHapticFeedback.trigger('notificationSuccess', options);
         // refresh();
       });
   };
 
   const onUnlike = () => {
+    // setLiked(false);
+    // setLikesNumber(likes.length);
     db.collection('users')
       .doc(currentUser.uid)
       .collection('likes')
       .doc(docId)
-      .delete()
-      .then(() => {
-        // setLiked(false);
-        checkIfLiked();
-      });
+      .delete();
 
     db.collection('users')
       .doc(uid)
@@ -157,45 +156,32 @@ const FeedItem = ({
         }),
       })
       .then(() => {
-        checkIfLiked();
         setLiked(false);
+        if (likesNumber == likes.length) {
+          setLikesNumber(likes.length - 1);
+        } else {
+          setLikesNumber(likes.length);
+        }
+
         ReactNativeHapticFeedback.trigger('notificationWarning', options);
         // refresh();
       });
   };
 
   const checkIfLiked = () => {
-    // getUserData();
-    getData();
-    db.collection('users')
-      .doc(uid)
-      .collection('posts')
-      .where('likes', 'array-contains', {
-        uid: currentUser.uid,
-        username: currentUser.displayName,
-      })
-      .get()
-      .then((snapshot) => {
-        snapshot.forEach((doc) => {
-          if (doc.exists) {
-            if (doc.data().docId == docId) {
-              setLiked(true);
-            }
-          } else {
-            setLiked(false);
-          }
-        });
-      });
+    if (likes.some((item) => item.uid == currentUser.uid)) {
+      setLiked(true);
+    }
   };
 
-  const getUserData = () => {
-    db.collection('users')
-      .doc(uid)
-      .get()
-      .then((doc) => {
-        setUserData(doc.data());
-      });
-  };
+  // const getUserData = () => {
+  //   db.collection('users')
+  //     .doc(uid)
+  //     .get()
+  //     .then((doc) => {
+  //       setUserData(doc.data());
+  //     });
+  // };
 
   return (
     <>
@@ -211,6 +197,7 @@ const FeedItem = ({
               uid,
               username,
               date,
+              likesNumber,
               likes,
               comments,
               type,
@@ -379,7 +366,7 @@ const FeedItem = ({
               </View>
             )}
 
-            {/* <View
+            <View
               style={{
                 flexDirection: 'row',
                 alignSelf: 'flex-start',
@@ -396,17 +383,35 @@ const FeedItem = ({
                     onPress={() =>
                       navigationUse.navigate('LikeListScreen', {data: likes})
                     }>
-                    <Text style={styles.likesNumber}>
-                      {postData.likes.length.toString()} likes
-                    </Text>
+                    <Text style={styles.likesNumber}>{likesNumber} likes</Text>
                   </TouchableOpacity>
                   <IonIcon
                     name="chatbubble-outline"
                     style={styles.commentIcon}
                     onPress={() =>
-                      navigationUse.navigate('CommentsScreen', {
-                        docId: docId,
-                        uid: uid,
+                      navigationUse.navigate('PostDetailScreen', {
+                        title,
+                        artist,
+                        audio,
+                        albumArt,
+                        profilePictureUrl,
+                        uid,
+                        username,
+                        date,
+                        likesNumber,
+                        likes,
+                        comments,
+                        type,
+                        description,
+                        albumId,
+                        albumName,
+                        albumTracklist,
+                        artistId,
+                        artistTracklist,
+                        trackId,
+                        navigateBackTo,
+                        docId,
+                        verified,
                       })
                     }
                   />
@@ -420,23 +425,41 @@ const FeedItem = ({
                     onPress={() =>
                       navigationUse.navigate('LikeListScreen', {data: likes})
                     }>
-                    <Text style={styles.likesNumber}>
-                      {postData.likes.length.toString()} likes
-                    </Text>
+                    <Text style={styles.likesNumber}>{likesNumber} likes</Text>
                   </TouchableOpacity>
                   <IonIcon
                     name="chatbubble-outline"
                     style={styles.commentIcon}
                     onPress={() =>
-                      navigationUse.navigate('CommentsScreen', {
-                        docId: docId,
-                        uid: uid,
+                      navigationUse.navigate('PostDetailScreen', {
+                        title,
+                        artist,
+                        audio,
+                        albumArt,
+                        profilePictureUrl,
+                        uid,
+                        username,
+                        date,
+                        likesNumber,
+                        likes,
+                        comments,
+                        type,
+                        description,
+                        albumId,
+                        albumName,
+                        albumTracklist,
+                        artistId,
+                        artistTracklist,
+                        trackId,
+                        navigateBackTo,
+                        docId,
+                        verified,
                       })
                     }
                   />
                 </>
               )}
-            </View> */}
+            </View>
           </View>
         </TouchableOpacity>
       ) : null}
@@ -533,7 +556,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   likeButton: {
-    color: '#7F1535',
+    color: '#1E8C8B',
     fontSize: 28,
     marginBottom: 2,
     marginLeft: 0,
@@ -602,7 +625,7 @@ const styles = StyleSheet.create({
     color: '#1E8C8B',
     textAlign: 'center',
     marginLeft: 2,
-    marginTop: 3,
+    alignSelf: 'center',
   },
 });
 
