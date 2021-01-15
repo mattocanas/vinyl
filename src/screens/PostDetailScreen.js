@@ -11,6 +11,8 @@ import {
 } from 'react-native';
 import Sound from 'react-native-sound';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import {db} from '../../firebase/firebase';
 import {useStateProviderValue} from '../../state/StateProvider';
@@ -19,6 +21,7 @@ import {useNavigation} from '@react-navigation/native';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import AntIcon from 'react-native-vector-icons/AntDesign';
 import FastImage from 'react-native-fast-image';
+import CommentsScreen from './CommentsScreen';
 
 const dimensions = Dimensions.get('screen');
 
@@ -44,6 +47,7 @@ const PostDetailScreen = ({route}) => {
     trackId,
     navigateBackTo,
     docId,
+    verified,
   } = route.params;
 
   const [{currentUser}, dispatch] = useStateProviderValue();
@@ -52,6 +56,7 @@ const PostDetailScreen = ({route}) => {
   const [ready, setReady] = useState(false);
   const [song, setSong] = useState(null);
   const [likesNumber, setLikesNumber] = useState(likes.length);
+  const [refresh, setRefresh] = useState(false);
 
   const options = {
     enableVibrateFallback: true,
@@ -66,7 +71,7 @@ const PostDetailScreen = ({route}) => {
     return () => {
       active = false;
     };
-  }, []);
+  }, [refresh]);
 
   const track = new Sound(audio, null, (e) => {
     if (e) {
@@ -182,6 +187,10 @@ const PostDetailScreen = ({route}) => {
       });
   };
 
+  const refreshComponent = () => {
+    setRefresh(true);
+  };
+
   return (
     <View style={styles.mainContainer}>
       <ScrollView
@@ -222,7 +231,14 @@ const PostDetailScreen = ({route}) => {
               // resizeMode={FastImage.resizeMode.contain}
             />
           </TouchableOpacity>
-          <Text style={styles.usernameText}>{username} |</Text>
+          <Text style={styles.usernameText}>{username} </Text>
+          {verified ? (
+            <MaterialCommunityIcon
+              name="check-decagram"
+              style={styles.verifiedCheck}
+            />
+          ) : null}
+          <Text style={styles.usernameText}> |</Text>
           <Moment element={Text} format="MMM Do YY" style={styles.dateText}>
             {date}
           </Moment>
@@ -285,7 +301,12 @@ const PostDetailScreen = ({route}) => {
         )}
 
         <View
-          style={{flexDirection: 'row', alignSelf: 'center', marginTop: 30}}>
+          style={{
+            flexDirection: 'row',
+            alignSelf: 'center',
+            marginTop: 2,
+            marginBottom: 2,
+          }}>
           <TouchableOpacity onPress={playTrack}>
             <IonIcon name="play" style={styles.playIcon} />
           </TouchableOpacity>
@@ -295,14 +316,14 @@ const PostDetailScreen = ({route}) => {
         </View>
 
         {liked == true ? (
-          <View style={{flexDirection: 'row'}}>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <IonIcon
               name="chatbubble-outline"
               style={styles.commentIcon}
               onPress={() =>
-                navigationUse.navigate('CommentsScreen', {
-                  docId: docId,
+                navigationUse.navigate('PostCommentScreen', {
                   uid: uid,
+                  docId: docId,
                 })
               }
             />
@@ -339,14 +360,14 @@ const PostDetailScreen = ({route}) => {
             </TouchableOpacity>
           </View>
         ) : (
-          <View style={{flexDirection: 'row'}}>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <IonIcon
               name="chatbubble-outline"
               style={styles.commentIcon}
               onPress={() =>
-                navigationUse.navigate('CommentsScreen', {
-                  docId: docId,
+                navigationUse.navigate('PostCommentScreen', {
                   uid: uid,
+                  docId: docId,
                 })
               }
             />
@@ -382,6 +403,8 @@ const PostDetailScreen = ({route}) => {
             </TouchableOpacity>
           </View>
         )}
+
+        <CommentsScreen docId={docId} uid={uid} />
       </ScrollView>
     </View>
   );
@@ -435,7 +458,7 @@ const styles = StyleSheet.create({
     marginLeft: 0,
   },
   artistText: {
-    color: '#c1c8d4',
+    color: '#a3adbf',
     fontSize: 18,
     fontWeight: '300',
   },
@@ -457,7 +480,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   likeButton: {
-    color: '#7F1535',
+    color: '#1E8C8B',
     fontSize: 28,
     marginTop: 10,
   },
@@ -477,15 +500,15 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   stopIcon: {
-    fontSize: 50,
-    color: '#c1c8d4',
-    marginTop: 11,
+    fontSize: 40,
+    color: '#a3adbf',
+    marginTop: 2,
     marginLeft: 4,
   },
   playIcon: {
-    fontSize: 50,
-    marginTop: 11,
-    color: '#c1c8d4',
+    fontSize: 40,
+    marginTop: 2,
+    color: '#a3adbf',
     marginLeft: 4,
   },
   playButton: {
@@ -511,14 +534,12 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '500',
     color: '#c1c8d4',
-    paddingBottom: 40,
   },
   reportButton: {
     color: '#7F1535',
-    fontSize: 30,
+    fontSize: 32,
     marginTop: 24,
-    marginLeft: 20,
-    paddingBottom: 40,
+    marginLeft: 50,
   },
   albumIntroText: {
     color: '#1E8C8B',
@@ -526,7 +547,7 @@ const styles = StyleSheet.create({
     marginBottom: 2,
   },
   albumText: {
-    color: '#c1c8d4',
+    color: '#a3adbf',
     fontSize: 18,
     fontWeight: '300',
     width: 200,
@@ -539,7 +560,7 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
   albumTextSOTD: {
-    color: '#c1c8d4',
+    color: '#a3adbf',
     fontSize: 22,
     fontWeight: '600',
     width: 280,
@@ -550,7 +571,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   artistTextSOTD: {
-    color: '#c1c8d4',
+    color: '#a3adbf',
     fontSize: 22,
     fontWeight: '600',
     width: 260,
@@ -575,11 +596,19 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
   commentIcon: {
-    fontSize: 28,
+    fontSize: 30,
     marginBottom: 2,
     color: '#c1c8d4',
-    marginRight: 20,
+    marginRight: 56,
     marginTop: 22,
+  },
+  verifiedCheck: {
+    fontSize: 20,
+    color: '#1E8C8B',
+    textAlign: 'center',
+    marginTop: 8,
+    marginLeft: 0,
+    marginRight: -8,
   },
 });
 

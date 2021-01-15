@@ -47,18 +47,13 @@ const SongDetailScreen = ({route}) => {
   const [songOfTheDay, setSongOfTheDay] = useState(false);
   const [song, setSong] = useState(null);
 
-  const handleAudio = (url) => {
-    track = new Sound(url, null, (e) => {
-      if (e) {
-        console.log('error', e);
-      } else {
-        setReady(true);
-        console.log(track.isLoaded());
-        setSong(track);
-        track.play();
-      }
-    });
-  };
+  const track = new Sound(data.preview, null, (e) => {
+    if (e) {
+      console.log('error', e);
+    } else {
+      setReady(true);
+    }
+  });
 
   const playTrack = () => {
     track.play();
@@ -96,6 +91,7 @@ const SongDetailScreen = ({route}) => {
         uid: currentUser.uid,
         date: new Date().toDateString(),
         preciseDate: new Date(),
+        verified: currentUserData.verified,
         profilePictureUrl: currentUserData.profilePictureUrl,
         userNotificationTokens: currentUserData.tokens,
         likes: [],
@@ -169,28 +165,23 @@ const SongDetailScreen = ({route}) => {
                   'notificationSuccess',
                   options,
                 );
-                handleAudio(data.preview);
+                playTrack();
               }}>
               <IonIcon name="play" style={styles.playIcon} />
             </TouchableOpacity>
-            {song ? (
-              <TouchableOpacity
-                style={styles.stopButton}
-                onPress={() => {
-                  ReactNativeHapticFeedback.trigger(
-                    'notificationWarning',
-                    options,
-                  );
 
-                  song.stop();
-                }}>
-                <IonIcon name="stop" style={styles.stopIcon} />
-              </TouchableOpacity>
-            ) : (
-              <TouchableOpacity style={styles.stopButton}>
-                <IonIcon name="stop" style={styles.stopIcon} />
-              </TouchableOpacity>
-            )}
+            <TouchableOpacity
+              style={styles.stopButton}
+              onPress={() => {
+                ReactNativeHapticFeedback.trigger(
+                  'notificationWarning',
+                  options,
+                );
+                stopTrack();
+              }}>
+              <IonIcon name="stop" style={styles.stopIcon} />
+            </TouchableOpacity>
+
             {songOfTheDay != true ? (
               <TouchableOpacity style={styles.songOfTheDayButton}>
                 <IonIcon

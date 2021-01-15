@@ -11,6 +11,8 @@ import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIc
 import AntIcon from 'react-native-vector-icons/AntDesign';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
 import FastImage from 'react-native-fast-image';
+import IonIcon from 'react-native-vector-icons/Ionicons';
+import Moment from 'react-moment';
 
 const UserDetailScreen = ({route}) => {
   const [
@@ -223,6 +225,18 @@ const UserDetailScreen = ({route}) => {
               ) : null}
             </View>
             <Text style={styles.bio}>{data.bio}</Text>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignSelf: 'flex-start',
+                alignItems: 'center',
+              }}>
+              <IonIcon name="ios-today" style={styles.joinIcon} />
+              <Text style={styles.joinedText}>Joined </Text>
+              <Moment format="LL" element={Text} style={styles.joinedText}>
+                {data.dateJoined}
+              </Moment>
+            </View>
           </View>
 
           <View style={styles.sectionsTabContainer}>
@@ -367,7 +381,7 @@ const styles = StyleSheet.create({
   sectionsTabContainer: {
     alignItems: 'center',
     flexDirection: 'row',
-    marginTop: 30,
+    marginTop: 12,
     // paddingBottom: 8,
   },
   songOfTheDaySection: {
@@ -431,6 +445,8 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginLeft: 10,
     marginBottom: 4,
+    marginRight: 2,
+    width: 350,
   },
   verifiedCheck: {
     fontSize: 20,
@@ -438,6 +454,16 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 8,
     marginLeft: 6,
+  },
+  joinIcon: {
+    fontSize: 14,
+    color: '#a3adbf',
+    marginRight: 6,
+    marginLeft: 10,
+  },
+  joinedText: {
+    color: '#a3adbf',
+    fontSize: 10,
   },
 });
 

@@ -15,9 +15,12 @@ import {useStateProviderValue} from '../../state/StateProvider';
 import {useNavigation} from '@react-navigation/native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import FastImage from 'react-native-fast-image';
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 
-const Comment = ({uid, commentText, commentId}) => {
+const Comment = ({uid, commentText, commentId, postOwner, postId, nav}) => {
   const [userData, setUserData] = useState(null);
+  const [{currentUser}, dispatch] = useStateProviderValue();
+  const navigationUse = useNavigation();
 
   useEffect(() => {
     let active = true;
@@ -32,21 +35,59 @@ const Comment = ({uid, commentText, commentId}) => {
     };
   }, []);
 
+  const onDeleteComment = () => {
+    db.collection('users')
+      .doc(postOwner)
+      .collection('posts')
+      .doc(postId)
+      .collection('comments')
+      .doc(commentId)
+      .delete()
+      .then(() => nav());
+  };
+
   return (
-    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+    <View
+      style={{
+        flexDirection: 'row',
+        alignItems: 'flex-start',
+      }}>
       {userData ? (
         <>
-          <FastImage
-            style={styles.profilePicture}
-            source={{
-              uri: userData.profilePictureUrl,
-              priority: FastImage.priority.normal,
-            }}
-          />
-          <Text style={styles.username}>{userData.username}</Text>
+          <TouchableOpacity
+            style={{flexDirection: 'row'}}
+            onPress={() =>
+              navigationUse.navigate('FeedUserDetailScreen', {
+                data: uid,
+              })
+            }>
+            <FastImage
+              style={styles.profilePicture}
+              source={{
+                uri: userData.profilePictureUrl,
+                priority: FastImage.priority.normal,
+              }}
+            />
+            <Text style={styles.username}>{userData.username}</Text>
+          </TouchableOpacity>
         </>
       ) : null}
       <Text style={styles.commentText}>{commentText}</Text>
+      {uid == currentUser.uid || postOwner == currentUser.uid ? (
+        <MaterialIcon
+          name="delete"
+          style={styles.deleteIcon}
+          onPress={onDeleteComment}
+        />
+      ) : null}
+
+      {/* {postOwner == currentUser.uid ? (
+        <MaterialIcon
+          name="delete"
+          style={styles.deleteIcon}
+          onPress={onDeleteComment}
+        />
+      ) : null} */}
     </View>
   );
 };
@@ -67,6 +108,11 @@ const styles = StyleSheet.create({
   commentText: {
     fontSize: 14,
     color: '#c1c8d4',
+    width: 230,
+  },
+  deleteIcon: {
+    fontSize: 18,
+    color: '#7F1535',
   },
 });
 

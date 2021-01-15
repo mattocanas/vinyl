@@ -9,7 +9,6 @@ import {
 } from 'react-native';
 import {auth} from '../../firebase/firebase';
 import {useStateProviderValue} from '../../state/StateProvider';
-import Sound from 'react-native-sound';
 
 const App = ({navigation}) => {
   const [{currentUser}, dispatch] = useStateProviderValue();
@@ -52,7 +51,7 @@ const App = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.welcomeText}>Tapping into the matrix...</Text>
+      <Text style={styles.welcomeText}>Loading tunes...</Text>
 
       <ActivityIndicator color="#1E8C8B" size="large"></ActivityIndicator>
     </View>
@@ -70,7 +69,7 @@ const styles = StyleSheet.create({
     color: '#c1c8d4',
     fontSize: 20,
     fontWeight: 'bold',
-    marginBottom: 10,
+    marginBottom: 20,
   },
 });
 

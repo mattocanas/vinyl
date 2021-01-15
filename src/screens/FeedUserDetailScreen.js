@@ -17,6 +17,8 @@ import UserPostsFeed from '../components/UserPostsFeed';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AntIcon from 'react-native-vector-icons/AntDesign';
 import FastImage from 'react-native-fast-image';
+import IonIcon from 'react-native-vector-icons/Ionicons';
+import Moment from 'react-moment';
 
 const FeedUserDetailScreen = ({route}) => {
   useEffect(() => {
@@ -244,6 +246,18 @@ const FeedUserDetailScreen = ({route}) => {
               ) : null}
             </View>
             <Text style={styles.bio}>{userData.bio}</Text>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignSelf: 'flex-start',
+                alignItems: 'center',
+              }}>
+              <IonIcon name="ios-today" style={styles.joinIcon} />
+              <Text style={styles.joinedText}>Joined </Text>
+              <Moment format="LL" element={Text} style={styles.joinedText}>
+                {userData.dateJoined}
+              </Moment>
+            </View>
           </View>
           <View style={styles.sectionsTabContainer}>
             <TouchableOpacity
@@ -395,7 +409,7 @@ const styles = StyleSheet.create({
   sectionsTabContainer: {
     alignItems: 'center',
     flexDirection: 'row',
-    marginTop: 30,
+    marginTop: 12,
   },
   songOfTheDaySection: {
     marginRight: 12,
@@ -458,6 +472,8 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginLeft: 10,
     marginBottom: 4,
+    marginRight: 2,
+    width: 350,
   },
   verifiedCheck: {
     fontSize: 20,
@@ -465,6 +481,16 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 8,
     marginLeft: 6,
+  },
+  joinIcon: {
+    fontSize: 14,
+    color: '#a3adbf',
+    marginRight: 6,
+    marginLeft: 10,
+  },
+  joinedText: {
+    color: '#a3adbf',
+    fontSize: 10,
   },
 });
 

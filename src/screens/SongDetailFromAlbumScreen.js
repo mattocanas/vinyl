@@ -75,6 +75,7 @@ const SongDetailFromAlbumScreen = ({route}) => {
         audio: data.preview,
         username: currentUserData.username,
         uid: currentUser.uid,
+        verified: currentUserData.verified,
         date: new Date().toDateString(),
         preciseDate: new Date(),
         userNotificationTokens: currentUserData.tokens,
@@ -150,6 +151,18 @@ const SongDetailFromAlbumScreen = ({route}) => {
             <Image
               style={styles.albumArt}
               source={{uri: data.album.cover_xl}}
+            />
+            <MaterialIcon
+              onPress={() => navigationUse.navigate('SearchScreen')}
+              name="arrow-back-ios"
+              color="white"
+              style={{
+                fontSize: 40,
+                position: 'absolute',
+                marginTop: 50,
+                alignSelf: 'flex-start',
+                marginLeft: 30,
+              }}
             />
           </View>
 

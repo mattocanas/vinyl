@@ -20,6 +20,7 @@ import {useNavigation} from '@react-navigation/native';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import {TypingAnimation} from 'react-native-typing-animation';
 import FastImage from 'react-native-fast-image';
+import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const FeedItem = ({
   title,
@@ -42,6 +43,7 @@ const FeedItem = ({
   trackId,
   docId,
   navigateBackTo,
+  verified,
   refresh,
 }) => {
   const [{currentUser, currentUserData}, dispatch] = useStateProviderValue();
@@ -221,6 +223,7 @@ const FeedItem = ({
               trackId,
               navigateBackTo,
               docId,
+              verified,
             })
           }>
           <View
@@ -230,6 +233,7 @@ const FeedItem = ({
               marginBottom: 12,
               paddingLeft: 16,
               paddingBottom: 8,
+              paddingTop: 4,
             }}>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <TouchableOpacity
@@ -246,7 +250,15 @@ const FeedItem = ({
                 />
               </TouchableOpacity>
               <View>
-                <Text style={styles.usernameText}>{username}</Text>
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                  <Text style={styles.usernameText}>{username}</Text>
+                  {verified ? (
+                    <MaterialCommunityIcon
+                      name="check-decagram"
+                      style={styles.verifiedCheck}
+                    />
+                  ) : null}
+                </View>
                 <Text style={styles.subUsername}>@{username}</Text>
               </View>
               <Text style={{fontSize: 6, alignSelf: 'center', marginLeft: 10}}>
@@ -440,7 +452,6 @@ const styles = StyleSheet.create({
     // marginTop: 8,
     paddingRight: 10,
     paddingBottom: 12,
-
     flex: 1,
     marginBottom: 2,
     // backgroundColor: 'rgba(18, 18, 18,0.4)',
@@ -461,7 +472,7 @@ const styles = StyleSheet.create({
   albumArt: {
     height: 160,
     width: 160,
-    borderRadius: 2,
+    borderRadius: 8,
     marginLeft: 0,
     marginTop: 20,
     alignSelf: 'flex-start',
@@ -470,7 +481,7 @@ const styles = StyleSheet.create({
   albumArtPost: {
     height: 160,
     width: 160,
-    borderRadius: 2,
+    borderRadius: 8,
     marginLeft: 0,
     marginTop: 20,
     alignSelf: 'center',
@@ -498,7 +509,7 @@ const styles = StyleSheet.create({
     width: 164,
   },
   artistText: {
-    color: '#5AB9B9',
+    color: '#a3adbf',
     fontSize: 16,
     fontWeight: '700',
     marginLeft: 14,
@@ -541,9 +552,9 @@ const styles = StyleSheet.create({
   },
   stopIcon: {
     fontSize: 36,
-    marginTop: 12,
+    marginTop: 6,
     marginLeft: 8,
-    color: '#1E8C8B',
+    color: '#a3adbf',
   },
   likesNumber: {
     textAlign: 'center',
@@ -555,14 +566,14 @@ const styles = StyleSheet.create({
   },
   playIcon: {
     fontSize: 36,
-    marginTop: 12,
+    marginTop: 6,
     marginLeft: 14,
-    color: '#1E8C8B',
+    color: '#a3adbf',
   },
   description: {
     fontSize: 18,
     color: '#c1c8d4',
-    marginTop: 20,
+    marginTop: 12,
     marginLeft: 10,
     marginRight: 20,
     fontWeight: '400',
@@ -585,6 +596,13 @@ const styles = StyleSheet.create({
     marginBottom: 2,
     color: '#c1c8d4',
     marginLeft: 16,
+  },
+  verifiedCheck: {
+    fontSize: 12,
+    color: '#1E8C8B',
+    textAlign: 'center',
+    marginLeft: 2,
+    marginTop: 3,
   },
 });
 

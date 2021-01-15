@@ -24,12 +24,12 @@ const PostCommentScreen = ({route}) => {
 
   useEffect(() => {
     let active = true;
-    db.collection('users')
-      .doc(uid)
-      .get()
-      .then((doc) => {
-        setUserData(doc.data());
-      });
+    // db.collection('users')
+    //   .doc(uid)
+    //   .get()
+    //   .then((doc) => {
+    //     setUserData(doc.data());
+    //   });
     return () => {
       active = false;
     };
@@ -50,12 +50,14 @@ const PostCommentScreen = ({route}) => {
         creator: currentUser.uid,
         comment: text,
         date: new Date(),
+        postOwner: uid,
+        postId: docId,
       })
-      .then(() => navigationUse.navigate('HomeScreen'));
+      .then(() => navigationUse.goBack());
   };
   return (
     <View style={styles.container}>
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <KeyboardAvoidingView>
         <View
           style={{
             marginTop: 80,
@@ -69,17 +71,32 @@ const PostCommentScreen = ({route}) => {
             }}
             style={styles.profilePicture}
           />
+          <View
+            style={{
+              backgroundColor: '#c1c8d4',
+              height: 40,
+              width: 3,
+              borderRadius: 20,
+              alignSelf: 'flex-start',
+              marginLeft: 20,
+              marginBottom: -2,
+              marginTop: 1,
+            }}
+          />
           <TextInput
+            enablesReturnKeyAutomatically={true}
             placeholder="What's on your mind..."
             placeholderTextColor="rgba(193, 200, 212, 0.2)"
             multiline={true}
             style={styles.input}
+            value={text}
             onChangeText={(newText) => setText(newText)}
-            // onSubmitEditing={onCommentPost}
           />
-          <Button onPress={() => onCommentPost()} title="Post" />
+          <TouchableOpacity style={styles.postButton} onPress={onCommentPost}>
+            <Text style={styles.buttonText}>Post</Text>
+          </TouchableOpacity>
         </View>
-      </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
     </View>
   );
 };
@@ -98,12 +115,12 @@ const styles = StyleSheet.create({
     borderColor: '#1E8C8B',
   },
   input: {
-    width: 400,
+    width: 380,
     height: 140,
     borderWidth: 2,
     borderColor: '#c1c8d4',
     color: '#c1c8d4',
-    marginTop: 30,
+
     borderRadius: 10,
     textAlign: 'left',
     paddingRight: 10,

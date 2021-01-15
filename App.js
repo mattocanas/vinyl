@@ -51,14 +51,14 @@ function MyBottomTabs() {
   //
   return (
     <Tabs.Navigator
-      barStyle={{backgroundColor: '#171818', shadowRadius: 0}}
+      barStyle={{backgroundColor: '#242525', shadowRadius: 0}}
       activeColor="#1E8C8B"
       inactiveColor="#c1c8d4"
       initialRouteName="Home">
       <Tabs.Screen
         options={{
           tabBarLabel: '',
-          tabBarColor: '#171818',
+          tabBarColor: '#242525',
           tabBarIcon: ({color}) => (
             <MaterialIcon name="album" size={26} color={color} />
           ),
@@ -70,7 +70,7 @@ function MyBottomTabs() {
       <Tabs.Screen
         options={{
           tabBarLabel: '',
-          tabBarColor: '#171818',
+          tabBarColor: '#242525',
           tabBarIcon: ({color}) => (
             <SimpleLineIcon name="globe" size={24} color={color} />
           ),
@@ -82,7 +82,7 @@ function MyBottomTabs() {
       <Tabs.Screen
         options={{
           tabBarLabel: '',
-          tabBarColor: '#171818',
+          tabBarColor: '#242525',
           tabBarIcon: ({color}) => (
             <OcticonIcon name="telescope" size={26} color={color} />
           ),
@@ -95,7 +95,7 @@ function MyBottomTabs() {
         options={{
           tabBarLabel: '',
 
-          tabBarColor: '#171818',
+          tabBarColor: '#242525',
           tabBarIcon: ({color}) => (
             <MaterialIcon name="account-circle" size={26} color={color} />
           ),

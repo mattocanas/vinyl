@@ -4,6 +4,7 @@ import {
   Text,
   TextInput,
   StyleSheet,
+  Dimensions,
   Image,
   KeyboardAvoidingView,
   Keyboard,
@@ -18,10 +19,13 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {FlatList} from 'react-native-gesture-handler';
 import Comment from '../components/Comment';
 import FastImage from 'react-native-fast-image';
+import {useFocusEffect} from '@react-navigation/native';
 
-const CommentsScreen = ({route}) => {
+const dimensions = Dimensions.get('screen');
+
+const CommentsScreen = ({docId, uid}) => {
   const [text, setText] = useState('');
-  const {docId, uid} = route.params;
+  // const {docId, uid} = route.params;
   const [comments, setComments] = useState([]);
   const [postId, setPostId] = useState('');
   const [refresh, setRefresh] = useState(false);
@@ -31,52 +35,46 @@ const CommentsScreen = ({route}) => {
   useEffect(() => {
     let active = true;
 
-    if (docId !== postId) {
-      db.collection('users')
-        .doc(uid)
-        .collection('posts')
-        .doc(docId)
-        .collection('comments')
-        .get()
-        .then((snapshot) => {
-          let comments = snapshot.docs.map((doc) => {
-            const data = doc.data();
-            const id = doc.id;
-            return {id, ...data};
-          });
-          setComments(comments);
-        });
-      setPostId(docId);
-      setRefresh(false);
-    }
-
     return () => {
       active = false;
     };
   }, [postId]);
 
-  const onCommentPost = () => {
-    let newCommentRef = db
-      .collection('users')
-      .doc(uid)
-      .collection('posts')
-      .doc(docId)
-      .collection('comments')
-      .doc();
+  useFocusEffect(
+    React.useCallback(() => {
+      let active = true;
 
-    newCommentRef
-      .set({
-        commentId: newCommentRef.id,
-        creator: currentUser.uid,
-        comment: text,
-        date: new Date().toDateString(),
-      })
-      .then(() => navigationUse.goBack());
+      if (docId !== postId) {
+        db.collection('users')
+          .doc(uid)
+          .collection('posts')
+          .doc(docId)
+          .collection('comments')
+          .orderBy('date', 'desc')
+          .get()
+          .then((snapshot) => {
+            let comments = snapshot.docs.map((doc) => {
+              const data = doc.data();
+              const id = doc.id;
+              return {id, ...data};
+            });
+            setComments(comments);
+          });
+        setPostId(docId);
+        setRefresh(false);
+      }
+
+      return () => (active = false);
+    }, []),
+  );
+
+  const navigateBack = () => {
+    navigationUse.goBack();
   };
 
   return (
     <View style={styles.container}>
-      <Text
+      {/* <Text
         style={{
           color: 'white',
           alignSelf: 'center',
@@ -84,28 +82,36 @@ const CommentsScreen = ({route}) => {
           fontSize: 20,
         }}>
         Coming soon... :)
-      </Text>
-      {/* <View>
-        <FlatList
-          data={comments}
-          renderItem={({item}) => (
-            <View
-              style={{
-                alignItems: 'flex-start',
-                marginTop: 30,
-                paddingLeft: 20,
-              }}>
-              <Comment
-                uid={item.creator}
-                commentText={item.comment}
-                commentId={item.commentId}
-              />
-            </View>
-          )}
-        />
+      </Text> */}
+      <View>
+        {comments[0] != null ? (
+          <FlatList
+            data={comments}
+            renderItem={({item}) => (
+              <View
+                style={{
+                  alignItems: 'flex-start',
+                  marginTop: 30,
+                  paddingLeft: 20,
+                }}>
+                <Comment
+                  uid={item.creator}
+                  commentText={item.comment}
+                  commentId={item.commentId}
+                  postOwner={item.postOwner}
+                  postId={item.postId}
+                  nav={() => navigateBack()}
+                />
+              </View>
+            )}
+          />
+        ) : (
+          // <Text style={styles.DNEText}>Be the first to comment!</Text>
+          <Text></Text>
+        )}
       </View>
 
-      <IonIcon
+      {/* <IonIcon
         name="chatbubble-outline"
         style={styles.commentIcon}
         onPress={() =>
@@ -120,6 +126,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#171818',
+    borderTopColor: 'rgba(193, 200, 212, 0.2)',
+    borderTopWidth: 1,
+    marginTop: 8,
+    width: dimensions.width,
+    marginBottom: 40,
+    paddingLeft: 10,
+    paddingRight: 10,
   },
   input: {
     borderBottomWidth: 1,
@@ -137,9 +150,15 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   commentIcon: {
-    fontSize: 24,
+    fontSize: 30,
+    color: '#1E8C8B',
+    marginLeft: 20,
+    marginTop: 30,
+  },
+  DNEText: {
     color: '#c1c8d4',
-    marginLeft: 30,
+    alignSelf: 'center',
+    fontSize: 24,
     marginTop: 20,
   },
 });

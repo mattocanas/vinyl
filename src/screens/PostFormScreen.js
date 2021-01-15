@@ -48,6 +48,7 @@ const PostFormScreen = ({route}) => {
         audio: data.preview,
         username: currentUserData.username,
         uid: currentUser.uid,
+        verified: currentUserData.verified,
         date: new Date().toDateString(),
         preciseDate: new Date(),
         userNotificationTokens: currentUserData.tokens,

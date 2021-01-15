@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
   artist: {
     fontWeight: '300',
     fontSize: 14,
-    color: '#5AB9B9',
+    color: '#a3adbf',
   },
   deleteIcon: {
     color: '#c43b4c',

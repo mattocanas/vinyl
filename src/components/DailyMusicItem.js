@@ -176,15 +176,15 @@ const styles = StyleSheet.create({
   mainContainer: {
     flexDirection: 'row',
     flex: 1,
-    marginTop: 16,
+    marginTop: 10,
     marginLeft: 10,
     marginRight: 110,
     width: 160,
   },
   albumArt: {
-    height: 100,
-    width: 100,
-    borderRadius: 30,
+    height: 90,
+    width: 90,
+    borderRadius: 26,
   },
   albumArtContainer: {
     alignItems: 'center',
@@ -193,8 +193,8 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
   heartIcon: {
-    fontSize: 28,
-    color: '#7F1535',
+    fontSize: 24,
+    color: '#1E8C8B',
     // marginRight: 8,
   },
   repostIcon: {
@@ -216,10 +216,10 @@ const styles = StyleSheet.create({
     marginTop: 6,
   },
   stopIcon: {
-    fontSize: 30,
+    fontSize: 24,
     // marginTop: 12,
     marginLeft: 8,
-    color: '#1E8C8B',
+    color: '#c1c8d4',
   },
 });
 

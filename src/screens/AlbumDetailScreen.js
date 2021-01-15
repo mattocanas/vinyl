@@ -37,6 +37,18 @@ const AlbumDetailScreen = ({route}) => {
       {data ? (
         <View style={styles.container}>
           <Image source={{uri: data.cover_xl}} style={styles.albumArt} />
+          <MaterialIcon
+            onPress={() => navigationUse.navigate('SearchScreen')}
+            name="arrow-back-ios"
+            color="white"
+            style={{
+              fontSize: 40,
+              position: 'absolute',
+              marginTop: 50,
+              alignSelf: 'flex-start',
+              marginLeft: 30,
+            }}
+          />
           <Image
             source={{uri: data.artist.picture_xl}}
             style={styles.artistPhoto}

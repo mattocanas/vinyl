@@ -43,15 +43,26 @@ const FollowingFeed = () => {
         .get()
         .then((snapshot) => {
           snapshot.forEach((doc) => {
-            followingDataArray.push(doc.data());
+            if (doc.data().preciseDate != null) {
+              followingDataArray.push(doc.data());
+            }
 
-            followingDataArray.sort((a, b) => {
-              let a_date = new Date(a.date);
-              let b_date = new Date(b.date);
-              return b_date - a_date;
-            });
+            // followingDataArray.sort((a, b) => {
+            //   let a_date = new Date(a.date);
+            //   let b_date = new Date(b.date);
+            //   return b_date - a_date;
+            // });
           });
-          setFollowingData(followingDataArray);
+          // setFollowingData(followingDataArray);
+        })
+        .then(() => {
+          setFollowingData(
+            followingDataArray.sort((a, b) => {
+              let a_date = new Date(a.preciseDate.toDate());
+              let b_date = new Date(b.preciseDate.toDate());
+              return b_date - a_date;
+            }),
+          );
         }),
     );
   };
@@ -83,7 +94,13 @@ const FollowingFeed = () => {
 
   return (
     <View style={styles.container}>
-      {loading ? <ActivityIndicator size="large" color="#1E8C8B" /> : null}
+      {loading ? (
+        <ActivityIndicator
+          style={{marginTop: 20}}
+          size="large"
+          color="#1E8C8B"
+        />
+      ) : null}
       <FlatList
         refreshControl={
           <RefreshControl
@@ -120,6 +137,7 @@ const FollowingFeed = () => {
             artistId={item.artistId}
             artistTracklist={item.artistTracklist}
             trackId={item.trackId}
+            verified={item.verified}
             navigateBackTo={'HomeScreen'}
             refresh={() => refreshProp()}
           />

@@ -15,9 +15,10 @@ import ProfileLikesFeed from '../components/ProfileLikesFeed';
 import ProfilePostsFeed from '../components/ProfilePostsFeed';
 import {useNavigation} from '@react-navigation/native';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-import AntIcon from 'react-native-vector-icons/AntDesign';
+import IonIcon from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 import FastImage from 'react-native-fast-image';
+import Moment from 'react-moment';
 
 const dimensions = Dimensions.get('screen');
 
@@ -138,6 +139,18 @@ const ProfileScreen = ({navigation}) => {
               ) : null}
             </View>
             <Text style={styles.bio}>{currentUserData.bio}</Text>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignSelf: 'flex-start',
+                alignItems: 'center',
+              }}>
+              <IonIcon name="ios-today" style={styles.joinIcon} />
+              <Text style={styles.joinedText}>Joined </Text>
+              <Moment format="LL" element={Text} style={styles.joinedText}>
+                {currentUserData.dateJoined}
+              </Moment>
+            </View>
           </View>
 
           <View style={styles.sectionsTabContainer}>
@@ -266,7 +279,7 @@ const styles = StyleSheet.create({
   sectionsTabContainer: {
     alignItems: 'center',
     flexDirection: 'row',
-    marginTop: 30,
+    marginTop: 12,
     // borderBottomWidth: 1,
     // borderBottomColor: 'rgba(193, 200, 212, 0.1)',
     // paddingBottom: 8,
@@ -330,6 +343,15 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 8,
     marginLeft: 6,
+  },
+  joinIcon: {
+    fontSize: 14,
+    color: '#a3adbf',
+    marginRight: 6,
+  },
+  joinedText: {
+    color: '#a3adbf',
+    fontSize: 10,
   },
 });
 

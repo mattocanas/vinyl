@@ -34,14 +34,14 @@ const DailyMusic = () => {
           style={{
             paddingTop: 42,
             backgroundColor: 'transparent',
-            paddingBottom: 10,
+            paddingBottom: 0,
             borderBottomLeftRadius: 0,
-            borderBottomRightRadius: 40,
+            // borderBottomRightRadius: 40,
             borderBottomLeftRadius: 40,
-            borderColor: 'white',
-            borderBottomWidth: 1,
-            // borderRightWidth: 1,
-            // borderLeftWidth: 1,
+            borderColor: '#a3adbf',
+            borderBottomWidth: 3,
+            // borderRightWidth: 3,
+            borderLeftWidth: 3,
           }}>
           {currentUserData ? (
             <>
@@ -82,7 +82,7 @@ const DailyMusic = () => {
             style={{
               borderBottomWidth: 1,
               borderBottomColor: 'rgba(193, 200, 212, 0.1)',
-              marginTop: 16,
+              marginTop: 6,
             }}
           />
         </View>
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     color: '#c1c8d4',
     textAlign: 'center',
     fontWeight: '500',
-    marginTop: 20,
+    marginTop: 10,
     fontSize: 24,
     alignSelf: 'flex-start',
     marginLeft: 16,
