@@ -44,6 +44,18 @@ const Comment = ({uid, commentText, commentId, postOwner, postId, nav}) => {
       .doc(commentId)
       .delete()
       .then(() => nav());
+
+    db.collection('users')
+      .doc(uid)
+      .collection('notifications')
+      .where('commentId', '==', commentId)
+      .where('postId', '==', postId)
+      .get()
+      .then((snapshot) => {
+        snapshot.forEach((doc) => {
+          doc.ref.delete();
+        });
+      });
   };
 
   return (

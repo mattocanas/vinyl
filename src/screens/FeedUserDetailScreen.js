@@ -105,6 +105,23 @@ const FeedUserDetailScreen = ({route}) => {
           currentUser.uid,
         ),
       });
+
+    let newNotificationRef = db
+      .collection('users')
+      .doc(data.uid)
+      .collection('notifications')
+      .doc();
+    newNotificationRef.set({
+      notificationId: newNotificationRef.id,
+      type: 'follow',
+      date: new Date().toDateString(),
+      preciseDate: new Date(),
+      followedBy: currentUser.uid,
+      followedByUsername: currentUser.displayName,
+      followedByProfilePicture: currentUserData.profilePictureUrl,
+      followedByVerified: currentUserData.verified,
+      userFollowed: data,
+    });
   };
 
   const onUnfollow = () => {
@@ -120,6 +137,18 @@ const FeedUserDetailScreen = ({route}) => {
         followerIdList: firebase.firestore.FieldValue.arrayRemove(
           currentUser.uid,
         ),
+      });
+
+    db.collection('users')
+      .doc(data)
+      .collection('notifications')
+      .where('userFollowed', '==', data)
+      .where('followedBy', '==', currentUser.uid)
+      .get()
+      .then((snapshot) => {
+        snapshot.forEach((doc) => {
+          doc.ref.delete();
+        });
       });
   };
 

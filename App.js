@@ -37,12 +37,14 @@ import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import OcticonIcon from 'react-native-vector-icons/Octicons';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import SimpleLineIcon from 'react-native-vector-icons/SimpleLineIcons';
+import IonIcon from 'react-native-vector-icons/Ionicons';
 import GlobalFeedScreen from './src/screens/GlobalFeedScreen';
 import AlbumDetailScreen from './src/screens/AlbumDetailScreen';
 import SongDetailFromAlbumScreen from './src/screens/SongDetailFromAlbumScreen';
 import messaging from '@react-native-firebase/messaging';
 import CommentsScreen from './src/screens/CommentsScreen';
 import PostCommentScreen from './src/screens/PostCommentScreen';
+import NotificationsScreen from './src/screens/NotificationsScreen';
 
 // create bottom nav bar
 const Tabs = createMaterialBottomTabNavigator();
@@ -65,6 +67,18 @@ function MyBottomTabs() {
         }}
         name="HomeScreen"
         component={HomeScreen}
+      />
+
+      <Tabs.Screen
+        options={{
+          tabBarLabel: '',
+          tabBarColor: '#242525',
+          tabBarIcon: ({color}) => (
+            <IonIcon name="notifications" size={24} color={color} />
+          ),
+        }}
+        name="NotificationsScreen"
+        component={NotificationsScreen}
       />
 
       <Tabs.Screen

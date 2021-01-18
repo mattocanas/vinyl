@@ -413,6 +413,30 @@ const PostDetailScreen = ({route}) => {
               navigationUse.navigate('PostCommentScreen', {
                 uid: uid,
                 docId: docId,
+                data: {
+                  title,
+                  artist,
+                  audio,
+                  albumArt,
+                  profilePictureUrl,
+                  uid,
+                  username,
+                  date,
+                  likes,
+                  likesNumber,
+                  comments,
+                  type,
+                  description,
+                  albumId,
+                  albumName,
+                  albumTracklist,
+                  artistId,
+                  artistTracklist,
+                  trackId,
+                  navigateBackTo,
+                  docId,
+                  verified,
+                },
               })
             }
           />

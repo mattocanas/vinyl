@@ -134,6 +134,44 @@ const FeedItem = ({
         ReactNativeHapticFeedback.trigger('notificationSuccess', options);
         // refresh();
       });
+
+    let newNotificationRef = db
+      .collection('users')
+      .doc(uid)
+      .collection('notifications')
+      .doc();
+    newNotificationRef.set({
+      notificationId: newNotificationRef.id,
+      type: 'like',
+      date: new Date().toDateString(),
+      preciseDate: new Date(),
+      likedBy: currentUser.uid,
+      likedByUsername: currentUser.displayName,
+      likedByProfilePicture: currentUserData.profilePictureUrl,
+      likedByVerified: currentUserData.verified,
+      postId: docId,
+      postData: {
+        title: title,
+        artist: artist,
+        audio: audio,
+        albumArt: albumArt,
+        profilePictureUrl: profilePictureUrl,
+        uid: uid,
+        username: username,
+        date: date,
+        likes: likes,
+        comments: comments,
+        docId: docId,
+        description: description,
+        type: type,
+        albumId,
+        albumName,
+        albumTracklist,
+        artistId,
+        artistTracklist,
+        trackId,
+      },
+    });
   };
 
   const onUnlike = () => {
@@ -165,6 +203,18 @@ const FeedItem = ({
 
         ReactNativeHapticFeedback.trigger('notificationWarning', options);
         // refresh();
+      });
+
+    db.collection('users')
+      .doc(uid)
+      .collection('notifications')
+      .where('likedBy', '==', currentUser.uid)
+      .where('postId', '==', docId)
+      .get()
+      .then((snapshot) => {
+        snapshot.forEach((doc) => {
+          doc.ref.delete();
+        });
       });
   };
 
@@ -219,7 +269,7 @@ const FeedItem = ({
               borderBottomColor: 'rgba(193, 200, 212, 0.2)',
               marginBottom: 12,
               paddingLeft: 16,
-              paddingBottom: 8,
+              paddingBottom: 2,
               paddingTop: 4,
             }}>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -370,7 +420,8 @@ const FeedItem = ({
               style={{
                 flexDirection: 'row',
                 alignSelf: 'flex-start',
-                marginTop: 20,
+                marginTop: 10,
+                marginLeft: 22,
               }}>
               {liked == true ? (
                 <>
@@ -474,7 +525,7 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     // marginTop: 8,
     paddingRight: 10,
-    paddingBottom: 12,
+    paddingBottom: 4,
     flex: 1,
     marginBottom: 2,
     // backgroundColor: 'rgba(18, 18, 18,0.4)',
@@ -557,7 +608,7 @@ const styles = StyleSheet.create({
   },
   likeButton: {
     color: '#1E8C8B',
-    fontSize: 28,
+    fontSize: 22,
     marginBottom: 2,
     marginLeft: 0,
   },
@@ -581,8 +632,8 @@ const styles = StyleSheet.create({
   },
   likesNumber: {
     textAlign: 'center',
-    marginTop: 4,
-    fontSize: 16,
+    marginTop: 2,
+    fontSize: 14,
     fontWeight: '400',
     color: '#c1c8d4',
     marginLeft: 6,
@@ -615,7 +666,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   commentIcon: {
-    fontSize: 28,
+    fontSize: 22,
     marginBottom: 2,
     color: '#c1c8d4',
     marginLeft: 16,

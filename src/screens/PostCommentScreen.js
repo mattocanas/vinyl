@@ -16,7 +16,7 @@ import {useNavigation} from '@react-navigation/native';
 import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
 
 const PostCommentScreen = ({route}) => {
-  const {uid, docId} = route.params;
+  const {uid, docId, data} = route.params;
   const [userData, setUserData] = useState(null);
   const [text, setText] = useState('');
   const [{currentUser, currentUserData}, dispatch] = useStateProviderValue();
@@ -54,6 +54,26 @@ const PostCommentScreen = ({route}) => {
         postId: docId,
       })
       .then(() => navigationUse.goBack());
+
+    let newNotificationRef = db
+      .collection('users')
+      .doc(uid)
+      .collection('notifications')
+      .doc();
+    newNotificationRef.set({
+      notificationId: newNotificationRef.id,
+      type: 'comment',
+      commentId: newCommentRef.id,
+      date: new Date().toDateString(),
+      preciseDate: new Date(),
+      commentBy: currentUser.uid,
+      commentByUsername: currentUser.displayName,
+      commentByProfilePicture: currentUserData.profilePictureUrl,
+      commentByVerified: currentUserData.verified,
+      comment: text,
+      postId: docId,
+      postData: data,
+    });
   };
   return (
     <View style={styles.container}>

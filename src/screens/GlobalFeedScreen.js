@@ -20,6 +20,7 @@ const GlobalFeedScreen = () => {
   useEffect(() => {
     let active = true;
     getData();
+
     return () => {
       active = false;
     };
@@ -59,22 +60,22 @@ const GlobalFeedScreen = () => {
       db.collection('users')
         .doc(id)
         .collection('posts')
-        .where('date', '==', new Date().toDateString())
         .where('type', '==', 'Song of the Day.')
+        .limit(2)
+        // .orderBy('prciseDate', 'asc')
+        // .where('date', '==', new Date().toDateString())
         .get()
         .then((snapshot) => {
           snapshot.forEach((doc) => {
             postsArray.push(doc.data());
-          });
-        })
-        .then(() => {
-          setData(
             postsArray.sort((a, b) => {
-              let a_date = new Date(a.preciseDate.toDate());
-              let b_date = new Date(b.preciseDate.toDate());
+              let a_date = new Date(a.date);
+              let b_date = new Date(b.date);
               return b_date - a_date;
-            }),
-          );
+            });
+          });
+
+          setData(postsArray);
         });
     });
   };
