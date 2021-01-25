@@ -10,6 +10,7 @@ import {
 import {useStateProviderValue} from '../../state/StateProvider';
 import {db} from '../../firebase/firebase';
 import FeedItem from '../components/FeedItem';
+import DailyMusic from '../components/DailyMusic';
 
 const GlobalFeedScreen = () => {
   const [
@@ -62,7 +63,7 @@ const GlobalFeedScreen = () => {
         .collection('posts')
         .where('type', '==', 'Song of the Day.')
         .limit(2)
-        // .orderBy('prciseDate', 'asc')
+
         // .where('date', '==', new Date().toDateString())
         .get()
         .then((snapshot) => {
@@ -83,6 +84,7 @@ const GlobalFeedScreen = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.headerText}>Discover music from all over! 🌎</Text>
+      <DailyMusic />
       {loading ? <ActivityIndicator size="large" color="#1E8C8B" /> : null}
       <FlatList
         refreshControl={

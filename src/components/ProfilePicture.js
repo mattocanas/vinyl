@@ -39,7 +39,7 @@ const ProfilePicture = ({refresh}) => {
     ImagePicker.openPicker({
       width: 300,
       height: 400,
-      cropping: true,
+      cropping: false,
     }).then((image) => {
       console.log(image);
       url = image.sourceURL;
@@ -50,7 +50,7 @@ const ProfilePicture = ({refresh}) => {
   const uploadFile = async () => {
     const file = await uriToBlob(url);
     storage
-      .ref(`profilePictures/${currentUser.displayName}.png`)
+      .ref(`profilePictures/${currentUser.uid}.png`)
       .put(file)
       .then((snapshot) => snapshot.ref.getDownloadURL())
       .then((imageUrl) => (url = imageUrl))

@@ -46,9 +46,9 @@ const EditProfileScreen = ({route}) => {
         name: fullName,
         lowercaseName: fullName.split(' ').join('').toLowerCase(),
       })
-      .then(() => {
-        setReady1(true);
-      })
+      // .then(() => {
+      //   setReady1(true);
+      // })
       .catch((error) => {
         setSubmitError(error.message);
       });
@@ -57,23 +57,23 @@ const EditProfileScreen = ({route}) => {
       .updateProfile({
         displayName: username,
       })
-      .then(() => {
-        {
-          setReady2(true);
-        }
-      })
+      // .then(() => {
+      //   {
+      //     setReady2(true);
+      //   }
+      // })
       .catch((error) => {
         setProfileUpdateError(error.message);
       });
 
     auth.currentUser
       .updateEmail(email)
-      .then(() => {
-        {
-          ready1 & ready2 ? navigation.navigate('ProfileScreen') : null;
-        }
-      })
+      .then(() => {})
       .catch((error) => setEmailUpdateError(error.message));
+
+    {
+      true ? navigation.navigate('ProfileScreen') : null;
+    }
   };
 
   const onUnfinishedSubmit = () => {
@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     backgroundColor: '#b3b3b3',
     borderRadius: 5,
-    width: 360,
+    width: 320,
     height: 30,
     paddingLeft: 2,
     paddingTop: 8,

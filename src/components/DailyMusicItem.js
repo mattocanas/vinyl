@@ -212,8 +212,9 @@ const styles = StyleSheet.create({
   descriptionText: {
     color: '#c1c8d4',
     fontSize: 10,
-    letterSpacing: 1.1,
+    letterSpacing: 1.0,
     marginTop: 6,
+    marginBottom: 2,
   },
   stopIcon: {
     fontSize: 24,

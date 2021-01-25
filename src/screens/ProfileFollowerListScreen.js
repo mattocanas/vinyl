@@ -43,6 +43,8 @@ const ProfileFollowerListScreen = () => {
     <View style={styles.container}>
       {followerData[0] != null ? (
         <FlatList
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{paddingBottom: 60}}
           style={styles.flatlist}
           data={followerData}
           keyExtractor={(item) => item.uid}

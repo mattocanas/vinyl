@@ -50,8 +50,7 @@ const FeedItem = ({
   const [likesNumber, setLikesNumber] = useState(likes.length);
   const [{currentUser, currentUserData}, dispatch] = useStateProviderValue();
   const [liked, setLiked] = useState(false);
-  const [postData, setPostData] = useState(null);
-  const [userData, setUserData] = useState(null);
+  const [playing, setPlaying] = useState(false);
   const navigationUse = useNavigation();
   const [song, setSong] = useState(null);
   const [ready, setReady] = useState(false);
@@ -68,7 +67,9 @@ const FeedItem = ({
       checkIfLiked();
       Sound.setCategory('Playback');
 
-      return () => (active = false);
+      return () => {
+        active = false;
+      };
     }, []),
   );
 
@@ -81,6 +82,7 @@ const FeedItem = ({
 
         setSong(track);
         track.play();
+        setPlaying(true);
       }
     });
   };
@@ -299,7 +301,7 @@ const FeedItem = ({
                 <Text style={styles.subUsername}>@{username}</Text>
               </View>
               <Text style={{fontSize: 6, alignSelf: 'center', marginLeft: 10}}>
-                ⚪️
+                ⚪
               </Text>
               <Moment element={Text} format="MMM Do YY" style={styles.dateText}>
                 {date}
@@ -324,7 +326,20 @@ const FeedItem = ({
                       flexDirection: 'row',
                       alignSelf: 'center',
                     }}>
-                    <TouchableOpacity>
+                    {playing ? (
+                      <IonIcon
+                        name="stop"
+                        style={styles.stopIcon}
+                        onPress={() => {
+                          ReactNativeHapticFeedback.trigger(
+                            'notificationWarning',
+                            options,
+                          );
+                          song.stop();
+                          setPlaying(false);
+                        }}
+                      />
+                    ) : (
                       <IonIcon
                         name="play"
                         style={styles.playIcon}
@@ -336,8 +351,9 @@ const FeedItem = ({
                           handleAudio(audio);
                         }}
                       />
-                    </TouchableOpacity>
-                    {song ? (
+                    )}
+
+                    {/* {song ? (
                       <TouchableOpacity>
                         <IonIcon
                           name="stop"
@@ -348,6 +364,7 @@ const FeedItem = ({
                               options,
                             );
                             song.stop();
+                            setPlaying(false);
                           }}
                         />
                       </TouchableOpacity>
@@ -355,7 +372,7 @@ const FeedItem = ({
                       <TouchableOpacity>
                         <IonIcon name="stop" style={styles.stopIcon} />
                       </TouchableOpacity>
-                    )}
+                    )} */}
                   </View>
                 </View>
               </View>
@@ -379,7 +396,20 @@ const FeedItem = ({
                       flexDirection: 'row',
                       alignSelf: 'center',
                     }}>
-                    <TouchableOpacity>
+                    {playing ? (
+                      <IonIcon
+                        name="stop"
+                        style={styles.stopIcon}
+                        onPress={() => {
+                          ReactNativeHapticFeedback.trigger(
+                            'notificationWarning',
+                            options,
+                          );
+                          song.stop();
+                          setPlaying(false);
+                        }}
+                      />
+                    ) : (
                       <IonIcon
                         name="play"
                         style={styles.playIcon}
@@ -391,25 +421,6 @@ const FeedItem = ({
                           handleAudio(audio);
                         }}
                       />
-                    </TouchableOpacity>
-                    {song ? (
-                      <TouchableOpacity>
-                        <IonIcon
-                          name="stop"
-                          style={styles.stopIcon}
-                          onPress={() => {
-                            ReactNativeHapticFeedback.trigger(
-                              'notificationError',
-                              options,
-                            );
-                            song.stop();
-                          }}
-                        />
-                      </TouchableOpacity>
-                    ) : (
-                      <TouchableOpacity>
-                        <IonIcon name="stop" style={styles.stopIcon} />
-                      </TouchableOpacity>
                     )}
                   </View>
                 </View>

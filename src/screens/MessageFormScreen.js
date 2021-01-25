@@ -15,9 +15,9 @@ import {useStateProviderValue} from '../../state/StateProvider';
 import {useNavigation} from '@react-navigation/native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
-const PostFormScreen = ({route}) => {
+const MessageFormScreen = ({route}) => {
   const navigationUse = useNavigation();
-  const {data} = route.params;
+  const {userData, songData} = route.params;
   const [text, setText] = useState('');
   const [posted, setPosted] = useState(false);
   const [
@@ -25,43 +25,74 @@ const PostFormScreen = ({route}) => {
     dispatch,
   ] = useStateProviderValue();
 
-  const post = () => {
-    let newDocRef = db
+  const sendMessage = () => {
+    let newMessageRef1 = db
       .collection('users')
       .doc(currentUser.uid)
-      .collection('posts')
+      .collection('messages')
+      .doc(userData.uid)
+      .collection('message')
       .doc();
 
-    newDocRef
-      .set({
-        docId: newDocRef.id,
+    newMessageRef1.set({
+      senderId: currentUser.uid,
+      senderUsername: currentUserData.username,
+      senderProfilePicture: currentUserData.profilePictureUrl,
+      receiverId: userData.uid,
+      receiverUsername: userData.username,
+      receiverProfilePictureUrl: userData.profilePictureUrl,
+      artist: songData.artist.name,
+      title: songData.title,
+      albumArt: songData.album.cover_xl,
+      albumId: songData.album.id,
+      artistId: songData.artist.id,
+      artistTracklist: songData.artist.tracklist,
+      albumTracklist: songData.album.tracklist,
+      albumName: songData.album.title,
+      trackId: songData.id,
+      audio: songData.preview,
+      verified: currentUserData.verified,
+      date: new Date().toDateString(),
+      preciseDate: new Date(),
+      userNotificationTokens: currentUserData.tokens,
+      likes: [],
+      type: 'message',
+      message: text,
+    });
 
-        artist: data.artist.name,
-        title: data.title,
-        albumArt: data.album.cover_xl,
-        albumId: data.album.id,
-        artistId: data.artist.id,
-        artistTracklist: data.artist.tracklist,
-        albumTracklist: data.album.tracklist,
-        albumName: data.album.title,
-        trackId: data.id,
-        audio: data.preview,
-        username: currentUserData.username,
-        name: currentUserData.name,
+    let newMessageRef2 = db
+      .collection('users')
+      .doc(userData.uid)
+      .collection('messages')
+      .doc(currentUser.uid)
+      .collection('message')
+      .doc();
 
-        uid: currentUser.uid,
-        verified: currentUserData.verified,
-        date: new Date().toDateString(),
-        preciseDate: new Date(),
-        userNotificationTokens: currentUserData.tokens,
-        profilePictureUrl: currentUserData.profilePictureUrl,
-        likes: [],
-        comments: {},
-        description: text,
-        imageURL: '',
-        type: 'Post',
-      })
-      .then(() => navigationUse.navigate('HomeScreen'));
+    newMessageRef1.set({
+      senderId: currentUser.uid,
+      senderUsername: currentUserData.username,
+      senderProfilePicture: currentUserData.profilePictureUrl,
+      receiverId: userData.uid,
+      receiverUsername: userData.username,
+      receiverProfilePictureUrl: userData.profilePictureUrl,
+      artist: songData.artist.name,
+      title: songData.title,
+      albumArt: songData.album.cover_xl,
+      albumId: songData.album.id,
+      artistId: songData.artist.id,
+      artistTracklist: songData.artist.tracklist,
+      albumTracklist: songData.album.tracklist,
+      albumName: songData.album.title,
+      trackId: songData.id,
+      audio: songData.preview,
+      verified: currentUserData.verified,
+      date: new Date().toDateString(),
+      preciseDate: new Date(),
+      userNotificationTokens: currentUserData.tokens,
+      likes: [],
+      type: 'message',
+      message: text,
+    });
   };
 
   return (
@@ -73,10 +104,13 @@ const PostFormScreen = ({route}) => {
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{alignItems: 'center'}}
           style={styles.container}>
-          <Image style={styles.albumArt} source={{uri: data.album.cover_xl}} />
+          <Image
+            style={styles.albumArt}
+            source={{uri: songData.album.cover_xl}}
+          />
 
-          <Text style={styles.title}>{data.title}</Text>
-          <Text style={styles.artist}>{data.artist.name}</Text>
+          <Text style={styles.title}>{songData.title}</Text>
+          <Text style={styles.artist}>{songData.artist.name}</Text>
 
           <TextInput
             enablesReturnKeyAutomatically={true}
@@ -87,7 +121,7 @@ const PostFormScreen = ({route}) => {
             value={text}
             onChangeText={(newText) => setText(newText)}
           />
-          <TouchableOpacity style={styles.postButton} onPress={post}>
+          <TouchableOpacity style={styles.postButton} onPress={sendMessage}>
             <Text style={styles.shareText}>Share Track</Text>
           </TouchableOpacity>
         </KeyboardAwareScrollView>
@@ -151,4 +185,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PostFormScreen;
+export default MessageFormScreen;

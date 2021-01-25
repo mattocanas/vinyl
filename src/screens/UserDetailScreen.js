@@ -206,9 +206,9 @@ const UserDetailScreen = ({route}) => {
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
                   {currentUserData.followingIdList.includes(data.uid) ? (
                     <TouchableOpacity
-                      style={styles.followButton}
+                      style={styles.followingButton}
                       onPress={onUnfollow}>
-                      <Text style={styles.followText}>Following</Text>
+                      <Text style={styles.followingButtonText}>Following</Text>
                     </TouchableOpacity>
                   ) : (
                     <TouchableOpacity
@@ -403,6 +403,20 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginTop: 20,
   },
+  followingButton: {
+    alignItems: 'center',
+    paddingTop: 6,
+    paddingBottom: 6,
+    width: 160,
+    borderWidth: 2,
+    borderColor: '#1E8C8B',
+    borderRadius: 10,
+    marginTop: 20,
+  },
+  followingButtonText: {
+    fontSize: 16,
+    color: '#1E8C8B',
+  },
   followText: {
     fontSize: 16,
     color: '#c1c8d4',
@@ -411,7 +425,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     marginTop: 12,
-    // paddingBottom: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(193, 200, 212, 0.4)',
+    paddingBottom: 0,
   },
   songOfTheDaySection: {
     marginRight: 12,
@@ -419,7 +435,7 @@ const styles = StyleSheet.create({
   songOfTheDayText: {
     color: '#c1c8d4',
     fontSize: 22,
-
+    marginBottom: -3,
     fontWeight: '700',
   },
 
@@ -429,7 +445,7 @@ const styles = StyleSheet.create({
   likesText: {
     color: '#c1c8d4',
     fontSize: 22,
-
+    marginBottom: -3,
     fontWeight: '700',
   },
   songOfTheDayTextActive: {
@@ -437,6 +453,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
     textDecorationLine: 'underline',
     fontWeight: '700',
+    marginBottom: -3,
   },
 
   likesTextActive: {
@@ -444,12 +461,14 @@ const styles = StyleSheet.create({
     fontSize: 22,
     textDecorationLine: 'underline',
     fontWeight: '700',
+    marginBottom: -3,
   },
   postsText: {
     color: '#c1c8d4',
     fontSize: 22,
     fontWeight: '700',
     marginRight: 16,
+    marginBottom: -3,
   },
   postsTextActive: {
     color: '#1E8C8B',
@@ -457,6 +476,7 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
     fontWeight: '700',
     marginRight: 16,
+    marginBottom: -3,
   },
   menuButton: {
     color: '#c1c8d4',

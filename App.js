@@ -31,6 +31,7 @@ import DeleteAccountConfirmationScreen from './src/screens/DeleteAccountConfirma
 import PostDetailScreen from './src/screens/PostDetailScreen';
 import ReportPostScreen from './src/screens/ReportPostScreen';
 import UserSettingsScreen from './src/screens/UserSettingsScreen';
+import MessageSelectScreen from './src/screens/MessageSelectScreen';
 
 //icons
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
@@ -45,6 +46,8 @@ import messaging from '@react-native-firebase/messaging';
 import CommentsScreen from './src/screens/CommentsScreen';
 import PostCommentScreen from './src/screens/PostCommentScreen';
 import NotificationsScreen from './src/screens/NotificationsScreen';
+import MessageFormScreen from './src/screens/MessageFormScreen';
+import MessageListScreen from './src/screens/MessageListScreen';
 
 // create bottom nav bar
 const Tabs = createMaterialBottomTabNavigator();
@@ -263,6 +266,66 @@ function myMainStack() {
         }}
         name="EditProfileScreen"
         component={EditProfileScreen}
+      />
+
+      <MainStack.Screen
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#171818',
+            shadowColor: 'transparent',
+          },
+          headerTitleStyle: {
+            color: '#c1c8d4',
+            fontSize: 32,
+            fontWeight: '700',
+          },
+          title: 'Vinyl',
+          headerTintColor: '#c1c8d4',
+          headerBackTitleVisible: false,
+        }}
+        name="MessageSelectScreen"
+        component={MessageSelectScreen}
+      />
+
+      <MainStack.Screen
+        options={{
+          headerShown: false,
+          headerStyle: {
+            backgroundColor: '#171818',
+            shadowColor: 'transparent',
+          },
+          headerTitleStyle: {
+            color: '#c1c8d4',
+            fontSize: 32,
+            fontWeight: '700',
+          },
+          title: 'Vinyl',
+          headerTintColor: '#c1c8d4',
+          headerBackTitleVisible: false,
+        }}
+        name="MessageFormScreen"
+        component={MessageFormScreen}
+      />
+
+      <MainStack.Screen
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#171818',
+            shadowColor: 'transparent',
+          },
+          headerTitleStyle: {
+            color: '#c1c8d4',
+            fontSize: 32,
+            fontWeight: '700',
+          },
+          title: 'Vinyl',
+          headerTintColor: '#c1c8d4',
+          headerBackTitleVisible: false,
+        }}
+        name="MessageListScreen"
+        component={MessageListScreen}
       />
 
       <MainStack.Screen

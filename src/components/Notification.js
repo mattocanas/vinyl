@@ -21,13 +21,14 @@ const Notification = ({data}) => {
     <View
       style={{
         flexDirection: 'row',
-        marginTop: 40,
+        marginTop: 20,
         paddingBottom: 10,
         alignItems: 'center',
-        marginLeft: 0,
+
         // borderBottomColor: 'white',
         // borderBottomWidth: StyleSheet.hairlineWidth,
-        width: dimensions.width - 40,
+        // width: dimensions.width - 40,
+        width: dimensions.width - 30,
       }}>
       {data.type == 'comment' ? (
         <IonIcon name="chatbubble-outline" style={styles.commentIcon} />
@@ -106,7 +107,7 @@ const Notification = ({data}) => {
         <>
           <Text style={styles.usernameComment}>{data.commentByUsername}</Text>
           <View style={{alignSelf: 'flex-start'}}>
-            <Text style={styles.likedText}>commented on your post:</Text>
+            <Text style={styles.commentIntroText}>commented on your post:</Text>
             <Text style={styles.commentText}>{data.comment}</Text>
           </View>
         </>
@@ -155,8 +156,8 @@ const Notification = ({data}) => {
 
 const styles = StyleSheet.create({
   profilePicture: {
-    height: 40,
-    width: 40,
+    height: 30,
+    width: 30,
     borderRadius: 20,
     marginRight: 6,
   },
@@ -164,7 +165,7 @@ const styles = StyleSheet.create({
     height: 40,
     width: 40,
     borderRadius: 6,
-    marginLeft: 6,
+    marginLeft: 4,
   },
   username: {
     fontSize: 14,
@@ -185,19 +186,25 @@ const styles = StyleSheet.create({
   },
   likeButton: {
     color: '#1E8C8B',
-    fontSize: 30,
+    fontSize: 22,
     marginRight: 10,
   },
   commentText: {
     fontSize: 13,
     fontWeight: '400',
     color: '#c1c8d4',
-    width: 200,
+    width: 190,
   },
   commentIcon: {
-    fontSize: 30,
+    fontSize: 22,
     color: '#1E8C8B',
-    marginRight: 10,
+    marginRight: 6,
+  },
+  commentIntroText: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#c1c8d4',
+    marginLeft: 4,
   },
 });
 

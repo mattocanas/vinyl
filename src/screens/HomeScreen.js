@@ -1,5 +1,5 @@
-import React, {useEffect} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {View, Text, StyleSheet, Animated} from 'react-native';
 import DailyMusic from '../components/DailyMusic';
 import FollowingFeed from '../components/FollowingFeed';
 import {useStateProviderValue} from '../../state/StateProvider';
@@ -9,15 +9,22 @@ import messaging from '@react-native-firebase/messaging';
 import {fcmService} from '../notifications/FCMService';
 import {localNotificationService} from '../notifications/LocalNotificationService';
 import firebase from 'firebase';
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome5';
+import IonIcon from 'react-native-vector-icons/Ionicons';
+import {useNavigation} from '@react-navigation/native';
 
 const HomeScreen = () => {
   const [
     {currentUser, currentUserPictureURI, currentUserData},
     dispatch,
   ] = useStateProviderValue();
+  const [animation, setAnimation] = useState(new Animated.Value(0));
+  const navigationUse = useNavigation();
 
   useEffect(() => {
     let active = true;
+    // startAnimation();
+
     // Sound.setCategory('Playback');
 
     fcmService.registerAppWithFCM();
@@ -105,9 +112,66 @@ const HomeScreen = () => {
     }
   }
 
+  const startAnimation = () => {
+    Animated.timing(animation, {
+      toValue: 5040,
+      duration: 5000,
+    }).start();
+  };
+
+  const rotateInterpolate = animation.interpolate({
+    inputRange: [0, 360],
+    outputRange: ['0deg', '360deg'],
+  });
+
+  const animatedStyles = {
+    marginLeft: 20,
+
+    transform: [{rotate: rotateInterpolate}],
+  };
+
   return (
     <View style={styles.container}>
-      <DailyMusic />
+      <View
+        style={{
+          paddingTop: 42,
+          backgroundColor: 'transparent',
+          paddingBottom: 4,
+          borderBottomLeftRadius: 0,
+          // borderBottomRightRadius: 40,
+          // borderBottomLeftRadius: 40,
+          borderColor: '#a3adbf',
+          borderBottomWidth: 3,
+          // borderRightWidth: 3,
+          // borderLeftWidth: 3,
+        }}>
+        {currentUserData ? (
+          <>
+            <View style={{flexDirection: 'row'}}>
+              <Animated.View style={[animatedStyles]}>
+                <FontAwesomeIcon
+                  style={styles.welcomeIcon}
+                  name="compact-disc"
+                  size={40}
+                  color="#1E8C8B"
+                />
+              </Animated.View>
+
+              <Text style={styles.welcomeText}>Welcome, </Text>
+            </View>
+            <View style={{flexDirection: 'row'}}>
+              <Text style={styles.nameText}>{currentUserData.name}</Text>
+              <IonIcon
+                name="paper-plane"
+                style={styles.messageIcon}
+                onPress={() => navigationUse.navigate('MessageListScreen')}
+              />
+            </View>
+          </>
+        ) : null}
+      </View>
+
+      {/* <DailyMusic /> */}
       <FollowingFeed />
     </View>
   );
@@ -118,6 +182,37 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#171818',
     paddingTop: -10,
+  },
+  welcomeText: {
+    color: '#1E8C8B',
+    fontSize: 30,
+    fontWeight: '800',
+    marginLeft: 4,
+    marginTop: 14,
+  },
+  nameText: {
+    fontSize: 26,
+    color: '#c1c8d4',
+    fontWeight: '700',
+    marginTop: 4,
+    marginLeft: 88,
+  },
+  welcomeIcon: {
+    color: '#1E8C8B',
+    fontSize: 30,
+    fontWeight: '800',
+    marginLeft: 10,
+    marginTop: 14,
+  },
+  messageIcon: {
+    color: '#c1c8d4',
+    fontSize: 24,
+    fontWeight: '800',
+    marginRight: 20,
+    marginTop: 0,
+    alignSelf: 'flex-end',
+    position: 'absolute',
+    right: 0,
   },
 });
 

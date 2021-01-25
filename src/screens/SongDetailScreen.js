@@ -46,24 +46,20 @@ const SongDetailScreen = ({route}) => {
 
   const [songOfTheDay, setSongOfTheDay] = useState(false);
   const [song, setSong] = useState(null);
+  const [playing, setPlaying] = useState(false);
 
-  const track = new Sound(data.preview, null, (e) => {
-    if (e) {
-      console.log('error', e);
-    } else {
-      setReady(true);
-    }
-  });
+  const handleAudio = (url) => {
+    track = new Sound(url, null, (e) => {
+      if (e) {
+        console.log('error', e);
+      } else {
+        setReady(true);
 
-  const playTrack = () => {
-    track.play();
-    ReactNativeHapticFeedback.trigger('notificationSuccess', options);
-  };
-
-  const stopTrack = () => {
-    ReactNativeHapticFeedback.trigger('notificationWarning', options);
-    track.stop();
-    track.reset();
+        setSong(track);
+        track.play();
+        setPlaying(true);
+      }
+    });
   };
 
   const addSongOfTheDay = () => {
@@ -88,6 +84,7 @@ const SongDetailScreen = ({route}) => {
         trackId: data.id,
         audio: data.preview,
         username: currentUserData.username,
+        name: currentUserData.name,
         uid: currentUser.uid,
         date: new Date().toDateString(),
         preciseDate: new Date(),
@@ -138,7 +135,7 @@ const SongDetailScreen = ({route}) => {
         <View style={{flexDirection: 'row'}}>
           <Image style={styles.albumArt} source={{uri: data.album.cover_xl}} />
           <MaterialIcon
-            onPress={() => navigationUse.navigate('SearchScreen')}
+            onPress={() => navigationUse.goBack()}
             name="arrow-back-ios"
             color="white"
             style={{
@@ -151,36 +148,39 @@ const SongDetailScreen = ({route}) => {
           />
         </View>
 
-        <Text style={{fontSize: 8, color: 'gray', marginTop: 10}}>
-          Click the plus icon to make this your song of the day!
+        <Text style={{fontSize: 10, color: 'gray', marginTop: 12}}>
+          Click the calendar icon to make this your song of the day!
         </Text>
 
         <Text style={styles.title}>{data.title}</Text>
         {true ? (
           <View style={{flexDirection: 'row', marginTop: 10, marginBottom: 4}}>
-            <TouchableOpacity
-              style={styles.playButton}
-              onPress={() => {
-                ReactNativeHapticFeedback.trigger(
-                  'notificationSuccess',
-                  options,
-                );
-                playTrack();
-              }}>
-              <IonIcon name="play" style={styles.playIcon} />
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.stopButton}
-              onPress={() => {
-                ReactNativeHapticFeedback.trigger(
-                  'notificationWarning',
-                  options,
-                );
-                stopTrack();
-              }}>
-              <IonIcon name="stop" style={styles.stopIcon} />
-            </TouchableOpacity>
+            {playing ? (
+              <TouchableOpacity
+                style={styles.stopButton}
+                onPress={() => {
+                  ReactNativeHapticFeedback.trigger(
+                    'notificationWarning',
+                    options,
+                  );
+                  song.stop();
+                  setPlaying(false);
+                }}>
+                <IonIcon name="stop" style={styles.stopIcon} />
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity
+                style={styles.playButton}
+                onPress={() => {
+                  ReactNativeHapticFeedback.trigger(
+                    'notificationSuccess',
+                    options,
+                  );
+                  handleAudio(data.preview);
+                }}>
+                <IonIcon name="play" style={styles.playIcon} />
+              </TouchableOpacity>
+            )}
 
             {songOfTheDay != true ? (
               <TouchableOpacity style={styles.songOfTheDayButton}>
@@ -192,11 +192,22 @@ const SongDetailScreen = ({route}) => {
               </TouchableOpacity>
             ) : null}
             <TouchableOpacity style={styles.songOfTheDayButton}>
-              <IonIcon
-                name="paper-plane"
+              <MaterialIcon
+                name="post-add"
                 style={styles.repostIcon}
                 onPress={() =>
                   navigationUse.navigate('PostFormScreen', {data: data})
+                }
+              />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.songOfTheDayButton}>
+              <IonIcon
+                name="paper-plane"
+                style={styles.messageIcon}
+                onPress={() =>
+                  navigationUse.navigate('MessageSelectScreen', {
+                    songData: data,
+                  })
                 }
               />
             </TouchableOpacity>
@@ -287,9 +298,15 @@ const styles = StyleSheet.create({
     marginLeft: 2,
   },
   repostIcon: {
-    fontSize: 32,
+    fontSize: 36,
     color: '#c1c8d4',
-    marginTop: 14,
+    marginTop: 12,
+    marginLeft: 4,
+  },
+  messageIcon: {
+    fontSize: 36,
+    color: '#c1c8d4',
+    marginTop: 12,
     marginLeft: 0,
   },
   iconContainer: {

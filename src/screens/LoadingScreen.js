@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -6,11 +6,15 @@ import {
   ActivityIndicator,
   ImageBackground,
   Image,
+  Animated,
 } from 'react-native';
 import {auth} from '../../firebase/firebase';
 import {useStateProviderValue} from '../../state/StateProvider';
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome5';
 
 const App = ({navigation}) => {
+  const [animation, setAnimation] = useState(new Animated.Value(0));
+
   const [{currentUser}, dispatch] = useStateProviderValue();
   useEffect(() => {
     // const track = new Sound(
@@ -44,16 +48,37 @@ const App = ({navigation}) => {
   });
 
   useEffect(() => {
+    startAnimation();
+
     auth.onAuthStateChanged((user) => {
       navigation.navigate(user ? 'App' : 'Auth');
     });
   });
 
+  const startAnimation = () => {
+    Animated.timing(animation, {
+      toValue: 5000,
+      duration: 2000,
+    }).start();
+  };
+
+  const rotateInterpolate = animation.interpolate({
+    inputRange: [0, 360],
+    outputRange: ['0deg', '360deg'],
+  });
+
+  const animatedStyles = {
+    transform: [{rotate: rotateInterpolate}],
+  };
+
   return (
     <View style={styles.container}>
+      <Animated.View style={[animatedStyles]}>
+        <FontAwesomeIcon name="compact-disc" size={40} color="#1E8C8B" />
+      </Animated.View>
       <Text style={styles.welcomeText}>Loading tunes...</Text>
 
-      <ActivityIndicator color="#1E8C8B" size="large"></ActivityIndicator>
+      {/* <ActivityIndicator color="#1E8C8B" size="large"></ActivityIndicator> */}
     </View>
   );
 };

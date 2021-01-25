@@ -95,13 +95,13 @@ const FollowingFeed = () => {
 
   return (
     <View style={styles.container}>
-      {loading ? (
+      {/* {loading ? (
         <ActivityIndicator
           style={{marginTop: 20}}
           size="large"
           color="#1E8C8B"
         />
-      ) : null}
+      ) : null} */}
       <FlatList
         refreshControl={
           <RefreshControl

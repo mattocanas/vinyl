@@ -8,15 +8,18 @@ import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIc
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import FastImage from 'react-native-fast-image';
+import {useNavigation} from '@react-navigation/native';
 
 const ProfileSongOfTheDay = ({data, refresh}) => {
-  const [{currentUser}, dispatch] = useStateProviderValue();
+  const [{currentUser, currentUserData}, dispatch] = useStateProviderValue();
   const options = {
     enableVibrateFallback: true,
     ignoreAndroidSystemSettings: false,
   };
   const [ready, setReady] = useState(false);
   const [song, setSong] = useState(null);
+  const [playing, setPlaying] = useState(false);
+  const navigationUse = useNavigation();
 
   useEffect(() => {
     let active = true;
@@ -34,88 +37,96 @@ const ProfileSongOfTheDay = ({data, refresh}) => {
         console.log(track.isLoaded());
         setSong(track);
         track.play();
+        setPlaying(true);
       }
     });
   };
 
-  const playTrack = () => {
-    track.play();
-    track.reset();
-    ReactNativeHapticFeedback.trigger('notificationSuccess', options);
-  };
-
-  const stopTrack = () => {
-    track.stop();
-    ReactNativeHapticFeedback.trigger('notificationWarning', options);
-  };
-
   return (
     <View style={styles.container}>
-      <View style={{flexDirection: 'row', alignItems: 'center'}}>
-        <FastImage
-          style={styles.profilePicture}
-          source={{
-            uri: data.profilePictureUrl,
-            priority: FastImage.priority.normal,
-          }}
-          // resizeMode={FastImage.resizeMode.contain}
-        />
-
-        <Text style={styles.usernameText}>{data.username} |</Text>
-        <Moment element={Text} format="MMM Do YY" style={styles.date}>
-          {data.date}
-        </Moment>
-      </View>
-
-      <View style={{marginLeft: 70, marginRight: 30}}>
+      <TouchableOpacity
+        onPress={() => {
+          navigationUse.navigate('PostDetailScreen', {
+            title: data.title,
+            artist: data.artist,
+            audio: data.audio,
+            albumArt: data.albumArt,
+            profilePictureUrl: data.profilePictureUrl,
+            uid: data.uid,
+            username: data.username,
+            date: data.date,
+            likes: data.likes,
+            likesNumber: data.likes.toLength,
+            comments: data.comments,
+            type: data.type,
+            description: data.description,
+            albumId: data.albumId,
+            albumName: data.albumName,
+            albumTracklist: data.albumTracklist,
+            artistId: data.artistId,
+            artistTracklist: data.artistTracklist,
+            trackId: data.trackId,
+            navigateBackTo: 'ProfileScreen',
+            docId: data.docId,
+            verified: currentUserData.verified,
+          });
+        }}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <FastImage
-            style={styles.albumArt}
-            source={{uri: data.albumArt, priority: FastImage.priority.normal}}
+            style={styles.profilePicture}
+            source={{
+              uri: data.profilePictureUrl,
+              priority: FastImage.priority.normal,
+            }}
             // resizeMode={FastImage.resizeMode.contain}
           />
-          <View style={{flexDirection: 'column'}}>
-            <Text style={styles.title}>{data.title}</Text>
-            <Text style={styles.artist}>{data.artist}</Text>
-          </View>
-          {true ? (
-            <>
-              <TouchableOpacity>
-                <IonIcon
-                  name="play"
-                  style={styles.stopIcon}
-                  onPress={() => {
-                    ReactNativeHapticFeedback.trigger(
-                      'notificationSuccess',
-                      options,
-                    );
-                    handleAudio(data.audio);
-                  }}
-                />
-              </TouchableOpacity>
-              {song ? (
-                <TouchableOpacity>
-                  <IonIcon
-                    name="stop"
-                    style={styles.stopIcon}
-                    onPress={() => {
-                      ReactNativeHapticFeedback.trigger(
-                        'notificationWarning',
-                        options,
-                      );
-                      song.stop();
-                    }}
-                  />
-                </TouchableOpacity>
-              ) : (
-                <TouchableOpacity>
-                  <IonIcon name="stop" style={styles.stopIcon} />
-                </TouchableOpacity>
-              )}
-            </>
-          ) : null}
+
+          <Text style={styles.usernameText}>{data.username} |</Text>
+          <Moment element={Text} format="MMM Do YY" style={styles.date}>
+            {data.date}
+          </Moment>
         </View>
-      </View>
+
+        <View style={{marginLeft: 70, marginRight: 30}}>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <FastImage
+              style={styles.albumArt}
+              source={{uri: data.albumArt, priority: FastImage.priority.normal}}
+              // resizeMode={FastImage.resizeMode.contain}
+            />
+            <View style={{flexDirection: 'column'}}>
+              <Text style={styles.title}>{data.title}</Text>
+              <Text style={styles.artist}>{data.artist}</Text>
+            </View>
+            {playing ? (
+              <IonIcon
+                name="stop"
+                style={styles.stopIcon}
+                onPress={() => {
+                  ReactNativeHapticFeedback.trigger(
+                    'notificationWarning',
+                    options,
+                  );
+                  song.stop();
+                  setPlaying(false);
+                }}
+              />
+            ) : (
+              <IonIcon
+                name="play"
+                style={styles.stopIcon}
+                onPress={() => {
+                  ReactNativeHapticFeedback.trigger(
+                    'notificationSuccess',
+                    options,
+                  );
+                  handleAudio(data.audio);
+                }}
+              />
+            )}
+          </View>
+        </View>
+      </TouchableOpacity>
     </View>
   );
 };

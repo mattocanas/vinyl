@@ -6,10 +6,12 @@ import {
   FlatList,
   RefreshControl,
   ActivityIndicator,
+  Animated,
 } from 'react-native';
 import {useStateProviderValue} from '../../state/StateProvider';
 import {db} from '../../firebase/firebase';
 import Notification from '../components/Notification';
+import IonIcon from 'react-native-vector-icons/Ionicons';
 
 const NotificationsScreen = () => {
   const [
@@ -22,6 +24,7 @@ const NotificationsScreen = () => {
   useEffect(() => {
     let active = true;
     load();
+
     return () => {
       active = false;
     };
@@ -42,6 +45,8 @@ const NotificationsScreen = () => {
     db.collection('users')
       .doc(currentUser.uid)
       .collection('notifications')
+      .orderBy('preciseDate', 'desc')
+      .limit(18)
       .get()
       .then((snapshot) => {
         snapshot.forEach((doc) => {
@@ -65,20 +70,41 @@ const NotificationsScreen = () => {
   return (
     <View style={styles.container}>
       {data[0] != null ? (
-        <FlatList
-          refreshControl={
-            <RefreshControl
-              refreshing={refreshController}
-              onRefresh={refreshComponent}
-              title="Pull for new notifications."
-              titleColor="#1E8C8B"
-              tintColor="#1E8C8B"
+        <>
+          <View style={{flexDirection: 'row'}}>
+            <IonIcon
+              name="notifications"
+              size={30}
+              color="#1E8C8B"
+              style={{marginTop: 42, marginLeft: 4, marginRight: 4}}
             />
-          }
-          data={data}
-          keyExtractor={(item) => item.notificationId}
-          renderItem={({item}) => <Notification data={item} />}
-        />
+            <Text
+              style={{
+                fontSize: 30,
+                color: '#c1c8d4',
+                marginTop: 40,
+                marginBottom: 10,
+              }}>
+              Notifications
+            </Text>
+          </View>
+
+          <FlatList
+            showsVerticalScrollIndicator={false}
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshController}
+                onRefresh={refreshComponent}
+                title="Pull for new notifications."
+                titleColor="#1E8C8B"
+                tintColor="#1E8C8B"
+              />
+            }
+            data={data}
+            keyExtractor={(item) => item.notificationId}
+            renderItem={({item}) => <Notification data={item} />}
+          />
+        </>
       ) : (
         <Text
           style={{

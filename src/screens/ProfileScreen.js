@@ -280,9 +280,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     marginTop: 12,
-    // borderBottomWidth: 1,
-    // borderBottomColor: 'rgba(193, 200, 212, 0.1)',
-    // paddingBottom: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(193, 200, 212, 0.4)',
+    paddingBottom: 0,
   },
   songOfTheDaySection: {
     marginRight: 12,
@@ -290,7 +290,7 @@ const styles = StyleSheet.create({
   songOfTheDayText: {
     color: '#c1c8d4',
     fontSize: 22,
-
+    marginBottom: -3,
     fontWeight: '700',
   },
 
@@ -300,7 +300,7 @@ const styles = StyleSheet.create({
   likesText: {
     color: '#c1c8d4',
     fontSize: 22,
-
+    marginBottom: -3,
     fontWeight: '700',
   },
   songOfTheDayTextActive: {
@@ -308,6 +308,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
     textDecorationLine: 'underline',
     fontWeight: '700',
+    marginBottom: -3,
   },
 
   likesTextActive: {
@@ -315,12 +316,14 @@ const styles = StyleSheet.create({
     fontSize: 22,
     textDecorationLine: 'underline',
     fontWeight: '700',
+    marginBottom: -3,
   },
   postsText: {
     color: '#c1c8d4',
     fontSize: 22,
     fontWeight: '700',
     marginRight: 16,
+    marginBottom: -3,
   },
   postsTextActive: {
     color: '#1E8C8B',
@@ -328,6 +331,7 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
     fontWeight: '700',
     marginRight: 16,
+    marginBottom: -3,
   },
   bio: {
     fontSize: 14,

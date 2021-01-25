@@ -56,6 +56,7 @@ const PostDetailScreen = ({route}) => {
   const navigationUse = useNavigation();
   const [ready, setReady] = useState(false);
   const [song, setSong] = useState(null);
+  const [playing, setPlaying] = useState(false);
   // const [likesNumber, setLikesNumber] = useState(likes.length);
   const [refresh, setRefresh] = useState(false);
 
@@ -68,35 +69,23 @@ const PostDetailScreen = ({route}) => {
     let active = true;
 
     checkIfLiked();
-    console.log(likesNumber + 1);
     return () => {
       active = false;
     };
   }, [refresh]);
 
-  const track = new Sound(audio, null, (e) => {
-    if (e) {
-      console.log('error', e);
-    } else {
-      // all good
-      setReady(true);
-    }
-  });
+  const handleAudio = (url) => {
+    track = new Sound(url, null, (e) => {
+      if (e) {
+        console.log('error', e);
+      } else {
+        setReady(true);
 
-  const playTrack = () => {
-    track.play();
-    setSong(track);
-    ReactNativeHapticFeedback.trigger('notificationSuccess', options);
-    {
-      track.isPlaying() == false ? track.reset() : null;
-    }
-  };
-
-  const stopTrack = () => {
-    ReactNativeHapticFeedback.trigger('notificationWarning', options);
-    track.stop();
-    track.reset();
-    setSong(null);
+        setSong(track);
+        track.play();
+        setPlaying(true);
+      }
+    });
   };
 
   const onLike = () => {
@@ -258,6 +247,9 @@ const PostDetailScreen = ({route}) => {
               style={styles.titleTextSOTD}>
               {title}
             </Text>
+
+            <Text style={styles.artistIntroTextSOTD}>by</Text>
+            <Text style={styles.artistTextSOTD}>{artist}</Text>
             <Text style={styles.albumIntroTextSOTD}>from</Text>
             <Text
               onPress={() =>
@@ -266,8 +258,6 @@ const PostDetailScreen = ({route}) => {
               style={styles.albumTextSOTD}>
               {albumName}
             </Text>
-            <Text style={styles.artistIntroTextSOTD}>by</Text>
-            <Text style={styles.artistTextSOTD}>{artist}</Text>
           </View>
         ) : (
           <View style={{alignItems: 'center'}}>
@@ -284,19 +274,19 @@ const PostDetailScreen = ({route}) => {
                     id: trackId,
                   })
                 }
-                style={styles.titleTextSOTD}>
+                style={styles.titleText}>
                 {title}
               </Text>
-              <Text style={styles.albumIntroTextSOTD}>from</Text>
+              <Text style={styles.albumIntroText}>from</Text>
               <Text
                 onPress={() =>
                   navigationUse.navigate('AlbumDetailScreen', {id: albumId})
                 }
-                style={styles.albumTextSOTD}>
+                style={styles.albumText}>
                 {albumName}
               </Text>
-              <Text style={styles.artistIntroTextSOTD}>by</Text>
-              <Text style={styles.artistTextSOTD}>{artist}</Text>
+              <Text style={styles.artistIntroText}>by</Text>
+              <Text style={styles.artistText}>{artist}</Text>
             </View>
           </View>
         )}
@@ -308,104 +298,30 @@ const PostDetailScreen = ({route}) => {
             marginTop: 2,
             marginBottom: 2,
           }}>
-          <TouchableOpacity onPress={playTrack}>
-            <IonIcon name="play" style={styles.playIcon} />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => song.stop()}>
-            <IonIcon name="stop" style={styles.stopIcon} />
-          </TouchableOpacity>
+          {playing ? (
+            <TouchableOpacity
+              onPress={() => {
+                song.stop();
+                setPlaying(false);
+              }}>
+              <IonIcon name="stop" style={styles.stopIcon} />
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              onPress={() => {
+                handleAudio(audio);
+              }}>
+              <IonIcon name="play" style={styles.playIcon} />
+            </TouchableOpacity>
+          )}
         </View>
 
-        {/* {liked == true ? (
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <IonIcon
-              name="chatbubble-outline"
-              style={styles.commentIcon}
-              onPress={() =>
-                navigationUse.navigate('PostCommentScreen', {
-                  uid: uid,
-                  docId: docId,
-                })
-              }
-            />
-            <TouchableOpacity style={styles.buttonsTab} onPress={onUnlike}>
-              <AntIcon name="heart" style={styles.likeButton} />
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              onPress={() =>
-                navigationUse.navigate('LikeListScreen', {data: likes})
-              }>
-              <Text style={styles.likesNumber}>{likesNumber} likes</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              onPress={() =>
-                navigationUse.navigate('ReportPostScreen', {
-                  title,
-                  artist,
-                  audio,
-                  albumArt,
-                  profilePictureUrl,
-                  uid,
-                  username,
-                  date,
-                  likes,
-                  comments,
-                  type,
-                  description,
-                  docId,
-                })
-              }>
-              <MaterialIcon name="report" style={styles.reportButton} />
-            </TouchableOpacity>
-          </View>
-        ) : (
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <IonIcon
-              name="chatbubble-outline"
-              style={styles.commentIcon}
-              onPress={() =>
-                navigationUse.navigate('PostCommentScreen', {
-                  uid: uid,
-                  docId: docId,
-                })
-              }
-            />
-            <TouchableOpacity style={styles.buttonsTab} onPress={onLike}>
-              <AntIcon name="hearto" style={styles.likeButton} />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() =>
-                navigationUse.navigate('LikeListScreen', {data: likes})
-              }>
-              <Text style={styles.likesNumber}>{likesNumber} likes</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              onPress={() =>
-                navigationUse.navigate('ReportPostScreen', {
-                  title,
-                  artist,
-                  audio,
-                  albumArt,
-                  profilePictureUrl,
-                  uid,
-                  username,
-                  date,
-                  likes,
-                  comments,
-                  type,
-                  description,
-                  docId,
-                })
-              }>
-              <MaterialIcon name="report" style={styles.reportButton} />
-            </TouchableOpacity>
-          </View>
-        )} */}
-
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignSelf: 'flex-start',
+            marginLeft: 20,
+          }}>
           <IonIcon
             name="chatbubble-outline"
             style={styles.commentIcon}
@@ -504,28 +420,34 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   titleText: {
-    color: '#1E8C8B',
-    fontSize: 18,
-    fontWeight: '300',
-    marginBottom: 8,
-    width: 200,
+    color: '#c1c8d4',
+    fontSize: 20,
+    fontWeight: '500',
+    textAlign: 'center',
+    marginTop: 22,
+    width: 340,
   },
   artistIntroText: {
     color: '#1E8C8B',
-    fontSize: 16,
-    marginLeft: 0,
+    fontSize: 20,
+    marginRight: 8,
+    marginLeft: 8,
   },
   artistText: {
     color: '#a3adbf',
-    fontSize: 18,
-    fontWeight: '300',
+    fontSize: 20,
+    fontWeight: '500',
+    width: 280,
+    textAlign: 'center',
+    width: 340,
   },
   usernameText: {
     color: '#c1c8d4',
     fontWeight: 'bold',
     marginLeft: 8,
-    marginTop: 4,
+    // marginTop: 4,
     fontSize: 20,
+    alignSelf: 'flex-start',
   },
   profileContainer: {
     flexDirection: 'row',
@@ -564,8 +486,8 @@ const styles = StyleSheet.create({
     marginLeft: 4,
   },
   playIcon: {
-    fontSize: 36,
-    marginTop: 2,
+    fontSize: 40,
+    marginTop: 10,
     color: '#a3adbf',
     marginLeft: 4,
   },
@@ -595,52 +517,57 @@ const styles = StyleSheet.create({
   },
   reportButton: {
     color: '#7F1535',
-    fontSize: 32,
+    fontSize: 28,
     marginTop: 14,
-    marginLeft: 10,
+    marginLeft: 2,
   },
   albumIntroText: {
     color: '#1E8C8B',
-    fontSize: 16,
-    marginBottom: 2,
+    fontSize: 20,
+    marginRight: 8,
+    marginLeft: 8,
   },
   albumText: {
     color: '#a3adbf',
-    fontSize: 18,
-    fontWeight: '300',
-    width: 200,
-    marginBottom: 8,
+    fontSize: 20,
+    fontWeight: '500',
+    width: 280,
+    textAlign: 'center',
+    width: 340,
   },
   albumIntroTextSOTD: {
     color: '#1E8C8B',
-    fontSize: 16,
+    fontSize: 20,
     marginRight: 8,
     marginLeft: 8,
   },
   albumTextSOTD: {
     color: '#a3adbf',
-    fontSize: 22,
-    fontWeight: '600',
+    fontSize: 30,
+    fontWeight: '500',
     width: 280,
     textAlign: 'center',
+    width: 340,
   },
   artistIntroTextSOTD: {
     color: '#1E8C8B',
-    fontSize: 16,
+    fontSize: 20,
   },
   artistTextSOTD: {
     color: '#a3adbf',
-    fontSize: 22,
-    fontWeight: '600',
+    fontSize: 30,
+    fontWeight: '500',
     width: 260,
     textAlign: 'center',
+    width: 340,
   },
   titleTextSOTD: {
     color: '#c1c8d4',
-    fontSize: 22,
-    fontWeight: '600',
+    fontSize: 30,
+    fontWeight: '500',
     textAlign: 'center',
-    marginTop: 10,
+    marginTop: 30,
+    width: 340,
   },
   SOTDText: {
     fontSize: 30,
@@ -654,7 +581,7 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
   commentIcon: {
-    fontSize: 30,
+    fontSize: 26,
     marginBottom: 2,
     color: '#c1c8d4',
     marginRight: 10,
@@ -664,9 +591,10 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: '#1E8C8B',
     textAlign: 'center',
-    marginTop: 8,
+    alignSelf: 'flex-start',
     marginLeft: 0,
     marginRight: -8,
+    marginTop: 4,
   },
 });
 

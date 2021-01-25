@@ -28,6 +28,7 @@ const SongDetailFromAlbumScreen = ({route}) => {
   const navigationUse = useNavigation();
   const [ready, setReady] = useState(false);
   const [song, setSong] = useState(null);
+  const [playing, setPlaying] = useState(false);
 
   const options = {
     enableVibrateFallback: true,
@@ -74,6 +75,8 @@ const SongDetailFromAlbumScreen = ({route}) => {
         albumName: data.album.title,
         audio: data.preview,
         username: currentUserData.username,
+        name: currentUserData.name,
+
         uid: currentUser.uid,
         verified: currentUserData.verified,
         date: new Date().toDateString(),
@@ -126,23 +129,11 @@ const SongDetailFromAlbumScreen = ({route}) => {
             console.log(track.isLoaded());
             setSong(track);
             track.play();
+            setPlaying(true);
           }
         });
       };
 
-      const playTrack = () => {
-        track.play();
-        ReactNativeHapticFeedback.trigger('notificationSuccess', options);
-        {
-          track.isPlaying() == false ? track.reset() : null;
-        }
-      };
-
-      const stopTrack = () => {
-        ReactNativeHapticFeedback.trigger('notificationWarning', options);
-        track.stop();
-        track.reset();
-      };
       return (
         <ScrollView
           contentContainerStyle={{alignItems: 'center'}}
@@ -153,7 +144,7 @@ const SongDetailFromAlbumScreen = ({route}) => {
               source={{uri: data.album.cover_xl}}
             />
             <MaterialIcon
-              onPress={() => navigationUse.navigate('SearchScreen')}
+              onPress={() => navigationUse.goBack()}
               name="arrow-back-ios"
               color="white"
               style={{
@@ -166,41 +157,38 @@ const SongDetailFromAlbumScreen = ({route}) => {
             />
           </View>
 
-          <Text style={{fontSize: 8, color: 'gray', marginTop: 10}}>
-            Click the plus icon to make this your song of the day!
+          <Text style={{fontSize: 10, color: 'gray', marginTop: 12}}>
+            Click the calendar icon to make this your song of the day!
           </Text>
 
           <Text style={styles.title}>{data.title}</Text>
           {true ? (
             <View
               style={{flexDirection: 'row', marginTop: 10, marginBottom: 4}}>
-              <TouchableOpacity
-                style={styles.playButton}
-                onPress={() => {
-                  ReactNativeHapticFeedback.trigger(
-                    'notificationSuccess',
-                    options,
-                  );
-                  handleAudio(data.preview);
-                }}>
-                <IonIcon name="play" style={styles.playIcon} />
-              </TouchableOpacity>
-              {song ? (
+              {playing ? (
                 <TouchableOpacity
                   style={styles.stopButton}
                   onPress={() => {
                     ReactNativeHapticFeedback.trigger(
-                      'notificationError',
+                      'notificationWarning',
                       options,
                     );
-
                     song.stop();
+                    setPlaying(false);
                   }}>
                   <IonIcon name="stop" style={styles.stopIcon} />
                 </TouchableOpacity>
               ) : (
-                <TouchableOpacity style={styles.stopButton}>
-                  <IonIcon name="stop" style={styles.stopIcon} />
+                <TouchableOpacity
+                  style={styles.playButton}
+                  onPress={() => {
+                    ReactNativeHapticFeedback.trigger(
+                      'notificationSuccess',
+                      options,
+                    );
+                    handleAudio(data.preview);
+                  }}>
+                  <IonIcon name="play" style={styles.playIcon} />
                 </TouchableOpacity>
               )}
               {songOfTheDay != true ? (

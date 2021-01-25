@@ -38,7 +38,7 @@ const AlbumDetailScreen = ({route}) => {
         <View style={styles.container}>
           <Image source={{uri: data.cover_xl}} style={styles.albumArt} />
           <MaterialIcon
-            onPress={() => navigationUse.navigate('SearchScreen')}
+            onPress={() => navigationUse.goBack()}
             name="arrow-back-ios"
             color="white"
             style={{

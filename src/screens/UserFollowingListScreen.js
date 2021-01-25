@@ -45,6 +45,8 @@ const UserFollowingListScreen = ({route}) => {
     <View style={styles.container}>
       {followingData[0] != null ? (
         <FlatList
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{paddingBottom: 60}}
           style={styles.flatlist}
           data={followingData}
           keyExtractor={(item) => item.uid}

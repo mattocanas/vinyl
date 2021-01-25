@@ -10,9 +10,9 @@ import {
 import {useStateProviderValue} from '../../state/StateProvider';
 import {db} from '../../firebase/firebase';
 import FollowingUserItem from '../components/FollowingUserItem';
-import FastImage from 'react-native-fast-image';
+import MessageUserSelect from '../components/MessageUserSelect';
 
-const UserFollowerListScreen = ({route}) => {
+const MessageSelectScreen = ({route}) => {
   useEffect(() => {
     let active = true;
     getFollowers();
@@ -21,17 +21,16 @@ const UserFollowerListScreen = ({route}) => {
     };
   }, []);
 
-  const {data} = route.params;
-
   const [
     {currentUser, currentUserPictureURI, currentUserData},
     dispatch,
   ] = useStateProviderValue();
   const [followerData, setFollowerData] = useState([]);
+  const {songData} = route.params;
 
   const getFollowers = () => {
     let dataArray = [];
-    data.followerIdList.map((id) => {
+    currentUserData.followerIdList.map((id) => {
       db.collection('users')
         .doc(id)
         .get()
@@ -51,11 +50,14 @@ const UserFollowerListScreen = ({route}) => {
           style={styles.flatlist}
           data={followerData}
           keyExtractor={(item) => item.uid}
-          renderItem={({item}) => <FollowingUserItem data={item} />}
+          renderItem={({item}) => (
+            <MessageUserSelect userData={item} songData={songData} />
+          )}
         />
       ) : (
         <Text style={styles.noneText}>
-          Nobody follows this person yet! Be the first?
+          Nobody follows you yet! Search for friends and they'll probably follow
+          you back!
         </Text>
       )}
     </View>
@@ -81,4 +83,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default UserFollowerListScreen;
+export default MessageSelectScreen;
