@@ -185,7 +185,7 @@ const styles = StyleSheet.create({
     marginLeft: 4,
   },
   likeButton: {
-    color: '#1E8C8B',
+    color: '#2BAEEC',
     fontSize: 22,
     marginRight: 10,
   },
@@ -197,7 +197,7 @@ const styles = StyleSheet.create({
   },
   commentIcon: {
     fontSize: 22,
-    color: '#1E8C8B',
+    color: '#2BAEEC',
     marginRight: 6,
   },
   commentIntroText: {

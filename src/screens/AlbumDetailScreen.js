@@ -112,11 +112,12 @@ const styles = StyleSheet.create({
   albumArt: {
     height: dimensions.height / 2.5,
     width: dimensions.width,
-    borderBottomLeftRadius: 60,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
   },
   titleText: {
     fontSize: 34,
-    color: '#1E8C8B',
+    color: '#2BAEEC',
     fontWeight: '500',
     width: 300,
     textAlign: 'center',
@@ -125,7 +126,7 @@ const styles = StyleSheet.create({
   },
   artistNameText: {
     fontSize: 22,
-    color: '#1E8C8B',
+    color: '#2BAEEC',
     fontWeight: '300',
     width: 300,
     textAlign: 'center',
@@ -137,7 +138,7 @@ const styles = StyleSheet.create({
   },
   genreNameText: {
     fontSize: 18,
-    color: '#1E8C8B',
+    color: '#2BAEEC',
     marginLeft: 4,
   },
   labelText: {
@@ -175,7 +176,7 @@ const styles = StyleSheet.create({
   },
   tracksHeader: {
     fontSize: 28,
-    color: '#1E8C8B',
+    color: '#2BAEEC',
     marginTop: 10,
     fontWeight: '300',
   },
@@ -190,7 +191,7 @@ const styles = StyleSheet.create({
     width: 90,
     borderRadius: 60,
     marginTop: -50,
-    borderColor: '#1E8C8B',
+    borderColor: '#2BAEEC',
     borderWidth: 2,
   },
 });

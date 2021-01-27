@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   labelText: {
-    color: '#1E8C8B',
+    color: '#2BAEEC',
     fontSize: 24,
   },
   icon: {

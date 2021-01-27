@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
   },
 
   labelText: {
-    color: '#1E8C8B',
+    color: '#2BAEEC',
     fontSize: 18,
     marginTop: 40,
     marginLeft: 10,
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   noButton: {
-    backgroundColor: '#1E8C8B',
+    backgroundColor: '#2BAEEC',
     color: '#242525',
     padding: 10,
 

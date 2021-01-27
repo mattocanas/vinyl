@@ -404,17 +404,17 @@ const styles = StyleSheet.create({
     borderRadius: 60,
     marginLeft: 30,
     marginTop: -50,
-    borderColor: '#1E8C8B',
+    borderColor: '#2BAEEC',
     borderWidth: 2,
   },
   albumArt: {
     height: dimensions.height / 2.0,
     width: dimensions.width,
-    borderBottomRightRadius: 80,
-    borderBottomLeftRadius: 80,
+    borderBottomRightRadius: 10,
+    borderBottomLeftRadius: 10,
   },
   postIntroText: {
-    color: '#1E8C8B',
+    color: '#2BAEEC',
     fontSize: 24,
     fontWeight: '700',
     marginBottom: 8,
@@ -428,7 +428,7 @@ const styles = StyleSheet.create({
     width: 340,
   },
   artistIntroText: {
-    color: '#1E8C8B',
+    color: '#2BAEEC',
     fontSize: 20,
     marginRight: 8,
     marginLeft: 8,
@@ -447,7 +447,6 @@ const styles = StyleSheet.create({
     marginLeft: 8,
     // marginTop: 4,
     fontSize: 20,
-    alignSelf: 'flex-start',
   },
   profileContainer: {
     flexDirection: 'row',
@@ -460,7 +459,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   likeButton: {
-    color: '#1E8C8B',
+    color: '#2BAEEC',
     fontSize: 28,
     marginTop: 10,
   },
@@ -492,7 +491,7 @@ const styles = StyleSheet.create({
     marginLeft: 4,
   },
   playButton: {
-    backgroundColor: '#1E8C8B',
+    backgroundColor: '#2BAEEC',
     borderRadius: 30,
     alignItems: 'center',
     marginRight: 16,
@@ -501,7 +500,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   stopButton: {
-    backgroundColor: '#1E8C8B',
+    backgroundColor: '#2BAEEC',
     borderRadius: 30,
     alignItems: 'center',
     marginRight: 16,
@@ -522,7 +521,7 @@ const styles = StyleSheet.create({
     marginLeft: 2,
   },
   albumIntroText: {
-    color: '#1E8C8B',
+    color: '#2BAEEC',
     fontSize: 20,
     marginRight: 8,
     marginLeft: 8,
@@ -536,7 +535,7 @@ const styles = StyleSheet.create({
     width: 340,
   },
   albumIntroTextSOTD: {
-    color: '#1E8C8B',
+    color: '#2BAEEC',
     fontSize: 20,
     marginRight: 8,
     marginLeft: 8,
@@ -550,7 +549,7 @@ const styles = StyleSheet.create({
     width: 340,
   },
   artistIntroTextSOTD: {
-    color: '#1E8C8B',
+    color: '#2BAEEC',
     fontSize: 20,
   },
   artistTextSOTD: {
@@ -571,7 +570,7 @@ const styles = StyleSheet.create({
   },
   SOTDText: {
     fontSize: 30,
-    color: '#1E8C8B',
+    color: '#2BAEEC',
   },
   description: {
     color: '#c1c8d4',
@@ -588,13 +587,12 @@ const styles = StyleSheet.create({
     marginTop: 12,
   },
   verifiedCheck: {
-    fontSize: 20,
-    color: '#1E8C8B',
+    fontSize: 24,
+    color: '#2BAEEC',
     textAlign: 'center',
-    alignSelf: 'flex-start',
     marginLeft: 0,
     marginRight: -8,
-    marginTop: 4,
+    marginTop: 1,
   },
 });
 

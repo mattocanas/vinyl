@@ -1,5 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {View, TouchableOpacity, Text, Image, StyleSheet} from 'react-native';
+import {
+  View,
+  TouchableOpacity,
+  Text,
+  Image,
+  StyleSheet,
+  Dimensions,
+} from 'react-native';
 import {useStateProviderValue} from '../../state/StateProvider';
 import {db} from '../../firebase/firebase';
 import firebase from 'firebase';
@@ -160,6 +167,8 @@ const UserDetailScreen = ({route}) => {
               alignItems: 'flex-start',
               borderBottomWidth: 1,
               borderBottomColor: 'gray',
+              width: Dimensions.get('screen').width,
+              paddingLeft: 12,
             }}>
             <View style={styles.profileInfoContainer}>
               <View style={styles.photoNameContainer}>
@@ -266,51 +275,60 @@ const UserDetailScreen = ({route}) => {
                 {data.dateJoined}
               </Moment>
             </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignSelf: 'center',
+                marginTop: 14,
+                marginRight: 0,
+              }}>
+              <TouchableOpacity
+                style={styles.songOfTheDaySection}
+                onPress={showSOTDFeed}>
+                {SOTDActive ? (
+                  <View style={{flexDirection: 'row'}}>
+                    <Text style={styles.songOfTheDayTextActive}>
+                      Songs of the day
+                    </Text>
+                  </View>
+                ) : (
+                  <View style={{flexDirection: 'row', textAlign: 'center'}}>
+                    <Text style={styles.songOfTheDayText}>
+                      Songs of the day
+                    </Text>
+                  </View>
+                )}
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.likesSection}
+                onPress={showPostsFeed}>
+                {postsActive ? (
+                  <View style={{flexDirection: 'row'}}>
+                    <Text style={styles.postsTextActive}>Posts</Text>
+                  </View>
+                ) : (
+                  <View style={{flexDirection: 'row'}}>
+                    <Text style={styles.postsText}>Posts</Text>
+                  </View>
+                )}
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.likesSection}
+                onPress={showLikesFeed}>
+                {likesActive ? (
+                  <View style={{flexDirection: 'row'}}>
+                    <Text style={styles.likesTextActive}>Likes</Text>
+                  </View>
+                ) : (
+                  <View style={{flexDirection: 'row'}}>
+                    <Text style={styles.likesText}>Likes</Text>
+                  </View>
+                )}
+              </TouchableOpacity>
+            </View>
           </View>
 
-          <View style={styles.sectionsTabContainer}>
-            <TouchableOpacity
-              style={styles.songOfTheDaySection}
-              onPress={showSOTDFeed}>
-              {SOTDActive ? (
-                <View style={{flexDirection: 'row'}}>
-                  <Text style={styles.songOfTheDayTextActive}>
-                    Songs of the day
-                  </Text>
-                </View>
-              ) : (
-                <View style={{flexDirection: 'row', textAlign: 'center'}}>
-                  <Text style={styles.songOfTheDayText}>Songs of the day</Text>
-                </View>
-              )}
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.likesSection}
-              onPress={showPostsFeed}>
-              {postsActive ? (
-                <View style={{flexDirection: 'row'}}>
-                  <Text style={styles.postsTextActive}>Posts</Text>
-                </View>
-              ) : (
-                <View style={{flexDirection: 'row'}}>
-                  <Text style={styles.postsText}>Posts</Text>
-                </View>
-              )}
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.likesSection}
-              onPress={showLikesFeed}>
-              {likesActive ? (
-                <View style={{flexDirection: 'row'}}>
-                  <Text style={styles.likesTextActive}>Likes</Text>
-                </View>
-              ) : (
-                <View style={{flexDirection: 'row'}}>
-                  <Text style={styles.likesText}>Likes</Text>
-                </View>
-              )}
-            </TouchableOpacity>
-          </View>
+          <View style={styles.sectionsTabContainer}></View>
           {showSOTD ? <UserSongOfTheDayFeed id={data.uid} /> : null}
           {showLikeFeed ? <UserLikesFeed id={data.uid} /> : null}
           {showPosts ? <UserPostsFeed id={data.uid} /> : null}
@@ -366,11 +384,11 @@ const styles = StyleSheet.create({
   },
   followingText: {
     fontSize: 14,
-    color: '#1E8C8B',
+    color: '#2BAEEC',
   },
   followersText: {
     fontSize: 14,
-    color: '#1E8C8B',
+    color: '#2BAEEC',
   },
   settingButton: {
     alignItems: 'center',
@@ -390,7 +408,7 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 75,
-    borderColor: '#1E8C8B',
+    borderColor: '#2BAEEC',
     borderWidth: 1,
   },
   followButton: {
@@ -409,13 +427,13 @@ const styles = StyleSheet.create({
     paddingBottom: 6,
     width: 160,
     borderWidth: 2,
-    borderColor: '#1E8C8B',
+    borderColor: '#2BAEEC',
     borderRadius: 10,
     marginTop: 20,
   },
   followingButtonText: {
     fontSize: 16,
-    color: '#1E8C8B',
+    color: '#2BAEEC',
   },
   followText: {
     fontSize: 16,
@@ -449,7 +467,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   songOfTheDayTextActive: {
-    color: '#1E8C8B',
+    color: '#2BAEEC',
     fontSize: 22,
     textDecorationLine: 'underline',
     fontWeight: '700',
@@ -457,7 +475,7 @@ const styles = StyleSheet.create({
   },
 
   likesTextActive: {
-    color: '#1E8C8B',
+    color: '#2BAEEC',
     fontSize: 22,
     textDecorationLine: 'underline',
     fontWeight: '700',
@@ -471,7 +489,7 @@ const styles = StyleSheet.create({
     marginBottom: -3,
   },
   postsTextActive: {
-    color: '#1E8C8B',
+    color: '#2BAEEC',
     fontSize: 22,
     textDecorationLine: 'underline',
     fontWeight: '700',
@@ -495,11 +513,11 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginBottom: 4,
     marginRight: 2,
-    width: 350,
+    width: 330,
   },
   verifiedCheck: {
     fontSize: 20,
-    color: '#1E8C8B',
+    color: '#2BAEEC',
     textAlign: 'center',
     marginTop: 8,
     marginLeft: 6,

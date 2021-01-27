@@ -153,7 +153,7 @@ const HomeScreen = () => {
                   style={styles.welcomeIcon}
                   name="compact-disc"
                   size={40}
-                  color="#1E8C8B"
+                  color="#2BAEEC"
                 />
               </Animated.View>
 
@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
     paddingTop: -10,
   },
   welcomeText: {
-    color: '#1E8C8B',
+    color: '#2BAEEC',
     fontSize: 30,
     fontWeight: '800',
     marginLeft: 4,
@@ -198,7 +198,7 @@ const styles = StyleSheet.create({
     marginLeft: 88,
   },
   welcomeIcon: {
-    color: '#1E8C8B',
+    color: '#2BAEEC',
     fontSize: 30,
     fontWeight: '800',
     marginLeft: 10,

@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     alignSelf: 'center',
     borderWidth: 1,
-    borderColor: '#1E8C8B',
+    borderColor: '#2BAEEC',
     marginLeft: -200,
   },
   input: {
@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
   },
   postButton: {
     marginHorizontal: 30,
-    backgroundColor: '#1E8C8B',
+    backgroundColor: '#2BAEEC',
     borderRadius: 4,
     height: 32,
     alignItems: 'center',

@@ -288,8 +288,8 @@ const styles = StyleSheet.create({
   albumArt: {
     height: dimensions.height / 2.0,
     width: dimensions.width,
-    borderBottomRightRadius: 80,
-    borderBottomLeftRadius: 80,
+    borderBottomRightRadius: 10,
+    borderBottomLeftRadius: 10,
   },
   songOfTheDayIcon: {
     fontSize: 32,
@@ -315,7 +315,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 40,
-    color: '#1E8C8B',
+    color: '#2BAEEC',
     fontWeight: '500',
     width: 300,
     textAlign: 'center',
@@ -375,7 +375,7 @@ const styles = StyleSheet.create({
     width: dimensions.width - 80,
   },
   songOfTheDayButton: {
-    backgroundColor: '#1E8C8B',
+    backgroundColor: '#2BAEEC',
     borderRadius: 30,
     alignItems: 'center',
     marginRight: 12,
@@ -395,7 +395,7 @@ const styles = StyleSheet.create({
     marginLeft: 4,
   },
   playButton: {
-    backgroundColor: '#1E8C8B',
+    backgroundColor: '#2BAEEC',
     borderRadius: 30,
     alignItems: 'center',
     marginRight: 12,
@@ -403,7 +403,7 @@ const styles = StyleSheet.create({
     height: 60,
   },
   stopButton: {
-    backgroundColor: '#1E8C8B',
+    backgroundColor: '#2BAEEC',
     borderRadius: 30,
     alignItems: 'center',
     marginRight: 12,

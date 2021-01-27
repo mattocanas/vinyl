@@ -77,9 +77,12 @@ const ProfileScreen = ({navigation}) => {
           {/* <View style={styles.container}> */}
           <View
             style={{
-              alignItems: 'center',
+              // alignItems: 'center',
               borderBottomWidth: 1,
               borderBottomColor: 'gray',
+              width: dimensions.width,
+              paddingLeft: 20,
+              paddingBottom: 2,
             }}>
             <View style={styles.profileInfoContainer}>
               <View style={styles.photoNameContainer}>
@@ -128,7 +131,7 @@ const ProfileScreen = ({navigation}) => {
                 alignItems: 'center',
                 alignSelf: 'flex-start',
                 marginTop: 8,
-                marginLeft: 10,
+                // marginLeft: 10,
               }}>
               <Text style={styles.usernameText}>{currentUser.displayName}</Text>
               {currentUserData.verified ? (
@@ -151,51 +154,60 @@ const ProfileScreen = ({navigation}) => {
                 {currentUserData.dateJoined}
               </Moment>
             </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignSelf: 'center',
+                marginTop: 14,
+                marginRight: 30,
+              }}>
+              <TouchableOpacity
+                style={styles.songOfTheDaySection}
+                onPress={showSOTDFeed}>
+                {SOTDActive ? (
+                  <View style={{flexDirection: 'row'}}>
+                    <Text style={styles.songOfTheDayTextActive}>
+                      Songs of the day
+                    </Text>
+                  </View>
+                ) : (
+                  <View style={{flexDirection: 'row', textAlign: 'center'}}>
+                    <Text style={styles.songOfTheDayText}>
+                      Songs of the day
+                    </Text>
+                  </View>
+                )}
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.likesSection}
+                onPress={showPostsFeed}>
+                {postsActive ? (
+                  <View style={{flexDirection: 'row'}}>
+                    <Text style={styles.postsTextActive}>Posts</Text>
+                  </View>
+                ) : (
+                  <View style={{flexDirection: 'row'}}>
+                    <Text style={styles.postsText}>Posts</Text>
+                  </View>
+                )}
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.likesSection}
+                onPress={showLikesFeed}>
+                {likesActive ? (
+                  <View style={{flexDirection: 'row'}}>
+                    <Text style={styles.likesTextActive}>Likes</Text>
+                  </View>
+                ) : (
+                  <View style={{flexDirection: 'row'}}>
+                    <Text style={styles.likesText}>Likes</Text>
+                  </View>
+                )}
+              </TouchableOpacity>
+            </View>
           </View>
 
-          <View style={styles.sectionsTabContainer}>
-            <TouchableOpacity
-              style={styles.songOfTheDaySection}
-              onPress={showSOTDFeed}>
-              {SOTDActive ? (
-                <View style={{flexDirection: 'row'}}>
-                  <Text style={styles.songOfTheDayTextActive}>
-                    Songs of the day
-                  </Text>
-                </View>
-              ) : (
-                <View style={{flexDirection: 'row', textAlign: 'center'}}>
-                  <Text style={styles.songOfTheDayText}>Songs of the day</Text>
-                </View>
-              )}
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.likesSection}
-              onPress={showPostsFeed}>
-              {postsActive ? (
-                <View style={{flexDirection: 'row'}}>
-                  <Text style={styles.postsTextActive}>Posts</Text>
-                </View>
-              ) : (
-                <View style={{flexDirection: 'row'}}>
-                  <Text style={styles.postsText}>Posts</Text>
-                </View>
-              )}
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.likesSection}
-              onPress={showLikesFeed}>
-              {likesActive ? (
-                <View style={{flexDirection: 'row'}}>
-                  <Text style={styles.likesTextActive}>Likes</Text>
-                </View>
-              ) : (
-                <View style={{flexDirection: 'row'}}>
-                  <Text style={styles.likesText}>Likes</Text>
-                </View>
-              )}
-            </TouchableOpacity>
-          </View>
+          <View style={styles.sectionsTabContainer}></View>
           <View>
             {showSOTD ? (
               <ProfileSongsOfTheDayFeed refresh={() => showLikesFeed()} />
@@ -235,13 +247,13 @@ const styles = StyleSheet.create({
     marginLeft: 40,
   },
   photoNameContainer: {
-    alignItems: 'flex-start',
-    marginRight: 40,
+    // alignItems: 'flex-start',
+    marginRight: 64,
   },
   usernameText: {
-    fontSize: 18,
+    fontSize: 20,
     color: '#c1c8d4',
-    fontWeight: '700',
+    fontWeight: '600',
     marginTop: 6,
   },
   followingNumber: {
@@ -256,11 +268,11 @@ const styles = StyleSheet.create({
   },
   followingText: {
     fontSize: 14,
-    color: '#1E8C8B',
+    color: '#2BAEEC',
   },
   followersText: {
     fontSize: 14,
-    color: '#1E8C8B',
+    color: '#2BAEEC',
   },
   settingButton: {
     alignItems: 'center',
@@ -290,7 +302,7 @@ const styles = StyleSheet.create({
   songOfTheDayText: {
     color: '#c1c8d4',
     fontSize: 22,
-    marginBottom: -3,
+    marginBottom: -5,
     fontWeight: '700',
   },
 
@@ -300,50 +312,51 @@ const styles = StyleSheet.create({
   likesText: {
     color: '#c1c8d4',
     fontSize: 22,
-    marginBottom: -3,
+    marginBottom: -5,
     fontWeight: '700',
   },
   songOfTheDayTextActive: {
-    color: '#1E8C8B',
+    color: '#2BAEEC',
     fontSize: 22,
     textDecorationLine: 'underline',
     fontWeight: '700',
-    marginBottom: -3,
+    marginBottom: -5,
   },
 
   likesTextActive: {
-    color: '#1E8C8B',
+    color: '#2BAEEC',
     fontSize: 22,
     textDecorationLine: 'underline',
     fontWeight: '700',
-    marginBottom: -3,
+    marginBottom: -5,
   },
   postsText: {
     color: '#c1c8d4',
     fontSize: 22,
     fontWeight: '700',
     marginRight: 16,
-    marginBottom: -3,
+    marginBottom: -5,
   },
   postsTextActive: {
-    color: '#1E8C8B',
+    color: '#2BAEEC',
     fontSize: 22,
     textDecorationLine: 'underline',
     fontWeight: '700',
     marginRight: 16,
-    marginBottom: -3,
+    marginBottom: -5,
   },
   bio: {
     fontSize: 14,
-    fontWeight: '600',
+    fontWeight: '500',
     color: '#c1c8d4',
     marginTop: 10,
     alignSelf: 'flex-start',
     marginBottom: 4,
+    width: 330,
   },
   verifiedCheck: {
     fontSize: 20,
-    color: '#1E8C8B',
+    color: '#2BAEEC',
     textAlign: 'center',
     marginTop: 8,
     marginLeft: 6,

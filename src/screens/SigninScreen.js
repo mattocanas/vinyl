@@ -78,7 +78,7 @@ const SinginScreen = ({navigation}) => {
                 style={{alignSelf: 'center', marginTop: 32}}>
                 <Text style={{color: '#c1c8d4', fontSize: 13}}>
                   New to Vinyl?{' '}
-                  <Text style={{color: '#1E8C8B', fontWeight: '500'}}>
+                  <Text style={{color: '#2BAEEC', fontWeight: '500'}}>
                     Sign up here!
                   </Text>
                 </Text>
@@ -89,7 +89,7 @@ const SinginScreen = ({navigation}) => {
                 style={{alignSelf: 'center', marginTop: 32}}>
                 <Text style={{color: '#c1c8d4', fontSize: 13}}>
                   Forgot your password?{' '}
-                  <Text style={{color: '#1E8C8B', fontWeight: '500'}}>
+                  <Text style={{color: '#2BAEEC', fontWeight: '500'}}>
                     Reset it here!
                   </Text>
                 </Text>
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   greeting: {
-    color: '#1E8C8B',
+    color: '#2BAEEC',
     // marginTop: 32,
     fontSize: 18,
     fontWeight: '400',
@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
   },
   button: {
     marginHorizontal: 30,
-    backgroundColor: '#1E8C8B',
+    backgroundColor: '#2BAEEC',
     borderRadius: 4,
     height: 52,
     alignItems: 'center',

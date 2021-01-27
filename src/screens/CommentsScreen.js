@@ -144,14 +144,14 @@ const styles = StyleSheet.create({
   },
   postButton: {
     fontSize: 16,
-    color: '#1E8C8B',
+    color: '#2BAEEC',
     fontWeight: 'bold',
     marginTop: 40,
     marginBottom: 20,
   },
   commentIcon: {
     fontSize: 30,
-    color: '#1E8C8B',
+    color: '#2BAEEC',
     marginLeft: 20,
     marginTop: 30,
   },

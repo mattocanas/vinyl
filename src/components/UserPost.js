@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 16,
     fontWeight: '700',
-    color: '#1E8C8B',
+    color: '#2BAEEC',
     marginRight: 0,
     width: 124,
   },
@@ -191,7 +191,7 @@ const styles = StyleSheet.create({
   stopIcon: {
     fontSize: 32,
     marginRight: 4,
-    color: '#1E8C8B',
+    color: '#2BAEEC',
   },
   profilePicture: {
     height: 50,
@@ -199,6 +199,8 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     marginLeft: 20,
     marginLeft: 16,
+    borderWidth: 1,
+    borderColor: '#2BAEEC',
   },
 });
 

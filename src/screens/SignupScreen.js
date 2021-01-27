@@ -172,8 +172,8 @@ const SignupScreen = ({navigation}) => {
                     alignItems: 'center',
                   }}>
                   <CheckBox
-                    onCheckColor="#1E8C8B"
-                    onTintColor="#1E8C8B"
+                    onCheckColor="#2BAEEC"
+                    onTintColor="#2BAEEC"
                     style={styles.checkbox}
                     disabled={false}
                     value={toggleCheckBox}
@@ -208,8 +208,8 @@ const SignupScreen = ({navigation}) => {
                     alignItems: 'center',
                   }}>
                   <CheckBox
-                    onCheckColor="#1E8C8B"
-                    onTintColor="#1E8C8B"
+                    onCheckColor="#2BAEEC"
+                    onTintColor="#2BAEEC"
                     style={styles.checkbox}
                     disabled={false}
                     value={toggleCheckBox2}
@@ -247,7 +247,7 @@ const SignupScreen = ({navigation}) => {
                 onPress={() => navigation.navigate('Signin')}>
                 <Text style={{color: '#c1c8d4', fontSize: 13}}>
                   Already have an account?{' '}
-                  <Text style={{color: '#1E8C8B', fontWeight: '500'}}>
+                  <Text style={{color: '#2BAEEC', fontWeight: '500'}}>
                     Sign in!
                   </Text>
                 </Text>
@@ -266,7 +266,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   greeting: {
-    color: '#1E8C8B',
+    color: '#2BAEEC',
     marginTop: 32,
     fontSize: 18,
     fontWeight: '400',
@@ -306,7 +306,7 @@ const styles = StyleSheet.create({
   },
   button: {
     marginHorizontal: 30,
-    backgroundColor: '#1E8C8B',
+    backgroundColor: '#2BAEEC',
     borderRadius: 4,
     height: 52,
     alignItems: 'center',
@@ -333,7 +333,7 @@ const styles = StyleSheet.create({
   },
   checkbox: {},
   link: {
-    color: '#1E8C8B',
+    color: '#2BAEEC',
     fontSize: 10,
     // marginLeft: 4,
     // marginRight: 4,

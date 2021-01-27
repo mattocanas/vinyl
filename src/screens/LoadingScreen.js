@@ -74,11 +74,11 @@ const App = ({navigation}) => {
   return (
     <View style={styles.container}>
       <Animated.View style={[animatedStyles]}>
-        <FontAwesomeIcon name="compact-disc" size={40} color="#1E8C8B" />
+        <FontAwesomeIcon name="compact-disc" size={40} color="#2BAEEC" />
       </Animated.View>
       <Text style={styles.welcomeText}>Loading tunes...</Text>
 
-      {/* <ActivityIndicator color="#1E8C8B" size="large"></ActivityIndicator> */}
+      {/* <ActivityIndicator color="#2BAEEC" size="large"></ActivityIndicator> */}
     </View>
   );
 };

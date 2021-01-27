@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
   },
   optionTextActive: {
     fontSize: 30,
-    color: '#1E8C8B',
+    color: '#2BAEEC',
     paddingLeft: 5,
     paddingRight: 5,
     textAlign: 'center',

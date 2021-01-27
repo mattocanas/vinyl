@@ -30,11 +30,16 @@ const MessageFormScreen = ({route}) => {
       .collection('users')
       .doc(currentUser.uid)
       .collection('messages')
-      .doc(userData.uid)
-      .collection('message')
-      .doc();
+      .doc(userData.uid);
 
     newMessageRef1.set({
+      id: userData.uid,
+      username: userData.username,
+      profilePictureUrl: userData.profilePictureUrl,
+      name: userData.name,
+    });
+
+    newMessageRef1.collection('message').doc().set({
       senderId: currentUser.uid,
       senderUsername: currentUserData.username,
       senderProfilePicture: currentUserData.profilePictureUrl,
@@ -59,16 +64,25 @@ const MessageFormScreen = ({route}) => {
       type: 'message',
       message: text,
     });
+
+    // newMessageRef1.set({
+
+    // });
 
     let newMessageRef2 = db
       .collection('users')
       .doc(userData.uid)
       .collection('messages')
-      .doc(currentUser.uid)
-      .collection('message')
-      .doc();
+      .doc(currentUser.uid);
 
-    newMessageRef1.set({
+    newMessageRef2.set({
+      id: currentUser.uid,
+      username: currentUserData.username,
+      profilePictureUrl: currentUserData.profilePictureUrl,
+      name: currentUserData.name,
+    });
+
+    newMessageRef2.collection('message').doc().set({
       senderId: currentUser.uid,
       senderUsername: currentUserData.username,
       senderProfilePicture: currentUserData.profilePictureUrl,
@@ -93,6 +107,10 @@ const MessageFormScreen = ({route}) => {
       type: 'message',
       message: text,
     });
+
+    // newMessageRef2.set({
+
+    // });
   };
 
   return (
@@ -144,7 +162,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 26,
-    color: '#1E8C8B',
+    color: '#2BAEEC',
     fontWeight: 'bold',
     marginTop: 20,
     marginLeft: 8,
@@ -155,7 +173,7 @@ const styles = StyleSheet.create({
   artist: {
     fontSize: 24,
     fontWeight: '600',
-    color: '#5AB9B9',
+    color: '#2BAEEC',
     marginTop: 4,
   },
   input: {
@@ -173,7 +191,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   postButton: {
-    backgroundColor: '#1E8C8B',
+    backgroundColor: '#2BAEEC',
     padding: 10,
     borderRadius: 20,
     marginTop: 20,

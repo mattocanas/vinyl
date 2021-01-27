@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
   },
   heartIcon: {
     fontSize: 24,
-    color: '#1E8C8B',
+    color: '#2BAEEC',
     // marginRight: 8,
   },
   repostIcon: {
@@ -203,10 +203,10 @@ const styles = StyleSheet.create({
   },
   titleText: {
     fontWeight: 'bold',
-    color: '#1E8C8B',
+    color: '#2BAEEC',
   },
   artistText: {
-    color: '#5AB9B9',
+    color: '#2BAEEC',
     marginTop: 1,
   },
   descriptionText: {

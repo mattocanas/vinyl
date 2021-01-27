@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 26,
-    color: '#1E8C8B',
+    color: '#2BAEEC',
     fontWeight: 'bold',
     marginTop: 20,
     marginLeft: 8,
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
   artist: {
     fontSize: 24,
     fontWeight: '600',
-    color: '#5AB9B9',
+    color: '#2BAEEC',
     marginTop: 4,
   },
   input: {
@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   postButton: {
-    backgroundColor: '#1E8C8B',
+    backgroundColor: '#2BAEEC',
     padding: 10,
     borderRadius: 20,
     marginTop: 20,

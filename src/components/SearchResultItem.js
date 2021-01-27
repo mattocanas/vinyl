@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 16,
-    color: '#1E8C8B',
+    color: '#2BAEEC',
     fontWeight: 'bold',
   },
   artist: {
@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
   },
   songOfTheDayIcon: {
     fontSize: 30,
-    color: '#5AB9B9',
+    color: '#2BAEEC',
     marginLeft: 10,
     marginTop: 8,
   },
@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
     fontSize: 34,
     marginTop: 12,
     // marginLeft: 16,
-    color: '#1E8C8B',
+    color: '#2BAEEC',
   },
 });
 

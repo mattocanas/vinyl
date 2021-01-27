@@ -57,7 +57,7 @@ function MyBottomTabs() {
   return (
     <Tabs.Navigator
       barStyle={{backgroundColor: '#242525', shadowRadius: 0}}
-      activeColor="#1E8C8B"
+      activeColor="#2BAEEC"
       inactiveColor="#c1c8d4"
       initialRouteName="Home">
       <Tabs.Screen

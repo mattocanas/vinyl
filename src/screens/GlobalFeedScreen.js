@@ -85,15 +85,15 @@ const GlobalFeedScreen = () => {
     <View style={styles.container}>
       <Text style={styles.headerText}>Discover music from all over! 🌎</Text>
       <DailyMusic />
-      {loading ? <ActivityIndicator size="large" color="#1E8C8B" /> : null}
+      {loading ? <ActivityIndicator size="large" color="#2BAEEC" /> : null}
       <FlatList
         refreshControl={
           <RefreshControl
             refreshing={refreshController}
             onRefresh={refreshComponent}
             title="Pull for new tunes."
-            titleColor="#1E8C8B"
-            tintColor="#1E8C8B"
+            titleColor="#2BAEEC"
+            tintColor="#2BAEEC"
           />
         }
         data={allData}

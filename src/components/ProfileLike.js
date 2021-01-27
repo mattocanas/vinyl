@@ -66,7 +66,7 @@ const ProfileLike = ({data}) => {
             trackId: data.trackId,
             navigateBackTo: 'ProfileScreen',
             docId: data.docId,
-            verified: currentUserData.verified,
+            verified: data.verified,
           });
         }}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -143,6 +143,8 @@ const styles = StyleSheet.create({
     height: 50,
     width: 50,
     borderRadius: 30,
+    borderWidth: 1,
+    borderColor: '#2BAEEC',
   },
   container: {
     // flexDirection: 'row',
@@ -162,7 +164,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 16,
     fontWeight: '700',
-    color: '#1E8C8B',
+    color: '#2BAEEC',
     marginRight: 10,
     width: 124,
   },
@@ -186,7 +188,7 @@ const styles = StyleSheet.create({
   stopIcon: {
     fontSize: 32,
     marginRight: 4,
-    color: '#1E8C8B',
+    color: '#2BAEEC',
   },
 });
 

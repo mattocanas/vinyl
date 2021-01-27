@@ -35,12 +35,15 @@ const FollowingFeed = () => {
 
   const getFollowingData = () => {
     followingDataArray = [];
+    followingIdList.push(currentUser.uid);
     followingIdList.map((id) =>
       db
         .collection('users')
         .doc(id)
         .collection('posts')
+        .orderBy('preciseDate', 'desc')
         .limit(12)
+        // .limit(12)
         .get()
         .then((snapshot) => {
           snapshot.forEach((doc) => {
@@ -99,7 +102,7 @@ const FollowingFeed = () => {
         <ActivityIndicator
           style={{marginTop: 20}}
           size="large"
-          color="#1E8C8B"
+          color="#2BAEEC"
         />
       ) : null} */}
       <FlatList
@@ -108,8 +111,8 @@ const FollowingFeed = () => {
             refreshing={refreshController}
             onRefresh={refreshComponent}
             title="Pull for new tunes."
-            titleColor="#1E8C8B"
-            tintColor="#1E8C8B"
+            titleColor="#2BAEEC"
+            tintColor="#2BAEEC"
           />
         }
         style={styles.flatlist}

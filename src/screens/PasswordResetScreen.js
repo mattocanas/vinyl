@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
   },
   button: {
     marginHorizontal: 30,
-    backgroundColor: '#1E8C8B',
+    backgroundColor: '#2BAEEC',
     borderRadius: 4,
     height: 40,
     alignItems: 'center',
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 30,
   },
   error: {
-    color: '#1E8C8B',
+    color: '#2BAEEC',
     fontSize: 13,
     fontWeight: '600',
     textAlign: 'center',

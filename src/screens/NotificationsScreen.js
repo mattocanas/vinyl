@@ -75,7 +75,7 @@ const NotificationsScreen = () => {
             <IonIcon
               name="notifications"
               size={30}
-              color="#1E8C8B"
+              color="#2BAEEC"
               style={{marginTop: 42, marginLeft: 4, marginRight: 4}}
             />
             <Text
@@ -96,8 +96,8 @@ const NotificationsScreen = () => {
                 refreshing={refreshController}
                 onRefresh={refreshComponent}
                 title="Pull for new notifications."
-                titleColor="#1E8C8B"
-                tintColor="#1E8C8B"
+                titleColor="#2BAEEC"
+                tintColor="#2BAEEC"
               />
             }
             data={data}

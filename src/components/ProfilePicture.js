@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 75,
-    borderColor: '#1E8C8B',
+    borderColor: '#2BAEEC',
     borderWidth: 1,
   },
   // editProfilePicture: {

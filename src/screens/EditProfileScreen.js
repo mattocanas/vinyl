@@ -181,14 +181,14 @@ const styles = StyleSheet.create({
     marginTop: 12,
   },
   title: {
-    color: '#1E8C8B',
+    color: '#2BAEEC',
     fontSize: 24,
     textAlign: 'center',
     paddingLeft: 6,
     paddingRight: 6,
   },
   submitButton: {
-    backgroundColor: '#1E8C8B',
+    backgroundColor: '#2BAEEC',
     color: 'black',
     borderRadius: 15,
     marginTop: 30,

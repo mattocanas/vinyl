@@ -112,6 +112,7 @@ const FeedItem = ({
         artistId,
         artistTracklist,
         trackId,
+        verified,
       });
 
     db.collection('users')
@@ -172,6 +173,7 @@ const FeedItem = ({
         artistId,
         artistTracklist,
         trackId,
+        verified,
       },
     });
   };
@@ -553,6 +555,8 @@ const styles = StyleSheet.create({
     height: 34,
     width: 34,
     borderRadius: 20,
+    borderWidth: 1,
+    borderColor: '#2BAEEC',
   },
   albumArt: {
     height: 160,
@@ -579,7 +583,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   titleText: {
-    color: '#1E8C8B',
+    color: '#2BAEEC',
     fontSize: 18,
     fontWeight: '700',
     marginLeft: 14,
@@ -618,7 +622,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   likeButton: {
-    color: '#1E8C8B',
+    color: '#6FB1D0',
     fontSize: 22,
     marginBottom: 2,
     marginLeft: 0,
@@ -684,7 +688,7 @@ const styles = StyleSheet.create({
   },
   verifiedCheck: {
     fontSize: 12,
-    color: '#1E8C8B',
+    color: '#2BAEEC',
     textAlign: 'center',
     marginLeft: 2,
     alignSelf: 'center',
