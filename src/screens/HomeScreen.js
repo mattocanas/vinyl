@@ -1,5 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, Animated} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Animated,
+  Dimensions,
+  TouchableOpacity,
+} from 'react-native';
 import DailyMusic from '../components/DailyMusic';
 import FollowingFeed from '../components/FollowingFeed';
 import {useStateProviderValue} from '../../state/StateProvider';
@@ -12,6 +19,7 @@ import firebase from 'firebase';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome5';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
+import FastImage from 'react-native-fast-image';
 
 const HomeScreen = () => {
   const [
@@ -136,39 +144,60 @@ const HomeScreen = () => {
         style={{
           paddingTop: 42,
           backgroundColor: 'transparent',
-          paddingBottom: 4,
+          paddingBottom: 12,
           borderBottomLeftRadius: 0,
           // borderBottomRightRadius: 40,
           // borderBottomLeftRadius: 40,
           borderColor: '#a3adbf',
-          borderBottomWidth: 3,
+          borderBottomWidth: 1,
           // borderRightWidth: 3,
           // borderLeftWidth: 3,
+          // alignItems: 'center',
         }}>
-        {currentUserData ? (
-          <>
-            <View style={{flexDirection: 'row'}}>
-              <Animated.View style={[animatedStyles]}>
-                <FontAwesomeIcon
-                  style={styles.welcomeIcon}
-                  name="compact-disc"
-                  size={40}
-                  color="#2BAEEC"
+        <View
+          style={{
+            flexDirection: 'row',
+            alignSelf: 'center',
+            alignItems: 'flex-end',
+          }}>
+          {currentUserData ? (
+            <>
+              <TouchableOpacity
+                onPress={() => navigationUse.navigate('ProfileScreen')}>
+                <FastImage
+                  style={styles.profilePicture}
+                  source={{
+                    uri: currentUserData.profilePictureUrl,
+                    priority: FastImage.priority.normal,
+                  }}
+
+                  // resizeMode={FastImage.resizeMode.contain}
                 />
+              </TouchableOpacity>
+
+              {/* <Animated.View style={[animatedStyles]}>
+               
               </Animated.View>
 
-              <Text style={styles.welcomeText}>Welcome, </Text>
-            </View>
-            <View style={{flexDirection: 'row'}}>
+              <Text style={styles.welcomeText}>Welcome, </Text> */}
+
+              {/* <View style={{flexDirection: 'row'}}>
               <Text style={styles.nameText}>{currentUserData.name}</Text>
-              <IonIcon
-                name="paper-plane"
-                style={styles.messageIcon}
-                onPress={() => navigationUse.navigate('MessageListScreen')}
-              />
-            </View>
-          </>
-        ) : null}
+            </View> */}
+            </>
+          ) : null}
+          <FontAwesomeIcon
+            style={styles.welcomeIcon}
+            name="compact-disc"
+            size={46}
+            color="#2BAEEC"
+          />
+          <IonIcon
+            name="paper-plane"
+            style={styles.messageIcon}
+            onPress={() => navigationUse.navigate('MessageListScreen')}
+          />
+        </View>
       </View>
 
       {/* <DailyMusic /> */}
@@ -187,7 +216,7 @@ const styles = StyleSheet.create({
     color: '#2BAEEC',
     fontSize: 30,
     fontWeight: '800',
-    marginLeft: 4,
+    // marginLeft: 4,
     marginTop: 14,
   },
   nameText: {
@@ -195,24 +224,36 @@ const styles = StyleSheet.create({
     color: '#c1c8d4',
     fontWeight: '700',
     marginTop: 4,
-    marginLeft: 88,
+    // marginLeft: 88,
   },
   welcomeIcon: {
     color: '#2BAEEC',
-    fontSize: 30,
+    fontSize: 38,
     fontWeight: '800',
-    marginLeft: 10,
+    // marginLeft: 10,
     marginTop: 14,
+    alignSelf: 'center',
   },
   messageIcon: {
     color: '#c1c8d4',
     fontSize: 24,
     fontWeight: '800',
-    marginRight: 20,
-    marginTop: 0,
+    // marginTop: 14,
+    // position: 'absolute',
     alignSelf: 'flex-end',
-    position: 'absolute',
-    right: 0,
+    position: 'relative',
+    left: 140,
+  },
+  profilePicture: {
+    height: 34,
+    width: 34,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: '#2BAEEC',
+    alignSelf: 'flex-end',
+    position: 'relative',
+    right: 140,
+    // marginTop: 16,
   },
 });
 

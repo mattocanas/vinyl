@@ -434,7 +434,7 @@ const FeedItem = ({
                 flexDirection: 'row',
                 alignSelf: 'flex-start',
                 marginTop: 10,
-                marginLeft: 22,
+                // marginLeft: 40,
               }}>
               {liked == true ? (
                 <>
@@ -559,8 +559,8 @@ const styles = StyleSheet.create({
     borderColor: '#2BAEEC',
   },
   albumArt: {
-    height: 160,
-    width: 160,
+    height: 220,
+    width: 220,
     borderRadius: 8,
     marginLeft: 0,
     marginTop: 20,
@@ -568,8 +568,8 @@ const styles = StyleSheet.create({
     // marginRight: 6,
   },
   albumArtPost: {
-    height: 160,
-    width: 160,
+    height: 220,
+    width: 220,
     borderRadius: 8,
     marginLeft: 0,
     marginTop: 20,

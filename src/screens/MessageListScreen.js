@@ -1,5 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, Animated, FlatList} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Animated,
+  FlatList,
+  TouchableOpacity,
+} from 'react-native';
 import {db} from '../../firebase/firebase';
 import {useStateProviderValue} from '../../state/StateProvider';
 import {useNavigation} from '@react-navigation/native';
@@ -11,6 +18,7 @@ const MessageListScreen = () => {
     dispatch,
   ] = useStateProviderValue();
   const [data, setData] = useState([]);
+  const navigationUse = useNavigation();
 
   useEffect(() => {
     let active = true;
@@ -35,12 +43,28 @@ const MessageListScreen = () => {
   };
   return (
     <View style={styles.container}>
-      <Text>Message List</Text>
+      {data[0] == null ? (
+        <Text
+          style={{
+            fontSize: 18,
+            color: '#c1c8d4',
+            width: 300,
+            alignSelf: 'center',
+            textAlign: 'center',
+          }}>
+          You don't have any conversations yet! Search for a song, and send it
+          to someone!
+        </Text>
+      ) : null}
       <FlatList
         keyExtractor={(item) => item.id}
         data={data}
         renderItem={({item}) => (
-          <View style={{marginLeft: 20, flexDirection: 'row'}}>
+          <TouchableOpacity
+            style={{marginLeft: 20, flexDirection: 'row'}}
+            onPress={() => {
+              navigationUse.navigate('MessageScreen', {id: item.id});
+            }}>
             <FastImage
               style={styles.profilePicture}
               source={{
@@ -50,7 +74,7 @@ const MessageListScreen = () => {
               // resizeMode={FastImage.resizeMode.contain}
             />
             <Text style={styles.username}>{item.username}</Text>
-          </View>
+          </TouchableOpacity>
         )}
       />
     </View>
@@ -61,6 +85,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#171818',
+    paddingTop: 30,
   },
   profilePicture: {
     height: 40,

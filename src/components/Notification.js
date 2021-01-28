@@ -33,6 +33,9 @@ const Notification = ({data}) => {
       {data.type == 'comment' ? (
         <IonIcon name="chatbubble-outline" style={styles.commentIcon} />
       ) : null}
+      {data.type == 'message' ? (
+        <IonIcon name="paper-plane" style={styles.commentIcon} />
+      ) : null}
       {data.type == 'follow' ? (
         <MaterialIcon name="person-add" style={styles.commentIcon} />
       ) : null}
@@ -89,10 +92,34 @@ const Notification = ({data}) => {
         ) : null}
       </TouchableOpacity>
 
+      <TouchableOpacity
+        onPress={() =>
+          navigationUse.navigate('FeedUserDetailScreen', {
+            data: data.messageFrom,
+          })
+        }>
+        {data.type == 'message' ? (
+          <FastImage
+            style={styles.profilePicture}
+            source={{
+              uri: data.messageFromProfilePicture,
+              priority: FastImage.priority.normal,
+            }}
+            // resizeMode={FastImage.resizeMode.contain}
+          />
+        ) : null}
+      </TouchableOpacity>
+
       {data.type == 'like' ? (
         <>
           <Text style={styles.username}>{data.likedByUsername}</Text>
           <Text style={styles.likedText}>liked your post.</Text>
+        </>
+      ) : null}
+      {data.type == 'message' ? (
+        <>
+          <Text style={styles.username}>{data.messageFromUsername}</Text>
+          <Text style={styles.likedText}> sent you a song.</Text>
         </>
       ) : null}
 
@@ -112,7 +139,7 @@ const Notification = ({data}) => {
           </View>
         </>
       ) : null}
-      {data.type != 'follow' ? (
+      {data.postData ? (
         <TouchableOpacity
           onPress={() =>
             navigationUse.navigate('PostDetailScreen', {

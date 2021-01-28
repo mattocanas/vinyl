@@ -39,7 +39,10 @@ const MessageFormScreen = ({route}) => {
       name: userData.name,
     });
 
-    newMessageRef1.collection('message').doc().set({
+    let newMessageRef1_2 = newMessageRef1.collection('message').doc();
+
+    newMessageRef1_2.set({
+      messageId: newMessageRef1_2.id,
       senderId: currentUser.uid,
       senderUsername: currentUserData.username,
       senderProfilePicture: currentUserData.profilePictureUrl,
@@ -82,7 +85,10 @@ const MessageFormScreen = ({route}) => {
       name: currentUserData.name,
     });
 
-    newMessageRef2.collection('message').doc().set({
+    let newMessageRef2_2 = newMessageRef2.collection('message').doc();
+
+    newMessageRef2_2.set({
+      messageId: newMessageRef2_2.id,
       senderId: currentUser.uid,
       senderUsername: currentUserData.username,
       senderProfilePicture: currentUserData.profilePictureUrl,
@@ -111,6 +117,24 @@ const MessageFormScreen = ({route}) => {
     // newMessageRef2.set({
 
     // });
+
+    let newNotificationRef = db
+      .collection('users')
+      .doc(userData.uid)
+      .collection('notifications')
+      .doc();
+    newNotificationRef.set({
+      notificationId: newNotificationRef.id,
+      type: 'message',
+      date: new Date().toDateString(),
+      preciseDate: new Date(),
+      messageFrom: currentUser.uid,
+      messageFromUsername: currentUser.displayName,
+      messageFromProfilePicture: currentUserData.profilePictureUrl,
+      messageFromVerified: currentUserData.verified,
+    });
+
+    navigationUse.goBack();
   };
 
   return (
