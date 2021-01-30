@@ -182,7 +182,7 @@ const PostDetailScreen = ({route}) => {
   };
 
   return (
-    <View style={styles.mainContainer}>
+    <View style={styles.mainContainer} on>
       <ScrollView
         contentContainerStyle={{alignItems: 'center'}}
         showsVerticalScrollIndicator={false}>
@@ -195,7 +195,12 @@ const PostDetailScreen = ({route}) => {
           // resizeMode={FastImage.resizeMode.contain}
         />
         <MaterialIcon
-          onPress={() => navigationUse.navigate(navigateBackTo)}
+          onPress={() => {
+            if (song) {
+              song.stop();
+            }
+            navigationUse.navigate(navigateBackTo);
+          }}
           name="arrow-back-ios"
           color="white"
           style={{
@@ -322,6 +327,12 @@ const PostDetailScreen = ({route}) => {
             alignSelf: 'flex-start',
             marginLeft: 20,
           }}>
+          <TouchableOpacity
+            onPress={() =>
+              navigationUse.navigate('LikeListScreen', {data: likes})
+            }>
+            <Text style={styles.likesNumber}>{likesNumber} likes</Text>
+          </TouchableOpacity>
           <IonIcon
             name="chatbubble-outline"
             style={styles.commentIcon}
@@ -339,7 +350,7 @@ const PostDetailScreen = ({route}) => {
                   username,
                   date,
                   likes,
-                  likesNumber,
+                  likesNumber: likes.length,
                   comments,
                   type,
                   description,
@@ -479,14 +490,15 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   stopIcon: {
-    fontSize: 36,
+    fontSize: 70,
     color: '#a3adbf',
     marginTop: 2,
     marginLeft: 4,
+    marginTop: 20,
   },
   playIcon: {
-    fontSize: 40,
-    marginTop: 10,
+    fontSize: 70,
+    marginTop: 20,
     color: '#a3adbf',
     marginLeft: 4,
   },
@@ -509,10 +521,11 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   likesNumber: {
-    marginTop: 24,
+    marginTop: 14,
     fontSize: 20,
     fontWeight: '500',
     color: '#c1c8d4',
+    marginRight: 14,
   },
   reportButton: {
     color: '#7F1535',

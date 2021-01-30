@@ -228,10 +228,10 @@ const styles = StyleSheet.create({
   },
   welcomeIcon: {
     color: '#2BAEEC',
-    fontSize: 38,
+    fontSize: 40,
     fontWeight: '800',
     // marginLeft: 10,
-    marginTop: 14,
+    marginTop: 20,
     alignSelf: 'center',
   },
   messageIcon: {
@@ -242,7 +242,7 @@ const styles = StyleSheet.create({
     // position: 'absolute',
     alignSelf: 'flex-end',
     position: 'relative',
-    left: 140,
+    left: 120,
   },
   profilePicture: {
     height: 34,
@@ -252,7 +252,7 @@ const styles = StyleSheet.create({
     borderColor: '#2BAEEC',
     alignSelf: 'flex-end',
     position: 'relative',
-    right: 140,
+    right: 120,
     // marginTop: 16,
   },
 });

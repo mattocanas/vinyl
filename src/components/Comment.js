@@ -9,6 +9,7 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
   TouchableOpacity,
+  Dimensions,
 } from 'react-native';
 import {db} from '../../firebase/firebase';
 import {useStateProviderValue} from '../../state/StateProvider';
@@ -16,8 +17,17 @@ import {useNavigation} from '@react-navigation/native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import FastImage from 'react-native-fast-image';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
-const Comment = ({uid, commentText, commentId, postOwner, postId, nav}) => {
+const Comment = ({
+  uid,
+  commentText,
+  commentId,
+  postOwner,
+  postId,
+  nav,
+  postData,
+}) => {
   const [userData, setUserData] = useState(null);
   const [{currentUser}, dispatch] = useStateProviderValue();
   const navigationUse = useNavigation();
@@ -61,45 +71,62 @@ const Comment = ({uid, commentText, commentId, postOwner, postId, nav}) => {
   return (
     <View
       style={{
-        flexDirection: 'row',
-        alignItems: 'flex-start',
-      }}>
-      {userData ? (
-        <>
-          <TouchableOpacity
-            style={{flexDirection: 'row'}}
-            onPress={() =>
-              navigationUse.navigate('FeedUserDetailScreen', {
-                data: uid,
-              })
-            }>
-            <FastImage
-              style={styles.profilePicture}
-              source={{
-                uri: userData.profilePictureUrl,
-                priority: FastImage.priority.normal,
-              }}
-            />
-            <Text style={styles.username}>{userData.username}</Text>
-          </TouchableOpacity>
-        </>
-      ) : null}
-      <Text style={styles.commentText}>{commentText}</Text>
-      {uid == currentUser.uid || postOwner == currentUser.uid ? (
-        <MaterialIcon
-          name="delete"
-          style={styles.deleteIcon}
-          onPress={onDeleteComment}
-        />
-      ) : null}
+        width: Dimensions.get('screen').width,
 
-      {/* {postOwner == currentUser.uid ? (
-        <MaterialIcon
-          name="delete"
-          style={styles.deleteIcon}
-          onPress={onDeleteComment}
+        borderBottomWidth: 1,
+        borderBottomColor: 'gray',
+        paddingBottom: 10,
+      }}>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+        }}>
+        {userData ? (
+          <>
+            <TouchableOpacity
+              style={{flexDirection: 'row', alignItems: 'center'}}
+              onPress={() =>
+                navigationUse.navigate('FeedUserDetailScreen', {
+                  data: uid,
+                })
+              }>
+              <FastImage
+                style={styles.profilePicture}
+                source={{
+                  uri: userData.profilePictureUrl,
+                  priority: FastImage.priority.normal,
+                }}
+              />
+              <Text style={styles.username}>{userData.username}</Text>
+            </TouchableOpacity>
+          </>
+        ) : null}
+        <Text style={styles.commentText}>{commentText}</Text>
+        <FontAwesomeIcon
+          name="reply"
+          style={styles.replyIcon}
+          onPress={() => {
+            navigationUse.navigate('CommentReplyScreen', {
+              uid,
+              commentText,
+              commentId,
+              postOwner,
+              postId,
+              nav,
+              commentOwner: uid,
+              postData,
+            });
+          }}
         />
-      ) : null} */}
+        {uid == currentUser.uid || postOwner == currentUser.uid ? (
+          <MaterialIcon
+            name="delete"
+            style={styles.deleteIcon}
+            onPress={onDeleteComment}
+          />
+        ) : null}
+      </View>
     </View>
   );
 };
@@ -109,6 +136,7 @@ const styles = StyleSheet.create({
     height: 32,
     width: 32,
     borderRadius: 30,
+    marginLeft: 10,
   },
   username: {
     fontSize: 14,
@@ -120,11 +148,16 @@ const styles = StyleSheet.create({
   commentText: {
     fontSize: 14,
     color: '#c1c8d4',
-    width: 230,
+    width: 190,
   },
   deleteIcon: {
-    fontSize: 18,
+    fontSize: 22,
     color: '#7F1535',
+    marginLeft: 10,
+  },
+  replyIcon: {
+    fontSize: 20,
+    color: '#c1c8d4',
   },
 });
 

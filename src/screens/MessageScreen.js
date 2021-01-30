@@ -37,39 +37,40 @@ const MessageScreen = ({route}) => {
   }, [refresh]);
 
   const getMessages = () => {
-    let idArray = [];
+    // let idArray = [];
+    // db.collection('users')
+    //   .doc(currentUser.uid)
+    //   .collection('messages')
+    //   .get()
+    //   .then((snapshot) => {
+    //     snapshot.forEach((doc) => {
+    //       idArray.push(doc.id);
+    //     });
+    //     setDocIdArray(idArray);
+    //     docIdArray.map((id) => {
+    //       let messageArray = [];
+
+    //     });
+    let messageArray = [];
     db.collection('users')
       .doc(currentUser.uid)
       .collection('messages')
+      .doc(id)
+      .collection('message')
       .get()
       .then((snapshot) => {
         snapshot.forEach((doc) => {
-          idArray.push(doc.id);
+          messageArray.push(doc.data());
         });
-        setDocIdArray(idArray);
-        docIdArray.map((id) => {
-          let messageArray = [];
-          db.collection('users')
-            .doc(currentUser.uid)
-            .collection('messages')
-            .doc(id)
-            .collection('message')
-            .get()
-            .then((snapshot) => {
-              snapshot.forEach((doc) => {
-                messageArray.push(doc.data());
-              });
-              setMessages(
-                messageArray.sort((a, b) => {
-                  let a_date = new Date(a.preciseDate.toDate());
-                  let b_date = new Date(b.preciseDate.toDate());
-                  return b_date - a_date;
-                }),
-              );
-            });
-        });
-        reload();
+        setMessages(
+          messageArray.sort((a, b) => {
+            let a_date = new Date(a.preciseDate.toDate());
+            let b_date = new Date(b.preciseDate.toDate());
+            return b_date - a_date;
+          }),
+        );
       });
+    reload();
   };
 
   const reload = () => {

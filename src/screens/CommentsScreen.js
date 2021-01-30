@@ -87,12 +87,13 @@ const CommentsScreen = ({docId, uid}) => {
         {comments[0] != null ? (
           <FlatList
             data={comments}
+            contentContainerStyle={{paddingBottom: 30}}
             renderItem={({item}) => (
               <View
                 style={{
                   alignItems: 'flex-start',
                   marginTop: 20,
-                  paddingLeft: 20,
+                  // paddingLeft: 20,
                 }}>
                 <Comment
                   uid={item.creator}
@@ -100,6 +101,7 @@ const CommentsScreen = ({docId, uid}) => {
                   commentId={item.commentId}
                   postOwner={item.postOwner}
                   postId={item.postId}
+                  postData={item.postData}
                   nav={() => navigateBack()}
                 />
               </View>

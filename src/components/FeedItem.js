@@ -45,6 +45,8 @@ const FeedItem = ({
   docId,
   navigateBackTo,
   verified,
+  playTrack,
+  stopTrack,
   refresh,
 }) => {
   const [likesNumber, setLikesNumber] = useState(likes.length);
@@ -337,7 +339,7 @@ const FeedItem = ({
                             'notificationWarning',
                             options,
                           );
-                          song.stop();
+                          stopTrack();
                           setPlaying(false);
                         }}
                       />
@@ -350,7 +352,8 @@ const FeedItem = ({
                             'notificationSuccess',
                             options,
                           );
-                          handleAudio(audio);
+                          playTrack(audio);
+                          setPlaying(true);
                         }}
                       />
                     )}
@@ -559,8 +562,8 @@ const styles = StyleSheet.create({
     borderColor: '#2BAEEC',
   },
   albumArt: {
-    height: 220,
-    width: 220,
+    height: 210,
+    width: 210,
     borderRadius: 8,
     marginLeft: 0,
     marginTop: 20,
@@ -584,26 +587,26 @@ const styles = StyleSheet.create({
   },
   titleText: {
     color: '#2BAEEC',
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: '700',
-    marginLeft: 14,
+    marginLeft: 4,
     marginTop: 10,
-    width: 156,
+    width: 142,
     textAlign: 'center',
   },
   artistIntroText: {
     color: '#c1c8d4',
     fontSize: 16,
-    marginLeft: 2,
+    marginLeft: 4,
     width: 164,
   },
   artistText: {
     color: '#a3adbf',
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: '700',
-    marginLeft: 14,
+    marginLeft: 4,
     marginTop: 4,
-    width: 156,
+    width: 142,
     textAlign: 'center',
   },
   usernameText: {
@@ -623,9 +626,10 @@ const styles = StyleSheet.create({
   },
   likeButton: {
     color: '#6FB1D0',
-    fontSize: 22,
+    fontSize: 28,
     marginBottom: 2,
-    marginLeft: 0,
+    marginLeft: 10,
+    marginTop: 2,
   },
   buttonsTab: {
     marginTop: 0,
@@ -647,8 +651,8 @@ const styles = StyleSheet.create({
   },
   likesNumber: {
     textAlign: 'center',
-    marginTop: 2,
-    fontSize: 14,
+    marginTop: 4,
+    fontSize: 16,
     fontWeight: '400',
     color: '#c1c8d4',
     marginLeft: 6,
@@ -660,7 +664,7 @@ const styles = StyleSheet.create({
     color: '#a3adbf',
   },
   description: {
-    fontSize: 18,
+    fontSize: 20,
     color: '#c1c8d4',
     marginTop: 12,
     marginLeft: 10,
@@ -670,7 +674,7 @@ const styles = StyleSheet.create({
   },
   SOTDText: {
     marginTop: 12,
-    fontSize: 18,
+    fontSize: 15,
     color: '#c1c8d4',
     fontWeight: 'bold',
     textAlign: 'center',
@@ -681,10 +685,11 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   commentIcon: {
-    fontSize: 22,
+    fontSize: 26,
     marginBottom: 2,
     color: '#c1c8d4',
     marginLeft: 16,
+    marginTop: 1,
   },
   verifiedCheck: {
     fontSize: 12,

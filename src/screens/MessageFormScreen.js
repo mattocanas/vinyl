@@ -164,7 +164,7 @@ const MessageFormScreen = ({route}) => {
             onChangeText={(newText) => setText(newText)}
           />
           <TouchableOpacity style={styles.postButton} onPress={sendMessage}>
-            <Text style={styles.shareText}>Share Track</Text>
+            <Text style={styles.shareText}>Send Track</Text>
           </TouchableOpacity>
         </KeyboardAwareScrollView>
       </TouchableWithoutFeedback>

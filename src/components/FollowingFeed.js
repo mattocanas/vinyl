@@ -13,6 +13,7 @@ import {
 import FeedItem from './FeedItem';
 import {db} from '../../firebase/firebase';
 import {useStateProviderValue} from '../../state/StateProvider';
+import Sound from 'react-native-sound';
 
 const FollowingFeed = () => {
   const [{currentUser}, dispatch] = useStateProviderValue();
@@ -21,6 +22,8 @@ const FollowingFeed = () => {
   const [refresh, setRefresh] = useState(false);
   const [refreshController, setRefreshController] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [song, setSong] = useState(null);
+
   let followingDataArray = [];
 
   useEffect(() => {
@@ -96,6 +99,41 @@ const FollowingFeed = () => {
     setRefreshController(true);
   };
 
+  const handleAudio = (url) => {
+    if (song) {
+      song.stop();
+      track = new Sound(url, null, (e) => {
+        if (e) {
+          console.log('error', e);
+        } else {
+          // setReady(true);
+
+          setSong(track);
+          track.play();
+          // setPlaying(true);
+        }
+      });
+    } else {
+      track = new Sound(url, null, (e) => {
+        if (e) {
+          console.log('error', e);
+        } else {
+          // setReady(true);
+
+          setSong(track);
+          track.play();
+          // setPlaying(true);
+        }
+      });
+    }
+  };
+
+  const stopTrack = () => {
+    if (song) {
+      song.stop();
+    }
+  };
+
   return (
     <View style={styles.container}>
       {/* {loading ? (
@@ -143,6 +181,12 @@ const FollowingFeed = () => {
             trackId={item.trackId}
             verified={item.verified}
             navigateBackTo={'HomeScreen'}
+            playTrack={(track) => {
+              handleAudio(track);
+            }}
+            stopTrack={() => {
+              stopTrack();
+            }}
             refresh={() => refreshProp()}
           />
         )}

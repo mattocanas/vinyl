@@ -11,6 +11,7 @@ import {useNavigation} from '@react-navigation/native';
 import AntIcon from 'react-native-vector-icons/AntDesign';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
 const dimensions = Dimensions.get('screen');
 
@@ -32,6 +33,9 @@ const Notification = ({data}) => {
       }}>
       {data.type == 'comment' ? (
         <IonIcon name="chatbubble-outline" style={styles.commentIcon} />
+      ) : null}
+      {data.type == 'reply' ? (
+        <FontAwesomeIcon name="reply" style={styles.commentIcon} />
       ) : null}
       {data.type == 'message' ? (
         <IonIcon name="paper-plane" style={styles.commentIcon} />
@@ -136,6 +140,18 @@ const Notification = ({data}) => {
           <View style={{alignSelf: 'flex-start'}}>
             <Text style={styles.commentIntroText}>commented on your post:</Text>
             <Text style={styles.commentText}>{data.comment}</Text>
+          </View>
+        </>
+      ) : null}
+
+      {data.type == 'reply' ? (
+        <>
+          <Text style={styles.usernameComment}>{data.commentByUsername}</Text>
+          <View style={{alignSelf: 'flex-start'}}>
+            <Text style={styles.commentIntroText}>
+              replied to your comment:
+            </Text>
+            <Text style={styles.commentText}>{data.reply}</Text>
           </View>
         </>
       ) : null}

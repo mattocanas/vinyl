@@ -52,6 +52,7 @@ const PostCommentScreen = ({route}) => {
         date: new Date(),
         postOwner: uid,
         postId: docId,
+        postData: data,
       })
       .then(() => navigationUse.goBack());
 

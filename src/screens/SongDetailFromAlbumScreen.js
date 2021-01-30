@@ -201,11 +201,22 @@ const SongDetailFromAlbumScreen = ({route}) => {
                 </TouchableOpacity>
               ) : null}
               <TouchableOpacity style={styles.songOfTheDayButton}>
+                <MaterialIcon
+                  name="post-add"
+                  style={styles.repostIcon}
+                  onPress={() =>
+                    navigationUse.navigate('PostFormScreen', {data: data})
+                  }
+                />
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.songOfTheDayButton}>
                 <IonIcon
                   name="paper-plane"
                   style={styles.repostIcon}
                   onPress={() =>
-                    navigationUse.navigate('PostFormScreen', {data: data})
+                    navigationUse.navigate('MessageSelectScreen', {
+                      songData: data,
+                    })
                   }
                 />
               </TouchableOpacity>

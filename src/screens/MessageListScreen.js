@@ -61,7 +61,12 @@ const MessageListScreen = () => {
         data={data}
         renderItem={({item}) => (
           <TouchableOpacity
-            style={{marginLeft: 20, flexDirection: 'row'}}
+            style={{
+              marginLeft: 20,
+              flexDirection: 'row',
+              marginTop: 10,
+              alignItems: 'center',
+            }}
             onPress={() => {
               navigationUse.navigate('MessageScreen', {id: item.id});
             }}>
