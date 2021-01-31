@@ -31,7 +31,7 @@ const DailyMusicItem = ({
 
   useEffect(() => {
     let active = true;
-    checkIfLiked();
+    // checkIfLiked();
 
     return () => {
       active = false;
@@ -131,7 +131,7 @@ const DailyMusicItem = ({
 
         <View
           style={{flexDirection: 'row', marginTop: 6, alignItems: 'center'}}>
-          {liked == true ? (
+          {/* {liked == true ? (
             <TouchableOpacity onPress={unlikePost}>
               <AntIcon style={styles.heartIcon} name="heart" />
             </TouchableOpacity>
@@ -139,7 +139,7 @@ const DailyMusicItem = ({
             <TouchableOpacity onPress={likePost}>
               <AntIcon style={styles.heartIcon} name="hearto" />
             </TouchableOpacity>
-          )}
+          )} */}
           {song ? (
             <TouchableOpacity>
               <IonIcon
@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
   stopIcon: {
     fontSize: 24,
     // marginTop: 12,
-    marginLeft: 8,
+    marginLeft: 0,
     color: '#c1c8d4',
   },
 });

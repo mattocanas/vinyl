@@ -53,7 +53,7 @@ const DailyMusic = () => {
             style={{
               borderBottomWidth: 1,
               borderBottomColor: 'rgba(193, 200, 212, 0.1)',
-              marginTop: 6,
+              marginTop: 10,
             }}
           />
         </View>
@@ -67,14 +67,14 @@ const styles = StyleSheet.create({
     color: '#c1c8d4',
     textAlign: 'center',
     fontWeight: '500',
-    marginTop: 0,
+    marginTop: 70,
     fontSize: 24,
     alignSelf: 'flex-start',
     marginLeft: 16,
   },
   container: {
     // marginBottom: 30,
-    paddingBottom: 10,
+    // paddingBottom: 10,
     backgroundColor: '#171818',
   },
 });

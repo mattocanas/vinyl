@@ -50,7 +50,7 @@ const CommentsScreen = ({docId, uid}) => {
           .collection('posts')
           .doc(docId)
           .collection('comments')
-          .orderBy('date', 'desc')
+          .orderBy('date', 'asc')
           .get()
           .then((snapshot) => {
             let comments = snapshot.docs.map((doc) => {

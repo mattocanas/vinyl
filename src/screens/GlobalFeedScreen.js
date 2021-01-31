@@ -11,6 +11,7 @@ import {useStateProviderValue} from '../../state/StateProvider';
 import {db} from '../../firebase/firebase';
 import FeedItem from '../components/FeedItem';
 import DailyMusic from '../components/DailyMusic';
+import Sound from 'react-native-sound';
 
 const GlobalFeedScreen = () => {
   const [
@@ -34,6 +35,7 @@ const GlobalFeedScreen = () => {
   const [uidData, setUidData] = useState([]);
   const [refreshController, setRefreshController] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [song, setSong] = useState(null);
 
   const refreshComponent = () => {
     setRefreshController(true);
@@ -62,7 +64,8 @@ const GlobalFeedScreen = () => {
         .doc(id)
         .collection('posts')
         .where('type', '==', 'Song of the Day.')
-        .limit(2)
+        .orderBy('preciseDate', 'desc')
+        .limit(1)
 
         // .where('date', '==', new Date().toDateString())
         .get()
@@ -81,10 +84,45 @@ const GlobalFeedScreen = () => {
     });
   };
 
+  const handleAudio = (url) => {
+    if (song) {
+      song.stop();
+      track = new Sound(url, null, (e) => {
+        if (e) {
+          console.log('error', e);
+        } else {
+          // setReady(true);
+
+          setSong(track);
+          track.play();
+          // setPlaying(true);
+        }
+      });
+    } else {
+      track = new Sound(url, null, (e) => {
+        if (e) {
+          console.log('error', e);
+        } else {
+          // setReady(true);
+
+          setSong(track);
+          track.play();
+          // setPlaying(true);
+        }
+      });
+    }
+  };
+
+  const stopTrack = () => {
+    if (song) {
+      song.stop();
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.headerText}>Discover music from all over! 🌎</Text>
-      <DailyMusic />
+      {/* <DailyMusic /> */}
       {loading ? <ActivityIndicator size="large" color="#2BAEEC" /> : null}
       <FlatList
         refreshControl={
@@ -122,6 +160,12 @@ const GlobalFeedScreen = () => {
             artistTracklist={item.artistTracklist}
             trackId={item.trackId}
             navigateBackTo={'GlobalFeedScreen'}
+            playTrack={(track) => {
+              handleAudio(track);
+            }}
+            stopTrack={() => {
+              stopTrack();
+            }}
             refresh={() => refreshProp()}
           />
         )}

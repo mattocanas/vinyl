@@ -53,6 +53,8 @@ const CommentReplyScreen = ({route}) => {
         date: new Date(),
         postOwner: uid,
         postId: postId,
+        replyByUsername: currentUserData.username,
+        replyByProfilePicture: currentUserData.profilePictureUrl,
       })
       .then(() => navigationUse.goBack());
 
@@ -63,6 +65,7 @@ const CommentReplyScreen = ({route}) => {
       .doc();
     newNotificationRef.set({
       notificationId: newNotificationRef.id,
+
       type: 'reply',
       commentId: newReplyRef.id,
       date: new Date().toDateString(),

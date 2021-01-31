@@ -9,6 +9,7 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
   TouchableOpacity,
+  FlatList,
   Dimensions,
 } from 'react-native';
 import {db} from '../../firebase/firebase';
@@ -18,6 +19,7 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import FastImage from 'react-native-fast-image';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import {useFocusEffect} from '@react-navigation/native';
 
 const Comment = ({
   uid,
@@ -29,21 +31,39 @@ const Comment = ({
   postData,
 }) => {
   const [userData, setUserData] = useState(null);
+  const [replies, setReplies] = useState([]);
   const [{currentUser}, dispatch] = useStateProviderValue();
   const navigationUse = useNavigation();
 
-  useEffect(() => {
-    let active = true;
-    db.collection('users')
-      .doc(uid)
-      .get()
-      .then((doc) => {
-        setUserData(doc.data());
-      });
-    return () => {
-      active = false;
-    };
-  }, []);
+  // useEffect(() => {
+  //   let active = true;
+  //   getReplies();
+  //   db.collection('users')
+  //     .doc(uid)
+  //     .get()
+  //     .then((doc) => {
+  //       setUserData(doc.data());
+  //     });
+  //   return () => {
+  //     active = false;
+  //   };
+  // }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      let active = true;
+
+      getReplies();
+      db.collection('users')
+        .doc(uid)
+        .get()
+        .then((doc) => {
+          setUserData(doc.data());
+        });
+
+      return () => (active = false);
+    }, []),
+  );
 
   const onDeleteComment = () => {
     db.collection('users')
@@ -65,6 +85,27 @@ const Comment = ({
         snapshot.forEach((doc) => {
           doc.ref.delete();
         });
+      });
+  };
+
+  const onReplyDelete = () => {};
+
+  const getReplies = () => {
+    let repliesArray = [];
+    db.collection('users')
+      .doc(postOwner)
+      .collection('posts')
+      .doc(postId)
+      .collection('comments')
+      .doc(commentId)
+      .collection('replies')
+      .orderBy('date', 'asc')
+      .get()
+      .then((snapshot) => {
+        snapshot.forEach((doc) => {
+          repliesArray.push(doc.data());
+        });
+        setReplies(repliesArray);
       });
   };
 
@@ -127,6 +168,67 @@ const Comment = ({
           />
         ) : null}
       </View>
+      <FlatList
+        data={replies}
+        keyExtractor={(item) => item.replyId}
+        renderItem={({item}) => (
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              marginLeft: 40,
+              marginTop: 20,
+            }}>
+            <TouchableOpacity
+              style={{flexDirection: 'row', alignItems: 'center'}}
+              onPress={() =>
+                navigationUse.navigate('FeedUserDetailScreen', {
+                  data: item.creator,
+                })
+              }>
+              {/* <FastImage
+                style={styles.profilePicture}
+                source={{
+                  uri: item.replyByProfilePicture,
+                  priority: FastImage.priority.normal,
+                }}
+              /> */}
+              <Text style={styles.username}>{item.replyByUsername}</Text>
+            </TouchableOpacity>
+            <Text style={styles.commentText}>{item.reply}</Text>
+            {item.creator == currentUser.uid || postOwner == currentUser.uid ? (
+              <MaterialIcon
+                name="delete"
+                style={styles.deleteIcon}
+                onPress={() => {
+                  db.collection('users')
+                    .doc(postOwner)
+                    .collection('posts')
+                    .doc(postId)
+                    .collection('comments')
+                    .doc(commentId)
+                    .collection('replies')
+                    .doc(item.replyId)
+                    .delete()
+                    .then(() => nav());
+
+                  db.collection('users')
+                    .doc(uid)
+                    .collection('notifications')
+                    .where('commentId', '==', item.replyId)
+                    .where('postId', '==', postId)
+                    .get()
+                    .then((snapshot) => {
+                      snapshot.forEach((doc) => {
+                        doc.ref.delete();
+                      });
+                    });
+                }}
+              />
+            ) : null}
+          </View>
+        )}
+      />
     </View>
   );
 };

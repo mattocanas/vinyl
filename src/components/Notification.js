@@ -82,6 +82,24 @@ const Notification = ({data}) => {
 
       <TouchableOpacity
         onPress={() =>
+          navigationUse.navigate('FeedUserDetailScreen', {
+            data: data.followedBy,
+          })
+        }>
+        {data.type == 'reply' ? (
+          <FastImage
+            style={styles.profilePicture}
+            source={{
+              uri: data.replyByProfilePicture,
+              priority: FastImage.priority.normal,
+            }}
+            // resizeMode={FastImage.resizeMode.contain}
+          />
+        ) : null}
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        onPress={() =>
           navigationUse.navigate('FeedUserDetailScreen', {data: data.commentBy})
         }>
         {data.type == 'comment' ? (
@@ -146,12 +164,12 @@ const Notification = ({data}) => {
 
       {data.type == 'reply' ? (
         <>
-          <Text style={styles.usernameComment}>{data.commentByUsername}</Text>
+          <Text style={styles.usernameComment}>{data.replyByUsername}</Text>
           <View style={{alignSelf: 'flex-start'}}>
             <Text style={styles.commentIntroText}>
               replied to your comment:
             </Text>
-            <Text style={styles.commentText}>{data.reply}</Text>
+            <Text style={styles.commentText}>{data.comment}</Text>
           </View>
         </>
       ) : null}

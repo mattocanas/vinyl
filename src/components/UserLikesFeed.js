@@ -27,6 +27,8 @@ const UserLikesFeed = ({id}) => {
     db.collection('users')
       .doc(id)
       .collection('likes')
+      .orderBy('date', 'asc')
+      .limit(20)
       .get()
       .then((snapshot) => {
         snapshot.forEach((doc) => {
