@@ -13,6 +13,7 @@ const UserPostsFeed = ({id}) => {
   ] = useStateProviderValue();
   const [data, setData] = useState([]);
   const [refresh, setRefresh] = useState(false);
+  const [limitNumber, setLimitNumber] = useState(4);
 
   useEffect(() => {
     let active = true;
@@ -20,7 +21,7 @@ const UserPostsFeed = ({id}) => {
     return () => {
       active = false;
     };
-  }, []);
+  }, [limitNumber]);
 
   const refreshComponent = () => {
     setRefresh(true);
@@ -32,6 +33,7 @@ const UserPostsFeed = ({id}) => {
       .doc(id)
       .collection('posts')
       .where('type', '==', 'Post')
+      .limit(limitNumber)
       .get()
       .then((snapshot) => {
         snapshot.forEach((doc) => {
@@ -41,21 +43,21 @@ const UserPostsFeed = ({id}) => {
             let b_date = new Date(b.date);
             return b_date - a_date;
           });
-          setData(dataArray);
         });
+        setData(dataArray);
       });
-    // .onSnapshot((snapshot) => {
-    //   snapshot.forEach((doc) => {
-    //     dataArray.push(doc.data());
-    //     setData(dataArray);
-    //   });
-    // });
+  };
+
+  const handleLoadMore = () => {
+    setLimitNumber(limitNumber + 20);
+    getUsersPosts();
   };
 
   return (
     <View style={styles.container}>
       {data[0] != null ? (
         <FlatList
+          onEndReached={handleLoadMore}
           contentContainerStyle={{paddingBottom: 300}}
           showsVerticalScrollIndicator={false}
           keyExtractor={(item) => item.docId}

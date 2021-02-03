@@ -19,6 +19,7 @@ const ProfileLikesFeed = ({refresh}) => {
     dispatch,
   ] = useStateProviderValue();
   const [data, setData] = useState([]);
+  const [limitNumber, setLimitNumber] = useState(20);
 
   useEffect(() => {
     let active = true;
@@ -26,13 +27,14 @@ const ProfileLikesFeed = ({refresh}) => {
     return () => {
       active = false;
     };
-  }, []);
+  }, [limitNumber]);
 
   const getData = () => {
     let dataArray = [];
     db.collection('users')
       .doc(currentUser.uid)
       .collection('likes')
+      .limit(limitNumber)
       .get()
       .then((snapshot) => {
         snapshot.forEach((doc) => {
@@ -42,9 +44,14 @@ const ProfileLikesFeed = ({refresh}) => {
             let b_date = new Date(b.date);
             return b_date - a_date;
           });
-          setData(dataArray);
         });
+        setData(dataArray);
       });
+  };
+
+  const handleLoadMore = () => {
+    setLimitNumber(limitNumber + 40);
+    getData();
   };
 
   return (
@@ -52,6 +59,7 @@ const ProfileLikesFeed = ({refresh}) => {
       {data[0] != null ? (
         <SafeAreaView style={styles.container}>
           <FlatList
+            onEndReached={handleLoadMore}
             contentContainerStyle={{paddingBottom: 300}}
             showsVerticalScrollIndicator={false}
             style={styles.flatlist}

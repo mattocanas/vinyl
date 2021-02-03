@@ -14,6 +14,7 @@ import {db} from '../../firebase/firebase';
 import {useStateProviderValue} from '../../state/StateProvider';
 import {useNavigation} from '@react-navigation/native';
 import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
+import firebase from 'firebase';
 
 const PostCommentScreen = ({route}) => {
   const {uid, docId, data} = route.params;
@@ -36,6 +37,15 @@ const PostCommentScreen = ({route}) => {
   }, []);
 
   const onCommentPost = () => {
+    db.collection('posts')
+      .doc(docId)
+      .update({
+        comments: firebase.firestore.FieldValue.arrayUnion({
+          uid: currentUser.uid,
+          comment: text,
+        }),
+      });
+
     let newCommentRef = db
       .collection('users')
       .doc(uid)

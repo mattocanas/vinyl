@@ -62,6 +62,35 @@ const SongDetailFromAlbumScreen = ({route}) => {
       .collection('posts')
       .doc();
 
+    let newPostRef = db.collection('posts').doc(newDocRef.id);
+
+    newPostRef.set({
+      docId: newPostRef.id,
+      artist: data.artist.name,
+      title: data.title,
+      albumArt: data.album.cover_xl,
+      albumId: data.album.id,
+      artistId: data.artist.id,
+      artistTracklist: data.artist.tracklist,
+      albumTracklist: data.album.tracklist,
+      albumName: data.album.title,
+      trackId: data.id,
+      audio: data.preview,
+      username: currentUserData.username,
+      name: currentUserData.name,
+      uid: currentUser.uid,
+      date: new Date().toDateString(),
+      preciseDate: new Date(),
+      verified: currentUserData.verified,
+      profilePictureUrl: currentUserData.profilePictureUrl,
+      userNotificationTokens: currentUserData.tokens,
+      likes: [],
+      comments: {},
+      description: '',
+      type: 'Song of the Day.',
+      followerIdList: [currentUser.uid, ...currentUserData.followerIdList],
+    });
+
     newDocRef
       .set({
         docId: newDocRef.id,
@@ -84,7 +113,7 @@ const SongDetailFromAlbumScreen = ({route}) => {
         userNotificationTokens: currentUserData.tokens,
         profilePictureUrl: currentUserData.profilePictureUrl,
         likes: [],
-        comments: {},
+        comments: [],
         description: '',
         type: 'Song of the Day.',
       })
@@ -157,9 +186,16 @@ const SongDetailFromAlbumScreen = ({route}) => {
             />
           </View>
 
-          <Text style={{fontSize: 10, color: 'gray', marginTop: 12}}>
-            Click the calendar icon to make this your song of the day!
-          </Text>
+          {songOfTheDay ? (
+            <Text style={styles.warning}>
+              You already have a song of the day! Head over to your profile if
+              you want to remove it.
+            </Text>
+          ) : (
+            <Text style={{fontSize: 10, color: 'gray', marginTop: 12}}>
+              Click the calendar icon to make this your song of the day!
+            </Text>
+          )}
 
           <Text style={styles.title}>{data.title}</Text>
           {true ? (
@@ -265,12 +301,6 @@ const SongDetailFromAlbumScreen = ({route}) => {
             </View>
           </View>
 
-          {songOfTheDay ? (
-            <Text style={styles.warning}>
-              You already have a song of the day! Head over to your profile if
-              you want to remove it.
-            </Text>
-          ) : null}
           {/* <Text style={styles.rank}>Deezer Rank: {data.rank.toString()}</Text>
           <Text style={styles.duration}>
             Song Duration: {data.duration.toString()} seconds.
@@ -337,12 +367,13 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 16,
     width: dimensions.width - 100,
+    marginTop: 10,
   },
   artist: {
     fontSize: 32,
     color: '#b8c2c2',
     fontWeight: '300',
-    marginTop: 0,
+    marginTop: 10,
     textAlign: 'center',
     marginLeft: 2,
     marginRight: 2,

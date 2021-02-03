@@ -23,6 +23,7 @@ const NotificationsScreen = () => {
 
   useEffect(() => {
     let active = true;
+
     load();
 
     return () => {

@@ -13,6 +13,7 @@ const UserSongOfTheDayFeed = ({id}) => {
   ] = useStateProviderValue();
   const [data, setData] = useState([]);
   const [refresh, setRefresh] = useState(false);
+  const [limitNumber, setLimitNumber] = useState(12);
 
   // useEffect(() => {
   //   let active = true;
@@ -29,7 +30,7 @@ const UserSongOfTheDayFeed = ({id}) => {
       return () => {
         active = false;
       };
-    }, [id]),
+    }, [id, limitNumber]),
   );
 
   const refreshComponent = () => {
@@ -42,6 +43,7 @@ const UserSongOfTheDayFeed = ({id}) => {
       .doc(id)
       .collection('posts')
       .where('type', '==', 'Song of the Day.')
+      .limit(limitNumber)
       .get()
       .then((snapshot) => {
         snapshot.forEach((doc) => {
@@ -51,8 +53,8 @@ const UserSongOfTheDayFeed = ({id}) => {
             let b_date = new Date(b.date);
             return b_date - a_date;
           });
-          setData(dataArray);
         });
+        setData(dataArray);
       });
     // .onSnapshot((snapshot) => {
     //   snapshot.forEach((doc) => {
@@ -62,10 +64,16 @@ const UserSongOfTheDayFeed = ({id}) => {
     // });
   };
 
+  const handleLoadMore = () => {
+    setLimitNumber(limitNumber + 20);
+    getUsersSOTD();
+  };
+
   return (
     <View style={styles.container}>
       {data[0] != null ? (
         <FlatList
+          onEndReached={handleLoadMore}
           contentContainerStyle={{paddingBottom: 300}}
           showsVerticalScrollIndicator={false}
           keyExtractor={(item) => item.docId}

@@ -47,6 +47,7 @@ const FeedItem = ({
   verified,
   playTrack,
   stopTrack,
+  name,
   refresh,
 }) => {
   const [likesNumber, setLikesNumber] = useState(likes.length);
@@ -67,6 +68,7 @@ const FeedItem = ({
       let active = true;
 
       checkIfLiked();
+
       Sound.setCategory('Playback');
 
       return () => {
@@ -115,6 +117,15 @@ const FeedItem = ({
         artistTracklist,
         trackId,
         verified,
+      });
+
+    db.collection('posts')
+      .doc(docId)
+      .update({
+        likes: firebase.firestore.FieldValue.arrayUnion({
+          uid: currentUser.uid,
+          username: currentUser.displayName,
+        }),
       });
 
     db.collection('users')
@@ -188,6 +199,15 @@ const FeedItem = ({
       .collection('likes')
       .doc(docId)
       .delete();
+
+    db.collection('posts')
+      .doc(docId)
+      .update({
+        likes: firebase.firestore.FieldValue.arrayRemove({
+          uid: currentUser.uid,
+          username: currentUser.displayName,
+        }),
+      });
 
     db.collection('users')
       .doc(uid)
@@ -294,7 +314,7 @@ const FeedItem = ({
               </TouchableOpacity>
               <View>
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                  <Text style={styles.usernameText}>{username}</Text>
+                  <Text style={styles.usernameText}>{name}</Text>
                   {verified ? (
                     <MaterialCommunityIcon
                       name="check-decagram"
@@ -447,6 +467,7 @@ const FeedItem = ({
                     <AntIcon name="heart" style={styles.likeButton} />
                   </TouchableOpacity>
                   <TouchableOpacity
+                    style={{alignSelf: 'center'}}
                     onPress={() =>
                       navigationUse.navigate('LikeListScreen', {data: likes})
                     }>
@@ -482,6 +503,7 @@ const FeedItem = ({
                       })
                     }
                   />
+                  <Text style={styles.likesNumber}>{comments.length}</Text>
                 </>
               ) : (
                 <>
@@ -489,6 +511,7 @@ const FeedItem = ({
                     <AntIcon name="hearto" style={styles.likeButton} />
                   </TouchableOpacity>
                   <TouchableOpacity
+                    style={{alignSelf: 'center'}}
                     onPress={() =>
                       navigationUse.navigate('LikeListScreen', {data: likes})
                     }>
@@ -524,6 +547,7 @@ const FeedItem = ({
                       })
                     }
                   />
+                  <Text style={styles.likesNumber}>{comments.length}</Text>
                 </>
               )}
             </View>
@@ -587,7 +611,7 @@ const styles = StyleSheet.create({
   },
   titleText: {
     color: '#2BAEEC',
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: '700',
     marginLeft: 4,
     marginTop: 10,
@@ -651,11 +675,11 @@ const styles = StyleSheet.create({
   },
   likesNumber: {
     textAlign: 'center',
-    marginTop: 4,
     fontSize: 16,
     fontWeight: '400',
     color: '#c1c8d4',
     marginLeft: 6,
+    alignSelf: 'center',
   },
   playIcon: {
     fontSize: 36,

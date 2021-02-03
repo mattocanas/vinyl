@@ -1,5 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Image, StyleSheet, FlatList} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  FlatList,
+  RefreshControl,
+} from 'react-native';
 import {db} from '../../firebase/firebase';
 import {useStateProviderValue} from '../../state/StateProvider';
 import ProfileSongOfTheDay from './ProfileSongOfTheDay';
@@ -8,11 +15,15 @@ import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIc
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 
 const ProfileSongsOfTheDayFeed = ({refresh}) => {
+  let dataArray = [];
   const [
     {currentUser, currentUserPictureURI},
     dispatch,
   ] = useStateProviderValue();
   const [data, setData] = useState([]);
+  const [limitNumber, setLimitNumber] = useState(5);
+  const [refreshController, setRefreshController] = useState(false);
+
   // const [refresh, setRefresh] = useState(false);
   const options = {
     enableVibrateFallback: true,
@@ -22,39 +33,35 @@ const ProfileSongsOfTheDayFeed = ({refresh}) => {
   useEffect(() => {
     let active = true;
     getUsersSOTD();
+
     return () => {
       active = false;
     };
-  }, []);
+  }, [limitNumber]);
 
   // const refreshComponent = () => {
   //   setRefresh(true);
   // };
 
-  const getUsersSOTD = () => {
-    let dataArray = [];
+  const getUsersSOTD = async () => {
     db.collection('users')
       .doc(currentUser.uid)
       .collection('posts')
       .where('type', '==', 'Song of the Day.')
+      .orderBy('preciseDate', 'desc')
+      .limit(limitNumber)
       .get()
       .then((snapshot) => {
         snapshot.forEach((doc) => {
           dataArray.push(doc.data());
-          dataArray.sort((a, b) => {
-            let a_date = new Date(a.date);
-            let b_date = new Date(b.date);
-            return b_date - a_date;
-          });
-          setData(dataArray);
         });
+        setData(dataArray);
       });
-    // .onSnapshot((snapshot) => {
-    //   snapshot.forEach((doc) => {
-    //     dataArray.push(doc.data());
-    //     setData(dataArray);
-    //   });
-    // });
+  };
+
+  const handleLoadMore = () => {
+    setLimitNumber(setLimitNumber(limitNumber + 2));
+    getUsersSOTD();
   };
 
   const rightAction = () => (
@@ -63,10 +70,21 @@ const ProfileSongsOfTheDayFeed = ({refresh}) => {
     </View>
   );
 
+  const refreshComponent = () => {
+    setRefreshController(true);
+    getUsersSOTD();
+  };
+
+  const refreshProp = () => {
+    setRefreshController(true);
+  };
+
   return (
     <View style={styles.container}>
       {data[0] != null ? (
         <FlatList
+          onEndReached={handleLoadMore}
+          onEndReachedThreshold={10}
           contentContainerStyle={{paddingBottom: 300}}
           keyExtractor={(item) => item.docId}
           data={data}
@@ -75,9 +93,10 @@ const ProfileSongsOfTheDayFeed = ({refresh}) => {
             <Swipeable
               rightThreshold={30}
               renderRightActions={rightAction}
-              onSwipeableRightOpen={() =>
-                db
-                  .collection('users')
+              onSwipeableRightOpen={() => {
+                db.collection('posts').doc(item.docId).delete();
+
+                db.collection('users')
                   .doc(currentUser.uid)
                   .collection('posts')
                   .doc(item.docId)
@@ -88,8 +107,8 @@ const ProfileSongsOfTheDayFeed = ({refresh}) => {
                       options,
                     );
                     refresh();
-                  })
-              }>
+                  });
+              }}>
               <ProfileSongOfTheDay refresh={() => refresh()} data={item} />
             </Swipeable>
           )}

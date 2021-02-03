@@ -32,6 +32,35 @@ const PostFormScreen = ({route}) => {
       .collection('posts')
       .doc();
 
+    let newPostRef = db.collection('posts').doc(newDocRef.id);
+
+    newPostRef.set({
+      docId: newPostRef.id,
+      artist: data.artist.name,
+      title: data.title,
+      albumArt: data.album.cover_xl,
+      albumId: data.album.id,
+      artistId: data.artist.id,
+      artistTracklist: data.artist.tracklist,
+      albumTracklist: data.album.tracklist,
+      albumName: data.album.title,
+      trackId: data.id,
+      audio: data.preview,
+      username: currentUserData.username,
+      name: currentUserData.name,
+      uid: currentUser.uid,
+      date: new Date().toDateString(),
+      preciseDate: new Date(),
+      verified: currentUserData.verified,
+      profilePictureUrl: currentUserData.profilePictureUrl,
+      userNotificationTokens: currentUserData.tokens,
+      likes: [],
+      comments: [],
+      description: text,
+      type: 'Post',
+      followerIdList: [currentUser.uid, ...currentUserData.followerIdList],
+    });
+
     newDocRef
       .set({
         docId: newDocRef.id,

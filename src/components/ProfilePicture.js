@@ -19,7 +19,7 @@ const ProfilePicture = ({refresh}) => {
       });
   }, []);
   const [
-    {currentUser, currentUserPictureURI},
+    {currentUser, currentUserPictureURI, currentUserData},
     dispatch,
   ] = useStateProviderValue();
   let url;

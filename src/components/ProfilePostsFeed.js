@@ -14,6 +14,8 @@ const ProfilePostsFeed = ({refresh}) => {
     dispatch,
   ] = useStateProviderValue();
   const [data, setData] = useState([]);
+  const [limitNumber, setLimitNumber] = useState(4);
+
   const options = {
     enableVibrateFallback: true,
     ignoreAndroidSystemSettings: false,
@@ -24,7 +26,7 @@ const ProfilePostsFeed = ({refresh}) => {
     return () => {
       active = false;
     };
-  }, []);
+  }, [limitNumber]);
 
   // const refreshComponent = () => {
   //   setRefresh(true);
@@ -36,6 +38,7 @@ const ProfilePostsFeed = ({refresh}) => {
       .doc(currentUser.uid)
       .collection('posts')
       .where('type', '==', 'Post')
+      .limit(limitNumber)
       .get()
       .then((snapshot) => {
         snapshot.forEach((doc) => {
@@ -45,15 +48,14 @@ const ProfilePostsFeed = ({refresh}) => {
             let b_date = new Date(b.date);
             return b_date - a_date;
           });
-          setData(dataArray);
         });
+        setData(dataArray);
       });
-    // .onSnapshot((snapshot) => {
-    //   snapshot.forEach((doc) => {
-    //     dataArray.push(doc.data());
-    //     setData(dataArray);
-    //   });
-    // });
+  };
+
+  const handleLoadMore = () => {
+    setLimitNumber(limitNumber + 20);
+    getUsersPosts();
   };
 
   const rightAction = () => (
@@ -66,6 +68,7 @@ const ProfilePostsFeed = ({refresh}) => {
     <View style={styles.container}>
       {data[0] != null ? (
         <FlatList
+          onEndReached={handleLoadMore}
           contentContainerStyle={{paddingBottom: 300}}
           showsVerticalScrollIndicator={false}
           keyExtractor={(item) => item.docId}
@@ -74,9 +77,10 @@ const ProfilePostsFeed = ({refresh}) => {
             <Swipeable
               rightThreshold={30}
               renderRightActions={rightAction}
-              onSwipeableRightOpen={() =>
-                db
-                  .collection('users')
+              onSwipeableRightOpen={() => {
+                db.collection('posts').doc(item.docId).delete();
+
+                db.collection('users')
                   .doc(currentUser.uid)
                   .collection('posts')
                   .doc(item.docId)
@@ -87,8 +91,8 @@ const ProfilePostsFeed = ({refresh}) => {
                       options,
                     );
                     refresh();
-                  })
-              }>
+                  });
+              }}>
               <ProfilePost refresh={() => refresh()} data={item} />
             </Swipeable>
           )}

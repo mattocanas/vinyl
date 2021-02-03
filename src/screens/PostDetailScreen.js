@@ -325,13 +325,14 @@ const PostDetailScreen = ({route}) => {
           style={{
             flexDirection: 'row',
             alignSelf: 'flex-start',
+            alignItems: 'center',
             marginLeft: 20,
           }}>
           <TouchableOpacity
             onPress={() =>
               navigationUse.navigate('LikeListScreen', {data: likes})
             }>
-            <Text style={styles.likesNumber}>{likesNumber} likes</Text>
+            <Text style={styles.likesNumber}>{likes.length} likes</Text>
           </TouchableOpacity>
           <IonIcon
             name="chatbubble-outline"
@@ -417,6 +418,7 @@ const styles = StyleSheet.create({
     marginTop: -50,
     borderColor: '#2BAEEC',
     borderWidth: 2,
+    alignItems: 'center',
   },
   albumArt: {
     height: dimensions.height / 2.0,
@@ -497,31 +499,15 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   playIcon: {
-    fontSize: 70,
+    fontSize: 60,
     marginTop: 20,
     color: '#a3adbf',
     marginLeft: 4,
+    marginBottom: 16,
   },
-  playButton: {
-    backgroundColor: '#2BAEEC',
-    borderRadius: 30,
-    alignItems: 'center',
-    marginRight: 16,
-    width: 60,
-    height: 60,
-    marginBottom: 10,
-  },
-  stopButton: {
-    backgroundColor: '#2BAEEC',
-    borderRadius: 30,
-    alignItems: 'center',
-    marginRight: 16,
-    width: 60,
-    height: 60,
-    marginBottom: 10,
-  },
+
   likesNumber: {
-    marginTop: 14,
+    // marginTop: 14,
     fontSize: 20,
     fontWeight: '500',
     color: '#c1c8d4',
@@ -530,8 +516,10 @@ const styles = StyleSheet.create({
   reportButton: {
     color: '#7F1535',
     fontSize: 28,
-    marginTop: 14,
+    // marginTop: 14,
     marginLeft: 2,
+    // position: 'relative',
+    // left: 230,
   },
   albumIntroText: {
     color: '#2BAEEC',
@@ -560,6 +548,7 @@ const styles = StyleSheet.create({
     width: 280,
     textAlign: 'center',
     width: 340,
+    marginTop: 6,
   },
   artistIntroTextSOTD: {
     color: '#2BAEEC',
@@ -572,6 +561,7 @@ const styles = StyleSheet.create({
     width: 260,
     textAlign: 'center',
     width: 340,
+    marginTop: 6,
   },
   titleTextSOTD: {
     color: '#c1c8d4',
@@ -597,7 +587,7 @@ const styles = StyleSheet.create({
     marginBottom: 2,
     color: '#c1c8d4',
     marginRight: 10,
-    marginTop: 12,
+    // marginTop: 12,
   },
   verifiedCheck: {
     fontSize: 24,

@@ -13,6 +13,7 @@ const UserLikesFeed = ({id}) => {
     dispatch,
   ] = useStateProviderValue();
   const [data, setData] = useState([]);
+  const [limitNumber, setLimitNumber] = useState(20);
 
   useEffect(() => {
     let active = true;
@@ -20,7 +21,7 @@ const UserLikesFeed = ({id}) => {
     return () => {
       active = false;
     };
-  }, []);
+  }, [limitNumber]);
 
   const getData = () => {
     let dataArray = [];
@@ -28,7 +29,7 @@ const UserLikesFeed = ({id}) => {
       .doc(id)
       .collection('likes')
       .orderBy('date', 'asc')
-      .limit(20)
+      .limit(limitNumber)
       .get()
       .then((snapshot) => {
         snapshot.forEach((doc) => {
@@ -38,10 +39,16 @@ const UserLikesFeed = ({id}) => {
       });
   };
 
+  const handleLoadMore = () => {
+    setLimitNumber(limitNumber + 40);
+    getData();
+  };
+
   return (
     <View style={{flex: 1}}>
       {data[0] != null ? (
         <FlatList
+          onEndReached={handleLoadMore}
           contentContainerStyle={{paddingBottom: 300}}
           showsVerticalScrollIndicator={false}
           style={styles.flatlist}

@@ -20,6 +20,7 @@ import FastImage from 'react-native-fast-image';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import {useFocusEffect} from '@react-navigation/native';
+import firebase from 'firebase';
 
 const Comment = ({
   uid,
@@ -66,6 +67,15 @@ const Comment = ({
   );
 
   const onDeleteComment = () => {
+    db.collection('posts')
+      .doc(postId)
+      .update({
+        comments: firebase.firestore.FieldValue.arrayRemove({
+          uid: currentUser.uid,
+          comment: commentText,
+        }),
+      });
+
     db.collection('users')
       .doc(postOwner)
       .collection('posts')
@@ -87,8 +97,6 @@ const Comment = ({
         });
       });
   };
-
-  const onReplyDelete = () => {};
 
   const getReplies = () => {
     let repliesArray = [];
@@ -115,7 +123,7 @@ const Comment = ({
         width: Dimensions.get('screen').width,
 
         borderBottomWidth: 1,
-        borderBottomColor: 'gray',
+        borderBottomColor: 'rgba(193, 200, 212, 0.2)',
         paddingBottom: 10,
       }}>
       <View
@@ -250,7 +258,7 @@ const styles = StyleSheet.create({
   commentText: {
     fontSize: 14,
     color: '#c1c8d4',
-    width: 190,
+    width: 210,
   },
   deleteIcon: {
     fontSize: 22,
