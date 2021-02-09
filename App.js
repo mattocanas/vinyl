@@ -50,6 +50,7 @@ import MessageFormScreen from './src/screens/MessageFormScreen';
 import MessageListScreen from './src/screens/MessageListScreen';
 import MessageScreen from './src/screens/MessageScreen';
 import CommentReplyScreen from './src/screens/CommentReplyScreen';
+import SongRecommendationSearchScreen from './src/screens/SongRecommendationSearchScreen';
 
 // create bottom nav bar
 const Tabs = createMaterialBottomTabNavigator();
@@ -209,6 +210,25 @@ function myMainStack() {
         }}
         name="UserSettingsScreen"
         component={UserSettingsScreen}
+      />
+      <MainStack.Screen
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#171818',
+            shadowColor: 'transparent',
+          },
+          headerTitleStyle: {
+            color: '#c1c8d4',
+            fontSize: 32,
+            fontWeight: '700',
+          },
+          title: 'Vinyl',
+          headerTintColor: '#c1c8d4',
+          headerBackTitleVisible: false,
+        }}
+        name="SongRecommendationSearchScreen"
+        component={SongRecommendationSearchScreen}
       />
       <MainStack.Screen
         options={{

@@ -23,34 +23,8 @@ import FastImage from 'react-native-fast-image';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useFocusEffect} from '@react-navigation/native';
 
-const FeedItem = ({
-  title,
-  artist,
-  audio,
-  albumArt,
-  profilePictureUrl,
-  uid,
-  username,
-  date,
-  likes,
-  comments,
-  type,
-  description,
-  albumId,
-  albumName,
-  albumTracklist,
-  artistId,
-  artistTracklist,
-  trackId,
-  docId,
-  navigateBackTo,
-  verified,
-  playTrack,
-  stopTrack,
-  name,
-  refresh,
-}) => {
-  const [likesNumber, setLikesNumber] = useState(likes.length);
+const SongRequest = ({data, navigateBackTo, playTrack, stopTrack, refresh}) => {
+  const [likesNumber, setLikesNumber] = useState(data.likes.length);
   const [{currentUser, currentUserData}, dispatch] = useStateProviderValue();
   const [liked, setLiked] = useState(false);
   const [playing, setPlaying] = useState(false);
@@ -95,32 +69,32 @@ const FeedItem = ({
     db.collection('users')
       .doc(currentUser.uid)
       .collection('likes')
-      .doc(docId)
+      .doc(data.docId)
       .set({
-        title: title,
-        artist: artist,
-        audio: audio,
-        albumArt: albumArt,
-        profilePictureUrl: profilePictureUrl,
-        uid: uid,
-        username: username,
-        date: date,
-        likes: likes,
-        comments: comments,
-        docId: docId,
-        description: description,
-        type: type,
-        albumId,
-        albumName,
-        albumTracklist,
-        artistId,
-        artistTracklist,
-        trackId,
-        verified,
+        title: data.title,
+        artist: data.artist,
+        audio: data.audio,
+        albumArt: data.albumArt,
+        profilePictureUrl: data.profilePictureUrl,
+        uid: data.requestedById,
+        username: data.requestedByUsername,
+        date: data.date,
+        likes: data.likes,
+        comments: data.comments,
+        docId: data.docId,
+
+        type: data.type,
+        albumId: data.albumId,
+        albumName: data.albumName,
+        albumTracklist: data.albumTracklist,
+        artistId: data.artistId,
+        artistTracklist: data.artistTracklist,
+        trackId: data.trackId,
+        verified: data.verified,
       });
 
     db.collection('posts')
-      .doc(docId)
+      .doc(data.docId)
       .update({
         likes: firebase.firestore.FieldValue.arrayUnion({
           uid: currentUser.uid,
@@ -129,9 +103,9 @@ const FeedItem = ({
       });
 
     db.collection('users')
-      .doc(uid)
+      .doc(data.requestedById)
       .collection('posts')
-      .doc(docId)
+      .doc(data.docId)
       .update({
         likes: firebase.firestore.FieldValue.arrayUnion({
           uid: currentUser.uid,
@@ -141,10 +115,10 @@ const FeedItem = ({
       .then(() => {
         // checkIfLiked();
         setLiked(true);
-        if (likesNumber == likes.length) {
-          setLikesNumber(likes.length + 1);
+        if (likesNumber == data.likes.length) {
+          setLikesNumber(data.likes.length + 1);
         } else {
-          setLikesNumber(likes.length);
+          setLikesNumber(data.likes.length);
         }
 
         ReactNativeHapticFeedback.trigger('notificationSuccess', options);
@@ -153,7 +127,7 @@ const FeedItem = ({
 
     let newNotificationRef = db
       .collection('users')
-      .doc(uid)
+      .doc(data.requestedById)
       .collection('notifications')
       .doc();
     newNotificationRef.set({
@@ -165,28 +139,28 @@ const FeedItem = ({
       likedByUsername: currentUser.displayName,
       likedByProfilePicture: currentUserData.profilePictureUrl,
       likedByVerified: currentUserData.verified,
-      postId: docId,
+      postId: data.docId,
       postData: {
-        title: title,
-        artist: artist,
-        audio: audio,
-        albumArt: albumArt,
-        profilePictureUrl: profilePictureUrl,
-        uid: uid,
-        username: username,
-        date: date,
-        likes: likes,
-        comments: comments,
-        docId: docId,
-        description: description,
-        type: type,
-        albumId,
-        albumName,
-        albumTracklist,
-        artistId,
-        artistTracklist,
-        trackId,
-        verified,
+        title: data.title,
+        artist: data.artist,
+        audio: data.audio,
+        albumArt: data.albumArt,
+        profilePictureUrl: data.profilePictureUrl,
+        uid: data.requestedById,
+        username: data.requestedByUsername,
+        date: data.date,
+        likes: data.likes,
+        comments: data.comments,
+        docId: data.docId,
+
+        type: data.type,
+        albumId: data.albumId,
+        albumName: data.albumName,
+        albumTracklist: data.albumTracklist,
+        artistId: data.artistId,
+        artistTracklist: data.artistTracklist,
+        trackId: data.trackId,
+        verified: data.verified,
       },
     });
   };
@@ -197,11 +171,11 @@ const FeedItem = ({
     db.collection('users')
       .doc(currentUser.uid)
       .collection('likes')
-      .doc(docId)
+      .doc(data.docId)
       .delete();
 
     db.collection('posts')
-      .doc(docId)
+      .doc(data.docId)
       .update({
         likes: firebase.firestore.FieldValue.arrayRemove({
           uid: currentUser.uid,
@@ -210,9 +184,9 @@ const FeedItem = ({
       });
 
     db.collection('users')
-      .doc(uid)
+      .doc(data.requestedById)
       .collection('posts')
-      .doc(docId)
+      .doc(data.docId)
       .update({
         likes: firebase.firestore.FieldValue.arrayRemove({
           uid: currentUser.uid,
@@ -221,10 +195,10 @@ const FeedItem = ({
       })
       .then(() => {
         setLiked(false);
-        if (likesNumber == likes.length) {
-          setLikesNumber(likes.length - 1);
+        if (likesNumber == data.likes.length) {
+          setLikesNumber(data.likes.length - 1);
         } else {
-          setLikesNumber(likes.length);
+          setLikesNumber(data.likes.length);
         }
 
         ReactNativeHapticFeedback.trigger('notificationWarning', options);
@@ -232,10 +206,10 @@ const FeedItem = ({
       });
 
     db.collection('users')
-      .doc(uid)
+      .doc(data.requestedById)
       .collection('notifications')
       .where('likedBy', '==', currentUser.uid)
-      .where('postId', '==', docId)
+      .where('postId', '==', data.docId)
       .get()
       .then((snapshot) => {
         snapshot.forEach((doc) => {
@@ -245,19 +219,10 @@ const FeedItem = ({
   };
 
   const checkIfLiked = () => {
-    if (likes.some((item) => item.uid == currentUser.uid)) {
+    if (data.likes.some((item) => item.uid == currentUser.uid)) {
       setLiked(true);
     }
   };
-
-  // const getUserData = () => {
-  //   db.collection('users')
-  //     .doc(uid)
-  //     .get()
-  //     .then((doc) => {
-  //       setUserData(doc.data());
-  //     });
-  // };
 
   return (
     <>
@@ -265,28 +230,26 @@ const FeedItem = ({
         <TouchableOpacity
           onPress={() =>
             navigationUse.navigate('PostDetailScreen', {
-              title,
-              artist,
-              audio,
-              albumArt,
-              profilePictureUrl,
-              uid,
-              username,
-              date,
-              likesNumber,
-              likes,
-              comments,
-              type,
-              description,
-              albumId,
-              albumName,
-              albumTracklist,
-              artistId,
-              artistTracklist,
-              trackId,
-              navigateBackTo,
-              docId,
-              verified,
+              title: data.title,
+              artist: data.artist,
+              audio: data.audio,
+              albumArt: data.albumArt,
+              profilePictureUrl: data.profilePictureUrl,
+              uid: data.requestedById,
+              username: data.requestedByUsername,
+              date: data.date,
+              likes: data.likes,
+              comments: data.comments,
+              docId: data.docId,
+              navigateBackTo: 'HomeScreen',
+              type: data.type,
+              albumId: data.albumId,
+              albumName: data.albumName,
+              albumTracklist: data.albumTracklist,
+              artistId: data.artistId,
+              artistTracklist: data.artistTracklist,
+              trackId: data.trackId,
+              verified: data.verified,
             })
           }>
           <View
@@ -301,12 +264,14 @@ const FeedItem = ({
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <TouchableOpacity
                 onPress={() =>
-                  navigationUse.navigate('FeedUserDetailScreen', {data: uid})
+                  navigationUse.navigate('FeedUserDetailScreen', {
+                    data: data.requestedById,
+                  })
                 }>
                 <FastImage
                   style={styles.profilePicture}
                   source={{
-                    uri: profilePictureUrl,
+                    uri: data.profilePictureUrl,
                     priority: FastImage.priority.normal,
                   }}
                   // resizeMode={FastImage.resizeMode.contain}
@@ -314,131 +279,103 @@ const FeedItem = ({
               </TouchableOpacity>
               <View>
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                  <Text style={styles.usernameText}>{name}</Text>
-                  {verified ? (
+                  <Text style={styles.usernameText}>
+                    {data.requestedByName}
+                  </Text>
+                  {data.verified ? (
                     <MaterialCommunityIcon
                       name="check-decagram"
                       style={styles.verifiedCheck}
                     />
                   ) : null}
                 </View>
-                <Text style={styles.subUsername}>@{username}</Text>
+                <Text style={styles.subUsername}>
+                  @{data.requestedByUsername}
+                </Text>
               </View>
               <Text style={{fontSize: 6, alignSelf: 'center', marginLeft: 10}}>
                 ⚪
               </Text>
               <Moment element={Text} format="MMM Do YY" style={styles.dateText}>
-                {date}
+                {data.date}
               </Moment>
             </View>
-            {type == 'Song of the Day.' ? (
-              <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                {playing ? (
-                  <TouchableOpacity
-                    onPress={() => {
-                      ReactNativeHapticFeedback.trigger(
-                        'notificationWarning',
-                        options,
-                      );
-                      stopTrack();
-                      setPlaying(false);
-                    }}>
-                    <FastImage
-                      style={styles.albumArt}
-                      source={{
-                        uri: albumArt,
-                        priority: FastImage.priority.normal,
-                      }}
-                      // resizeMode={FastImage.resizeMode.contain}
-                    />
-                  </TouchableOpacity>
-                ) : (
-                  <TouchableOpacity
-                    onPress={() => {
-                      ReactNativeHapticFeedback.trigger(
-                        'notificationSuccess',
-                        options,
-                      );
-                      playTrack(audio);
-                      setPlaying(true);
-                    }}>
-                    <FastImage
-                      style={styles.albumArt}
-                      source={{
-                        uri: albumArt,
-                        priority: FastImage.priority.normal,
-                      }}
-                      // resizeMode={FastImage.resizeMode.contain}
-                    />
-                  </TouchableOpacity>
-                )}
 
-                <View>
-                  <Text style={styles.SOTDText}>Song of the day:</Text>
-                  <Text style={styles.titleText}>{title}</Text>
-                  <Text style={styles.artistText}>{artist}</Text>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      alignSelf: 'center',
-                    }}></View>
-                </View>
-              </View>
-            ) : (
-              <View style={{alignItems: 'center'}}>
-                <Text style={styles.description}>{description}</Text>
+            <View style={{alignItems: 'center'}}>
+              {data.title ? (
+                <>
+                  <Text style={styles.description}>
+                    @{data.requestedUsername} recommended this track to @
+                    {data.requestedByUsername}
+                  </Text>
+                  {playing ? (
+                    <TouchableOpacity
+                      onPress={() => {
+                        ReactNativeHapticFeedback.trigger(
+                          'notificationWarning',
+                          options,
+                        );
+                        stopTrack();
+                        setPlaying(false);
+                      }}>
+                      <FastImage
+                        style={styles.albumArtPost}
+                        source={{
+                          uri: data.albumArt,
+                          priority: FastImage.priority.normal,
+                        }}
+                        // resizeMode={FastImage.resizeMode.contain}
+                      />
+                    </TouchableOpacity>
+                  ) : (
+                    <TouchableOpacity
+                      onPress={() => {
+                        ReactNativeHapticFeedback.trigger(
+                          'notificationSuccess',
+                          options,
+                        );
+                        playTrack(audio);
+                        setPlaying(true);
+                      }}>
+                      <FastImage
+                        style={styles.albumArtPost}
+                        source={{
+                          uri: data.albumArt,
+                          priority: FastImage.priority.normal,
+                        }}
+                        // resizeMode={FastImage.resizeMode.contain}
+                      />
+                    </TouchableOpacity>
+                  )}
+                  <View>
+                    <Text style={styles.titleText}>{data.title}</Text>
+                    <Text style={styles.artistText}>{data.artist}</Text>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        alignSelf: 'center',
+                      }}></View>
+                  </View>
+                </>
+              ) : (
+                <Text style={styles.description}>
+                  @{data.requestedByUsername} requested a track recommednation
+                  from @{data.requestedUsername}
+                </Text>
+              )}
+            </View>
 
-                {playing ? (
-                  <TouchableOpacity
-                    onPress={() => {
-                      ReactNativeHapticFeedback.trigger(
-                        'notificationWarning',
-                        options,
-                      );
-                      stopTrack();
-                      setPlaying(false);
-                    }}>
-                    <FastImage
-                      style={styles.albumArtPost}
-                      source={{
-                        uri: albumArt,
-                        priority: FastImage.priority.normal,
-                      }}
-                      // resizeMode={FastImage.resizeMode.contain}
-                    />
-                  </TouchableOpacity>
-                ) : (
-                  <TouchableOpacity
-                    onPress={() => {
-                      ReactNativeHapticFeedback.trigger(
-                        'notificationSuccess',
-                        options,
-                      );
-                      playTrack(audio);
-                      setPlaying(true);
-                    }}>
-                    <FastImage
-                      style={styles.albumArtPost}
-                      source={{
-                        uri: albumArt,
-                        priority: FastImage.priority.normal,
-                      }}
-                      // resizeMode={FastImage.resizeMode.contain}
-                    />
-                  </TouchableOpacity>
-                )}
-
-                <View>
-                  <Text style={styles.titleText}>{title}</Text>
-                  <Text style={styles.artistText}>{artist}</Text>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      alignSelf: 'center',
-                    }}></View>
-                </View>
-              </View>
-            )}
+            {data.requestedId == currentUser.uid && data.title == '' ? (
+              <TouchableOpacity
+                style={styles.recommendButton}
+                onPress={() =>
+                  navigationUse.navigate('SongRecommendationSearchScreen', {
+                    data: data,
+                  })
+                }>
+                <Text style={styles.recommendText}>Recommend a song</Text>
+              </TouchableOpacity>
+            ) : null}
 
             <View
               style={{
@@ -457,7 +394,9 @@ const FeedItem = ({
                   <TouchableOpacity
                     style={{alignSelf: 'center'}}
                     onPress={() =>
-                      navigationUse.navigate('LikeListScreen', {data: likes})
+                      navigationUse.navigate('LikeListScreen', {
+                        data: data.likes,
+                      })
                     }>
                     <Text style={styles.likesNumber}>{likesNumber} likes</Text>
                   </TouchableOpacity>
@@ -466,32 +405,30 @@ const FeedItem = ({
                     style={styles.commentIcon}
                     onPress={() =>
                       navigationUse.navigate('PostDetailScreen', {
-                        title,
-                        artist,
-                        audio,
-                        albumArt,
-                        profilePictureUrl,
-                        uid,
-                        username,
-                        date,
-                        likesNumber,
-                        likes,
-                        comments,
-                        type,
-                        description,
-                        albumId,
-                        albumName,
-                        albumTracklist,
-                        artistId,
-                        artistTracklist,
-                        trackId,
-                        navigateBackTo,
-                        docId,
-                        verified,
+                        title: data.title,
+                        artist: data.artist,
+                        audio: data.audio,
+                        albumArt: data.albumArt,
+                        profilePictureUrl: data.profilePictureUrl,
+                        uid: data.requestedById,
+                        username: data.requestedByUsername,
+                        date: data.date,
+                        likes: data.likes,
+                        comments: data.comments,
+                        docId: data.docId,
+
+                        type: data.type,
+                        albumId: data.albumId,
+                        albumName: data.albumName,
+                        albumTracklist: data.albumTracklist,
+                        artistId: data.artistId,
+                        artistTracklist: data.artistTracklist,
+                        trackId: data.trackId,
+                        verified: data.verified,
                       })
                     }
                   />
-                  <Text style={styles.likesNumber}>{comments.length}</Text>
+                  <Text style={styles.likesNumber}>{data.comments.length}</Text>
                 </>
               ) : (
                 <>
@@ -501,7 +438,9 @@ const FeedItem = ({
                   <TouchableOpacity
                     style={{alignSelf: 'center'}}
                     onPress={() =>
-                      navigationUse.navigate('LikeListScreen', {data: likes})
+                      navigationUse.navigate('LikeListScreen', {
+                        data: data.likes,
+                      })
                     }>
                     <Text style={styles.likesNumber}>{likesNumber} likes</Text>
                   </TouchableOpacity>
@@ -510,32 +449,30 @@ const FeedItem = ({
                     style={styles.commentIcon}
                     onPress={() =>
                       navigationUse.navigate('PostDetailScreen', {
-                        title,
-                        artist,
-                        audio,
-                        albumArt,
-                        profilePictureUrl,
-                        uid,
-                        username,
-                        date,
-                        likesNumber,
-                        likes,
-                        comments,
-                        type,
-                        description,
-                        albumId,
-                        albumName,
-                        albumTracklist,
-                        artistId,
-                        artistTracklist,
-                        trackId,
-                        navigateBackTo,
-                        docId,
-                        verified,
+                        title: data.title,
+                        artist: data.artist,
+                        audio: data.audio,
+                        albumArt: data.albumArt,
+                        profilePictureUrl: data.profilePictureUrl,
+                        uid: data.requestedById,
+                        username: data.requestedByUsername,
+                        date: data.date,
+                        likes: data.likes,
+                        comments: data.comments,
+                        docId: data.docId,
+
+                        type: data.type,
+                        albumId: data.albumId,
+                        albumName: data.albumName,
+                        albumTracklist: data.albumTracklist,
+                        artistId: data.artistId,
+                        artistTracklist: data.artistTracklist,
+                        trackId: data.trackId,
+                        verified: data.verified,
                       })
                     }
                   />
-                  <Text style={styles.likesNumber}>{comments.length}</Text>
+                  <Text style={styles.likesNumber}>{data.comments.length}</Text>
                 </>
               )}
             </View>
@@ -682,7 +619,8 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 20,
     fontWeight: '400',
-    // textAlign: 'center',
+    textAlign: 'center',
+    marginBottom: 10,
   },
   SOTDText: {
     marginTop: 12,
@@ -710,6 +648,22 @@ const styles = StyleSheet.create({
     marginLeft: 2,
     alignSelf: 'center',
   },
+  recommendButton: {
+    alignItems: 'center',
+    paddingTop: 6,
+    paddingBottom: 6,
+    width: 180,
+    borderWidth: 2,
+    borderColor: '#c1c8d4',
+    borderRadius: 10,
+    marginTop: 10,
+    alignSelf: 'center',
+    marginBottom: 10,
+  },
+  recommendText: {
+    fontSize: 16,
+    color: '#c1c8d4',
+  },
 });
 
-export default FeedItem;
+export default SongRequest;

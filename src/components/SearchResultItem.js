@@ -16,6 +16,8 @@ const SearchResultItem = ({
   audio,
   artist,
   refresh,
+  type,
+  recommendationPostData,
 }) => {
   const navigationUse = useNavigation();
   const options = {
@@ -31,7 +33,7 @@ const SearchResultItem = ({
   useEffect(() => {
     let active = true;
     Sound.setCategory('Playback');
-    checkIfSongOfTheDayExists();
+
     return () => {
       active = false;
     };
@@ -57,101 +59,68 @@ const SearchResultItem = ({
     track.stop();
   };
 
-  const addSongOfTheDay = () => {
-    let newDocRef = db
-      .collection('users')
-      .doc(currentUser.uid)
-      .collection('posts')
-      .doc();
+  const onSelectSongRecommendation = () => {
+    db.collection('posts').doc(recommendationPostData.docId).update({
+      artist: allData.artist.name,
+      title: allData.title,
+      albumArt: allData.album.cover_xl,
+      albumId: allData.album.id,
+      artistId: allData.artist.id,
+      artistTracklist: allData.artist.tracklist,
+      albumTracklist: allData.album.tracklist,
+      albumName: allData.album.title,
+      trackId: allData.id,
+      audio: allData.preview,
+    });
 
-    newDocRef
-      .set({
-        docId: newDocRef.id,
-        artist: artist,
-        title: title,
-        albumArt: albumArt,
-        audio: audio,
-        username: currentUser.displayName,
-        uid: currentUser.uid,
-        date: new Date().toDateString(),
-        profilePictureUrl: currentUserData.profilePictureUrl,
-        likes: [],
-        comments: {},
-        description: 'Song of the Day.',
+    db.collection('users')
+      .doc(recommendationPostData.requestedById)
+      .collection('posts')
+      .doc(recommendationPostData.docId)
+      .update({
+        artist: allData.artist.name,
+        title: allData.title,
+        albumArt: allData.album.cover_xl,
+        albumId: allData.album.id,
+        artistId: allData.artist.id,
+        artistTracklist: allData.artist.tracklist,
+        albumTracklist: allData.album.tracklist,
+        albumName: allData.album.title,
+        trackId: allData.id,
+        audio: allData.preview,
       })
-      .then(setSongOfTheDay(true))
       .then(() => {
-        refresh();
-      });
-  };
-
-  const checkIfSongOfTheDayExists = () => {
-    db.collection('users')
-      .doc(currentUser.uid)
-      .collection('posts')
-      .where('date', '==', new Date().toDateString())
-      .get()
-      .then((snapshot) => {
-        snapshot.forEach((doc) => {
-          if (doc.exists) {
-            setSongOfTheDay(true);
-          } else {
-            console.log('doesnt');
-          }
-        });
-      });
-  };
-
-  const deleteSongOfTheDay = () => {
-    db.collection('users')
-      .doc(currentUser.uid)
-      .collection('posts')
-      .where('description', '==', 'Song of the Day.')
-      .where('date', '==', new Date().toDateString())
-      .get()
-      .then((snapshot) => {
-        snapshot.forEach((doc) => {
-          doc.delete();
-        });
+        navigationUse.navigate('HomeScreen');
       });
   };
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity
-        style={{flexDirection: 'row', alignItems: 'center'}}
-        onPress={() =>
-          navigationUse.navigate('SongDetailScreen', {data: allData})
-        }>
-        <Image style={styles.albumArt} source={{uri: albumArt}} />
-        <View style={styles.songInfoContainer}>
-          <Text style={styles.title}>{title}</Text>
+      {type == 'Song Request' ? (
+        <TouchableOpacity
+          style={{flexDirection: 'row', alignItems: 'center'}}
+          onPress={onSelectSongRecommendation}>
+          <Image style={styles.albumArt} source={{uri: albumArt}} />
+          <View style={styles.songInfoContainer}>
+            <Text style={styles.title}>{title}</Text>
 
-          <Text style={styles.artist}>{artist}</Text>
+            <Text style={styles.artist}>{artist}</Text>
+          </View>
+        </TouchableOpacity>
+      ) : (
+        <TouchableOpacity
+          style={{flexDirection: 'row', alignItems: 'center'}}
+          onPress={() =>
+            navigationUse.navigate('SongDetailScreen', {data: allData})
+          }>
+          <Image style={styles.albumArt} source={{uri: albumArt}} />
+          <View style={styles.songInfoContainer}>
+            <Text style={styles.title}>{title}</Text>
 
-          {/* <TouchableOpacity>
-          <IonIcon
-            name="stop-circle-outline"
-            style={styles.stopIcon}
-            onPress={stopTrack}
-          />
-        </TouchableOpacity> */}
-
-          {/* {songOfTheDay ? (
-          <TouchableOpacity>
-            <Text style={styles.songOfTheDayWarning}>
-              You already have a song of the day!
-            </Text>
-          </TouchableOpacity>
-        ) : (
-          <MaterialIcon
-            name="library-add"
-            style={styles.songOfTheDayIcon}
-            onPress={addSongOfTheDay}
-          />
-        )} */}
-        </View>
-      </TouchableOpacity>
+            <Text style={styles.artist}>{artist}</Text>
+          </View>
+        </TouchableOpacity>
+      )}
     </View>
   );
 };

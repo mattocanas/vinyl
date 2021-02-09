@@ -36,6 +36,7 @@ const UserDetailScreen = ({route}) => {
   const [showPosts, setShowPosts] = useState(false);
   const [blocked, setBlocked] = useState(false);
   const [blocked2, setBlocked2] = useState(false);
+  const [songRequested, setSongRequested] = useState(false);
   const navigationUse = useNavigation();
 
   useEffect(() => {
@@ -158,6 +159,10 @@ const UserDetailScreen = ({route}) => {
     setShowPosts(true);
   };
 
+  const onRequestSong = () => {
+    setSongRequested(true);
+  };
+
   return (
     <View style={styles.container}>
       {(blocked != true) & (blocked2 != true) ? (
@@ -275,6 +280,21 @@ const UserDetailScreen = ({route}) => {
                 {data.dateJoined}
               </Moment>
             </View>
+
+            {songRequested ? (
+              <TouchableOpacity style={styles.requestButtonActive}>
+                <Text style={styles.requestTextActive}>
+                  You requested a song!
+                </Text>
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity
+                style={styles.requestButton}
+                onPress={onRequestSong}>
+                <Text style={styles.requestText}>Request a song.</Text>
+              </TouchableOpacity>
+            )}
+
             <View
               style={{
                 flexDirection: 'row',
@@ -531,6 +551,37 @@ const styles = StyleSheet.create({
   joinedText: {
     color: '#a3adbf',
     fontSize: 10,
+  },
+  requestButton: {
+    alignItems: 'center',
+    paddingTop: 6,
+    paddingBottom: 6,
+    width: 160,
+    borderWidth: 2,
+    borderColor: '#c1c8d4',
+    borderRadius: 10,
+    marginTop: 12,
+    alignSelf: 'center',
+  },
+  requestText: {
+    fontSize: 16,
+    color: '#c1c8d4',
+  },
+  requestButtonActive: {
+    alignItems: 'center',
+    paddingTop: 6,
+    paddingBottom: 6,
+    width: 210,
+    borderWidth: 2,
+    borderColor: '#2BAEEC',
+    borderRadius: 10,
+    marginTop: 12,
+    alignSelf: 'center',
+  },
+  requestTextActive: {
+    fontSize: 16,
+    color: '#2BAEEC',
+    textAlign: 'center',
   },
 });
 

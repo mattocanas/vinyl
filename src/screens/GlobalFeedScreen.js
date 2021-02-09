@@ -160,6 +160,7 @@ const GlobalFeedScreen = () => {
             artistTracklist={item.artistTracklist}
             trackId={item.trackId}
             navigateBackTo={'GlobalFeedScreen'}
+            name={item.name}
             playTrack={(track) => {
               handleAudio(track);
             }}

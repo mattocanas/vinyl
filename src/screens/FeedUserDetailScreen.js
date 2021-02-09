@@ -68,6 +68,7 @@ const FeedUserDetailScreen = ({route}) => {
   const navigationUse = useNavigation();
   const [blocked, setBlocked] = useState(false);
   const [blocked2, setBlocked2] = useState(false);
+  const [songRequested, setSongRequested] = useState(false);
 
   const checkIfBlocked = () => {
     db.collection('users')
@@ -178,6 +179,77 @@ const FeedUserDetailScreen = ({route}) => {
     setSOTDActive(false);
     setPostsActive(true);
     setShowPosts(true);
+  };
+
+  const onRequestSong = () => {
+    setSongRequested(true);
+
+    let newPostRef = db.collection('posts').doc();
+    let newUserPostRef = db
+      .collection('users')
+      .doc(currentUser.uid)
+      .collection('posts')
+      .doc(newPostRef.id);
+
+    newPostRef.set({
+      docId: newPostRef.id,
+      profilePictureUrl: currentUserData.profilePictureUrl,
+      requestedById: currentUser.uid,
+      requestedByName: currentUserData.name,
+      requestedByUsername: currentUserData.username,
+      date: new Date().toDateString(),
+      preciseDate: new Date(),
+      verified: currentUserData.verified,
+      userNotificationTokens: currentUserData.tokens,
+      likes: [],
+      comments: [],
+      description: '',
+      type: 'Song Request',
+      followerIdList: [currentUser.uid, ...currentUserData.followerIdList],
+      requestedId: userData.uid,
+      requestedUsername: userData.username,
+      requestedName: userData.name,
+      artist: '',
+      title: '',
+      albumArt: '',
+      albumId: '',
+      artistId: '',
+      artistTracklist: '',
+      albumTracklist: '',
+      albumName: '',
+      trackId: '',
+      audio: '',
+    });
+
+    newUserPostRef.set({
+      docId: newPostRef.id,
+      profilePictureUrl: currentUserData.profilePictureUrl,
+      requestedById: currentUser.uid,
+      requestedByName: currentUserData.name,
+      requestedByUsername: currentUserData.username,
+      date: new Date().toDateString(),
+      preciseDate: new Date(),
+      verified: currentUserData.verified,
+      userNotificationTokens: currentUserData.tokens,
+      likes: [],
+      comments: [],
+      description: '',
+      type: 'Song Request',
+      followerIdList: [currentUser.uid, ...currentUserData.followerIdList],
+      requestedId: userData.uid,
+      requestedUsername: userData.username,
+      requestedName: userData.name,
+      artist: '',
+      title: '',
+      albumArt: '',
+      albumId: '',
+      artistId: '',
+      artistTracklist: '',
+      albumTracklist: '',
+      albumName: '',
+      trackId: '',
+      audio: '',
+    });
   };
 
   const rennder = () => {
@@ -313,6 +385,19 @@ const FeedUserDetailScreen = ({route}) => {
                 {userData.dateJoined}
               </Moment>
             </View>
+            {songRequested == true && userData.uid != currentUser.uid ? (
+              <TouchableOpacity style={styles.requestButtonActive}>
+                <Text style={styles.requestTextActive}>
+                  You requested a song!
+                </Text>
+              </TouchableOpacity>
+            ) : songRequested == false && userData.uid != currentUser.uid ? (
+              <TouchableOpacity
+                style={styles.requestButton}
+                onPress={onRequestSong}>
+                <Text style={styles.requestText}>Request a song.</Text>
+              </TouchableOpacity>
+            ) : null}
             <View
               style={{
                 flexDirection: 'row',
@@ -577,6 +662,37 @@ const styles = StyleSheet.create({
   joinedText: {
     color: '#a3adbf',
     fontSize: 10,
+  },
+  requestButton: {
+    alignItems: 'center',
+    paddingTop: 6,
+    paddingBottom: 6,
+    width: 160,
+    borderWidth: 2,
+    borderColor: '#c1c8d4',
+    borderRadius: 10,
+    marginTop: 12,
+    alignSelf: 'center',
+  },
+  requestText: {
+    fontSize: 16,
+    color: '#c1c8d4',
+  },
+  requestButtonActive: {
+    alignItems: 'center',
+    paddingTop: 6,
+    paddingBottom: 6,
+    width: 210,
+    borderWidth: 2,
+    borderColor: '#2BAEEC',
+    borderRadius: 10,
+    marginTop: 12,
+    alignSelf: 'center',
+  },
+  requestTextActive: {
+    fontSize: 16,
+    color: '#2BAEEC',
+    textAlign: 'center',
   },
 });
 

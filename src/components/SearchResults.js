@@ -4,7 +4,7 @@ import {ScrollView, FlatList} from 'react-native-gesture-handler';
 import uuid from 'react-uuid';
 import SearchResultItem from '../components/SearchResultItem';
 
-const SearchResultsScreen = ({searchResults}) => {
+const SearchResultsScreen = ({searchResults, type, recommendationPostData}) => {
   const [refreshing, setRefreshing] = useState(false);
 
   const onSetRefresh = () => {
@@ -28,6 +28,8 @@ const SearchResultsScreen = ({searchResults}) => {
                 artist={item.artist.name}
                 allData={item}
                 refresh={() => onSetRefresh()}
+                recommendationPostData={recommendationPostData}
+                type={type}
               />
             );
           }}
