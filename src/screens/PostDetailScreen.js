@@ -182,18 +182,10 @@ const PostDetailScreen = ({route}) => {
   };
 
   return (
-    <View style={styles.mainContainer} on>
+    <View style={styles.mainContainer}>
       <ScrollView
         contentContainerStyle={{alignItems: 'center'}}
         showsVerticalScrollIndicator={false}>
-        <FastImage
-          style={styles.albumArt}
-          source={{
-            uri: albumArt,
-            priority: FastImage.priority.normal,
-          }}
-          // resizeMode={FastImage.resizeMode.contain}
-        />
         <MaterialIcon
           onPress={() => {
             if (song) {
@@ -204,14 +196,13 @@ const PostDetailScreen = ({route}) => {
           name="arrow-back-ios"
           color="white"
           style={{
-            fontSize: 40,
+            fontSize: 30,
             position: 'absolute',
-            marginTop: 50,
+            marginTop: 54,
             alignSelf: 'flex-start',
             marginLeft: 30,
           }}
         />
-
         <View style={styles.profileContainer}>
           <TouchableOpacity
             onPress={() =>
@@ -226,15 +217,18 @@ const PostDetailScreen = ({route}) => {
               // resizeMode={FastImage.resizeMode.contain}
             />
           </TouchableOpacity>
-          <Text style={styles.usernameText}>{username} </Text>
+          <Text style={styles.usernameText}>{username}</Text>
           {verified ? (
             <MaterialCommunityIcon
               name="check-decagram"
               style={styles.verifiedCheck}
             />
           ) : null}
-          <Text style={styles.usernameText}> |</Text>
-          <Moment element={Text} format="MMM Do YY" style={styles.dateText}>
+          <Text style={styles.usernameText}></Text>
+          <Text style={{fontSize: 6, alignSelf: 'center', marginRight: 1}}>
+            ⚪️
+          </Text>
+          <Moment fromNow element={Text} style={styles.dateText}>
             {date}
           </Moment>
         </View>
@@ -243,56 +237,32 @@ const PostDetailScreen = ({route}) => {
           <View
             style={{alignItems: 'center', alignSelf: 'center', marginTop: 14}}>
             <Text style={styles.SOTDText}>Song of the day:</Text>
-            <Text
-              onPress={() =>
-                navigationUse.navigate('SongDetailFromAlbumScreen', {
-                  id: trackId,
-                })
-              }
-              style={styles.titleTextSOTD}>
-              {title}
-            </Text>
 
-            <Text style={styles.artistIntroTextSOTD}>by</Text>
-            <Text style={styles.artistTextSOTD}>{artist}</Text>
-            <Text style={styles.albumIntroTextSOTD}>from</Text>
-            <Text
-              onPress={() =>
-                navigationUse.navigate('AlbumDetailScreen', {id: albumId})
-              }
-              style={styles.albumTextSOTD}>
-              {albumName}
-            </Text>
+            <FastImage
+              style={styles.albumArt}
+              source={{
+                uri: albumArt,
+                priority: FastImage.priority.normal,
+              }}
+              // resizeMode={FastImage.resizeMode.contain}
+            />
+            <Text style={styles.titleText}>{title}</Text>
+            <Text style={styles.artistText}>{artist}</Text>
           </View>
         ) : (
           <View style={{alignItems: 'center'}}>
             <Text style={styles.description}>{description}</Text>
-            <View
-              style={{
-                alignItems: 'center',
-                alignSelf: 'center',
-                marginTop: 16,
-              }}>
-              <Text
-                onPress={() =>
-                  navigationUse.navigate('SongDetailFromAlbumScreen', {
-                    id: trackId,
-                  })
-                }
-                style={styles.titleText}>
-                {title}
-              </Text>
-              <Text style={styles.albumIntroText}>from</Text>
-              <Text
-                onPress={() =>
-                  navigationUse.navigate('AlbumDetailScreen', {id: albumId})
-                }
-                style={styles.albumText}>
-                {albumName}
-              </Text>
-              <Text style={styles.artistIntroText}>by</Text>
-              <Text style={styles.artistText}>{artist}</Text>
-            </View>
+
+            <FastImage
+              style={styles.albumArt}
+              source={{
+                uri: albumArt,
+                priority: FastImage.priority.normal,
+              }}
+              // resizeMode={FastImage.resizeMode.contain}
+            />
+            <Text style={styles.titleText}>{title}</Text>
+            <Text style={styles.artistText}>{artist}</Text>
           </View>
         )}
 
@@ -324,9 +294,9 @@ const PostDetailScreen = ({route}) => {
         <View
           style={{
             flexDirection: 'row',
-            alignSelf: 'flex-start',
+            alignSelf: 'center',
             alignItems: 'center',
-            marginLeft: 20,
+            marginTop: 40,
           }}>
           <TouchableOpacity
             onPress={() =>
@@ -348,7 +318,7 @@ const PostDetailScreen = ({route}) => {
                   albumArt,
                   profilePictureUrl,
                   uid,
-                  username,
+                  username: requestedByUsername,
                   date,
                   likes,
                   likesNumber: likes.length,
@@ -368,6 +338,7 @@ const PostDetailScreen = ({route}) => {
               })
             }
           />
+          <Text style={styles.commentsNumber}>{comments.length} comments</Text>
           <TouchableOpacity
             onPress={() =>
               navigationUse.navigate('ReportPostScreen', {
@@ -377,7 +348,7 @@ const PostDetailScreen = ({route}) => {
                 albumArt,
                 profilePictureUrl,
                 uid,
-                username,
+                username: requestedByUsername,
                 date,
                 likes,
                 comments,
@@ -411,47 +382,34 @@ const styles = StyleSheet.create({
   },
 
   profilePicture: {
-    height: 90,
-    width: 90,
-    borderRadius: 60,
+    height: 40,
+    width: 40,
+    borderRadius: 40,
     marginLeft: 30,
-    marginTop: -50,
+
     borderColor: '#2BAEEC',
-    borderWidth: 2,
+    borderWidth: 1,
     alignItems: 'center',
   },
   albumArt: {
-    height: dimensions.height / 2.0,
-    width: dimensions.width,
-    borderBottomRightRadius: 10,
-    borderBottomLeftRadius: 10,
-  },
-  postIntroText: {
-    color: '#2BAEEC',
-    fontSize: 24,
-    fontWeight: '700',
-    marginBottom: 8,
+    height: 340,
+    width: 340,
+    borderRadius: 14,
+    marginTop: 28,
   },
   titleText: {
     color: '#c1c8d4',
-    fontSize: 20,
+    fontSize: 30,
     fontWeight: '500',
-    textAlign: 'center',
-    marginTop: 22,
+    marginTop: 18,
     width: 340,
-  },
-  artistIntroText: {
-    color: '#2BAEEC',
-    fontSize: 20,
-    marginRight: 8,
-    marginLeft: 8,
   },
   artistText: {
     color: '#a3adbf',
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: '500',
     width: 280,
-    textAlign: 'center',
+
     width: 340,
   },
   usernameText: {
@@ -459,17 +417,19 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginLeft: 8,
     // marginTop: 4,
-    fontSize: 20,
+    fontSize: 16,
+    alignSelf: 'center',
   },
   profileContainer: {
     flexDirection: 'row',
     alignSelf: 'flex-start',
+    marginTop: 120,
   },
   dateText: {
     fontSize: 12,
     marginLeft: 4,
     color: 'gray',
-    marginTop: 10,
+    alignSelf: 'center',
   },
   likeButton: {
     color: '#2BAEEC',
@@ -506,21 +466,6 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
 
-  likesNumber: {
-    // marginTop: 14,
-    fontSize: 20,
-    fontWeight: '500',
-    color: '#c1c8d4',
-    marginRight: 14,
-  },
-  reportButton: {
-    color: '#7F1535',
-    fontSize: 28,
-    // marginTop: 14,
-    marginLeft: 2,
-    // position: 'relative',
-    // left: 230,
-  },
   albumIntroText: {
     color: '#2BAEEC',
     fontSize: 20,
@@ -577,16 +522,30 @@ const styles = StyleSheet.create({
   },
   description: {
     color: '#c1c8d4',
-    fontSize: 20,
-    marginLeft: 20,
+    fontSize: 26,
     marginRight: 20,
-    marginTop: 16,
+    marginTop: 20,
+    alignSelf: 'flex-start',
+  },
+  likesNumber: {
+    // marginTop: 14,
+    fontSize: 18,
+    fontWeight: '500',
+    color: '#c1c8d4',
+    marginRight: 30,
+  },
+  reportButton: {
+    color: '#c1c8d4',
+    fontSize: 28,
+    // marginTop: 14,
+    marginLeft: 0,
+    // position: 'relative',
+    // left: 230,
   },
   commentIcon: {
     fontSize: 26,
-    marginBottom: 2,
     color: '#c1c8d4',
-    marginRight: 10,
+    marginRight: 4,
     // marginTop: 12,
   },
   verifiedCheck: {
@@ -596,6 +555,12 @@ const styles = StyleSheet.create({
     marginLeft: 0,
     marginRight: -8,
     marginTop: 1,
+  },
+  commentsNumber: {
+    fontSize: 18,
+    fontWeight: '500',
+    color: '#c1c8d4',
+    marginRight: 30,
   },
 });
 

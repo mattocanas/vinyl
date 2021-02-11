@@ -51,6 +51,7 @@ import MessageListScreen from './src/screens/MessageListScreen';
 import MessageScreen from './src/screens/MessageScreen';
 import CommentReplyScreen from './src/screens/CommentReplyScreen';
 import SongRecommendationSearchScreen from './src/screens/SongRecommendationSearchScreen';
+import SongRequestDetailScreen from './src/screens/SongRequestDetailScreen';
 
 // create bottom nav bar
 const Tabs = createMaterialBottomTabNavigator();
@@ -268,6 +269,26 @@ function myMainStack() {
         }}
         name="ProfileFollowerListScreen"
         component={ProfileFollowerListScreen}
+      />
+
+      <MainStack.Screen
+        options={{
+          headerShown: false,
+          headerStyle: {
+            backgroundColor: '#171818',
+            shadowColor: 'transparent',
+          },
+          headerTitleStyle: {
+            color: '#c1c8d4',
+            fontSize: 32,
+            fontWeight: '700',
+          },
+          title: 'Vinyl',
+          headerTintColor: '#c1c8d4',
+          headerBackTitleVisible: false,
+        }}
+        name="SongRequestDetailScreen"
+        component={SongRequestDetailScreen}
       />
 
       <MainStack.Screen

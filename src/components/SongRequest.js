@@ -229,14 +229,16 @@ const SongRequest = ({data, navigateBackTo, playTrack, stopTrack, refresh}) => {
       {true ? (
         <TouchableOpacity
           onPress={() =>
-            navigationUse.navigate('PostDetailScreen', {
+            navigationUse.navigate('SongRequestDetailScreen', {
               title: data.title,
               artist: data.artist,
               audio: data.audio,
               albumArt: data.albumArt,
               profilePictureUrl: data.profilePictureUrl,
               uid: data.requestedById,
-              username: data.requestedByUsername,
+              requestedByUsername: data.requestedByUsername,
+              requestedId: data.requestedId,
+              requestedUsername: data.requestedUsername,
               date: data.date,
               likes: data.likes,
               comments: data.comments,
@@ -334,7 +336,7 @@ const SongRequest = ({data, navigateBackTo, playTrack, stopTrack, refresh}) => {
                           'notificationSuccess',
                           options,
                         );
-                        playTrack(audio);
+                        playTrack(data.audio);
                         setPlaying(true);
                       }}>
                       <FastImage

@@ -13,7 +13,7 @@ import {db} from '../../firebase/firebase';
 import {useStateProviderValue} from '../../state/StateProvider';
 import ProfileLike from './ProfileLike';
 
-const ProfileLikesFeed = ({refresh}) => {
+const ProfileLikesFeed = ({refresh, stopTrack, playTrack}) => {
   const [
     {currentUser, currentUserPictureURI},
     dispatch,
@@ -65,7 +65,13 @@ const ProfileLikesFeed = ({refresh}) => {
             style={styles.flatlist}
             keyExtractor={(item) => item.docId}
             data={data}
-            renderItem={({item}) => <ProfileLike data={item} />}
+            renderItem={({item}) => (
+              <ProfileLike
+                data={item}
+                stopTrack={stopTrack}
+                playTrack={playTrack}
+              />
+            )}
           />
         </SafeAreaView>
       ) : (

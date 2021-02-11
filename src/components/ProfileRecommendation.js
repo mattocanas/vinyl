@@ -1,5 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {View, Image, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import {
+  View,
+  Image,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Touchable,
+} from 'react-native';
 import Moment from 'react-moment';
 import Sound from 'react-native-sound';
 import {db} from '../../firebase/firebase';
@@ -10,16 +17,17 @@ import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import FastImage from 'react-native-fast-image';
 import {useNavigation} from '@react-navigation/native';
 
-const ProfileSongOfTheDay = ({data, refresh, stopTrack, playTrack}) => {
+const ProfileRecommendation = ({data, refresh, playTrack, stopTrack}) => {
   const [{currentUser, currentUserData}, dispatch] = useStateProviderValue();
-  const options = {
-    enableVibrateFallback: true,
-    ignoreAndroidSystemSettings: false,
-  };
   const [ready, setReady] = useState(false);
   const [song, setSong] = useState(null);
   const [playing, setPlaying] = useState(false);
   const navigationUse = useNavigation();
+
+  const options = {
+    enableVibrateFallback: true,
+    ignoreAndroidSystemSettings: false,
+  };
 
   useEffect(() => {
     let active = true;
@@ -31,32 +39,32 @@ const ProfileSongOfTheDay = ({data, refresh, stopTrack, playTrack}) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity
-        onPress={() => {
-          navigationUse.navigate('PostDetailScreen', {
+        onPress={() =>
+          navigationUse.navigate('SongRequestDetailScreen', {
             title: data.title,
             artist: data.artist,
             audio: data.audio,
             albumArt: data.albumArt,
             profilePictureUrl: data.profilePictureUrl,
-            uid: data.uid,
-            username: data.username,
+            uid: data.requestedById,
+            requestedByUsername: data.requestedByUsername,
+            requestedId: data.requestedId,
+            requestedUsername: data.requestedUsername,
             date: data.date,
             likes: data.likes,
-            likesNumber: data.likes.toLength,
             comments: data.comments,
+            docId: data.docId,
+            navigateBackTo: 'HomeScreen',
             type: data.type,
-            description: data.description,
             albumId: data.albumId,
             albumName: data.albumName,
             albumTracklist: data.albumTracklist,
             artistId: data.artistId,
             artistTracklist: data.artistTracklist,
             trackId: data.trackId,
-            navigateBackTo: 'ProfileScreen',
-            docId: data.docId,
-            verified: currentUserData.verified,
-          });
-        }}>
+            verified: data.verified,
+          })
+        }>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <FastImage
             style={styles.profilePicture}
@@ -67,51 +75,69 @@ const ProfileSongOfTheDay = ({data, refresh, stopTrack, playTrack}) => {
             // resizeMode={FastImage.resizeMode.contain}
           />
 
-          <Text style={styles.usernameText}>{data.username} |</Text>
+          <Text style={styles.usernameText}>{data.requestedByUsername} |</Text>
           <Moment element={Text} format="MMM Do YY" style={styles.date}>
             {data.date}
           </Moment>
         </View>
 
         <View style={{marginLeft: 70, marginRight: 30}}>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <FastImage
-              style={styles.albumArt}
-              source={{uri: data.albumArt, priority: FastImage.priority.normal}}
-              // resizeMode={FastImage.resizeMode.contain}
-            />
-            <View style={{flexDirection: 'column'}}>
-              <Text style={styles.title}>{data.title}</Text>
-              <Text style={styles.artist}>{data.artist}</Text>
-            </View>
-            {playing ? (
-              <IonIcon
-                name="stop"
-                style={styles.stopIcon}
-                onPress={() => {
-                  ReactNativeHapticFeedback.trigger(
-                    'notificationWarning',
-                    options,
-                  );
-                  stopTrack();
-                  setPlaying(false);
-                }}
-              />
-            ) : (
-              <IonIcon
-                name="play"
-                style={styles.stopIcon}
-                onPress={() => {
-                  ReactNativeHapticFeedback.trigger(
-                    'notificationSuccess',
-                    options,
-                  );
-                  playTrack(data.audio);
-                  setPlaying(true);
-                }}
-              />
-            )}
-          </View>
+          {data.title == '' ? (
+            <Text style={styles.postText}>
+              @{data.requestedByUsername} requested a recommendation from @
+              {data.requestedUsername}
+            </Text>
+          ) : (
+            <>
+              <Text style={styles.postText}>
+                @{data.requestedUsername} recommended this track to @
+                {data.requestedByUsername}
+              </Text>
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <View>
+                  <FastImage
+                    style={styles.albumArt}
+                    source={{
+                      uri: data.albumArt,
+                      priority: FastImage.priority.normal,
+                    }}
+                    // resizeMode={FastImage.resizeMode.contain}
+                  />
+                </View>
+                <View style={{flexDirection: 'column'}}>
+                  <Text style={styles.title}>{data.title}</Text>
+                  <Text style={styles.artist}>{data.artist}</Text>
+                </View>
+                {playing ? (
+                  <IonIcon
+                    name="stop"
+                    style={styles.stopIcon}
+                    onPress={() => {
+                      ReactNativeHapticFeedback.trigger(
+                        'notificationWarning',
+                        options,
+                      );
+                      stopTrack();
+                      setPlaying(false);
+                    }}
+                  />
+                ) : (
+                  <IonIcon
+                    name="play"
+                    style={styles.stopIcon}
+                    onPress={() => {
+                      ReactNativeHapticFeedback.trigger(
+                        'notificationSuccess',
+                        options,
+                      );
+                      playTrack(data.audio);
+                      setPlaying(true);
+                    }}
+                  />
+                )}
+              </View>
+            </>
+          )}
         </View>
       </TouchableOpacity>
     </View>
@@ -144,7 +170,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '700',
     color: '#2BAEEC',
-    marginRight: 6,
+    marginRight: 0,
     width: 124,
   },
   artist: {
@@ -188,4 +214,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProfileSongOfTheDay;
+export default ProfileRecommendation;

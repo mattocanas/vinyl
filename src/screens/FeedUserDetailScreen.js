@@ -402,7 +402,7 @@ const FeedUserDetailScreen = ({route}) => {
               style={{
                 flexDirection: 'row',
                 alignSelf: 'center',
-                marginTop: 14,
+                marginTop: 34,
                 marginRight: 0,
               }}>
               <TouchableOpacity

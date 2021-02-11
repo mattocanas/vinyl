@@ -8,7 +8,7 @@ import FastImage from 'react-native-fast-image';
 import {useNavigation} from '@react-navigation/native';
 import {useStateProviderValue} from '../../state/StateProvider';
 
-const ProfileLike = ({data}) => {
+const ProfileLike = ({data, stopTrack, playTrack}) => {
   const [{currentUser, currentUserData}, dispatch] = useStateProviderValue();
   const [ready, setReady] = useState(false);
   const [song, setSong] = useState(null);
@@ -24,20 +24,6 @@ const ProfileLike = ({data}) => {
   const options = {
     enableVibrateFallback: true,
     ignoreAndroidSystemSettings: false,
-  };
-
-  const handleAudio = (url) => {
-    track = new Sound(url, null, (e) => {
-      if (e) {
-        console.log('error', e);
-      } else {
-        setReady(true);
-        console.log(track.isLoaded());
-        setSong(track);
-        track.play();
-        setPlaying(true);
-      }
-    });
   };
 
   return (
@@ -107,7 +93,7 @@ const ProfileLike = ({data}) => {
                     'notificationWarning',
                     options,
                   );
-                  song.stop();
+                  stopTrack();
                   setPlaying(false);
                 }}
               />
@@ -120,7 +106,8 @@ const ProfileLike = ({data}) => {
                     'notificationSuccess',
                     options,
                   );
-                  handleAudio(data.audio);
+                  playTrack(data.audio);
+                  setPlaying(true);
                 }}
               />
             )}

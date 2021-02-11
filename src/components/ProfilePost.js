@@ -17,7 +17,7 @@ import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import FastImage from 'react-native-fast-image';
 import {useNavigation} from '@react-navigation/native';
 
-const ProfilePost = ({data, refresh}) => {
+const ProfilePost = ({data, refresh, stopTrack, playTrack}) => {
   const [{currentUser, currentUserData}, dispatch] = useStateProviderValue();
   const [ready, setReady] = useState(false);
   const [song, setSong] = useState(null);
@@ -35,20 +35,6 @@ const ProfilePost = ({data, refresh}) => {
       active = false;
     };
   }, [ready]);
-
-  const handleAudio = (url) => {
-    track = new Sound(url, null, (e) => {
-      if (e) {
-        console.log('error', e);
-      } else {
-        setReady(true);
-        console.log(track.isLoaded());
-        setSong(track);
-        track.play();
-        setPlaying(true);
-      }
-    });
-  };
 
   return (
     <View style={styles.container}>
@@ -121,7 +107,7 @@ const ProfilePost = ({data, refresh}) => {
                     'notificationWarning',
                     options,
                   );
-                  song.stop();
+                  stopTrack();
                   setPlaying(false);
                 }}
               />
@@ -134,7 +120,8 @@ const ProfilePost = ({data, refresh}) => {
                     'notificationSuccess',
                     options,
                   );
-                  handleAudio(data.audio);
+                  playTrack(data.audio);
+                  setPlaying(true);
                 }}
               />
             )}

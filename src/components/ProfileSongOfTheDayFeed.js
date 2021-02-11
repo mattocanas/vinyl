@@ -14,7 +14,7 @@ import Swipeable from 'react-native-gesture-handler/Swipeable';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 
-const ProfileSongsOfTheDayFeed = ({refresh}) => {
+const ProfileSongsOfTheDayFeed = ({refresh, stopTrack, playTrack}) => {
   let dataArray = [];
   const [
     {currentUser, currentUserPictureURI},
@@ -109,7 +109,12 @@ const ProfileSongsOfTheDayFeed = ({refresh}) => {
                     refresh();
                   });
               }}>
-              <ProfileSongOfTheDay refresh={() => refresh()} data={item} />
+              <ProfileSongOfTheDay
+                refresh={() => refresh()}
+                data={item}
+                stopTrack={stopTrack}
+                playTrack={playTrack}
+              />
             </Swipeable>
           )}
         />

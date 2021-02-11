@@ -19,6 +19,7 @@ import IonIcon from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 import FastImage from 'react-native-fast-image';
 import Moment from 'react-moment';
+import ProfileRecommendationsFeed from '../components/ProfileRecommendationsFeed';
 
 const dimensions = Dimensions.get('screen');
 
@@ -36,6 +37,9 @@ const ProfileScreen = ({navigation}) => {
   const [likesActive, setLikesActive] = useState(false);
   const [postsActive, setPostsActive] = useState(false);
   const [showPosts, setShowPosts] = useState(false);
+  const [recommendationsActive, setRecommendationsActive] = useState(false);
+  const [showRecommendations, setShowRecommendations] = useState(false);
+  const [song, setSong] = useState(null);
 
   const refreshScreen = () => {
     setRefresh(true);
@@ -48,6 +52,8 @@ const ProfileScreen = ({navigation}) => {
     setLikesActive(false);
     setShowPosts(false);
     setPostsActive(false);
+    setShowRecommendations(false);
+    setRecommendationsActive(false);
   };
 
   const showPostsFeed = () => {
@@ -57,6 +63,8 @@ const ProfileScreen = ({navigation}) => {
     setShowLikeFeed(false);
     setLikesActive(false);
     setSOTDActive(false);
+    setShowRecommendations(false);
+    setRecommendationsActive(false);
   };
 
   const showLikesFeed = () => {
@@ -66,6 +74,54 @@ const ProfileScreen = ({navigation}) => {
     setSOTDActive(false);
     setShowPosts(false);
     setPostsActive(false);
+    setShowRecommendations(false);
+    setRecommendationsActive(false);
+  };
+
+  const showRecommendationsFeed = () => {
+    setShowRecommendations(true);
+    setRecommendationsActive(true);
+    setShowLikeFeed(false);
+    setShowSOTD(false);
+    setLikesActive(false);
+    setSOTDActive(false);
+    setShowPosts(false);
+    setPostsActive(false);
+  };
+
+  const handleAudio = (url) => {
+    if (song) {
+      song.stop();
+      track = new Sound(url, null, (e) => {
+        if (e) {
+          console.log('error', e);
+        } else {
+          // setReady(true);
+
+          setSong(track);
+          track.play();
+          // setPlaying(true);
+        }
+      });
+    } else {
+      track = new Sound(url, null, (e) => {
+        if (e) {
+          console.log('error', e);
+        } else {
+          // setReady(true);
+
+          setSong(track);
+          track.play();
+          // setPlaying(true);
+        }
+      });
+    }
+  };
+
+  const stopTrack = () => {
+    if (song) {
+      song.stop();
+    }
   };
 
   return (
@@ -204,19 +260,72 @@ const ProfileScreen = ({navigation}) => {
                   </View>
                 )}
               </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.likesSection}
+                onPress={showRecommendationsFeed}>
+                {recommendationsActive ? (
+                  <View style={{flexDirection: 'row'}}>
+                    <Text style={styles.recommendationsTextActive}>
+                      Recommendations
+                    </Text>
+                  </View>
+                ) : (
+                  <View style={{flexDirection: 'row'}}>
+                    <Text style={styles.recommendationsText}>
+                      Recommendations
+                    </Text>
+                  </View>
+                )}
+              </TouchableOpacity>
             </View>
           </View>
 
           <View style={styles.sectionsTabContainer}></View>
           <View>
             {showSOTD ? (
-              <ProfileSongsOfTheDayFeed refresh={() => showLikesFeed()} />
+              <ProfileSongsOfTheDayFeed
+                refresh={() => showLikesFeed()}
+                playTrack={(track) => {
+                  handleAudio(track);
+                }}
+                stopTrack={() => {
+                  stopTrack();
+                }}
+              />
             ) : null}
             {showLikeFeed ? (
-              <ProfileLikesFeed refresh={() => showSOTDFeed()} />
+              <ProfileLikesFeed
+                refresh={() => showSOTDFeed()}
+                playTrack={(track) => {
+                  handleAudio(track);
+                }}
+                stopTrack={() => {
+                  stopTrack();
+                }}
+              />
             ) : null}
             {showPosts ? (
-              <ProfilePostsFeed refresh={() => showSOTDFeed()} />
+              <ProfilePostsFeed
+                refresh={() => showSOTDFeed()}
+                playTrack={(track) => {
+                  handleAudio(track);
+                }}
+                stopTrack={() => {
+                  stopTrack();
+                }}
+              />
+            ) : null}
+            {showRecommendations ? (
+              <ProfileRecommendationsFeed
+                refresh={() => showSOTDFeed()}
+                playTrack={(track) => {
+                  handleAudio(track);
+                }}
+                stopTrack={() => {
+                  stopTrack();
+                }}
+              />
             ) : null}
           </View>
           {/* </View> */}
@@ -301,9 +410,9 @@ const styles = StyleSheet.create({
   },
   songOfTheDayText: {
     color: '#c1c8d4',
-    fontSize: 22,
+    fontSize: 14,
     marginBottom: -5,
-    fontWeight: '700',
+    fontWeight: '500',
   },
 
   likesSection: {
@@ -311,37 +420,52 @@ const styles = StyleSheet.create({
   },
   likesText: {
     color: '#c1c8d4',
-    fontSize: 22,
+    fontSize: 14,
     marginBottom: -5,
-    fontWeight: '700',
+    fontWeight: '500',
   },
   songOfTheDayTextActive: {
     color: '#2BAEEC',
-    fontSize: 22,
+    fontSize: 14,
     textDecorationLine: 'underline',
-    fontWeight: '700',
+    fontWeight: '500',
     marginBottom: -5,
   },
 
   likesTextActive: {
     color: '#2BAEEC',
-    fontSize: 22,
+    fontSize: 14,
     textDecorationLine: 'underline',
-    fontWeight: '700',
+    fontWeight: '500',
     marginBottom: -5,
+  },
+  recommendationsText: {
+    color: '#c1c8d4',
+    fontSize: 14,
+    fontWeight: '500',
+    marginLeft: 16,
+    marginBottom: -5,
+  },
+  recommendationsTextActive: {
+    color: '#2BAEEC',
+    fontSize: 14,
+    textDecorationLine: 'underline',
+    fontWeight: '500',
+    marginBottom: -5,
+    marginLeft: 16,
   },
   postsText: {
     color: '#c1c8d4',
-    fontSize: 22,
-    fontWeight: '700',
+    fontSize: 14,
+    fontWeight: '500',
     marginRight: 16,
     marginBottom: -5,
   },
   postsTextActive: {
     color: '#2BAEEC',
-    fontSize: 22,
+    fontSize: 14,
     textDecorationLine: 'underline',
-    fontWeight: '700',
+    fontWeight: '500',
     marginRight: 16,
     marginBottom: -5,
   },

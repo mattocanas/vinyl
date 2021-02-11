@@ -83,7 +83,12 @@ const UserSongOfTheDay = ({data, refresh}) => {
             verified: data.verified,
           });
         }}>
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            alignSelf: 'flex-start',
+          }}>
           <FastImage
             style={styles.profilePicture}
             source={{
@@ -98,45 +103,41 @@ const UserSongOfTheDay = ({data, refresh}) => {
           </Moment>
         </View>
 
-        <View style={{marginLeft: 70, alignItems: 'flex-start'}}>
-          <View style={{flexDirection: 'row'}}>
-            <FastImage
-              style={styles.albumArt}
-              source={{uri: data.albumArt, priority: FastImage.priority.normal}}
-              // resizeMode={FastImage.resizeMode.contain}
-            />
-            <View style={{flexDirection: 'row'}}>
-              <View style={{marginLeft: 10}}>
-                <Text style={styles.title}>{data.title}</Text>
-                <Text style={styles.artist}>{data.artist}</Text>
-              </View>
-              {playing ? (
-                <IonIcon
-                  name="stop"
-                  style={styles.stopIcon}
-                  onPress={() => {
-                    ReactNativeHapticFeedback.trigger(
-                      'notificationWarning',
-                      options,
-                    );
-                    song.stop();
-                    setPlaying(false);
-                  }}
-                />
-              ) : (
-                <IonIcon
-                  name="play"
-                  style={styles.stopIcon}
-                  onPress={() => {
-                    ReactNativeHapticFeedback.trigger(
-                      'notificationSuccess',
-                      options,
-                    );
-                    handleAudio(data.audio);
-                  }}
-                />
-              )}
-            </View>
+        <View style={{marginLeft: 70}}>
+          <FastImage
+            style={styles.albumArt}
+            source={{uri: data.albumArt, priority: FastImage.priority.normal}}
+            // resizeMode={FastImage.resizeMode.contain}
+          />
+          <View style={{marginLeft: 10}}>
+            <Text style={styles.title}>{data.title}</Text>
+            <Text style={styles.artist}>{data.artist}</Text>
+            {playing ? (
+              <IonIcon
+                name="stop"
+                style={styles.stopIcon}
+                onPress={() => {
+                  ReactNativeHapticFeedback.trigger(
+                    'notificationWarning',
+                    options,
+                  );
+                  song.stop();
+                  setPlaying(false);
+                }}
+              />
+            ) : (
+              <IonIcon
+                name="play"
+                style={styles.stopIcon}
+                onPress={() => {
+                  ReactNativeHapticFeedback.trigger(
+                    'notificationSuccess',
+                    options,
+                  );
+                  handleAudio(data.audio);
+                }}
+              />
+            )}
           </View>
         </View>
       </TouchableOpacity>
@@ -146,11 +147,12 @@ const UserSongOfTheDay = ({data, refresh}) => {
 
 const styles = StyleSheet.create({
   albumArt: {
-    height: 50,
-    width: 50,
+    height: 200,
+    width: 200,
     borderRadius: 4,
     marginRight: 4,
     marginLeft: 4,
+    marginTop: 20,
   },
   profilePicture: {
     height: 50,
@@ -171,11 +173,12 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   title: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: '700',
     color: '#2BAEEC',
     marginRight: 4,
-    width: 124,
+    width: 134,
+    marginTop: 4,
   },
   artist: {
     fontWeight: '300',

@@ -74,7 +74,7 @@ const UserSongOfTheDayFeed = ({id}) => {
       {data[0] != null ? (
         <FlatList
           onEndReached={handleLoadMore}
-          contentContainerStyle={{paddingBottom: 300}}
+          contentContainerStyle={{paddingBottom: 300, paddingRight: 30}}
           showsVerticalScrollIndicator={false}
           keyExtractor={(item) => item.docId}
           data={data}
@@ -100,7 +100,6 @@ const styles = StyleSheet.create({
     marginTop: 40,
   },
   container: {
-    alignItems: 'flex-start',
     flex: 1,
   },
 });
