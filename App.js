@@ -52,6 +52,9 @@ import MessageScreen from './src/screens/MessageScreen';
 import CommentReplyScreen from './src/screens/CommentReplyScreen';
 import SongRecommendationSearchScreen from './src/screens/SongRecommendationSearchScreen';
 import SongRequestDetailScreen from './src/screens/SongRequestDetailScreen';
+import CreatePlaylistFormScreen from './src/screens/CreatePlaylistFormScreen';
+import PlaylistDetailScreen from './src/screens/PlaylistDetailScreen';
+import PlaylistAddSearchScreen from './src/screens/PlaylistAddSearchScreen';
 
 // create bottom nav bar
 const Tabs = createMaterialBottomTabNavigator();
@@ -350,6 +353,66 @@ function myMainStack() {
         name="MessageFormScreen"
         component={MessageFormScreen}
       />
+
+      <MainStack.Screen
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#171818',
+            shadowColor: 'transparent',
+          },
+          headerTitleStyle: {
+            color: '#c1c8d4',
+            fontSize: 32,
+            fontWeight: '700',
+          },
+          title: 'Vinyl',
+          headerTintColor: '#c1c8d4',
+          headerBackTitleVisible: false,
+        }}
+        name="CreatePlaylistFormScreen"
+        component={CreatePlaylistFormScreen}
+      />
+
+      <MainStack.Screen
+        options={{
+          headerShown: false,
+          headerStyle: {
+            backgroundColor: '#171818',
+            shadowColor: 'transparent',
+          },
+          headerTitleStyle: {
+            color: '#c1c8d4',
+            fontSize: 32,
+            fontWeight: '700',
+          },
+          title: 'Vinyl',
+          headerTintColor: '#c1c8d4',
+          headerBackTitleVisible: false,
+        }}
+        name="PlaylistDetailScreen"
+        component={PlaylistDetailScreen}
+      />
+      <MainStack.Screen
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#171818',
+            shadowColor: 'transparent',
+          },
+          headerTitleStyle: {
+            color: '#c1c8d4',
+            fontSize: 32,
+            fontWeight: '700',
+          },
+          title: 'Vinyl',
+          headerTintColor: '#c1c8d4',
+          headerBackTitleVisible: false,
+        }}
+        name="PlaylistAddSearchScreen"
+        component={PlaylistAddSearchScreen}
+      />
+
       <MainStack.Screen
         options={{
           headerShown: true,

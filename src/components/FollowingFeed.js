@@ -16,6 +16,7 @@ import {useStateProviderValue} from '../../state/StateProvider';
 import Sound from 'react-native-sound';
 import SongRequest from './SongRequest';
 import {useFocusEffect} from '@react-navigation/native';
+import PlaylistFeedItem from './PlaylistFeedItem';
 
 const FollowingFeed = () => {
   const [{currentUser, currentUserData}, dispatch] = useStateProviderValue();
@@ -164,6 +165,17 @@ const FollowingFeed = () => {
             <>
               {item.type == 'Song Request' ? (
                 <SongRequest
+                  data={item}
+                  navigateBackTo={'HomeScreen'}
+                  playTrack={(track) => {
+                    handleAudio(track);
+                  }}
+                  stopTrack={() => {
+                    stopTrack();
+                  }}
+                />
+              ) : item.type == 'Playlist' ? (
+                <PlaylistFeedItem
                   data={item}
                   navigateBackTo={'HomeScreen'}
                   playTrack={(track) => {

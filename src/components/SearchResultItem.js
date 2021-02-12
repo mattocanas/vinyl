@@ -18,6 +18,7 @@ const SearchResultItem = ({
   refresh,
   type,
   recommendationPostData,
+  playlistData,
 }) => {
   const navigationUse = useNavigation();
   const options = {
@@ -46,18 +47,6 @@ const SearchResultItem = ({
       // all good
     }
   });
-
-  const playTrack = () => {
-    track.play();
-    {
-      track.isPlaying() == false ? track.reset() : null;
-    }
-  };
-
-  const stopTrack = () => {
-    ReactNativeHapticFeedback.trigger('notificationWarning', options);
-    track.stop();
-  };
 
   const onSelectSongRecommendation = () => {
     db.collection('posts').doc(recommendationPostData.docId).update({
@@ -94,12 +83,73 @@ const SearchResultItem = ({
       });
   };
 
+  const onAddSongToPlaylist = () => {
+    let newSongRef = db
+      .collection('posts')
+      .doc(playlistData.docId)
+      .collection('songs')
+      .doc();
+
+    db.collection('posts')
+      .doc(playlistData.docId)
+      .collection('songs')
+      .doc(newSongRef.id)
+      .set({
+        artist: allData.artist.name,
+        title: allData.title,
+        albumArt: allData.album.cover_xl,
+        albumId: allData.album.id,
+        artistId: allData.artist.id,
+        artistTracklist: allData.artist.tracklist,
+        albumTracklist: allData.album.tracklist,
+        albumName: allData.album.title,
+        trackId: allData.id,
+        audio: allData.preview,
+        addedById: currentUser.uid,
+        addedByUsername: currentUserData.username,
+        addedByProfilePicture: currentUserData.profilePictureUrl,
+        addedOnDate: new Date(),
+      });
+
+    newSongRef
+      .update({
+        artist: allData.artist.name,
+        title: allData.title,
+        albumArt: allData.album.cover_xl,
+        albumId: allData.album.id,
+        artistId: allData.artist.id,
+        artistTracklist: allData.artist.tracklist,
+        albumTracklist: allData.album.tracklist,
+        albumName: allData.album.title,
+        trackId: allData.id,
+        audio: allData.preview,
+        addedById: currentUser.uid,
+        addedByUsername: currentUserData.username,
+        addedByProfilePicture: currentUserData.profilePictureUrl,
+        addedOnDate: new Date(),
+      })
+      .then(() => {
+        navigationUse.goBack();
+      });
+  };
+
   return (
     <View style={styles.container}>
       {type == 'Song Request' ? (
         <TouchableOpacity
           style={{flexDirection: 'row', alignItems: 'center'}}
           onPress={onSelectSongRecommendation}>
+          <Image style={styles.albumArt} source={{uri: albumArt}} />
+          <View style={styles.songInfoContainer}>
+            <Text style={styles.title}>{title}</Text>
+
+            <Text style={styles.artist}>{artist}</Text>
+          </View>
+        </TouchableOpacity>
+      ) : type == 'Playlist' ? (
+        <TouchableOpacity
+          style={{flexDirection: 'row', alignItems: 'center'}}
+          onPress={onAddSongToPlaylist}>
           <Image style={styles.albumArt} source={{uri: albumArt}} />
           <View style={styles.songInfoContainer}>
             <Text style={styles.title}>{title}</Text>

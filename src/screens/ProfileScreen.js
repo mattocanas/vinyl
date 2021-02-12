@@ -20,6 +20,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import FastImage from 'react-native-fast-image';
 import Moment from 'react-moment';
 import ProfileRecommendationsFeed from '../components/ProfileRecommendationsFeed';
+import ProfilePlaylistsFeed from '../components/ProfilePlaylistsFeed';
 
 const dimensions = Dimensions.get('screen');
 
@@ -37,6 +38,8 @@ const ProfileScreen = ({navigation}) => {
   const [likesActive, setLikesActive] = useState(false);
   const [postsActive, setPostsActive] = useState(false);
   const [showPosts, setShowPosts] = useState(false);
+  const [playlistsActive, setPlaylistsActive] = useState(false);
+  const [showPlaylists, setShowPlaylists] = useState(false);
   const [recommendationsActive, setRecommendationsActive] = useState(false);
   const [showRecommendations, setShowRecommendations] = useState(false);
   const [song, setSong] = useState(null);
@@ -54,6 +57,8 @@ const ProfileScreen = ({navigation}) => {
     setPostsActive(false);
     setShowRecommendations(false);
     setRecommendationsActive(false);
+    setPlaylistsActive(false);
+    setShowPlaylists(false);
   };
 
   const showPostsFeed = () => {
@@ -65,6 +70,8 @@ const ProfileScreen = ({navigation}) => {
     setSOTDActive(false);
     setShowRecommendations(false);
     setRecommendationsActive(false);
+    setPlaylistsActive(false);
+    setShowPlaylists(false);
   };
 
   const showLikesFeed = () => {
@@ -76,6 +83,8 @@ const ProfileScreen = ({navigation}) => {
     setPostsActive(false);
     setShowRecommendations(false);
     setRecommendationsActive(false);
+    setPlaylistsActive(false);
+    setShowPlaylists(false);
   };
 
   const showRecommendationsFeed = () => {
@@ -87,6 +96,21 @@ const ProfileScreen = ({navigation}) => {
     setSOTDActive(false);
     setShowPosts(false);
     setPostsActive(false);
+    setPlaylistsActive(false);
+    setShowPlaylists(false);
+  };
+
+  const showPlaylistsFeed = () => {
+    setShowLikeFeed(false);
+    setShowSOTD(false);
+    setLikesActive(false);
+    setSOTDActive(false);
+    setShowPosts(false);
+    setPostsActive(false);
+    setShowRecommendations(false);
+    setRecommendationsActive(false);
+    setPlaylistsActive(true);
+    setShowPlaylists(true);
   };
 
   const handleAudio = (url) => {
@@ -278,6 +302,22 @@ const ProfileScreen = ({navigation}) => {
                   </View>
                 )}
               </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.likesSection}
+                onPress={showPlaylistsFeed}>
+                {playlistsActive ? (
+                  <View style={{flexDirection: 'row'}}>
+                    <Text style={styles.recommendationsTextActive}>
+                      Playlists
+                    </Text>
+                  </View>
+                ) : (
+                  <View style={{flexDirection: 'row'}}>
+                    <Text style={styles.recommendationsText}>Playlists</Text>
+                  </View>
+                )}
+              </TouchableOpacity>
             </View>
           </View>
 
@@ -318,6 +358,18 @@ const ProfileScreen = ({navigation}) => {
             ) : null}
             {showRecommendations ? (
               <ProfileRecommendationsFeed
+                refresh={() => showSOTDFeed()}
+                playTrack={(track) => {
+                  handleAudio(track);
+                }}
+                stopTrack={() => {
+                  stopTrack();
+                }}
+              />
+            ) : null}
+
+            {showPlaylists ? (
+              <ProfilePlaylistsFeed
                 refresh={() => showSOTDFeed()}
                 playTrack={(track) => {
                   handleAudio(track);
@@ -410,9 +462,9 @@ const styles = StyleSheet.create({
   },
   songOfTheDayText: {
     color: '#c1c8d4',
-    fontSize: 14,
+    fontSize: 12,
     marginBottom: -5,
-    fontWeight: '500',
+    fontWeight: '400',
   },
 
   likesSection: {
@@ -420,53 +472,53 @@ const styles = StyleSheet.create({
   },
   likesText: {
     color: '#c1c8d4',
-    fontSize: 14,
+    fontSize: 12,
     marginBottom: -5,
-    fontWeight: '500',
+    fontWeight: '400',
   },
   songOfTheDayTextActive: {
     color: '#2BAEEC',
-    fontSize: 14,
+    fontSize: 12,
     textDecorationLine: 'underline',
-    fontWeight: '500',
+    fontWeight: '400',
     marginBottom: -5,
   },
 
   likesTextActive: {
     color: '#2BAEEC',
-    fontSize: 14,
+    fontSize: 12,
     textDecorationLine: 'underline',
-    fontWeight: '500',
+    fontWeight: '400',
     marginBottom: -5,
   },
   recommendationsText: {
     color: '#c1c8d4',
-    fontSize: 14,
-    fontWeight: '500',
-    marginLeft: 16,
+    fontSize: 12,
+    fontWeight: '400',
+    marginLeft: 10,
     marginBottom: -5,
   },
   recommendationsTextActive: {
     color: '#2BAEEC',
-    fontSize: 14,
+    fontSize: 12,
     textDecorationLine: 'underline',
-    fontWeight: '500',
+    fontWeight: '400',
     marginBottom: -5,
-    marginLeft: 16,
+    marginLeft: 10,
   },
   postsText: {
     color: '#c1c8d4',
-    fontSize: 14,
-    fontWeight: '500',
-    marginRight: 16,
+    fontSize: 12,
+    fontWeight: '400',
+    marginRight: 10,
     marginBottom: -5,
   },
   postsTextActive: {
     color: '#2BAEEC',
-    fontSize: 14,
+    fontSize: 12,
     textDecorationLine: 'underline',
-    fontWeight: '500',
-    marginRight: 16,
+    fontWeight: '400',
+    marginRight: 10,
     marginBottom: -5,
   },
   bio: {
