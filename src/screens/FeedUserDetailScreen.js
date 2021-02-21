@@ -23,17 +23,6 @@ import Moment from 'react-moment';
 import {useFocusEffect} from '@react-navigation/native';
 
 const FeedUserDetailScreen = ({route}) => {
-  // useEffect(() => {
-  //   let active = true;
-  //   getUserData();
-  //   checkIfBlocked();
-  //   // console.log(data);
-  //   // console.log(userData);
-  //   return () => {
-  //     active = false;
-  //   };
-  // }, [userData, blocked, blocked2]);
-
   const getUserData = () => {
     db.collection('users')
       .doc(data)
@@ -69,6 +58,11 @@ const FeedUserDetailScreen = ({route}) => {
   const [blocked, setBlocked] = useState(false);
   const [blocked2, setBlocked2] = useState(false);
   const [songRequested, setSongRequested] = useState(false);
+  const [playlistsActive, setPlaylistsActive] = useState(false);
+  const [showPlaylists, setShowPlaylists] = useState(false);
+  const [recommendationsActive, setRecommendationsActive] = useState(false);
+  const [showRecommendations, setShowRecommendations] = useState(false);
+  const [song, setSong] = useState(null);
 
   const checkIfBlocked = () => {
     db.collection('users')
@@ -159,8 +153,12 @@ const FeedUserDetailScreen = ({route}) => {
     setShowLikeFeed(false);
     setSOTDActive(true);
     setLikesActive(false);
-    setPostsActive(false);
     setShowPosts(false);
+    setPostsActive(false);
+    setShowRecommendations(false);
+    setRecommendationsActive(false);
+    setPlaylistsActive(false);
+    setShowPlaylists(false);
   };
 
   const showLikesFeed = () => {
@@ -168,17 +166,51 @@ const FeedUserDetailScreen = ({route}) => {
     setShowSOTD(false);
     setLikesActive(true);
     setSOTDActive(false);
-    setPostsActive(false);
     setShowPosts(false);
+    setPostsActive(false);
+    setShowRecommendations(false);
+    setRecommendationsActive(false);
+    setPlaylistsActive(false);
+    setShowPlaylists(false);
   };
 
   const showPostsFeed = () => {
+    setShowPosts(true);
+    setPostsActive(true);
+    setShowSOTD(false);
+    setShowLikeFeed(false);
+    setLikesActive(false);
+    setSOTDActive(false);
+    setShowRecommendations(false);
+    setRecommendationsActive(false);
+    setPlaylistsActive(false);
+    setShowPlaylists(false);
+  };
+
+  const showRecommendationsFeed = () => {
+    setShowRecommendations(true);
+    setRecommendationsActive(true);
     setShowLikeFeed(false);
     setShowSOTD(false);
     setLikesActive(false);
     setSOTDActive(false);
-    setPostsActive(true);
-    setShowPosts(true);
+    setShowPosts(false);
+    setPostsActive(false);
+    setPlaylistsActive(false);
+    setShowPlaylists(false);
+  };
+
+  const showPlaylistsFeed = () => {
+    setShowLikeFeed(false);
+    setShowSOTD(false);
+    setLikesActive(false);
+    setSOTDActive(false);
+    setShowPosts(false);
+    setPostsActive(false);
+    setShowRecommendations(false);
+    setRecommendationsActive(false);
+    setPlaylistsActive(true);
+    setShowPlaylists(true);
   };
 
   const onRequestSong = () => {
@@ -250,6 +282,41 @@ const FeedUserDetailScreen = ({route}) => {
       trackId: '',
       audio: '',
     });
+  };
+
+  const handleAudio = (url) => {
+    if (song) {
+      song.stop();
+      track = new Sound(url, null, (e) => {
+        if (e) {
+          console.log('error', e);
+        } else {
+          // setReady(true);
+
+          setSong(track);
+          track.play();
+          // setPlaying(true);
+        }
+      });
+    } else {
+      track = new Sound(url, null, (e) => {
+        if (e) {
+          console.log('error', e);
+        } else {
+          // setReady(true);
+
+          setSong(track);
+          track.play();
+          // setPlaying(true);
+        }
+      });
+    }
+  };
+
+  const stopTrack = () => {
+    if (song) {
+      song.stop();
+    }
   };
 
   const rennder = () => {
@@ -448,6 +515,40 @@ const FeedUserDetailScreen = ({route}) => {
                   </View>
                 )}
               </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.likesSection}
+                onPress={showRecommendationsFeed}>
+                {recommendationsActive ? (
+                  <View style={{flexDirection: 'row'}}>
+                    <Text style={styles.recommendationsTextActive}>
+                      Recommendations
+                    </Text>
+                  </View>
+                ) : (
+                  <View style={{flexDirection: 'row'}}>
+                    <Text style={styles.recommendationsText}>
+                      Recommendations
+                    </Text>
+                  </View>
+                )}
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.likesSection}
+                onPress={showPlaylistsFeed}>
+                {playlistsActive ? (
+                  <View style={{flexDirection: 'row'}}>
+                    <Text style={styles.recommendationsTextActive}>
+                      Playlists
+                    </Text>
+                  </View>
+                ) : (
+                  <View style={{flexDirection: 'row'}}>
+                    <Text style={styles.recommendationsText}>Playlists</Text>
+                  </View>
+                )}
+              </TouchableOpacity>
             </View>
           </View>
           <View style={styles.sectionsTabContainer}></View>
@@ -583,9 +684,9 @@ const styles = StyleSheet.create({
   },
   songOfTheDayText: {
     color: '#c1c8d4',
-    fontSize: 22,
-    marginBottom: -3,
-    fontWeight: '700',
+    fontSize: 12,
+    marginBottom: -2,
+    fontWeight: '400',
   },
 
   likesSection: {
@@ -593,39 +694,54 @@ const styles = StyleSheet.create({
   },
   likesText: {
     color: '#c1c8d4',
-    fontSize: 22,
-    marginBottom: -3,
-    fontWeight: '700',
+    fontSize: 12,
+    marginBottom: -2,
+    fontWeight: '400',
   },
   songOfTheDayTextActive: {
     color: '#2BAEEC',
-    fontSize: 22,
+    fontSize: 12,
     textDecorationLine: 'underline',
-    fontWeight: '700',
-    marginBottom: -3,
+    fontWeight: '400',
+    marginBottom: -2,
   },
 
   likesTextActive: {
     color: '#2BAEEC',
-    fontSize: 22,
+    fontSize: 12,
     textDecorationLine: 'underline',
-    fontWeight: '700',
-    marginBottom: -3,
+    fontWeight: '400',
+    marginBottom: -2,
+  },
+  recommendationsText: {
+    color: '#c1c8d4',
+    fontSize: 12,
+    fontWeight: '400',
+    marginLeft: 10,
+    marginBottom: -2,
+  },
+  recommendationsTextActive: {
+    color: '#2BAEEC',
+    fontSize: 12,
+    textDecorationLine: 'underline',
+    fontWeight: '400',
+    marginBottom: -2,
+    marginLeft: 10,
   },
   postsText: {
     color: '#c1c8d4',
-    fontSize: 22,
-    fontWeight: '700',
-    marginRight: 16,
-    marginBottom: -3,
+    fontSize: 12,
+    fontWeight: '400',
+    marginRight: 10,
+    marginBottom: -2,
   },
   postsTextActive: {
     color: '#2BAEEC',
-    fontSize: 22,
+    fontSize: 12,
     textDecorationLine: 'underline',
-    fontWeight: '700',
-    marginRight: 16,
-    marginBottom: -3,
+    fontWeight: '400',
+    marginRight: 10,
+    marginBottom: -2,
   },
   menuButton: {
     color: '#c1c8d4',

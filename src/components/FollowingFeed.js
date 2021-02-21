@@ -47,7 +47,6 @@ const FollowingFeed = () => {
     React.useCallback(() => {
       let active = true;
 
-      console.log('here');
       getPosts();
 
       return () => {

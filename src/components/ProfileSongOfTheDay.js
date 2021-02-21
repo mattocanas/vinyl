@@ -21,13 +21,6 @@ const ProfileSongOfTheDay = ({data, refresh, stopTrack, playTrack}) => {
   const [playing, setPlaying] = useState(false);
   const navigationUse = useNavigation();
 
-  useEffect(() => {
-    let active = true;
-    return () => {
-      active = false;
-    };
-  }, [ready]);
-
   return (
     <View style={styles.container}>
       <TouchableOpacity

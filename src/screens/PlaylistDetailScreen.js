@@ -20,6 +20,8 @@ import CommentsScreen from './CommentsScreen';
 import Moment from 'react-moment';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import {useFocusEffect} from '@react-navigation/native';
+import PlaylistSong from '../components/PlaylistSong';
+import Sound from 'react-native-sound';
 
 const PlaylistDetailScreen = ({route}) => {
   const {
@@ -42,6 +44,7 @@ const PlaylistDetailScreen = ({route}) => {
 
   const navigationUse = useNavigation();
   const [songs, setSongs] = useState([]);
+  const [song, setSong] = useState(null);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -52,6 +55,41 @@ const PlaylistDetailScreen = ({route}) => {
       };
     }, []),
   );
+
+  const handleAudio = (url) => {
+    if (song) {
+      song.stop();
+      track = new Sound(url, null, (e) => {
+        if (e) {
+          console.log('error', e);
+        } else {
+          // setReady(true);
+
+          setSong(track);
+          track.play();
+          // setPlaying(true);
+        }
+      });
+    } else {
+      track = new Sound(url, null, (e) => {
+        if (e) {
+          console.log('error', e);
+        } else {
+          // setReady(true);
+
+          setSong(track);
+          track.play();
+          // setPlaying(true);
+        }
+      });
+    }
+  };
+
+  const stopTrack = () => {
+    if (song) {
+      song.stop();
+    }
+  };
 
   const getSongs = () => {
     let songArray = [];
@@ -136,7 +174,24 @@ const PlaylistDetailScreen = ({route}) => {
           <FlatList
             data={songs}
             keyExtractor={(item) => item.docId}
-            renderItem={({item}) => <Text>{item.title}</Text>}
+            renderItem={({item}) => (
+              <PlaylistSong
+                albumArt={item.albumArt}
+                title={item.title}
+                artist={item.artist}
+                addedById={item.addedById}
+                profilePictureUrl={item.addedByProfilePicture}
+                addedByUsername={item.addedByUsername}
+                addedOnDate={item.addedOnDate}
+                audio={item.audio}
+                playTrack={(track) => {
+                  handleAudio(track);
+                }}
+                stopTrack={() => {
+                  stopTrack();
+                }}
+              />
+            )}
           />
         </View>
 
@@ -161,25 +216,16 @@ const PlaylistDetailScreen = ({route}) => {
                 uid: uid,
                 docId: docId,
                 data: {
-                  title,
-                  artist,
-                  audio,
-                  albumArt,
+                  title: playlistName,
                   profilePictureUrl,
                   uid,
-                  username: requestedByUsername,
+                  username: username,
                   date,
                   likes,
                   likesNumber: likes.length,
                   comments,
                   type,
                   description,
-                  albumId,
-                  albumName,
-                  albumTracklist,
-                  artistId,
-                  artistTracklist,
-                  trackId,
                   navigateBackTo,
                   docId,
                   verified,
@@ -191,7 +237,7 @@ const PlaylistDetailScreen = ({route}) => {
           <TouchableOpacity
             onPress={() =>
               navigationUse.navigate('ReportPostScreen', {
-                title,
+                title: playlistName,
                 artist,
                 audio,
                 albumArt,

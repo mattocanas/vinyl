@@ -13,6 +13,8 @@ import ProfileSongOfTheDay from './ProfileSongOfTheDay';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
+import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect} from '@react-navigation/native';
 
 const ProfileSongsOfTheDayFeed = ({refresh, stopTrack, playTrack}) => {
   let dataArray = [];
@@ -23,6 +25,7 @@ const ProfileSongsOfTheDayFeed = ({refresh, stopTrack, playTrack}) => {
   const [data, setData] = useState([]);
   const [limitNumber, setLimitNumber] = useState(5);
   const [refreshController, setRefreshController] = useState(false);
+  const navigationUse = useNavigation();
 
   // const [refresh, setRefresh] = useState(false);
   const options = {
@@ -30,18 +33,20 @@ const ProfileSongsOfTheDayFeed = ({refresh, stopTrack, playTrack}) => {
     ignoreAndroidSystemSettings: false,
   };
 
-  useEffect(() => {
-    let active = true;
-    getUsersSOTD();
+  useFocusEffect(
+    React.useCallback(() => {
+      let active = true;
 
-    return () => {
-      active = false;
-    };
-  }, [limitNumber]);
+      navigationUse.addListener('focus', () => {
+        getUsersSOTD();
+        console.log('here');
+      });
 
-  // const refreshComponent = () => {
-  //   setRefresh(true);
-  // };
+      return () => {
+        active = false;
+      };
+    }, [limitNumber]),
+  );
 
   const getUsersSOTD = async () => {
     db.collection('users')
@@ -94,20 +99,10 @@ const ProfileSongsOfTheDayFeed = ({refresh, stopTrack, playTrack}) => {
               rightThreshold={30}
               renderRightActions={rightAction}
               onSwipeableRightOpen={() => {
-                db.collection('posts').doc(item.docId).delete();
-
-                db.collection('users')
-                  .doc(currentUser.uid)
-                  .collection('posts')
-                  .doc(item.docId)
-                  .delete()
-                  .then(() => {
-                    ReactNativeHapticFeedback.trigger(
-                      'notificationSuccess',
-                      options,
-                    );
-                    refresh();
-                  });
+                navigationUse.navigate('DeletePostScreen', {
+                  uid: currentUser.uid,
+                  docId: item.docId,
+                });
               }}>
               <ProfileSongOfTheDay
                 refresh={() => refresh()}

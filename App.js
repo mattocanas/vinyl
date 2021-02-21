@@ -55,6 +55,7 @@ import SongRequestDetailScreen from './src/screens/SongRequestDetailScreen';
 import CreatePlaylistFormScreen from './src/screens/CreatePlaylistFormScreen';
 import PlaylistDetailScreen from './src/screens/PlaylistDetailScreen';
 import PlaylistAddSearchScreen from './src/screens/PlaylistAddSearchScreen';
+import DeletePostScreen from './src/screens/DeletePostScreen';
 
 // create bottom nav bar
 const Tabs = createMaterialBottomTabNavigator();
@@ -411,6 +412,25 @@ function myMainStack() {
         }}
         name="PlaylistAddSearchScreen"
         component={PlaylistAddSearchScreen}
+      />
+      <MainStack.Screen
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#171818',
+            shadowColor: 'transparent',
+          },
+          headerTitleStyle: {
+            color: '#c1c8d4',
+            fontSize: 32,
+            fontWeight: '700',
+          },
+          title: 'Vinyl',
+          headerTintColor: '#c1c8d4',
+          headerBackTitleVisible: false,
+        }}
+        name="DeletePostScreen"
+        component={DeletePostScreen}
       />
 
       <MainStack.Screen

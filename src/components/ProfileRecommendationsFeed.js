@@ -14,9 +14,10 @@ import Swipeable from 'react-native-gesture-handler/Swipeable';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import ProfileRecommendation from './ProfileRecommendation';
+import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect} from '@react-navigation/native';
 
-const ProfileRecommendationsFeed = ({refresh, playTrack, stopTrack}) => {
-  let dataArray = [];
+const ProfileRecommendationsFeed = ({playTrack, stopTrack}) => {
   const [
     {currentUser, currentUserPictureURI},
     dispatch,
@@ -24,27 +25,27 @@ const ProfileRecommendationsFeed = ({refresh, playTrack, stopTrack}) => {
   const [data, setData] = useState([]);
   const [limitNumber, setLimitNumber] = useState(5);
   const [refreshController, setRefreshController] = useState(false);
+  const navigationUse = useNavigation();
 
-  // const [refresh, setRefresh] = useState(false);
   const options = {
     enableVibrateFallback: true,
     ignoreAndroidSystemSettings: false,
   };
 
-  useEffect(() => {
-    let active = true;
-    getUsersRecommendations();
+  useFocusEffect(
+    React.useCallback(() => {
+      let active = true;
+      getUsersRecommendations();
 
-    return () => {
-      active = false;
-    };
-  }, [limitNumber]);
-
-  // const refreshComponent = () => {
-  //   setRefresh(true);
-  // };
+      return () => {
+        active = false;
+      };
+    }, [limitNumber]),
+  );
 
   const getUsersRecommendations = async () => {
+    let dataArray = [];
+
     db.collection('users')
       .doc(currentUser.uid)
       .collection('posts')
@@ -95,20 +96,10 @@ const ProfileRecommendationsFeed = ({refresh, playTrack, stopTrack}) => {
               rightThreshold={30}
               renderRightActions={rightAction}
               onSwipeableRightOpen={() => {
-                db.collection('posts').doc(item.docId).delete();
-
-                db.collection('users')
-                  .doc(currentUser.uid)
-                  .collection('posts')
-                  .doc(item.docId)
-                  .delete()
-                  .then(() => {
-                    ReactNativeHapticFeedback.trigger(
-                      'notificationSuccess',
-                      options,
-                    );
-                    refresh();
-                  });
+                navigationUse.navigate('DeletePostScreen', {
+                  docId: item.docId,
+                  uid: currentUser.uid,
+                });
               }}>
               <ProfileRecommendation
                 refresh={() => refreshComponent()}

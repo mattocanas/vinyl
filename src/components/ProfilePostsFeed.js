@@ -7,6 +7,8 @@ import ProfilePost from './ProfilePost';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
+import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect} from '@react-navigation/native';
 
 const ProfilePostsFeed = ({refresh, playTrack, stopTrack}) => {
   const [
@@ -15,18 +17,23 @@ const ProfilePostsFeed = ({refresh, playTrack, stopTrack}) => {
   ] = useStateProviderValue();
   const [data, setData] = useState([]);
   const [limitNumber, setLimitNumber] = useState(4);
+  const navigationUse = useNavigation();
 
   const options = {
     enableVibrateFallback: true,
     ignoreAndroidSystemSettings: false,
   };
-  useEffect(() => {
-    let active = true;
-    getUsersPosts();
-    return () => {
-      active = false;
-    };
-  }, [limitNumber]);
+  useFocusEffect(
+    React.useCallback(() => {
+      let active = true;
+
+      getUsersPosts();
+
+      return () => {
+        active = false;
+      };
+    }, [limitNumber]),
+  );
 
   // const refreshComponent = () => {
   //   setRefresh(true);
@@ -78,20 +85,10 @@ const ProfilePostsFeed = ({refresh, playTrack, stopTrack}) => {
               rightThreshold={30}
               renderRightActions={rightAction}
               onSwipeableRightOpen={() => {
-                db.collection('posts').doc(item.docId).delete();
-
-                db.collection('users')
-                  .doc(currentUser.uid)
-                  .collection('posts')
-                  .doc(item.docId)
-                  .delete()
-                  .then(() => {
-                    ReactNativeHapticFeedback.trigger(
-                      'notificationSuccess',
-                      options,
-                    );
-                    refresh();
-                  });
+                navigationUse.navigate('DeletePostScreen', {
+                  docId: item.docId,
+                  uid: currentUser.uid,
+                });
               }}>
               <ProfilePost
                 refresh={() => refresh()}
