@@ -531,10 +531,10 @@ const styles = StyleSheet.create({
     width: 330,
   },
   verifiedCheck: {
-    fontSize: 20,
+    fontSize: 18,
     color: '#2BAEEC',
     textAlign: 'center',
-    marginTop: 8,
+
     marginLeft: 6,
   },
   joinIcon: {

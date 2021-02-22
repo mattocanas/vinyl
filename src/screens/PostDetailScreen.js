@@ -238,14 +238,37 @@ const PostDetailScreen = ({route}) => {
             style={{alignItems: 'center', alignSelf: 'center', marginTop: 14}}>
             <Text style={styles.SOTDText}>Song of the day:</Text>
 
-            <FastImage
-              style={styles.albumArt}
-              source={{
-                uri: albumArt,
-                priority: FastImage.priority.normal,
-              }}
-              // resizeMode={FastImage.resizeMode.contain}
-            />
+            {playing ? (
+              <TouchableOpacity
+                onPress={() => {
+                  song.stop();
+                  setPlaying(false);
+                }}>
+                <FastImage
+                  style={styles.albumArt}
+                  source={{
+                    uri: albumArt,
+                    priority: FastImage.priority.normal,
+                  }}
+                  // resizeMode={FastImage.resizeMode.contain}
+                />
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity
+                onPress={() => {
+                  handleAudio(audio);
+                }}>
+                <FastImage
+                  style={styles.albumArt}
+                  source={{
+                    uri: albumArt,
+                    priority: FastImage.priority.normal,
+                  }}
+                  // resizeMode={FastImage.resizeMode.contain}
+                />
+              </TouchableOpacity>
+            )}
+
             <Text style={styles.titleText}>{title}</Text>
             <Text style={styles.artistText}>{artist}</Text>
           </View>
@@ -253,43 +276,40 @@ const PostDetailScreen = ({route}) => {
           <View style={{alignItems: 'center'}}>
             <Text style={styles.description}>{description}</Text>
 
-            <FastImage
-              style={styles.albumArt}
-              source={{
-                uri: albumArt,
-                priority: FastImage.priority.normal,
-              }}
-              // resizeMode={FastImage.resizeMode.contain}
-            />
+            {playing ? (
+              <TouchableOpacity
+                onPress={() => {
+                  song.stop();
+                  setPlaying(false);
+                }}>
+                <FastImage
+                  style={styles.albumArt}
+                  source={{
+                    uri: albumArt,
+                    priority: FastImage.priority.normal,
+                  }}
+                  // resizeMode={FastImage.resizeMode.contain}
+                />
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity
+                onPress={() => {
+                  handleAudio(audio);
+                }}>
+                <FastImage
+                  style={styles.albumArt}
+                  source={{
+                    uri: albumArt,
+                    priority: FastImage.priority.normal,
+                  }}
+                  // resizeMode={FastImage.resizeMode.contain}
+                />
+              </TouchableOpacity>
+            )}
             <Text style={styles.titleText}>{title}</Text>
             <Text style={styles.artistText}>{artist}</Text>
           </View>
         )}
-
-        <View
-          style={{
-            flexDirection: 'row',
-            alignSelf: 'center',
-            marginTop: 2,
-            marginBottom: 2,
-          }}>
-          {playing ? (
-            <TouchableOpacity
-              onPress={() => {
-                song.stop();
-                setPlaying(false);
-              }}>
-              <IonIcon name="stop" style={styles.stopIcon} />
-            </TouchableOpacity>
-          ) : (
-            <TouchableOpacity
-              onPress={() => {
-                handleAudio(audio);
-              }}>
-              <IonIcon name="play" style={styles.playIcon} />
-            </TouchableOpacity>
-          )}
-        </View>
 
         <View
           style={{
@@ -522,10 +542,12 @@ const styles = StyleSheet.create({
   },
   description: {
     color: '#c1c8d4',
-    fontSize: 26,
+    fontSize: 22,
     marginRight: 20,
     marginTop: 20,
     alignSelf: 'flex-start',
+    width: 380,
+    lineHeight: 28,
   },
   likesNumber: {
     // marginTop: 14,

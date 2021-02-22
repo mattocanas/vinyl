@@ -21,6 +21,9 @@ import FastImage from 'react-native-fast-image';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import Moment from 'react-moment';
 import {useFocusEffect} from '@react-navigation/native';
+import UserRecommendationsFeed from '../components/UserRecommendationsFeed';
+import UserPlaylistsFeed from '../components/UserPlaylistsFeed';
+import Sound from 'react-native-sound';
 
 const FeedUserDetailScreen = ({route}) => {
   const getUserData = () => {
@@ -462,7 +465,7 @@ const FeedUserDetailScreen = ({route}) => {
               <TouchableOpacity
                 style={styles.requestButton}
                 onPress={onRequestSong}>
-                <Text style={styles.requestText}>Request a song.</Text>
+                <Text style={styles.requestText}>Request a song</Text>
               </TouchableOpacity>
             ) : null}
             <View
@@ -552,9 +555,51 @@ const FeedUserDetailScreen = ({route}) => {
             </View>
           </View>
           <View style={styles.sectionsTabContainer}></View>
-          {showSOTD ? <UserSongOfTheDayFeed id={userData.uid} /> : null}
-          {showLikeFeed ? <UserLikesFeed id={userData.uid} /> : null}
-          {showPosts ? <UserPostsFeed id={userData.uid} /> : null}
+          {showSOTD ? (
+            <UserSongOfTheDayFeed
+              id={userData.uid}
+              playTrack={(track) => {
+                handleAudio(track);
+              }}
+              stopTrack={() => {
+                stopTrack();
+              }}
+            />
+          ) : null}
+          {showLikeFeed ? (
+            <UserLikesFeed
+              id={userData.uid}
+              playTrack={(track) => {
+                handleAudio(track);
+              }}
+              stopTrack={() => {
+                stopTrack();
+              }}
+            />
+          ) : null}
+          {showPosts ? (
+            <UserPostsFeed
+              id={userData.uid}
+              playTrack={(track) => {
+                handleAudio(track);
+              }}
+              stopTrack={() => {
+                stopTrack();
+              }}
+            />
+          ) : null}
+          {showRecommendations ? (
+            <UserRecommendationsFeed
+              id={userData.uid}
+              playTrack={(track) => {
+                handleAudio(track);
+              }}
+              stopTrack={() => {
+                stopTrack();
+              }}
+            />
+          ) : null}
+          {showPlaylists ? <UserPlaylistsFeed id={userData.uid} /> : null}
         </>
       );
     }
@@ -763,7 +808,7 @@ const styles = StyleSheet.create({
     width: 330,
   },
   verifiedCheck: {
-    fontSize: 20,
+    fontSize: 16,
     color: '#2BAEEC',
     textAlign: 'center',
     marginTop: 8,

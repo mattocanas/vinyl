@@ -31,7 +31,7 @@ const SearchScreen = () => {
 
   return (
     <>
-      <DailyMusic />
+      {/* <DailyMusic /> */}
 
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <LinearGradient
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#171818',
     alignItems: 'center',
     paddingBottom: 60,
-    // paddingTop: 80,
+    paddingTop: 80,
   },
   selectionContainer: {
     flexDirection: 'row',

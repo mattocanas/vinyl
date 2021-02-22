@@ -6,7 +6,7 @@ import ProfileSongOfTheDay from './ProfileSongOfTheDay';
 import UserSongOfTheDay from './UserSongOfTheDay';
 import {useFocusEffect} from '@react-navigation/native';
 
-const UserSongOfTheDayFeed = ({id}) => {
+const UserSongOfTheDayFeed = ({id, playTrack, stopTrack}) => {
   const [
     {currentUser, currentUserPictureURI},
     dispatch,
@@ -79,7 +79,12 @@ const UserSongOfTheDayFeed = ({id}) => {
           keyExtractor={(item) => item.docId}
           data={data}
           renderItem={({item}) => (
-            <UserSongOfTheDay refresh={() => refreshComponent()} data={item} />
+            <UserSongOfTheDay
+              refresh={() => refreshComponent()}
+              data={item}
+              playTrack={playTrack}
+              stopTrack={stopTrack}
+            />
           )}
         />
       ) : (

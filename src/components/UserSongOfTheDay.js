@@ -10,7 +10,7 @@ import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import FastImage from 'react-native-fast-image';
 import {useNavigation} from '@react-navigation/native';
 
-const UserSongOfTheDay = ({data, refresh}) => {
+const UserSongOfTheDay = ({data, refresh, playTrack, stopTrack}) => {
   const [{currentUser}, dispatch] = useStateProviderValue();
   const [ready, setReady] = useState(false);
   const [song, setSong] = useState(null);
@@ -104,40 +104,41 @@ const UserSongOfTheDay = ({data, refresh}) => {
         </View>
 
         <View style={{marginLeft: 70}}>
-          <FastImage
-            style={styles.albumArt}
-            source={{uri: data.albumArt, priority: FastImage.priority.normal}}
-            // resizeMode={FastImage.resizeMode.contain}
-          />
+          {playing ? (
+            <TouchableOpacity
+              onPress={() => {
+                setPlaying(false);
+                stopTrack();
+              }}>
+              <FastImage
+                style={styles.albumArt}
+                source={{
+                  uri: data.albumArt,
+                  priority: FastImage.priority.normal,
+                }}
+                // resizeMode={FastImage.resizeMode.contain}
+              />
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              onPress={() => {
+                playTrack(data.audio);
+                setPlaying(true);
+              }}>
+              <FastImage
+                style={styles.albumArt}
+                source={{
+                  uri: data.albumArt,
+                  priority: FastImage.priority.normal,
+                }}
+                // resizeMode={FastImage.resizeMode.contain}
+              />
+            </TouchableOpacity>
+          )}
+
           <View style={{marginLeft: 10}}>
             <Text style={styles.title}>{data.title}</Text>
             <Text style={styles.artist}>{data.artist}</Text>
-            {playing ? (
-              <IonIcon
-                name="stop"
-                style={styles.stopIcon}
-                onPress={() => {
-                  ReactNativeHapticFeedback.trigger(
-                    'notificationWarning',
-                    options,
-                  );
-                  song.stop();
-                  setPlaying(false);
-                }}
-              />
-            ) : (
-              <IonIcon
-                name="play"
-                style={styles.stopIcon}
-                onPress={() => {
-                  ReactNativeHapticFeedback.trigger(
-                    'notificationSuccess',
-                    options,
-                  );
-                  handleAudio(data.audio);
-                }}
-              />
-            )}
           </View>
         </View>
       </TouchableOpacity>
