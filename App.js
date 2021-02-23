@@ -32,6 +32,7 @@ import PostDetailScreen from './src/screens/PostDetailScreen';
 import ReportPostScreen from './src/screens/ReportPostScreen';
 import UserSettingsScreen from './src/screens/UserSettingsScreen';
 import MessageSelectScreen from './src/screens/MessageSelectScreen';
+import DeletePlaylistSongScreen from './src/screens/DeletePlaylistSongScreen';
 
 //icons
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
@@ -431,6 +432,26 @@ function myMainStack() {
         }}
         name="DeletePostScreen"
         component={DeletePostScreen}
+      />
+
+      <MainStack.Screen
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#171818',
+            shadowColor: 'transparent',
+          },
+          headerTitleStyle: {
+            color: '#c1c8d4',
+            fontSize: 32,
+            fontWeight: '700',
+          },
+          title: 'Vinyl',
+          headerTintColor: '#c1c8d4',
+          headerBackTitleVisible: false,
+        }}
+        name="DeletePlaylistSongScreen"
+        component={DeletePlaylistSongScreen}
       />
 
       <MainStack.Screen

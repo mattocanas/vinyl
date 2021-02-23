@@ -17,18 +17,16 @@ import Sound from 'react-native-sound';
 import SongRequest from './SongRequest';
 import {useFocusEffect} from '@react-navigation/native';
 import PlaylistFeedItem from './PlaylistFeedItem';
+import {useNavigation} from '@react-navigation/native';
 
 const FollowingFeed = () => {
   const [{currentUser, currentUserData}, dispatch] = useStateProviderValue();
-  const [followingIdList, setFollowingIdList] = useState([]);
   const [followingData, setFollowingData] = useState([]);
   const [refresh, setRefresh] = useState(false);
   const [refreshController, setRefreshController] = useState(false);
-  const [loading, setLoading] = useState(true);
   const [song, setSong] = useState(null);
-  const [lastPostDate, setLastPostDate] = useState(null);
   const [limitNumber, setLimitNumber] = useState(8);
-  const [firstDoc, setFirstDoc] = useState(null);
+  const navigationUse = useNavigation();
 
   let followingDataArray = [];
 
@@ -46,7 +44,6 @@ const FollowingFeed = () => {
   useFocusEffect(
     React.useCallback(() => {
       let active = true;
-
       getPosts();
 
       return () => {

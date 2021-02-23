@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Dimensions,
   ScrollView,
+  ActivityIndicator,
 } from 'react-native';
 import Sound from 'react-native-sound';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
@@ -36,7 +37,7 @@ const PostDetailScreen = ({route}) => {
     username,
     date,
     likes,
-    likesNumber,
+
     comments,
     type,
     description,
@@ -57,8 +58,11 @@ const PostDetailScreen = ({route}) => {
   const [ready, setReady] = useState(false);
   const [song, setSong] = useState(null);
   const [playing, setPlaying] = useState(false);
-  // const [likesNumber, setLikesNumber] = useState(likes.length);
+  const [likesNumber, setLikesNumber] = useState(likes.length);
+
   const [refresh, setRefresh] = useState(false);
+  const [likesNumb, setLikesNumb] = useState(null);
+  const [postData, setPostData] = useState(null);
 
   const options = {
     enableVibrateFallback: true,
@@ -67,8 +71,9 @@ const PostDetailScreen = ({route}) => {
 
   useEffect(() => {
     let active = true;
-
-    checkIfLiked();
+    // getPost();
+    // checkIfLiked();
+    // console.log(postData);
     return () => {
       active = false;
     };
@@ -109,6 +114,15 @@ const PostDetailScreen = ({route}) => {
         type: type,
       });
 
+    db.collection('posts')
+      .doc(docId)
+      .update({
+        likes: firebase.firestore.FieldValue.arrayUnion({
+          uid: currentUser.uid,
+          username: currentUser.displayName,
+        }),
+      });
+
     db.collection('users')
       .doc(uid)
       .collection('posts')
@@ -120,9 +134,16 @@ const PostDetailScreen = ({route}) => {
         }),
       })
       .then(() => {
-        checkIfLiked();
-        setLiked(true);
+        // checkIfLiked();
+        // setLiked(true);
         // setLikesNumber(likes.length + 1);
+
+        setLiked(true);
+        if (likesNumber == likes.length) {
+          setLikesNumber(likes.length + 1);
+        } else {
+          setLikesNumber(likes.length);
+        }
         ReactNativeHapticFeedback.trigger('notificationSuccess', options);
       });
   };
@@ -137,6 +158,15 @@ const PostDetailScreen = ({route}) => {
         setLiked(false);
       });
 
+    db.collection('posts')
+      .doc(docId)
+      .update({
+        likes: firebase.firestore.FieldValue.arrayRemove({
+          uid: currentUser.uid,
+          username: currentUser.displayName,
+        }),
+      });
+
     db.collection('users')
       .doc(uid)
       .collection('posts')
@@ -148,17 +178,20 @@ const PostDetailScreen = ({route}) => {
         }),
       })
       .then(() => {
-        checkIfLiked();
         setLiked(false);
+        if (likesNumber == likes.length) {
+          setLikesNumber(likes.length - 1);
+        } else {
+          setLikesNumber(likes.length);
+        }
+
         // setLikesNumber(likes.length);
         ReactNativeHapticFeedback.trigger('notificationWarning', options);
       });
   };
 
   const checkIfLiked = () => {
-    db.collection('users')
-      .doc(uid)
-      .collection('posts')
+    db.collection('posts')
       .where('likes', 'array-contains', {
         uid: currentUser.uid,
         username: currentUser.displayName,
@@ -177,161 +210,223 @@ const PostDetailScreen = ({route}) => {
       });
   };
 
+  const getPost = async () => {
+    db.collection('posts')
+      .doc(docId)
+      .get()
+      .then((doc) => {
+        setPostData(doc.data());
+      });
+  };
+
   const refreshComponent = () => {
     setRefresh(true);
   };
 
   return (
     <View style={styles.mainContainer}>
-      <ScrollView
-        contentContainerStyle={{alignItems: 'center'}}
-        showsVerticalScrollIndicator={false}>
-        <MaterialIcon
-          onPress={() => {
-            if (song) {
-              song.stop();
-            }
-            navigationUse.navigate(navigateBackTo);
-          }}
-          name="arrow-back-ios"
-          color="white"
-          style={{
-            fontSize: 30,
-            position: 'absolute',
-            marginTop: 54,
-            alignSelf: 'flex-start',
-            marginLeft: 30,
-          }}
-        />
-        <View style={styles.profileContainer}>
-          <TouchableOpacity
-            onPress={() =>
-              navigationUse.navigate('FeedUserDetailScreen', {data: uid})
-            }>
-            <FastImage
-              style={styles.profilePicture}
-              source={{
-                uri: profilePictureUrl,
-                priority: FastImage.priority.normal,
-              }}
-              // resizeMode={FastImage.resizeMode.contain}
-            />
-          </TouchableOpacity>
-          <Text style={styles.usernameText}>{username}</Text>
-          {verified ? (
-            <MaterialCommunityIcon
-              name="check-decagram"
-              style={styles.verifiedCheck}
-            />
-          ) : null}
-          <Text style={styles.usernameText}></Text>
-          <Text style={{fontSize: 6, alignSelf: 'center', marginRight: 1}}>
-            ⚪️
-          </Text>
-          <Moment fromNow element={Text} style={styles.dateText}>
-            {date}
-          </Moment>
-        </View>
+      {true ? (
+        <ScrollView
+          contentContainerStyle={{alignItems: 'center'}}
+          showsVerticalScrollIndicator={false}>
+          <MaterialIcon
+            onPress={() => {
+              if (song) {
+                song.stop();
+              }
+              navigationUse.navigate(navigateBackTo);
+            }}
+            name="arrow-back-ios"
+            color="white"
+            style={{
+              fontSize: 30,
+              position: 'absolute',
+              marginTop: 54,
+              alignSelf: 'flex-start',
+              marginLeft: 30,
+            }}
+          />
+          <View style={styles.profileContainer}>
+            <TouchableOpacity
+              onPress={() =>
+                navigationUse.navigate('FeedUserDetailScreen', {data: uid})
+              }>
+              <FastImage
+                style={styles.profilePicture}
+                source={{
+                  uri: profilePictureUrl,
+                  priority: FastImage.priority.normal,
+                }}
+                // resizeMode={FastImage.resizeMode.contain}
+              />
+            </TouchableOpacity>
+            <Text style={styles.usernameText}>{username}</Text>
+            {verified ? (
+              <MaterialCommunityIcon
+                name="check-decagram"
+                style={styles.verifiedCheck}
+              />
+            ) : null}
+            <Text style={styles.usernameText}></Text>
+            <Text style={{fontSize: 6, alignSelf: 'center', marginRight: 1}}>
+              ⚪️
+            </Text>
+            <Moment fromNow element={Text} style={styles.dateText}>
+              {date}
+            </Moment>
+          </View>
 
-        {type == 'Song of the Day.' ? (
+          {type == 'Song of the Day.' ? (
+            <View
+              style={{
+                alignItems: 'center',
+                alignSelf: 'center',
+                marginTop: 14,
+              }}>
+              <Text style={styles.SOTDText}>Song of the day:</Text>
+
+              {playing ? (
+                <TouchableOpacity
+                  onPress={() => {
+                    song.stop();
+                    setPlaying(false);
+                  }}>
+                  <FastImage
+                    style={styles.albumArt}
+                    source={{
+                      uri: albumArt,
+                      priority: FastImage.priority.normal,
+                    }}
+                    // resizeMode={FastImage.resizeMode.contain}
+                  />
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity
+                  onPress={() => {
+                    handleAudio(audio);
+                  }}>
+                  <FastImage
+                    style={styles.albumArt}
+                    source={{
+                      uri: albumArt,
+                      priority: FastImage.priority.normal,
+                    }}
+                    // resizeMode={FastImage.resizeMode.contain}
+                  />
+                </TouchableOpacity>
+              )}
+
+              <Text style={styles.titleText}>{title}</Text>
+              <Text style={styles.artistText}>{artist}</Text>
+            </View>
+          ) : (
+            <View style={{alignItems: 'center'}}>
+              <Text style={styles.description}>{description}</Text>
+
+              {playing ? (
+                <TouchableOpacity
+                  onPress={() => {
+                    song.stop();
+                    setPlaying(false);
+                  }}>
+                  <FastImage
+                    style={styles.albumArt}
+                    source={{
+                      uri: albumArt,
+                      priority: FastImage.priority.normal,
+                    }}
+                    // resizeMode={FastImage.resizeMode.contain}
+                  />
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity
+                  onPress={() => {
+                    handleAudio(audio);
+                  }}>
+                  <FastImage
+                    style={styles.albumArt}
+                    source={{
+                      uri: albumArt,
+                      priority: FastImage.priority.normal,
+                    }}
+                    // resizeMode={FastImage.resizeMode.contain}
+                  />
+                </TouchableOpacity>
+              )}
+              <Text style={styles.titleText}>{title}</Text>
+              <Text style={styles.artistText}>{artist}</Text>
+            </View>
+          )}
+
           <View
-            style={{alignItems: 'center', alignSelf: 'center', marginTop: 14}}>
-            <Text style={styles.SOTDText}>Song of the day:</Text>
-
-            {playing ? (
-              <TouchableOpacity
-                onPress={() => {
-                  song.stop();
-                  setPlaying(false);
-                }}>
-                <FastImage
-                  style={styles.albumArt}
-                  source={{
-                    uri: albumArt,
-                    priority: FastImage.priority.normal,
-                  }}
-                  // resizeMode={FastImage.resizeMode.contain}
-                />
-              </TouchableOpacity>
+            style={{
+              flexDirection: 'row',
+              alignSelf: 'center',
+              alignItems: 'center',
+              marginTop: 40,
+            }}>
+            {/* {liked ? (
+              <AntIcon
+                name="heart"
+                style={styles.likeButton}
+                onPress={onUnlike}
+              />
             ) : (
-              <TouchableOpacity
-                onPress={() => {
-                  handleAudio(audio);
-                }}>
-                <FastImage
-                  style={styles.albumArt}
-                  source={{
-                    uri: albumArt,
-                    priority: FastImage.priority.normal,
-                  }}
-                  // resizeMode={FastImage.resizeMode.contain}
-                />
-              </TouchableOpacity>
-            )}
+              <AntIcon
+                name="hearto"
+                style={styles.likeButton}
+                onPress={onLike}
+              />
+            )} */}
 
-            <Text style={styles.titleText}>{title}</Text>
-            <Text style={styles.artistText}>{artist}</Text>
-          </View>
-        ) : (
-          <View style={{alignItems: 'center'}}>
-            <Text style={styles.description}>{description}</Text>
-
-            {playing ? (
-              <TouchableOpacity
-                onPress={() => {
-                  song.stop();
-                  setPlaying(false);
-                }}>
-                <FastImage
-                  style={styles.albumArt}
-                  source={{
-                    uri: albumArt,
-                    priority: FastImage.priority.normal,
-                  }}
-                  // resizeMode={FastImage.resizeMode.contain}
-                />
-              </TouchableOpacity>
-            ) : (
-              <TouchableOpacity
-                onPress={() => {
-                  handleAudio(audio);
-                }}>
-                <FastImage
-                  style={styles.albumArt}
-                  source={{
-                    uri: albumArt,
-                    priority: FastImage.priority.normal,
-                  }}
-                  // resizeMode={FastImage.resizeMode.contain}
-                />
-              </TouchableOpacity>
-            )}
-            <Text style={styles.titleText}>{title}</Text>
-            <Text style={styles.artistText}>{artist}</Text>
-          </View>
-        )}
-
-        <View
-          style={{
-            flexDirection: 'row',
-            alignSelf: 'center',
-            alignItems: 'center',
-            marginTop: 40,
-          }}>
-          <TouchableOpacity
-            onPress={() =>
-              navigationUse.navigate('LikeListScreen', {data: likes})
-            }>
-            <Text style={styles.likesNumber}>{likes.length} likes</Text>
-          </TouchableOpacity>
-          <IonIcon
-            name="chatbubble-outline"
-            style={styles.commentIcon}
-            onPress={() =>
-              navigationUse.navigate('PostCommentScreen', {
-                uid: uid,
-                docId: docId,
-                data: {
+            <TouchableOpacity
+              style={{flexDirection: 'row'}}
+              onPress={() =>
+                navigationUse.navigate('LikeListScreen', {data: likes})
+              }>
+              <Text style={styles.likesNumber}>{likesNumber}</Text>
+              <Text style={styles.likesNumberText}>likes</Text>
+            </TouchableOpacity>
+            <IonIcon
+              name="chatbubble-outline"
+              style={styles.commentIcon}
+              onPress={() =>
+                navigationUse.navigate('PostCommentScreen', {
+                  uid: uid,
+                  docId: docId,
+                  data: {
+                    title,
+                    artist,
+                    audio,
+                    albumArt,
+                    profilePictureUrl,
+                    uid,
+                    username: requestedByUsername,
+                    date,
+                    likes,
+                    likesNumber: likes.length,
+                    comments,
+                    type,
+                    description,
+                    albumId,
+                    albumName,
+                    albumTracklist,
+                    artistId,
+                    artistTracklist,
+                    trackId,
+                    navigateBackTo,
+                    docId,
+                    verified,
+                  },
+                })
+              }
+            />
+            <Text style={styles.commentsNumber}>
+              {comments.length} comments
+            </Text>
+            <TouchableOpacity
+              onPress={() =>
+                navigationUse.navigate('ReportPostScreen', {
                   title,
                   artist,
                   audio,
@@ -341,48 +436,21 @@ const PostDetailScreen = ({route}) => {
                   username: requestedByUsername,
                   date,
                   likes,
-                  likesNumber: likes.length,
                   comments,
                   type,
                   description,
-                  albumId,
-                  albumName,
-                  albumTracklist,
-                  artistId,
-                  artistTracklist,
-                  trackId,
-                  navigateBackTo,
                   docId,
-                  verified,
-                },
-              })
-            }
-          />
-          <Text style={styles.commentsNumber}>{comments.length} comments</Text>
-          <TouchableOpacity
-            onPress={() =>
-              navigationUse.navigate('ReportPostScreen', {
-                title,
-                artist,
-                audio,
-                albumArt,
-                profilePictureUrl,
-                uid,
-                username: requestedByUsername,
-                date,
-                likes,
-                comments,
-                type,
-                description,
-                docId,
-              })
-            }>
-            <MaterialIcon name="report" style={styles.reportButton} />
-          </TouchableOpacity>
-        </View>
+                })
+              }>
+              <MaterialIcon name="report" style={styles.reportButton} />
+            </TouchableOpacity>
+          </View>
 
-        <CommentsScreen docId={docId} uid={uid} />
-      </ScrollView>
+          <CommentsScreen docId={docId} uid={uid} />
+        </ScrollView>
+      ) : (
+        <ActivityIndicator />
+      )}
     </View>
   );
 };
@@ -453,8 +521,8 @@ const styles = StyleSheet.create({
   },
   likeButton: {
     color: '#2BAEEC',
-    fontSize: 28,
-    marginTop: 10,
+    fontSize: 25,
+    marginRight: 6,
   },
   buttonsTab: {
     marginTop: 14,
@@ -549,12 +617,18 @@ const styles = StyleSheet.create({
     width: 380,
     lineHeight: 28,
   },
-  likesNumber: {
+  likesNumberText: {
     // marginTop: 14,
     fontSize: 18,
     fontWeight: '500',
     color: '#c1c8d4',
     marginRight: 30,
+  },
+  likesNumber: {
+    color: '#2BAEEC',
+    fontSize: 18,
+    fontWeight: '500',
+    marginRight: 4,
   },
   reportButton: {
     color: '#c1c8d4',

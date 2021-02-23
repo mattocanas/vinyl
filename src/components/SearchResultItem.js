@@ -95,6 +95,9 @@ const SearchResultItem = ({
       .collection('songs')
       .doc(newSongRef.id)
       .set({
+        docId: newSongRef.id,
+        playlistOwner: playlistData.creatorId,
+        playlistId: playlistData.docId,
         artist: allData.artist.name,
         title: allData.title,
         albumArt: allData.album.cover_xl,
@@ -113,6 +116,9 @@ const SearchResultItem = ({
 
     newSongRef
       .update({
+        docId: newSongRef.id,
+        playlistId: playlistData.docId,
+        playlistOwner: playlistData.creatorId,
         artist: allData.artist.name,
         title: allData.title,
         albumArt: allData.album.cover_xl,

@@ -22,6 +22,7 @@ import IonIcon from 'react-native-vector-icons/Ionicons';
 import {useFocusEffect} from '@react-navigation/native';
 import PlaylistSong from '../components/PlaylistSong';
 import Sound from 'react-native-sound';
+import Swipeable from 'react-native-gesture-handler/Swipeable';
 
 const PlaylistDetailScreen = ({route}) => {
   const {
@@ -45,6 +46,10 @@ const PlaylistDetailScreen = ({route}) => {
   const navigationUse = useNavigation();
   const [songs, setSongs] = useState([]);
   const [song, setSong] = useState(null);
+  const [
+    {currentUser, currentUserPictureURI, currentUserData},
+    dispatch,
+  ] = useStateProviderValue();
 
   useFocusEffect(
     React.useCallback(() => {
@@ -105,158 +110,199 @@ const PlaylistDetailScreen = ({route}) => {
       });
   };
 
+  const rightAction = () => (
+    <View style={styles.swipeContainer}>
+      <MaterialCommunityIcon name="delete" style={styles.deleteIcon} />
+    </View>
+  );
+
   return (
     <View style={styles.mainContainer}>
-      <ScrollView
+      {/* <ScrollView
         contentContainerStyle={{alignItems: 'center'}}
-        showsVerticalScrollIndicator={false}>
-        <MaterialIcon
-          onPress={() => {
-            navigationUse.navigate(navigateBackTo);
-          }}
-          name="arrow-back-ios"
-          color="white"
-          style={{
-            fontSize: 30,
-            position: 'absolute',
-            marginTop: 54,
-            alignSelf: 'flex-start',
-            marginLeft: 30,
-          }}
-        />
-        <View style={styles.profileContainer}>
-          <TouchableOpacity
-            onPress={() =>
-              navigationUse.navigate('FeedUserDetailScreen', {data: uid})
-            }>
-            <FastImage
-              style={styles.profilePicture}
-              source={{
-                uri: profilePictureUrl,
-                priority: FastImage.priority.normal,
-              }}
-              // resizeMode={FastImage.resizeMode.contain}
-            />
-          </TouchableOpacity>
-          <Text style={styles.usernameText}>{username}</Text>
-          {verified ? (
-            <MaterialCommunityIcon
-              name="check-decagram"
-              style={styles.verifiedCheck}
-            />
-          ) : null}
-          <Text style={styles.usernameText}></Text>
-          <Text style={{fontSize: 6, alignSelf: 'center', marginRight: 1}}>
-            ⚪️
-          </Text>
-          <Moment fromNow element={Text} style={styles.dateText}>
-            {date}
-          </Moment>
-        </View>
-
-        <View style={{width: 320, alignItems: 'center', marginTop: 20}}>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <IonIcon
-              name="ios-disc"
-              style={{fontSize: 30, color: '#2BAEEC', marginRight: 2}}
-            />
-            <Text style={styles.playlistName}>{playlistName}</Text>
-          </View>
-          <Text style={styles.playlistDescription}>{playlistDescription}</Text>
-          <TouchableOpacity
-            style={styles.addButton}
-            onPress={() =>
-              navigationUse.navigate('PlaylistAddSearchScreen', {data: data})
-            }>
-            <Text style={styles.addText}>Add</Text>
-          </TouchableOpacity>
-
-          <FlatList
-            data={songs}
-            keyExtractor={(item) => item.docId}
-            renderItem={({item}) => (
-              <PlaylistSong
-                albumArt={item.albumArt}
-                title={item.title}
-                artist={item.artist}
-                addedById={item.addedById}
-                profilePictureUrl={item.addedByProfilePicture}
-                addedByUsername={item.addedByUsername}
-                addedOnDate={item.addedOnDate}
-                audio={item.audio}
-                playTrack={(track) => {
-                  handleAudio(track);
-                }}
-                stopTrack={() => {
-                  stopTrack();
-                }}
-              />
-            )}
+        showsVerticalScrollIndicator={false}> */}
+      <MaterialIcon
+        onPress={() => {
+          navigationUse.navigate(navigateBackTo);
+        }}
+        name="arrow-back-ios"
+        color="white"
+        style={{
+          fontSize: 30,
+          position: 'absolute',
+          marginTop: 54,
+          alignSelf: 'flex-start',
+          marginLeft: 30,
+        }}
+      />
+      <View style={styles.profileContainer}>
+        <TouchableOpacity
+          onPress={() =>
+            navigationUse.navigate('FeedUserDetailScreen', {data: uid})
+          }>
+          <FastImage
+            style={styles.profilePicture}
+            source={{
+              uri: profilePictureUrl,
+              priority: FastImage.priority.normal,
+            }}
+            // resizeMode={FastImage.resizeMode.contain}
           />
-        </View>
+        </TouchableOpacity>
+        <Text style={styles.usernameText}>{username}</Text>
+        {verified ? (
+          <MaterialCommunityIcon
+            name="check-decagram"
+            style={styles.verifiedCheck}
+          />
+        ) : null}
+        <Text style={styles.usernameText}></Text>
+        <Text style={{fontSize: 6, alignSelf: 'center', marginRight: 1}}>
+          ⚪️
+        </Text>
+        <Moment fromNow element={Text} style={styles.dateText}>
+          {date}
+        </Moment>
+      </View>
 
-        <View
-          style={{
-            flexDirection: 'row',
-            alignSelf: 'center',
-            alignItems: 'center',
-            marginTop: 40,
-          }}>
-          <TouchableOpacity
-            onPress={() =>
-              navigationUse.navigate('LikeListScreen', {data: likes})
-            }>
-            <Text style={styles.likesNumber}>{likes.length} likes</Text>
-          </TouchableOpacity>
+      <View style={{width: 320, alignItems: 'center', marginTop: 20}}>
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <IonIcon
-            name="chatbubble-outline"
-            style={styles.commentIcon}
-            onPress={() =>
-              navigationUse.navigate('PostCommentScreen', {
-                uid: uid,
-                docId: docId,
-                data: {
-                  title: playlistName,
-                  profilePictureUrl,
-                  uid,
-                  username: username,
-                  date,
-                  likes,
-                  likesNumber: likes.length,
-                  comments,
-                  type,
-                  description,
-                  navigateBackTo,
-                  docId,
-                  verified,
-                },
-              })
-            }
+            name="ios-disc"
+            style={{fontSize: 30, color: '#2BAEEC', marginRight: 2}}
           />
-          <Text style={styles.commentsNumber}>{comments.length} comments</Text>
-          <TouchableOpacity
-            onPress={() =>
-              navigationUse.navigate('ReportPostScreen', {
+          <Text style={styles.playlistName}>{playlistName}</Text>
+        </View>
+        <Text style={styles.playlistDescription}>{playlistDescription}</Text>
+        <TouchableOpacity
+          style={styles.addButton}
+          onPress={() =>
+            navigationUse.navigate('PlaylistAddSearchScreen', {data: data})
+          }>
+          <Text style={styles.addText}>Add</Text>
+        </TouchableOpacity>
+
+        <FlatList
+          style={{height: 430, marginTop: 10}}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{paddingBottom: 10, paddingTop: 10}}
+          data={songs}
+          keyExtractor={(item) => item.docId}
+          renderItem={({item}) => (
+            <>
+              {item.addedById || item.playlistOwner == currentUser.uid ? (
+                <Swipeable
+                  rightThreshold={30}
+                  renderRightActions={rightAction}
+                  onSwipeableRightOpen={() => {
+                    navigationUse.navigate('DeletePlaylistSongScreen', {
+                      uid: item.playlistOwner,
+                      songId: item.docId,
+                      playlistId: item.playlistId,
+                    });
+                  }}>
+                  <PlaylistSong
+                    albumArt={item.albumArt}
+                    title={item.title}
+                    artist={item.artist}
+                    addedById={item.addedById}
+                    profilePictureUrl={item.addedByProfilePicture}
+                    addedByUsername={item.addedByUsername}
+                    addedOnDate={item.addedOnDate}
+                    audio={item.audio}
+                    playTrack={(track) => {
+                      handleAudio(track);
+                    }}
+                    stopTrack={() => {
+                      stopTrack();
+                    }}
+                  />
+                </Swipeable>
+              ) : (
+                <PlaylistSong
+                  albumArt={item.albumArt}
+                  title={item.title}
+                  artist={item.artist}
+                  addedById={item.addedById}
+                  profilePictureUrl={item.addedByProfilePicture}
+                  addedByUsername={item.addedByUsername}
+                  addedOnDate={item.addedOnDate}
+                  audio={item.audio}
+                  playTrack={(track) => {
+                    handleAudio(track);
+                  }}
+                  stopTrack={() => {
+                    stopTrack();
+                  }}
+                />
+              )}
+            </>
+          )}
+        />
+      </View>
+
+      <View
+        style={{
+          flexDirection: 'row',
+          alignSelf: 'center',
+          alignItems: 'center',
+          marginTop: 40,
+        }}>
+        <TouchableOpacity
+          onPress={() =>
+            navigationUse.navigate('LikeListScreen', {data: likes})
+          }>
+          <Text style={styles.likesNumber}>{likes.length} likes</Text>
+        </TouchableOpacity>
+        <IonIcon
+          name="chatbubble-outline"
+          style={styles.commentIcon}
+          onPress={() =>
+            navigationUse.navigate('PostCommentScreen', {
+              uid: uid,
+              docId: docId,
+              data: {
                 title: playlistName,
-                artist,
-                audio,
-                albumArt,
                 profilePictureUrl,
                 uid,
-                username: requestedByUsername,
+                username: username,
                 date,
                 likes,
+                likesNumber: likes.length,
                 comments,
                 type,
                 description,
+                navigateBackTo,
                 docId,
-              })
-            }>
-            <MaterialIcon name="report" style={styles.reportButton} />
-          </TouchableOpacity>
-        </View>
-        <CommentsScreen docId={docId} uid={uid} />
-      </ScrollView>
+                verified,
+              },
+            })
+          }
+        />
+        <Text style={styles.commentsNumber}>{comments.length} comments</Text>
+        <TouchableOpacity
+          onPress={() =>
+            navigationUse.navigate('ReportPostScreen', {
+              title: playlistName,
+              artist,
+              audio,
+              albumArt,
+              profilePictureUrl,
+              uid,
+              username: requestedByUsername,
+              date,
+              likes,
+              comments,
+              type,
+              description,
+              docId,
+            })
+          }>
+          <MaterialIcon name="report" style={styles.reportButton} />
+        </TouchableOpacity>
+      </View>
+      <CommentsScreen docId={docId} uid={uid} />
+      {/* </ScrollView> */}
     </View>
   );
 };
@@ -265,6 +311,7 @@ const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
     backgroundColor: '#171818',
+    alignItems: 'center',
   },
   profilePicture: {
     height: 40,
@@ -355,6 +402,17 @@ const styles = StyleSheet.create({
   addText: {
     fontSize: 16,
     color: '#c1c8d4',
+  },
+  swipeContainer: {
+    width: 40,
+    alignItems: 'center',
+    alignSelf: 'center',
+  },
+  deleteIcon: {
+    color: '#c43b4c',
+    alignSelf: 'center',
+    marginTop: 70,
+    fontSize: 20,
   },
 });
 
