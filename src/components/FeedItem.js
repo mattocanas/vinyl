@@ -22,6 +22,8 @@ import {TypingAnimation} from 'react-native-typing-animation';
 import FastImage from 'react-native-fast-image';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useFocusEffect} from '@react-navigation/native';
+import Hyperlink from 'react-native-hyperlink';
+import RNUrlPreview from 'react-native-url-preview';
 
 const FeedItem = ({
   title,
@@ -386,7 +388,21 @@ const FeedItem = ({
               </View>
             ) : (
               <View style={{alignItems: 'center'}}>
-                <Text style={styles.description}>{description}</Text>
+                <Hyperlink
+                  linkDefault={true}
+                  linkStyle={{color: '#2980b9', fontSize: 20}}>
+                  <Text style={styles.description}>{description}</Text>
+                </Hyperlink>
+
+                <RNUrlPreview
+                  containerStyle={{
+                    borderRadius: 20,
+                    backgroundColor: 'gray',
+                    width: 400,
+                    height: 90,
+                  }}
+                  text={description}
+                />
 
                 {playing ? (
                   <TouchableOpacity
@@ -709,6 +725,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginLeft: 2,
     alignSelf: 'center',
+  },
+  linkContainer: {
+    height: 200,
+    width: 400,
+    backgroundColor: 'blue',
   },
 });
 

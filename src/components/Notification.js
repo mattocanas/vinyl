@@ -46,6 +46,12 @@ const Notification = ({data}) => {
       {data.type == 'like' ? (
         <AntIcon name="heart" style={styles.likeButton} />
       ) : null}
+      {data.type == 'recommendationFulfilled' ? (
+        <FontAwesomeIcon name="star" style={styles.commentIcon} />
+      ) : null}
+      {data.type == 'playlistAdd' ? (
+        <MaterialIcon name="playlist-add" style={styles.commentIcon} />
+      ) : null}
       <TouchableOpacity
         onPress={() =>
           navigationUse.navigate('FeedUserDetailScreen', {data: data.likedBy})
@@ -100,6 +106,24 @@ const Notification = ({data}) => {
 
       <TouchableOpacity
         onPress={() =>
+          navigationUse.navigate('FeedUserDetailScreen', {
+            data: data.addedBy,
+          })
+        }>
+        {data.type == 'playlistAdd' ? (
+          <FastImage
+            style={styles.profilePicture}
+            source={{
+              uri: data.addedByProfilePicture,
+              priority: FastImage.priority.normal,
+            }}
+            // resizeMode={FastImage.resizeMode.contain}
+          />
+        ) : null}
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        onPress={() =>
           navigationUse.navigate('FeedUserDetailScreen', {data: data.commentBy})
         }>
         {data.type == 'comment' ? (
@@ -107,6 +131,24 @@ const Notification = ({data}) => {
             style={styles.profilePicture}
             source={{
               uri: data.commentByProfilePicture,
+              priority: FastImage.priority.normal,
+            }}
+            // resizeMode={FastImage.resizeMode.contain}
+          />
+        ) : null}
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        onPress={() =>
+          navigationUse.navigate('FeedUserDetailScreen', {
+            data: data.fulfilledBy,
+          })
+        }>
+        {data.type == 'recommendationFulfilled' ? (
+          <FastImage
+            style={styles.profilePicture}
+            source={{
+              uri: data.fulfilledByProfilePicture,
               priority: FastImage.priority.normal,
             }}
             // resizeMode={FastImage.resizeMode.contain}
@@ -152,6 +194,13 @@ const Notification = ({data}) => {
         </>
       ) : null}
 
+      {data.type == 'playlistAdd' ? (
+        <>
+          <Text style={styles.username}>{data.addedByUsername}</Text>
+          <Text style={styles.likedText}>added to your playlist.</Text>
+        </>
+      ) : null}
+
       {data.type == 'comment' ? (
         <>
           <Text style={styles.usernameComment}>{data.commentByUsername}</Text>
@@ -173,6 +222,15 @@ const Notification = ({data}) => {
           </View>
         </>
       ) : null}
+
+      {data.type == 'recommendationFulfilled' ? (
+        <>
+          <Text style={styles.username}>{data.fulfilledByUsername}</Text>
+
+          <Text style={styles.likedText}>recommended a song to you!</Text>
+        </>
+      ) : null}
+
       {data.postData ? (
         <TouchableOpacity
           onPress={() =>

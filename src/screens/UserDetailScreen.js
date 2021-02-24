@@ -6,6 +6,7 @@ import {
   Image,
   StyleSheet,
   Dimensions,
+  ScrollView,
 } from 'react-native';
 import {useStateProviderValue} from '../../state/StateProvider';
 import {db} from '../../firebase/firebase';
@@ -205,6 +206,73 @@ const UserDetailScreen = ({route}) => {
 
   const onRequestSong = () => {
     setSongRequested(true);
+
+    let newPostRef = db.collection('posts').doc();
+    let newUserPostRef = db
+      .collection('users')
+      .doc(currentUser.uid)
+      .collection('posts')
+      .doc(newPostRef.id);
+
+    newPostRef.set({
+      docId: newPostRef.id,
+      profilePictureUrl: currentUserData.profilePictureUrl,
+      requestedById: currentUser.uid,
+      requestedByName: currentUserData.name,
+      requestedByUsername: currentUserData.username,
+      date: new Date().toDateString(),
+      preciseDate: new Date(),
+      verified: currentUserData.verified,
+      userNotificationTokens: currentUserData.tokens,
+      likes: [],
+      comments: [],
+      description: '',
+      type: 'Song Request',
+      followerIdList: [currentUser.uid, ...currentUserData.followerIdList],
+      requestedId: data.uid,
+      requestedUsername: data.username,
+      requestedName: data.name,
+      artist: '',
+      title: '',
+      albumArt: '',
+      albumId: '',
+      artistId: '',
+      artistTracklist: '',
+      albumTracklist: '',
+      albumName: '',
+      trackId: '',
+      audio: '',
+    });
+
+    newUserPostRef.set({
+      docId: newPostRef.id,
+      profilePictureUrl: currentUserData.profilePictureUrl,
+      requestedById: currentUser.uid,
+      requestedByName: currentUserData.name,
+      requestedByUsername: currentUserData.username,
+      date: new Date().toDateString(),
+      preciseDate: new Date(),
+      verified: currentUserData.verified,
+      userNotificationTokens: currentUserData.tokens,
+      likes: [],
+      comments: [],
+      description: '',
+      type: 'Song Request',
+      followerIdList: [currentUser.uid, ...currentUserData.followerIdList],
+      requestedId: data.uid,
+      requestedUsername: data.username,
+      requestedName: data.name,
+      artist: '',
+      title: '',
+      albumArt: '',
+      albumId: '',
+      artistId: '',
+      artistTracklist: '',
+      albumTracklist: '',
+      albumName: '',
+      trackId: '',
+      audio: '',
+    });
   };
 
   return (
@@ -339,91 +407,97 @@ const UserDetailScreen = ({route}) => {
               </TouchableOpacity>
             )}
 
-            <View
-              style={{
-                flexDirection: 'row',
-                alignSelf: 'center',
-                marginTop: 14,
-                marginRight: 0,
-              }}>
-              <TouchableOpacity
-                style={styles.songOfTheDaySection}
-                onPress={showSOTDFeed}>
-                {SOTDActive ? (
-                  <View style={{flexDirection: 'row'}}>
-                    <Text style={styles.songOfTheDayTextActive}>
-                      Songs of the day
-                    </Text>
-                  </View>
-                ) : (
-                  <View style={{flexDirection: 'row', textAlign: 'center'}}>
-                    <Text style={styles.songOfTheDayText}>
-                      Songs of the day
-                    </Text>
-                  </View>
-                )}
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.likesSection}
-                onPress={showPostsFeed}>
-                {postsActive ? (
-                  <View style={{flexDirection: 'row'}}>
-                    <Text style={styles.postsTextActive}>Posts</Text>
-                  </View>
-                ) : (
-                  <View style={{flexDirection: 'row'}}>
-                    <Text style={styles.postsText}>Posts</Text>
-                  </View>
-                )}
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.likesSection}
-                onPress={showLikesFeed}>
-                {likesActive ? (
-                  <View style={{flexDirection: 'row'}}>
-                    <Text style={styles.likesTextActive}>Likes</Text>
-                  </View>
-                ) : (
-                  <View style={{flexDirection: 'row'}}>
-                    <Text style={styles.likesText}>Likes</Text>
-                  </View>
-                )}
-              </TouchableOpacity>
+            <ScrollView
+              style={{alignSelf: 'center', marginTop: 8}}
+              contentContainerStyle={{paddingBottom: 2}}
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignSelf: 'center',
+                  marginTop: 14,
+                  marginRight: 0,
+                }}>
+                <TouchableOpacity
+                  style={styles.songOfTheDaySection}
+                  onPress={showSOTDFeed}>
+                  {SOTDActive ? (
+                    <View style={{flexDirection: 'row'}}>
+                      <Text style={styles.songOfTheDayTextActive}>
+                        Songs of the day
+                      </Text>
+                    </View>
+                  ) : (
+                    <View style={{flexDirection: 'row', textAlign: 'center'}}>
+                      <Text style={styles.songOfTheDayText}>
+                        Songs of the day
+                      </Text>
+                    </View>
+                  )}
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.likesSection}
+                  onPress={showPostsFeed}>
+                  {postsActive ? (
+                    <View style={{flexDirection: 'row'}}>
+                      <Text style={styles.postsTextActive}>Posts</Text>
+                    </View>
+                  ) : (
+                    <View style={{flexDirection: 'row'}}>
+                      <Text style={styles.postsText}>Posts</Text>
+                    </View>
+                  )}
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.likesSection}
+                  onPress={showLikesFeed}>
+                  {likesActive ? (
+                    <View style={{flexDirection: 'row'}}>
+                      <Text style={styles.likesTextActive}>Likes</Text>
+                    </View>
+                  ) : (
+                    <View style={{flexDirection: 'row'}}>
+                      <Text style={styles.likesText}>Likes</Text>
+                    </View>
+                  )}
+                </TouchableOpacity>
 
-              <TouchableOpacity
-                style={styles.likesSection}
-                onPress={showRecommendationsFeed}>
-                {recommendationsActive ? (
-                  <View style={{flexDirection: 'row'}}>
-                    <Text style={styles.recommendationsTextActive}>
-                      Recommendations
-                    </Text>
-                  </View>
-                ) : (
-                  <View style={{flexDirection: 'row'}}>
-                    <Text style={styles.recommendationsText}>
-                      Recommendations
-                    </Text>
-                  </View>
-                )}
-              </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.likesSection}
+                  onPress={showRecommendationsFeed}>
+                  {recommendationsActive ? (
+                    <View style={{flexDirection: 'row'}}>
+                      <Text style={styles.recommendationsTextActive}>
+                        Recommendations
+                      </Text>
+                    </View>
+                  ) : (
+                    <View style={{flexDirection: 'row'}}>
+                      <Text style={styles.recommendationsText}>
+                        Recommendations
+                      </Text>
+                    </View>
+                  )}
+                </TouchableOpacity>
 
-              <TouchableOpacity
-                style={styles.likesSection}
-                onPress={showPlaylistsFeed}>
-                {playlistsActive ? (
-                  <View style={{flexDirection: 'row'}}>
-                    <Text style={styles.recommendationsTextActive}>
-                      Playlists
-                    </Text>
-                  </View>
-                ) : (
-                  <View style={{flexDirection: 'row'}}>
-                    <Text style={styles.recommendationsText}>Playlists</Text>
-                  </View>
-                )}
-              </TouchableOpacity>
-            </View>
+                <TouchableOpacity
+                  style={styles.likesSection}
+                  onPress={showPlaylistsFeed}>
+                  {playlistsActive ? (
+                    <View style={{flexDirection: 'row'}}>
+                      <Text style={styles.recommendationsTextActive}>
+                        Playlists
+                      </Text>
+                    </View>
+                  ) : (
+                    <View style={{flexDirection: 'row'}}>
+                      <Text style={styles.recommendationsText}>Playlists</Text>
+                    </View>
+                  )}
+                </TouchableOpacity>
+              </View>
+            </ScrollView>
           </View>
 
           <View style={styles.sectionsTabContainer}></View>
@@ -554,7 +628,7 @@ const styles = StyleSheet.create({
   },
   songOfTheDayText: {
     color: '#c1c8d4',
-    fontSize: 12,
+    fontSize: 18,
     marginBottom: -2,
     fontWeight: '400',
   },
@@ -564,13 +638,13 @@ const styles = StyleSheet.create({
   },
   likesText: {
     color: '#c1c8d4',
-    fontSize: 12,
+    fontSize: 18,
     marginBottom: -2,
     fontWeight: '400',
   },
   songOfTheDayTextActive: {
     color: '#2BAEEC',
-    fontSize: 12,
+    fontSize: 18,
     textDecorationLine: 'underline',
     fontWeight: '400',
     marginBottom: -2,
@@ -578,21 +652,21 @@ const styles = StyleSheet.create({
 
   likesTextActive: {
     color: '#2BAEEC',
-    fontSize: 12,
+    fontSize: 18,
     textDecorationLine: 'underline',
     fontWeight: '400',
     marginBottom: -2,
   },
   recommendationsText: {
     color: '#c1c8d4',
-    fontSize: 12,
+    fontSize: 18,
     fontWeight: '400',
     marginLeft: 10,
     marginBottom: -2,
   },
   recommendationsTextActive: {
     color: '#2BAEEC',
-    fontSize: 12,
+    fontSize: 18,
     textDecorationLine: 'underline',
     fontWeight: '400',
     marginBottom: -2,
@@ -600,14 +674,14 @@ const styles = StyleSheet.create({
   },
   postsText: {
     color: '#c1c8d4',
-    fontSize: 12,
+    fontSize: 18,
     fontWeight: '400',
     marginRight: 10,
     marginBottom: -2,
   },
   postsTextActive: {
     color: '#2BAEEC',
-    fontSize: 12,
+    fontSize: 18,
     textDecorationLine: 'underline',
     fontWeight: '400',
     marginRight: 10,

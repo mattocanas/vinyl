@@ -62,6 +62,25 @@ const SearchResultItem = ({
       audio: allData.preview,
     });
 
+    let newNotificationRef = db
+      .collection('users')
+      .doc(recommendationPostData.requestedById)
+      .collection('notifications')
+      .doc();
+
+    newNotificationRef.set({
+      notificationId: newNotificationRef.id,
+      type: 'recommendationFulfilled',
+      date: new Date().toDateString(),
+      preciseDate: new Date(),
+      fulfilledBy: currentUser.uid,
+      fulfilledByUsername: currentUserData.username,
+      fulfilledByProfilePicture: currentUserData.profilePictureUrl,
+      fulfilledByVerified: currentUserData.verified,
+      postId: recommendationPostData.docId,
+      postData: recommendationPostData,
+    });
+
     db.collection('users')
       .doc(recommendationPostData.requestedById)
       .collection('posts')
@@ -113,6 +132,24 @@ const SearchResultItem = ({
         addedByProfilePicture: currentUserData.profilePictureUrl,
         addedOnDate: new Date(),
       });
+
+    let newNotificationRef = db
+      .collection('users')
+      .doc(playlistData.creatorId)
+      .collection('notifications')
+      .doc();
+
+    newNotificationRef.set({
+      notificationId: newNotificationRef.id,
+      type: 'playlistAdd',
+      date: new Date().toDateString(),
+      preciseDate: new Date(),
+      addedBy: currentUser.uid,
+      addedByUsername: currentUserData.username,
+      addedByProfilePicture: currentUserData.profilePictureUrl,
+      addedByVerified: currentUserData.verified,
+      postId: playlistData.docId,
+    });
 
     newSongRef
       .update({
