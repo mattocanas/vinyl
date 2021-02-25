@@ -57,6 +57,7 @@ import CreatePlaylistFormScreen from './src/screens/CreatePlaylistFormScreen';
 import PlaylistDetailScreen from './src/screens/PlaylistDetailScreen';
 import PlaylistAddSearchScreen from './src/screens/PlaylistAddSearchScreen';
 import DeletePostScreen from './src/screens/DeletePostScreen';
+import DeleteCommentScreen from './src/screens/DeleteCommentScreen';
 
 // create bottom nav bar
 const Tabs = createMaterialBottomTabNavigator();
@@ -217,6 +218,27 @@ function myMainStack() {
         name="UserSettingsScreen"
         component={UserSettingsScreen}
       />
+
+      <MainStack.Screen
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#171818',
+            shadowColor: 'transparent',
+          },
+          headerTitleStyle: {
+            color: '#c1c8d4',
+            fontSize: 32,
+            fontWeight: '700',
+          },
+          title: 'Vinyl',
+          headerTintColor: '#c1c8d4',
+          headerBackTitleVisible: false,
+        }}
+        name="DeleteCommentScreen"
+        component={DeleteCommentScreen}
+      />
+
       <MainStack.Screen
         options={{
           headerShown: true,

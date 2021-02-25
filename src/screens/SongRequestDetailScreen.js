@@ -18,6 +18,7 @@ import FastImage from 'react-native-fast-image';
 import CommentsScreen from './CommentsScreen';
 import Moment from 'react-moment';
 import IonIcon from 'react-native-vector-icons/Ionicons';
+import Sound from 'react-native-sound';
 
 const SongRequestDetailScreen = ({route}) => {
   const {
@@ -32,7 +33,7 @@ const SongRequestDetailScreen = ({route}) => {
     likes,
     comments,
     type,
-    description,
+    // description,
     albumId,
     albumName,
     albumTracklist,
@@ -46,6 +47,7 @@ const SongRequestDetailScreen = ({route}) => {
     requestedUsername,
   } = route.params;
   const [song, setSong] = useState(null);
+  const [playing, setPlaying] = useState(false);
   const navigationUse = useNavigation();
 
   const handleAudio = (url) => {
@@ -113,9 +115,26 @@ const SongRequestDetailScreen = ({route}) => {
         </View>
         {title == '' ? (
           <>
-            <Text style={styles.requestedText}>
-              @{requestedByUsername} requested a track recommendation from @
-              {requestedUsername}
+            <Text style={{width: 380, marginTop: 20, marginLeft: 30}}>
+              <Text
+                style={styles.usernameTextLink}
+                onPress={() =>
+                  navigationUse.navigate('FeedUserDetailScreen', {
+                    data: uid,
+                  })
+                }>
+                @{requestedByUsername}
+              </Text>
+              <Text style={styles.requestedText}> requested a track from </Text>
+              <Text
+                style={styles.usernameTextLink}
+                onPress={() =>
+                  navigationUse.navigate('FeedUserDetailScreen', {
+                    data: requestedId,
+                  })
+                }>
+                @{requestedUsername}
+              </Text>
             </Text>
             <View
               style={{
@@ -146,11 +165,12 @@ const SongRequestDetailScreen = ({route}) => {
                       uid,
                       username: requestedByUsername,
                       date,
+                      preciseDate,
                       likes,
                       likesNumber: likes.length,
                       comments,
                       type,
-                      description,
+                      // description,
                       albumId,
                       albumName,
                       albumTracklist,
@@ -196,19 +216,69 @@ const SongRequestDetailScreen = ({route}) => {
         {title != '' ? (
           <View>
             <View style={{marginLeft: 30}}>
-              <FastImage
-                style={styles.albumArt}
-                source={{
-                  uri: albumArt,
-                  priority: FastImage.priority.normal,
-                }}
-                // resizeMode={FastImage.resizeMode.contain}
-              />
-              <Text style={styles.titleText}>{title}</Text>
+              {playing ? (
+                <TouchableOpacity
+                  onPress={() => {
+                    song.stop();
+                    setPlaying(false);
+                  }}>
+                  <FastImage
+                    style={styles.albumArt}
+                    source={{
+                      uri: albumArt,
+                      priority: FastImage.priority.normal,
+                    }}
+                    // resizeMode={FastImage.resizeMode.contain}
+                  />
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity
+                  onPress={() => {
+                    handleAudio(audio);
+                  }}>
+                  <FastImage
+                    style={styles.albumArt}
+                    source={{
+                      uri: albumArt,
+                      priority: FastImage.priority.normal,
+                    }}
+                    // resizeMode={FastImage.resizeMode.contain}
+                  />
+                </TouchableOpacity>
+              )}
+              <Text
+                style={styles.titleText}
+                onPress={() =>
+                  navigationUse.navigate('SongDetailFromAlbumScreen', {
+                    id: trackId,
+                  })
+                }>
+                {title}
+              </Text>
               <Text style={styles.artistText}>{artist}</Text>
-              <Text style={styles.requestedText}>
-                @{requestedUsername} recommended this track to @
-                {requestedByUsername}
+              <Text style={{width: 380, marginTop: 20}}>
+                <Text
+                  style={styles.usernameTextLink}
+                  onPress={() =>
+                    navigationUse.navigate('FeedUserDetailScreen', {
+                      data: requestedId,
+                    })
+                  }>
+                  @{requestedUsername}
+                </Text>
+                <Text style={styles.requestedText}>
+                  {' '}
+                  recommended this track to{' '}
+                </Text>
+                <Text
+                  style={styles.usernameTextLink}
+                  onPress={() =>
+                    navigationUse.navigate('FeedUserDetailScreen', {
+                      data: uid,
+                    })
+                  }>
+                  @{requestedByUsername}
+                </Text>
               </Text>
             </View>
 
@@ -241,11 +311,12 @@ const SongRequestDetailScreen = ({route}) => {
                       uid,
                       username: requestedByUsername,
                       date,
+                      preciseDate,
                       likes,
                       likesNumber: likes.length,
                       comments,
                       type,
-                      description,
+                      // description,
                       albumId,
                       albumName,
                       albumTracklist,
@@ -327,12 +398,17 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   requestedText: {
-    textAlign: 'center',
     alignSelf: 'center',
     color: '#c1c8d4',
-    fontSize: 22,
+    fontSize: 20,
     marginTop: 30,
-    width: 360,
+  },
+  usernameTextLink: {
+    color: '#c1c8d4',
+    fontSize: 20,
+    marginTop: 30,
+    color: '#2BAEEC',
+    textDecorationLine: 'underline',
   },
   albumArt: {
     height: 340,

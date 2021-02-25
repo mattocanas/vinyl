@@ -193,6 +193,7 @@ const FollowingFeed = () => {
                   likes={item.likes}
                   comments={item.comments}
                   date={item.date}
+                  preciseDate={item.preciseDate}
                   docId={item.docId}
                   type={item.type}
                   description={item.description}

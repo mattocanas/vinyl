@@ -240,6 +240,7 @@ const SongRequest = ({data, navigateBackTo, playTrack, stopTrack, refresh}) => {
               requestedId: data.requestedId,
               requestedUsername: data.requestedUsername,
               date: data.date,
+              preciseDate: data.preciseDate,
               likes: data.likes,
               comments: data.comments,
               docId: data.docId,
@@ -298,7 +299,10 @@ const SongRequest = ({data, navigateBackTo, playTrack, stopTrack, refresh}) => {
               <Text style={{fontSize: 6, alignSelf: 'center', marginLeft: 10}}>
                 ⚪
               </Text>
-              <Moment element={Text} format="MMM Do YY" style={styles.dateText}>
+              <Moment
+                element={Text}
+                from={data.preciseDate.toDate()}
+                style={styles.dateText}>
                 {data.date}
               </Moment>
             </View>

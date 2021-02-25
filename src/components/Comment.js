@@ -122,8 +122,8 @@ const Comment = ({
       style={{
         width: Dimensions.get('screen').width,
 
-        borderBottomWidth: 1,
-        borderBottomColor: 'rgba(193, 200, 212, 0.2)',
+        // borderBottomWidth: 1,
+        // borderBottomColor: 'rgba(193, 200, 212, 0.1)',
         paddingBottom: 10,
       }}>
       <View
@@ -151,8 +151,7 @@ const Comment = ({
             </TouchableOpacity>
           </>
         ) : null}
-        <Text style={styles.commentText}>{commentText}</Text>
-        <FontAwesomeIcon
+        {/* <FontAwesomeIcon
           name="reply"
           style={styles.replyIcon}
           onPress={() => {
@@ -174,7 +173,34 @@ const Comment = ({
             style={styles.deleteIcon}
             onPress={onDeleteComment}
           />
-        ) : null}
+        ) : null} */}
+      </View>
+      <View
+        style={{
+          backgroundColor: '#c1c8d4',
+          height: 30,
+          width: 3,
+          borderRadius: 20,
+          alignSelf: 'flex-start',
+          marginLeft: 26,
+          marginBottom: -2,
+          marginTop: 1,
+        }}
+      />
+      <View
+        style={{
+          marginLeft: 15,
+          borderWidth: 1,
+          borderColor: '#c1c8d4',
+          borderRadius: 20,
+          paddingLeft: 6,
+          width: 240,
+          marginTop: 3,
+          paddingBottom: 4,
+          paddingTop: 3,
+          paddingRight: 4,
+        }}>
+        <Text style={styles.commentText}>{commentText}</Text>
       </View>
       <FlatList
         data={replies}
@@ -182,58 +208,105 @@ const Comment = ({
         renderItem={({item}) => (
           <View
             style={{
-              flexDirection: 'row',
-              alignItems: 'center',
+              alignItems: 'flex-start',
               marginLeft: 40,
-              marginTop: 20,
             }}>
-            <TouchableOpacity
-              style={{flexDirection: 'row', alignItems: 'center'}}
-              onPress={() =>
-                navigationUse.navigate('FeedUserDetailScreen', {
-                  data: item.creator,
-                })
-              }>
-              {/* <FastImage
+            <View
+              style={{
+                backgroundColor: '#c1c8d4',
+                height: 30,
+                width: 3,
+                borderRadius: 20,
+                alignSelf: 'flex-start',
+                marginLeft: 26,
+                marginBottom: -2,
+                marginTop: 1,
+              }}
+            />
+            <View style={{flexDirection: 'row'}}>
+              <TouchableOpacity
+                style={{flexDirection: 'row', alignItems: 'center'}}
+                onPress={() =>
+                  navigationUse.navigate('FeedUserDetailScreen', {
+                    data: item.creator,
+                  })
+                }>
+                {/* <FastImage
                 style={styles.profilePicture}
                 source={{
                   uri: item.replyByProfilePicture,
                   priority: FastImage.priority.normal,
                 }}
               /> */}
-              <Text style={styles.username}>{item.replyByUsername}</Text>
-            </TouchableOpacity>
-            <Text style={styles.commentText}>{item.reply}</Text>
-            {item.creator == currentUser.uid || postOwner == currentUser.uid ? (
-              <MaterialIcon
-                name="delete"
-                style={styles.deleteIcon}
-                onPress={() => {
-                  db.collection('users')
-                    .doc(postOwner)
-                    .collection('posts')
-                    .doc(postId)
-                    .collection('comments')
-                    .doc(commentId)
-                    .collection('replies')
-                    .doc(item.replyId)
-                    .delete()
-                    .then(() => nav());
+                <FastImage
+                  style={styles.profilePicture}
+                  source={{
+                    uri: item.replyByProfilePicture,
+                    priority: FastImage.priority.normal,
+                  }}
+                />
+                <Text style={styles.username}>{item.replyByUsername}</Text>
+              </TouchableOpacity>
 
-                  db.collection('users')
-                    .doc(uid)
-                    .collection('notifications')
-                    .where('commentId', '==', item.replyId)
-                    .where('postId', '==', postId)
-                    .get()
-                    .then((snapshot) => {
-                      snapshot.forEach((doc) => {
-                        doc.ref.delete();
+              {/* {item.creator == currentUser.uid ||
+              postOwner == currentUser.uid ? (
+                <MaterialIcon
+                  name="delete"
+                  style={styles.deleteIcon}
+                  onPress={() => {
+                    db.collection('users')
+                      .doc(postOwner)
+                      .collection('posts')
+                      .doc(postId)
+                      .collection('comments')
+                      .doc(commentId)
+                      .collection('replies')
+                      .doc(item.replyId)
+                      .delete()
+                      .then(() => nav());
+
+                    db.collection('users')
+                      .doc(uid)
+                      .collection('notifications')
+                      .where('commentId', '==', item.replyId)
+                      .where('postId', '==', postId)
+                      .get()
+                      .then((snapshot) => {
+                        snapshot.forEach((doc) => {
+                          doc.ref.delete();
+                        });
                       });
-                    });
-                }}
-              />
-            ) : null}
+                  }}
+                />
+              ) : null} */}
+            </View>
+            <View
+              style={{
+                backgroundColor: '#c1c8d4',
+                height: 30,
+                width: 3,
+                borderRadius: 20,
+                alignSelf: 'flex-start',
+                marginLeft: 26,
+                marginBottom: -2,
+                marginTop: 1,
+              }}
+            />
+            <View
+              style={{
+                marginLeft: 12,
+                borderWidth: 1,
+                borderColor: '#c1c8d4',
+                borderRadius: 20,
+                paddingLeft: 6,
+                width: 240,
+                marginTop: 3,
+                paddingBottom: 4,
+                paddingTop: 3,
+                paddingRight: 4,
+              }}>
+              <Text style={styles.commentText}>{item.reply}</Text>
+            </View>
           </View>
         )}
       />
@@ -258,7 +331,9 @@ const styles = StyleSheet.create({
   commentText: {
     fontSize: 14,
     color: '#c1c8d4',
-    width: 210,
+    width: 180,
+    alignSelf: 'center',
+    textAlign: 'center',
   },
   deleteIcon: {
     fontSize: 22,

@@ -37,7 +37,7 @@ const PostDetailScreen = ({route}) => {
     username,
     date,
     likes,
-
+    preciseDate,
     comments,
     type,
     description,
@@ -271,7 +271,10 @@ const PostDetailScreen = ({route}) => {
             <Text style={{fontSize: 6, alignSelf: 'center', marginRight: 1}}>
               ⚪️
             </Text>
-            <Moment fromNow element={Text} style={styles.dateText}>
+            <Moment
+              from={preciseDate.toDate()}
+              element={Text}
+              style={styles.dateText}>
               {date}
             </Moment>
           </View>
@@ -316,7 +319,15 @@ const PostDetailScreen = ({route}) => {
                 </TouchableOpacity>
               )}
 
-              <Text style={styles.titleText}>{title}</Text>
+              <Text
+                style={styles.titleText}
+                onPress={() =>
+                  navigationUse.navigate('SongDetailFromAlbumScreen', {
+                    id: trackId,
+                  })
+                }>
+                {title}
+              </Text>
               <Text style={styles.artistText}>{artist}</Text>
             </View>
           ) : (
@@ -353,7 +364,15 @@ const PostDetailScreen = ({route}) => {
                   />
                 </TouchableOpacity>
               )}
-              <Text style={styles.titleText}>{title}</Text>
+              <Text
+                style={styles.titleText}
+                onPress={() =>
+                  navigationUse.navigate('SongDetailFromAlbumScreen', {
+                    id: trackId,
+                  })
+                }>
+                {title}
+              </Text>
               <Text style={styles.artistText}>{artist}</Text>
             </View>
           )}

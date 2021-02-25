@@ -130,7 +130,7 @@ const PlaylistDetailScreen = ({route}) => {
         style={{
           fontSize: 30,
           position: 'absolute',
-          marginTop: 54,
+          marginTop: 50,
           alignSelf: 'flex-start',
           marginLeft: 30,
         }}
@@ -165,7 +165,7 @@ const PlaylistDetailScreen = ({route}) => {
         </Moment>
       </View>
 
-      <View style={{width: 320, alignItems: 'center', marginTop: 20}}>
+      <View style={{width: 320, alignItems: 'center', marginTop: 10}}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <IonIcon
             name="ios-disc"
@@ -183,9 +183,9 @@ const PlaylistDetailScreen = ({route}) => {
         </TouchableOpacity>
 
         <FlatList
-          style={{height: 430, marginTop: 10}}
+          style={{height: 400, marginTop: 10}}
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={{paddingBottom: 10, paddingTop: 10}}
+          contentContainerStyle={{paddingBottom: 0, paddingTop: 10}}
           data={songs}
           keyExtractor={(item) => item.docId}
           renderItem={({item}) => (
@@ -246,7 +246,7 @@ const PlaylistDetailScreen = ({route}) => {
           flexDirection: 'row',
           alignSelf: 'center',
           alignItems: 'center',
-          marginTop: 40,
+          marginTop: 20,
         }}>
         <TouchableOpacity
           onPress={() =>
@@ -271,7 +271,7 @@ const PlaylistDetailScreen = ({route}) => {
                 likesNumber: likes.length,
                 comments,
                 type,
-                description,
+
                 navigateBackTo,
                 docId,
                 verified,
@@ -334,7 +334,7 @@ const styles = StyleSheet.create({
   profileContainer: {
     flexDirection: 'row',
     alignSelf: 'flex-start',
-    marginTop: 120,
+    marginTop: 100,
   },
   dateText: {
     fontSize: 12,

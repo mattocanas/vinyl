@@ -34,6 +34,7 @@ const FeedItem = ({
   uid,
   username,
   date,
+  preciseDate,
   likes,
   comments,
   type,
@@ -275,6 +276,7 @@ const FeedItem = ({
               uid,
               username,
               date,
+              preciseDate,
               likesNumber,
               likes,
               comments,
@@ -329,7 +331,10 @@ const FeedItem = ({
               <Text style={{fontSize: 6, alignSelf: 'center', marginLeft: 10}}>
                 ⚪
               </Text>
-              <Moment element={Text} format="MMM Do YY" style={styles.dateText}>
+              <Moment
+                element={Text}
+                from={preciseDate.toDate()}
+                style={styles.dateText}>
                 {date}
               </Moment>
             </View>
@@ -397,10 +402,16 @@ const FeedItem = ({
                 <RNUrlPreview
                   containerStyle={{
                     borderRadius: 20,
-                    backgroundColor: 'gray',
-                    width: 400,
-                    height: 90,
+                    backgroundColor: 'transparent',
+                    borderColor: '#c1c8d4',
+                    borderWidth: 1,
+                    width: 330,
+
+                    marginTop: 20,
                   }}
+                  titleStyle={{color: '#c1c8d4', fontSize: 12, width: 200}}
+                  descriptionStyle={{fontSize: 10, color: 'gray'}}
+                  imageStyle={{width: 80, marginLeft: 4}}
                   text={description}
                 />
 

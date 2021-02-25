@@ -20,6 +20,8 @@ import {FlatList} from 'react-native-gesture-handler';
 import Comment from '../components/Comment';
 import FastImage from 'react-native-fast-image';
 import {useFocusEffect} from '@react-navigation/native';
+import Swipeable from 'react-native-gesture-handler/Swipeable';
+import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const dimensions = Dimensions.get('screen');
 
@@ -72,17 +74,14 @@ const CommentsScreen = ({docId, uid}) => {
     navigationUse.goBack();
   };
 
+  const rightAction = () => (
+    <View style={styles.swipeContainer}>
+      <MaterialCommunityIcon name="delete" style={styles.deleteIcon} />
+    </View>
+  );
+
   return (
     <View style={styles.container}>
-      {/* <Text
-        style={{
-          color: 'white',
-          alignSelf: 'center',
-          marginTop: 20,
-          fontSize: 20,
-        }}>
-        Coming soon... :)
-      </Text> */}
       <View>
         {comments[0] != null ? (
           <FlatList
@@ -95,15 +94,43 @@ const CommentsScreen = ({docId, uid}) => {
                   marginTop: 20,
                   // paddingLeft: 20,
                 }}>
-                <Comment
-                  uid={item.creator}
-                  commentText={item.comment}
-                  commentId={item.commentId}
-                  postOwner={item.postOwner}
-                  postId={item.postId}
-                  postData={item.postData}
-                  nav={() => navigateBack()}
-                />
+                {item.postOwner == currentUser.uid ||
+                item.creator == currentUser.uid ? (
+                  <Swipeable
+                    rightThreshold={30}
+                    renderRightActions={rightAction}
+                    onSwipeableRightOpen={() => {
+                      navigationUse.navigate('DeleteCommentScreen', {
+                        uid: item.creator,
+                        commentText: item.comment,
+                        commentId: item.commentId,
+                        postOwner: item.postOwner,
+                        postId: item.postId,
+                        postData: item.postData,
+                        nav: navigateBack(),
+                      });
+                    }}>
+                    <Comment
+                      uid={item.creator}
+                      commentText={item.comment}
+                      commentId={item.commentId}
+                      postOwner={item.postOwner}
+                      postId={item.postId}
+                      postData={item.postData}
+                      nav={() => navigateBack()}
+                    />
+                  </Swipeable>
+                ) : (
+                  <Comment
+                    uid={item.creator}
+                    commentText={item.comment}
+                    commentId={item.commentId}
+                    postOwner={item.postOwner}
+                    postId={item.postId}
+                    postData={item.postData}
+                    nav={() => navigateBack()}
+                  />
+                )}
               </View>
             )}
           />
@@ -162,6 +189,18 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     fontSize: 24,
     marginTop: 20,
+  },
+  deleteIcon: {
+    color: '#c43b4c',
+    alignSelf: 'center',
+    marginTop: -20,
+    fontSize: 20,
+    marginLeft: -50,
+  },
+  swipeContainer: {
+    width: 40,
+    alignItems: 'center',
+    alignSelf: 'center',
   },
 });
 

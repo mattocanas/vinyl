@@ -235,7 +235,20 @@ const ProfileScreen = ({navigation}) => {
               <Moment format="LL" element={Text} style={styles.joinedText}>
                 {currentUserData.dateJoined}
               </Moment>
+
+              {currentUserData.favoriteArtist ? (
+                <>
+                  <MaterialCommunityIcon
+                    name="microphone-variant"
+                    style={styles.favoriteArtistIcon}
+                  />
+                  <Text style={styles.favoriteArtist}>
+                    {currentUserData.favoriteArtist}
+                  </Text>
+                </>
+              ) : null}
             </View>
+
             <ScrollView
               style={{alignSelf: 'center'}}
               contentContainerStyle={{paddingBottom: 2}}
@@ -535,7 +548,7 @@ const styles = StyleSheet.create({
     color: '#c1c8d4',
     marginTop: 10,
     alignSelf: 'flex-start',
-    marginBottom: 4,
+    marginBottom: 8,
     width: 330,
   },
   verifiedCheck: {
@@ -546,13 +559,23 @@ const styles = StyleSheet.create({
     marginLeft: 6,
   },
   joinIcon: {
-    fontSize: 14,
+    fontSize: 18,
     color: '#a3adbf',
     marginRight: 6,
   },
   joinedText: {
     color: '#a3adbf',
-    fontSize: 10,
+    fontSize: 12,
+  },
+  favoriteArtistIcon: {
+    fontSize: 18,
+    color: '#a3adbf',
+    marginRight: 2,
+    marginLeft: 20,
+  },
+  favoriteArtist: {
+    color: '#a3adbf',
+    fontSize: 12,
   },
 });
 
