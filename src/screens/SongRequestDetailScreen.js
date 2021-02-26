@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -30,10 +30,12 @@ const SongRequestDetailScreen = ({route}) => {
     uid,
     requestedByUsername,
     date,
+    preciseDate,
     likes,
     comments,
     type,
     // description,
+    navType,
     albumId,
     albumName,
     albumTracklist,
@@ -49,6 +51,7 @@ const SongRequestDetailScreen = ({route}) => {
   const [song, setSong] = useState(null);
   const [playing, setPlaying] = useState(false);
   const navigationUse = useNavigation();
+  const [data, setData] = useState(null);
 
   const handleAudio = (url) => {
     track = new Sound(url, null, (e) => {
@@ -60,6 +63,15 @@ const SongRequestDetailScreen = ({route}) => {
         setPlaying(true);
       }
     });
+  };
+
+  const getData = () => {
+    db.collection('posts')
+      .doc(docId)
+      .get()
+      .then((doc) => {
+        setData(doc.data());
+      });
   };
 
   return (
@@ -109,7 +121,11 @@ const SongRequestDetailScreen = ({route}) => {
           <Text style={{fontSize: 6, alignSelf: 'center', marginRight: 1}}>
             ⚪️
           </Text>
-          <Moment fromNow element={Text} style={styles.dateText}>
+          <Moment
+            date={preciseDate.toDate()}
+            fromNow
+            element={Text}
+            style={styles.dateText}>
             {date}
           </Moment>
         </View>

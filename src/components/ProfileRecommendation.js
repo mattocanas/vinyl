@@ -51,6 +51,8 @@ const ProfileRecommendation = ({data, refresh, playTrack, stopTrack}) => {
             requestedId: data.requestedId,
             requestedUsername: data.requestedUsername,
             date: data.date,
+            preciseDate: data.preciseDate,
+
             likes: data.likes,
             comments: data.comments,
             docId: data.docId,

@@ -23,6 +23,8 @@ import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import AntIcon from 'react-native-vector-icons/AntDesign';
 import FastImage from 'react-native-fast-image';
 import CommentsScreen from './CommentsScreen';
+import Hyperlink from 'react-native-hyperlink';
+import RNUrlPreview from 'react-native-url-preview';
 
 const dimensions = Dimensions.get('screen');
 
@@ -271,12 +273,23 @@ const PostDetailScreen = ({route}) => {
             <Text style={{fontSize: 6, alignSelf: 'center', marginRight: 1}}>
               ⚪️
             </Text>
-            <Moment
-              from={preciseDate.toDate()}
-              element={Text}
-              style={styles.dateText}>
-              {date}
-            </Moment>
+            {preciseDate ? (
+              <Moment
+                date={preciseDate.toDate()}
+                fromNow
+                element={Text}
+                style={styles.dateText}>
+                {date}
+              </Moment>
+            ) : (
+              <Moment
+                date={date}
+                fromNow
+                element={Text}
+                style={styles.dateText}>
+                {date}
+              </Moment>
+            )}
           </View>
 
           {type == 'Song of the Day.' ? (
@@ -332,7 +345,27 @@ const PostDetailScreen = ({route}) => {
             </View>
           ) : (
             <View style={{alignItems: 'center'}}>
-              <Text style={styles.description}>{description}</Text>
+              <Hyperlink
+                linkDefault={true}
+                linkStyle={{color: '#2980b9', fontSize: 16}}>
+                <Text style={styles.description}>{description}</Text>
+              </Hyperlink>
+
+              <RNUrlPreview
+                containerStyle={{
+                  borderRadius: 20,
+                  backgroundColor: 'transparent',
+                  borderColor: '#c1c8d4',
+                  borderWidth: 1,
+                  width: 330,
+
+                  marginTop: 20,
+                }}
+                titleStyle={{color: '#c1c8d4', fontSize: 12, width: 200}}
+                descriptionStyle={{fontSize: 10, color: 'gray'}}
+                imageStyle={{width: 80, marginLeft: 4}}
+                text={description}
+              />
 
               {playing ? (
                 <TouchableOpacity
@@ -420,7 +453,7 @@ const PostDetailScreen = ({route}) => {
                     albumArt,
                     profilePictureUrl,
                     uid,
-                    username: requestedByUsername,
+                    username,
                     date,
                     likes,
                     likesNumber: likes.length,
@@ -452,7 +485,7 @@ const PostDetailScreen = ({route}) => {
                   albumArt,
                   profilePictureUrl,
                   uid,
-                  username: requestedByUsername,
+                  username,
                   date,
                   likes,
                   comments,
@@ -628,13 +661,14 @@ const styles = StyleSheet.create({
     color: '#2BAEEC',
   },
   description: {
-    color: '#c1c8d4',
+    color: 'rgba(193,200,212, .8)',
     fontSize: 22,
     marginRight: 20,
     marginTop: 20,
     alignSelf: 'flex-start',
     width: 380,
     lineHeight: 28,
+    marginLeft: 10,
   },
   likesNumberText: {
     // marginTop: 14,

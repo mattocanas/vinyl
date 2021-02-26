@@ -253,6 +253,7 @@ const SongRequest = ({data, navigateBackTo, playTrack, stopTrack, refresh}) => {
               artistTracklist: data.artistTracklist,
               trackId: data.trackId,
               verified: data.verified,
+              navType: 'Feed',
             })
           }>
           <View
@@ -310,9 +311,29 @@ const SongRequest = ({data, navigateBackTo, playTrack, stopTrack, refresh}) => {
             <View style={{alignItems: 'center'}}>
               {data.title ? (
                 <>
-                  <Text style={styles.description}>
-                    @{data.requestedUsername} recommended this track to @
-                    {data.requestedByUsername}
+                  <Text style={{width: 380, marginTop: 20}}>
+                    <Text
+                      style={styles.usernameTextLink}
+                      onPress={() =>
+                        navigationUse.navigate('FeedUserDetailScreen', {
+                          data: data.requestedId,
+                        })
+                      }>
+                      @{data.requestedUsername}
+                    </Text>
+                    <Text style={styles.requestedText}>
+                      {' '}
+                      recommended this track to{' '}
+                    </Text>
+                    <Text
+                      style={styles.usernameTextLink}
+                      onPress={() =>
+                        navigationUse.navigate('FeedUserDetailScreen', {
+                          data: data.requestedById,
+                        })
+                      }>
+                      @{data.requestedByUsername}
+                    </Text>
                   </Text>
                   {playing ? (
                     <TouchableOpacity
@@ -364,9 +385,29 @@ const SongRequest = ({data, navigateBackTo, playTrack, stopTrack, refresh}) => {
                   </View>
                 </>
               ) : (
-                <Text style={styles.description}>
-                  @{data.requestedByUsername} requested a track recommednation
-                  from @{data.requestedUsername}
+                <Text style={{width: 380, marginTop: 20, marginBottom: 10}}>
+                  <Text
+                    style={styles.usernameTextLink}
+                    onPress={() =>
+                      navigationUse.navigate('FeedUserDetailScreen', {
+                        data: data.requestedById,
+                      })
+                    }>
+                    @{data.requestedByUsername}
+                  </Text>
+                  <Text style={styles.requestedText}>
+                    {' '}
+                    requested a track from{' '}
+                  </Text>
+                  <Text
+                    style={styles.usernameTextLink}
+                    onPress={() =>
+                      navigationUse.navigate('FeedUserDetailScreen', {
+                        data: data.requestedId,
+                      })
+                    }>
+                    @{data.requestedUsername}
+                  </Text>
                 </Text>
               )}
             </View>
@@ -410,19 +451,22 @@ const SongRequest = ({data, navigateBackTo, playTrack, stopTrack, refresh}) => {
                     name="chatbubble-outline"
                     style={styles.commentIcon}
                     onPress={() =>
-                      navigationUse.navigate('PostDetailScreen', {
+                      navigationUse.navigate('SongRequestDetailScreen', {
                         title: data.title,
                         artist: data.artist,
                         audio: data.audio,
                         albumArt: data.albumArt,
                         profilePictureUrl: data.profilePictureUrl,
                         uid: data.requestedById,
-                        username: data.requestedByUsername,
+                        requestedByUsername: data.requestedByUsername,
+                        requestedId: data.requestedId,
+                        requestedUsername: data.requestedUsername,
                         date: data.date,
+                        preciseDate: data.preciseDate,
                         likes: data.likes,
                         comments: data.comments,
                         docId: data.docId,
-
+                        navigateBackTo: 'HomeScreen',
                         type: data.type,
                         albumId: data.albumId,
                         albumName: data.albumName,
@@ -431,6 +475,7 @@ const SongRequest = ({data, navigateBackTo, playTrack, stopTrack, refresh}) => {
                         artistTracklist: data.artistTracklist,
                         trackId: data.trackId,
                         verified: data.verified,
+                        navType: 'Feed',
                       })
                     }
                   />
@@ -669,6 +714,19 @@ const styles = StyleSheet.create({
   recommendText: {
     fontSize: 16,
     color: '#c1c8d4',
+  },
+  requestedText: {
+    alignSelf: 'center',
+    color: '#c1c8d4',
+    fontSize: 20,
+    marginTop: 30,
+  },
+  usernameTextLink: {
+    color: '#c1c8d4',
+    fontSize: 20,
+    marginTop: 30,
+    color: '#2BAEEC',
+    textDecorationLine: 'underline',
   },
 });
 

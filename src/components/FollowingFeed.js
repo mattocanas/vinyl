@@ -25,6 +25,7 @@ const FollowingFeed = () => {
   const [refresh, setRefresh] = useState(false);
   const [refreshController, setRefreshController] = useState(false);
   const [song, setSong] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [limitNumber, setLimitNumber] = useState(8);
   const navigationUse = useNavigation();
 
@@ -85,6 +86,7 @@ const FollowingFeed = () => {
 
         setRefreshController(false);
         setFollowingData(postsArray);
+        setLoading(false);
         // setLastPostDate(followingData[followingData.length - 1].preciseDate);
         // console.log(lastPostDate);
       });
@@ -132,13 +134,13 @@ const FollowingFeed = () => {
 
   return (
     <View style={styles.container}>
-      {/* {loading ? (
+      {loading ? (
         <ActivityIndicator
-          style={{marginTop: 20}}
-          size="large"
+          style={{marginTop: 20, alignSelf: 'center'}}
+          size="small"
           color="#2BAEEC"
         />
-      ) : null} */}
+      ) : null}
       {followingData[0] ? (
         <FlatList
           refreshControl={
@@ -218,7 +220,7 @@ const FollowingFeed = () => {
             </>
           )}
         />
-      ) : (
+      ) : followingData[0] == null && loading == false ? (
         <Text
           style={{
             alignSelf: 'center',
@@ -228,11 +230,9 @@ const FollowingFeed = () => {
             fontSize: 20,
             color: '#c1c8d4',
           }}>
-          You're all caught up for now! Check back later to see if anyone you're
-          following has posted! For now, head over to the global feed to see
-          everyyone's most recent song of the day!
+          You're all caught up for now!
         </Text>
-      )}
+      ) : null}
     </View>
   );
 };

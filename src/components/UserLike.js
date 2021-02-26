@@ -53,6 +53,8 @@ const UserLike = ({data}) => {
             uid: data.uid,
             username: data.username,
             date: data.date,
+            preciseDate: data.preciseDate,
+
             likes: data.likes,
             likesNumber: data.likes.toLength,
             comments: data.comments,

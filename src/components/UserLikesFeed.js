@@ -34,8 +34,8 @@ const UserLikesFeed = ({id}) => {
       .then((snapshot) => {
         snapshot.forEach((doc) => {
           dataArray.push(doc.data());
-          setData(dataArray);
         });
+        setData(dataArray);
       });
   };
 

@@ -232,42 +232,48 @@ const Notification = ({data}) => {
       ) : null}
 
       {data.postData ? (
-        <TouchableOpacity
-          onPress={() =>
-            navigationUse.navigate('PostDetailScreen', {
-              title: data.postData.title,
-              artist: data.postData.artist,
-              audio: data.postData.audio,
-              albumArt: data.postData.albumArt,
-              profilePictureUrl: data.postData.profilePictureUrl,
-              uid: data.postData.uid,
-              username: data.postData.username,
-              date: data.postData.date,
-              //   likesNumber,
-              likes: data.postData.likes,
-              comments: data.postData.comments,
-              type: data.postData.type,
-              description: data.postData.description,
-              albumId: data.postData.albumId,
-              albumName: data.postData.albumName,
-              albumTracklist: data.postData.albumTracklist,
-              artistId: data.postData.artistId,
-              artistTracklist: data.postData.artistTracklist,
-              trackId: data.postData.trackId,
-              navigateBackTo: 'NotificationsScreen',
-              docId: data.postData.docId,
-              verified: data.postData.verified,
-            })
-          }>
-          <FastImage
-            style={styles.albumArt}
-            source={{
-              uri: data.postData.albumArt,
-              priority: FastImage.priority.normal,
-            }}
-            // resizeMode={FastImage.resizeMode.contain}
-          />
-        </TouchableOpacity>
+        <>
+          {data.postData.title != '' &&
+          (data.postData.type == 'Song of the Day.' ||
+            data.postData.type == 'Post') ? (
+            <TouchableOpacity
+              onPress={() =>
+                navigationUse.navigate('PostDetailScreen', {
+                  title: data.postData.title,
+                  artist: data.postData.artist,
+                  audio: data.postData.audio,
+                  albumArt: data.postData.albumArt,
+                  profilePictureUrl: data.postData.profilePictureUrl,
+                  uid: data.postData.uid,
+                  username: data.postData.username,
+                  date: data.postData.date,
+                  //   likesNumber,
+                  likes: data.postData.likes,
+                  comments: data.postData.comments,
+                  type: data.postData.type,
+                  description: data.postData.description,
+                  albumId: data.postData.albumId,
+                  albumName: data.postData.albumName,
+                  albumTracklist: data.postData.albumTracklist,
+                  artistId: data.postData.artistId,
+                  artistTracklist: data.postData.artistTracklist,
+                  trackId: data.postData.trackId,
+                  navigateBackTo: 'NotificationsScreen',
+                  docId: data.postData.docId,
+                  verified: data.postData.verified,
+                })
+              }>
+              <FastImage
+                style={styles.albumArt}
+                source={{
+                  uri: data.postData.albumArt,
+                  priority: FastImage.priority.normal,
+                }}
+                // resizeMode={FastImage.resizeMode.contain}
+              />
+            </TouchableOpacity>
+          ) : null}
+        </>
       ) : null}
     </View>
   );

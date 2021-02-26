@@ -80,20 +80,6 @@ const FeedItem = ({
     }, []),
   );
 
-  const handleAudio = (url) => {
-    track = new Sound(url, null, (e) => {
-      if (e) {
-        console.log('error', e);
-      } else {
-        setReady(true);
-
-        setSong(track);
-        track.play();
-        setPlaying(true);
-      }
-    });
-  };
-
   const onLike = () => {
     db.collection('users')
       .doc(currentUser.uid)
@@ -108,6 +94,7 @@ const FeedItem = ({
         uid: uid,
         username: username,
         date: date,
+        preciseDate: preciseDate,
         likes: likes,
         comments: comments,
         docId: docId,
@@ -253,15 +240,6 @@ const FeedItem = ({
     }
   };
 
-  // const getUserData = () => {
-  //   db.collection('users')
-  //     .doc(uid)
-  //     .get()
-  //     .then((doc) => {
-  //       setUserData(doc.data());
-  //     });
-  // };
-
   return (
     <>
       {true ? (
@@ -333,7 +311,8 @@ const FeedItem = ({
               </Text>
               <Moment
                 element={Text}
-                from={preciseDate.toDate()}
+                date={preciseDate.toDate()}
+                fromNow
                 style={styles.dateText}>
                 {date}
               </Moment>
@@ -395,7 +374,7 @@ const FeedItem = ({
               <View style={{alignItems: 'center'}}>
                 <Hyperlink
                   linkDefault={true}
-                  linkStyle={{color: '#2980b9', fontSize: 20}}>
+                  linkStyle={{color: '#2980b9', fontSize: 16}}>
                   <Text style={styles.description}>{description}</Text>
                 </Hyperlink>
 
@@ -501,6 +480,7 @@ const FeedItem = ({
                         uid,
                         username,
                         date,
+                        preciseDate,
                         likesNumber,
                         likes,
                         comments,
@@ -545,6 +525,7 @@ const FeedItem = ({
                         uid,
                         username,
                         date,
+                        preciseDate,
                         likesNumber,
                         likes,
                         comments,
@@ -703,13 +684,14 @@ const styles = StyleSheet.create({
     color: '#a3adbf',
   },
   description: {
-    fontSize: 20,
-    color: '#c1c8d4',
+    fontSize: 18,
+    color: 'rgba(193,200,212, .8)',
     marginTop: 12,
     marginLeft: 10,
     marginRight: 20,
     fontWeight: '400',
     // textAlign: 'center',
+    lineHeight: 26,
   },
   SOTDText: {
     marginTop: 12,

@@ -67,6 +67,7 @@ const UserSongOfTheDay = ({data, refresh, playTrack, stopTrack}) => {
             uid: data.uid,
             username: data.username,
             date: data.date,
+            preciseDate: data.preciseDate,
             likes: data.likes,
             likesNumber: data.likes.toLength,
             comments: data.comments,
@@ -150,10 +151,10 @@ const styles = StyleSheet.create({
   albumArt: {
     height: 200,
     width: 200,
-    borderRadius: 4,
+    borderRadius: 10,
     marginRight: 4,
     marginLeft: 4,
-    marginTop: 20,
+    marginTop: 14,
   },
   profilePicture: {
     height: 50,
