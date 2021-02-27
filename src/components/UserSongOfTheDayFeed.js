@@ -43,25 +43,15 @@ const UserSongOfTheDayFeed = ({id, playTrack, stopTrack}) => {
       .doc(id)
       .collection('posts')
       .where('type', '==', 'Song of the Day.')
+      .orderBy('preciseDate', 'desc')
       .limit(limitNumber)
       .get()
       .then((snapshot) => {
         snapshot.forEach((doc) => {
           dataArray.push(doc.data());
-          dataArray.sort((a, b) => {
-            let a_date = new Date(a.date);
-            let b_date = new Date(b.date);
-            return b_date - a_date;
-          });
         });
         setData(dataArray);
       });
-    // .onSnapshot((snapshot) => {
-    //   snapshot.forEach((doc) => {
-    //     dataArray.push(doc.data());
-    //     setData(dataArray);
-    //   });
-    // });
   };
 
   const handleLoadMore = () => {

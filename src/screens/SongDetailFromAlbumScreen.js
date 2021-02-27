@@ -305,12 +305,12 @@ const SongDetailFromAlbumScreen = ({route}) => {
           <Text style={styles.duration}>
             Song Duration: {data.duration.toString()} seconds.
           </Text> */}
-          {data.explicit_lyrics ? (
+          {/* {data.explicit_lyrics ? (
             <Text style={styles.explcitWarning}>
               Your grandparents might not appreciate this song. It contains
               explicit lyrics.
             </Text>
-          ) : null}
+          ) : null} */}
         </ScrollView>
       );
     } else {

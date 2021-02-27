@@ -391,6 +391,18 @@ const UserDetailScreen = ({route}) => {
               <Moment format="LL" element={Text} style={styles.joinedText}>
                 {data.dateJoined}
               </Moment>
+
+              {data.favoriteArtist ? (
+                <>
+                  <MaterialCommunityIcon
+                    name="microphone-variant"
+                    style={styles.favoriteArtistIcon}
+                  />
+                  <Text style={styles.favoriteArtist}>
+                    {currentUserData.favoriteArtist}
+                  </Text>
+                </>
+              ) : null}
             </View>
 
             {songRequested ? (
@@ -753,6 +765,16 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#2BAEEC',
     textAlign: 'center',
+  },
+  favoriteArtistIcon: {
+    fontSize: 18,
+    color: '#a3adbf',
+    marginRight: 2,
+    marginLeft: 20,
+  },
+  favoriteArtist: {
+    color: '#a3adbf',
+    fontSize: 12,
   },
 });
 

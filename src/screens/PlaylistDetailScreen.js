@@ -101,6 +101,7 @@ const PlaylistDetailScreen = ({route}) => {
     db.collection('posts')
       .doc(docId)
       .collection('songs')
+      .orderBy('addedOnDate', 'desc')
       .get()
       .then((snapshot) => {
         snapshot.forEach((doc) => {
@@ -123,7 +124,7 @@ const PlaylistDetailScreen = ({route}) => {
         showsVerticalScrollIndicator={false}> */}
       <MaterialIcon
         onPress={() => {
-          navigationUse.navigate(navigateBackTo);
+          navigationUse.goBack();
         }}
         name="arrow-back-ios"
         color="white"

@@ -112,7 +112,7 @@ const ProfileRecommendationsFeed = ({playTrack, stopTrack}) => {
         />
       ) : (
         <Text style={styles.textDNE}>
-          You have't had a song of the day yet! Start listening to some music!
+          You haven't recommended songs to anyone! Lame.
         </Text>
       )}
     </View>

@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: '#c1c8d4',
     marginRight: 4,
-    width: 134,
+    width: 200,
     marginTop: 4,
   },
   artist: {

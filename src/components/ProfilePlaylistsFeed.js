@@ -37,53 +37,61 @@ const ProfilePlaylistsFeed = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <TouchableOpacity
-        style={styles.createButton}
-        onPress={() => navigationUse.navigate('CreatePlaylistFormScreen')}>
-        <Text style={styles.createText}>Create</Text>
-      </TouchableOpacity>
-      <FlatList
-        style={{marginTop: 40}}
-        contentContainerStyle={{marginBottom: 10}}
-        data={playlists}
-        keyExtractor={(item) => item.docId}
-        renderItem={({item}) => (
-          <View>
-            <TouchableOpacity
-              onPress={() =>
-                navigationUse.navigate('PlaylistDetailScreen', {
-                  profilePictureUrl: item.profilePictureUrl,
-                  uid: item.creatorId,
-                  username: item.creatorUsername,
-                  playlistName: item.playlistName,
-                  playlistDescription: item.playlistDescription,
-                  date: item.date,
-                  likes: item.likes,
-                  comments: item.comments,
-                  docId: item.docId,
-                  navigateBackTo: 'HomeScreen',
-                  type: item.type,
-                  data: item,
-                  verified: item.verified,
-                })
-              }>
-              <Text style={styles.playlistName}>{item.playlistName}</Text>
-            </TouchableOpacity>
-            <View
-              style={{
-                flexDirection: 'row',
+    <>
+      <View style={styles.container}>
+        <TouchableOpacity
+          style={styles.createButton}
+          onPress={() => navigationUse.navigate('CreatePlaylistFormScreen')}>
+          <Text style={styles.createText}>Create</Text>
+        </TouchableOpacity>
+        {playlists[0] ? (
+          <FlatList
+            style={{marginTop: 20}}
+            contentContainerStyle={{marginBottom: 10}}
+            data={playlists}
+            keyExtractor={(item) => item.docId}
+            renderItem={({item}) => (
+              <View>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigationUse.navigate('PlaylistDetailScreen', {
+                      profilePictureUrl: item.profilePictureUrl,
+                      uid: item.creatorId,
+                      username: item.creatorUsername,
+                      playlistName: item.playlistName,
+                      playlistDescription: item.playlistDescription,
+                      date: item.date,
+                      likes: item.likes,
+                      comments: item.comments,
+                      docId: item.docId,
+                      navigateBackTo: 'HomeScreen',
+                      type: item.type,
+                      data: item,
+                      verified: item.verified,
+                    })
+                  }>
+                  <Text style={styles.playlistName}>{item.playlistName}</Text>
+                </TouchableOpacity>
+                <View
+                  style={{
+                    flexDirection: 'row',
 
-                alignItems: 'center',
-                alignSelf: 'center',
-              }}>
-              <Text style={styles.byText}>by</Text>
-              <Text style={styles.usernameText}>{item.creatorUsername}</Text>
-            </View>
-          </View>
+                    alignItems: 'center',
+                    alignSelf: 'center',
+                  }}>
+                  <Text style={styles.byText}>by</Text>
+                  <Text style={styles.usernameText}>
+                    {item.creatorUsername}
+                  </Text>
+                </View>
+              </View>
+            )}
+          />
+        ) : (
+          <Text style={styles.textDNE}>You haven't created any playlists!</Text>
         )}
-      />
-    </View>
+      </View>
+    </>
   );
 };
 
@@ -112,6 +120,7 @@ const styles = StyleSheet.create({
     color: '#c1c8d4',
     width: 300,
     textAlign: 'center',
+    marginTop: 20,
   },
   usernameText: {
     fontSize: 20,
@@ -125,6 +134,15 @@ const styles = StyleSheet.create({
     color: '#2BAEEC',
     marginRight: 8,
     textAlign: 'center',
+  },
+  textDNE: {
+    textAlign: 'center',
+    color: '#c1c8d4',
+    fontSize: 14,
+    fontWeight: '500',
+    marginTop: 40,
+    paddingLeft: 16,
+    paddingRight: 16,
   },
 });
 

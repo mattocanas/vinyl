@@ -67,44 +67,42 @@ const ProfileSongOfTheDay = ({data, refresh, stopTrack, playTrack}) => {
           </Moment>
         </View>
 
-        <View style={{marginLeft: 70, marginRight: 30}}>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <FastImage
-              style={styles.albumArt}
-              source={{uri: data.albumArt, priority: FastImage.priority.normal}}
-              // resizeMode={FastImage.resizeMode.contain}
-            />
-            <View style={{flexDirection: 'column'}}>
-              <Text style={styles.title}>{data.title}</Text>
-              <Text style={styles.artist}>{data.artist}</Text>
-            </View>
-            {playing ? (
-              <IonIcon
-                name="stop"
-                style={styles.stopIcon}
-                onPress={() => {
-                  ReactNativeHapticFeedback.trigger(
-                    'notificationWarning',
-                    options,
-                  );
-                  stopTrack();
-                  setPlaying(false);
+        <View style={{marginLeft: 70}}>
+          {playing ? (
+            <TouchableOpacity
+              onPress={() => {
+                setPlaying(false);
+                stopTrack();
+              }}>
+              <FastImage
+                style={styles.albumArt}
+                source={{
+                  uri: data.albumArt,
+                  priority: FastImage.priority.normal,
                 }}
+                // resizeMode={FastImage.resizeMode.contain}
               />
-            ) : (
-              <IonIcon
-                name="play"
-                style={styles.stopIcon}
-                onPress={() => {
-                  ReactNativeHapticFeedback.trigger(
-                    'notificationSuccess',
-                    options,
-                  );
-                  playTrack(data.audio);
-                  setPlaying(true);
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              onPress={() => {
+                playTrack(data.audio);
+                setPlaying(true);
+              }}>
+              <FastImage
+                style={styles.albumArt}
+                source={{
+                  uri: data.albumArt,
+                  priority: FastImage.priority.normal,
                 }}
+                // resizeMode={FastImage.resizeMode.contain}
               />
-            )}
+            </TouchableOpacity>
+          )}
+
+          <View style={{marginLeft: 10}}>
+            <Text style={styles.title}>{data.title}</Text>
+            <Text style={styles.artist}>{data.artist}</Text>
           </View>
         </View>
       </TouchableOpacity>
@@ -114,19 +112,17 @@ const ProfileSongOfTheDay = ({data, refresh, stopTrack, playTrack}) => {
 
 const styles = StyleSheet.create({
   albumArt: {
-    height: 50,
-    width: 50,
-    borderRadius: 4,
-    marginRight: 6,
+    height: 200,
+    width: 200,
+    borderRadius: 10,
+    marginRight: 4,
     marginLeft: 4,
+    marginTop: 14,
   },
   container: {
     // flexDirection: 'row',
     alignItems: 'flex-start',
     marginTop: 20,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: 'rgba(193, 200, 212, 0.2)',
-    paddingBottom: 12,
   },
   date: {
     fontSize: 12,
@@ -135,11 +131,12 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   title: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: '700',
-    color: '#2BAEEC',
-    marginRight: 6,
-    width: 124,
+    color: '#c1c8d4',
+    marginRight: 4,
+    width: 200,
+    marginTop: 4,
   },
   artist: {
     fontWeight: '300',

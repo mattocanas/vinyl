@@ -455,6 +455,17 @@ const FeedUserDetailScreen = ({route}) => {
               <Moment format="LL" element={Text} style={styles.joinedText}>
                 {userData.dateJoined}
               </Moment>
+              {userData.favoriteArtist ? (
+                <>
+                  <MaterialCommunityIcon
+                    name="microphone-variant"
+                    style={styles.favoriteArtistIcon}
+                  />
+                  <Text style={styles.favoriteArtist}>
+                    {currentUserData.favoriteArtist}
+                  </Text>
+                </>
+              ) : null}
             </View>
             {songRequested == true && userData.uid != currentUser.uid ? (
               <TouchableOpacity style={styles.requestButtonActive}>
@@ -862,6 +873,16 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#2BAEEC',
     textAlign: 'center',
+  },
+  favoriteArtistIcon: {
+    fontSize: 18,
+    color: '#a3adbf',
+    marginRight: 2,
+    marginLeft: 20,
+  },
+  favoriteArtist: {
+    color: '#a3adbf',
+    fontSize: 12,
   },
 });
 

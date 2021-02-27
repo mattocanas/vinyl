@@ -351,26 +351,19 @@ const PlaylistFeedItem = ({
                     name="chatbubble-outline"
                     style={styles.commentIcon}
                     onPress={() =>
-                      navigationUse.navigate('PostDetailScreen', {
-                        title: data.title,
-                        artist: data.artist,
-                        audio: data.audio,
-                        albumArt: data.albumArt,
+                      navigationUse.navigate('PlaylistDetailScreen', {
                         profilePictureUrl: data.profilePictureUrl,
-                        uid: data.requestedById,
-                        username: data.requestedByUsername,
+                        uid: data.creatorId,
+                        username: data.creatorUsername,
+                        playlistName: data.playlistName,
+                        playlistDescription: data.playlistDescription,
                         date: data.date,
                         likes: data.likes,
                         comments: data.comments,
                         docId: data.docId,
-
+                        navigateBackTo: 'HomeScreen',
                         type: data.type,
-                        albumId: data.albumId,
-                        albumName: data.albumName,
-                        albumTracklist: data.albumTracklist,
-                        artistId: data.artistId,
-                        artistTracklist: data.artistTracklist,
-                        trackId: data.trackId,
+                        data: data,
                         verified: data.verified,
                       })
                     }

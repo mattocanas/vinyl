@@ -187,7 +187,7 @@ const SongDetailScreen = ({route}) => {
             Click the calendar icon to make this your song of the day!
           </Text>
         )}
-        <Text style={styles.title}>{data.title}</Text>
+
         {true ? (
           <View style={{flexDirection: 'row', marginTop: 10, marginBottom: 4}}>
             {playing ? (
@@ -248,7 +248,7 @@ const SongDetailScreen = ({route}) => {
             </TouchableOpacity>
           </View>
         ) : null}
-
+        <Text style={styles.title}>{data.title}</Text>
         <View
           style={{
             alignItems: 'center',
@@ -295,12 +295,12 @@ const SongDetailScreen = ({route}) => {
         <Text style={styles.duration}>
           Song Duration: {data.duration.toString()} seconds.
         </Text> */}
-        {data.explicit_lyrics ? (
+        {/* {data.explicit_lyrics ? (
           <Text style={styles.explcitWarning}>
             Your grandparents might not appreciate this song. It contains
             explicit lyrics.
           </Text>
-        ) : null}
+        ) : null} */}
       </ScrollView>
     </LinearGradient>
   );
@@ -348,15 +348,15 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     width: 300,
     textAlign: 'center',
-    marginTop: 16,
+    marginTop: 20,
     width: dimensions.width - 100,
-    marginBottom: 10,
+    marginBottom: 0,
   },
   artist: {
     fontSize: 32,
     color: '#b8c2c2',
     fontWeight: '300',
-    marginTop: 10,
+    marginTop: 4,
     textAlign: 'center',
     marginLeft: 2,
     marginRight: 2,

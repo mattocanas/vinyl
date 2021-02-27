@@ -341,16 +341,24 @@ const PostDetailScreen = ({route}) => {
                 }>
                 {title}
               </Text>
-              <Text style={styles.artistText}>{artist}</Text>
+              <TouchableOpacity
+                onPress={() =>
+                  navigationUse.navigate('ArtistDetailScreen', {
+                    artistName: artist,
+                  })
+                }>
+                <Text style={styles.artistText}>{artist}</Text>
+              </TouchableOpacity>
             </View>
           ) : (
             <View style={{alignItems: 'center'}}>
               <Hyperlink
                 linkDefault={true}
                 linkStyle={{color: '#2980b9', fontSize: 16}}>
-                <Text style={styles.description}>{description}</Text>
+                <Text selectable style={styles.description}>
+                  {description}
+                </Text>
               </Hyperlink>
-
               <RNUrlPreview
                 containerStyle={{
                   borderRadius: 20,
@@ -366,7 +374,6 @@ const PostDetailScreen = ({route}) => {
                 imageStyle={{width: 80, marginLeft: 4}}
                 text={description}
               />
-
               {playing ? (
                 <TouchableOpacity
                   onPress={() => {
@@ -406,7 +413,14 @@ const PostDetailScreen = ({route}) => {
                 }>
                 {title}
               </Text>
-              <Text style={styles.artistText}>{artist}</Text>
+              <TouchableOpacity
+                onPress={() =>
+                  navigationUse.navigate('ArtistDetailScreen', {
+                    artistName: artist,
+                  })
+                }>
+                <Text style={styles.artistText}>{artist}</Text>
+              </TouchableOpacity>
             </View>
           )}
 

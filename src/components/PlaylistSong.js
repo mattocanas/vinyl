@@ -3,6 +3,7 @@ import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import Moment from 'react-moment';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
+import {useNavigation} from '@react-navigation/native';
 
 const PlaylistSong = ({
   albumArt,
@@ -21,6 +22,7 @@ const PlaylistSong = ({
     enableVibrateFallback: true,
     ignoreAndroidSystemSettings: false,
   };
+  const navigationUse = useNavigation();
 
   return (
     <View style={{marginTop: 20}}>

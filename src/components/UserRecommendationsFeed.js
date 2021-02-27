@@ -102,7 +102,8 @@ const UserRecommendationsFeed = ({playTrack, stopTrack, id}) => {
         />
       ) : (
         <Text style={styles.textDNE}>
-          You have't had a song of the day yet! Start listening to some music!
+          This user hasn't recommended songs to anyone! Be the first to request
+          a recommendation!
         </Text>
       )}
     </View>

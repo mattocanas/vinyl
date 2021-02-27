@@ -135,6 +135,7 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'flex-start',
     flex: 1,
+    marginLeft: -40,
   },
   swipeContainer: {
     width: 40,
