@@ -555,8 +555,9 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: '#2BAEEC',
     textAlign: 'center',
-
+    alignSelf: 'center',
     marginLeft: 6,
+    marginTop: 6,
   },
   joinIcon: {
     fontSize: 18,

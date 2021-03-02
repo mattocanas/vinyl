@@ -18,6 +18,7 @@ import SongRequest from './SongRequest';
 import {useFocusEffect} from '@react-navigation/native';
 import PlaylistFeedItem from './PlaylistFeedItem';
 import {useNavigation} from '@react-navigation/native';
+import PlaylistAddPost from './PlaylistAddPost';
 
 const FollowingFeed = () => {
   const [{currentUser, currentUserData}, dispatch] = useStateProviderValue();
@@ -26,7 +27,7 @@ const FollowingFeed = () => {
   const [refreshController, setRefreshController] = useState(false);
   const [song, setSong] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [limitNumber, setLimitNumber] = useState(8);
+  const [limitNumber, setLimitNumber] = useState(12);
   const navigationUse = useNavigation();
 
   let followingDataArray = [];
@@ -174,6 +175,17 @@ const FollowingFeed = () => {
                 />
               ) : item.type == 'Playlist' ? (
                 <PlaylistFeedItem
+                  data={item}
+                  navigateBackTo={'HomeScreen'}
+                  playTrack={(track) => {
+                    handleAudio(track);
+                  }}
+                  stopTrack={() => {
+                    stopTrack();
+                  }}
+                />
+              ) : item.type == 'Playlist Add' ? (
+                <PlaylistAddPost
                   data={item}
                   navigateBackTo={'HomeScreen'}
                   playTrack={(track) => {

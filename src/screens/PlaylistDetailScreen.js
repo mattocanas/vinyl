@@ -45,6 +45,8 @@ const PlaylistDetailScreen = ({route}) => {
 
   const navigationUse = useNavigation();
   const [songs, setSongs] = useState([]);
+  const [limitNumber, setLimitNumber] = useState(4);
+
   const [song, setSong] = useState(null);
   const [
     {currentUser, currentUserPictureURI, currentUserData},
@@ -58,7 +60,7 @@ const PlaylistDetailScreen = ({route}) => {
       return () => {
         active = false;
       };
-    }, []),
+    }, [limitNumber]),
   );
 
   const handleAudio = (url) => {
@@ -102,6 +104,7 @@ const PlaylistDetailScreen = ({route}) => {
       .doc(docId)
       .collection('songs')
       .orderBy('addedOnDate', 'desc')
+      .limit(limitNumber)
       .get()
       .then((snapshot) => {
         snapshot.forEach((doc) => {
@@ -109,6 +112,11 @@ const PlaylistDetailScreen = ({route}) => {
         });
         setSongs(songArray);
       });
+  };
+
+  const handleLoadMore = () => {
+    setLimitNumber(limitNumber + 10);
+    getSongs();
   };
 
   const rightAction = () => (
@@ -188,6 +196,8 @@ const PlaylistDetailScreen = ({route}) => {
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{paddingBottom: 0, paddingTop: 10}}
           data={songs}
+          onEndReached={handleLoadMore}
+          onEndReachedThreshold={0}
           keyExtractor={(item) => item.docId}
           renderItem={({item}) => (
             <>

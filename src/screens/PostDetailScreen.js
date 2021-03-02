@@ -600,7 +600,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     lineHeight: 24,
     marginLeft: 44,
-    width: dimensions.width - 60,
+    width: dimensions.width - 100,
   },
   postTextView: {
     marginRight: 10,
@@ -680,7 +680,7 @@ const styles = StyleSheet.create({
     marginRight: 20,
     marginTop: 20,
     alignSelf: 'flex-start',
-    width: 380,
+    width: dimensions.width - 60,
     lineHeight: 28,
     marginLeft: 10,
   },

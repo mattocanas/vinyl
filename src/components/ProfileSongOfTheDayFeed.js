@@ -23,7 +23,7 @@ const ProfileSongsOfTheDayFeed = ({refresh, stopTrack, playTrack}) => {
     dispatch,
   ] = useStateProviderValue();
   const [data, setData] = useState([]);
-  const [limitNumber, setLimitNumber] = useState(5);
+  const [limitNumber, setLimitNumber] = useState(4);
   const [refreshController, setRefreshController] = useState(false);
   const navigationUse = useNavigation();
 
@@ -36,11 +36,11 @@ const ProfileSongsOfTheDayFeed = ({refresh, stopTrack, playTrack}) => {
   useFocusEffect(
     React.useCallback(() => {
       let active = true;
-
-      navigationUse.addListener('focus', () => {
-        getUsersSOTD();
-        console.log('here');
-      });
+      getUsersSOTD();
+      // navigationUse.addListener('focus', () => {
+      //   getUsersSOTD();
+      //   console.log('here');
+      // });
 
       return () => {
         active = false;
@@ -48,13 +48,14 @@ const ProfileSongsOfTheDayFeed = ({refresh, stopTrack, playTrack}) => {
     }, [limitNumber]),
   );
 
-  const getUsersSOTD = async () => {
+  const getUsersSOTD = () => {
     db.collection('users')
       .doc(currentUser.uid)
       .collection('posts')
       .where('type', '==', 'Song of the Day.')
-      .orderBy('preciseDate', 'desc')
       .limit(limitNumber)
+      .orderBy('preciseDate', 'desc')
+
       .get()
       .then((snapshot) => {
         snapshot.forEach((doc) => {
@@ -65,7 +66,7 @@ const ProfileSongsOfTheDayFeed = ({refresh, stopTrack, playTrack}) => {
   };
 
   const handleLoadMore = () => {
-    setLimitNumber(setLimitNumber(limitNumber + 2));
+    setLimitNumber(setLimitNumber(limitNumber + 4));
     getUsersSOTD();
   };
 
@@ -89,7 +90,7 @@ const ProfileSongsOfTheDayFeed = ({refresh, stopTrack, playTrack}) => {
       {data[0] != null ? (
         <FlatList
           onEndReached={handleLoadMore}
-          onEndReachedThreshold={10}
+          onEndReachedThreshold={0}
           contentContainerStyle={{paddingBottom: 300}}
           keyExtractor={(item) => item.docId}
           data={data}
@@ -131,9 +132,11 @@ const styles = StyleSheet.create({
     marginTop: 40,
     paddingLeft: 16,
     paddingRight: 16,
+    alignSelf: 'center',
+    marginLeft: 40,
   },
   container: {
-    alignItems: 'flex-start',
+    alignItems: 'center',
     flex: 1,
     marginLeft: -40,
   },

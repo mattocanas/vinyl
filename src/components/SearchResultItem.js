@@ -109,6 +109,8 @@ const SearchResultItem = ({
       .collection('songs')
       .doc();
 
+    let newPostRef = db.collection('posts').doc();
+
     db.collection('posts')
       .doc(playlistData.docId)
       .collection('songs')
@@ -132,6 +134,42 @@ const SearchResultItem = ({
         addedByProfilePicture: currentUserData.profilePictureUrl,
         addedOnDate: new Date(),
       });
+
+    newPostRef.set({
+      docId: newPostRef.id,
+      songAddId: newSongRef.id,
+      playlistOwner: playlistData.creatorId,
+      playlistId: playlistData.docId,
+      artist: allData.artist.name,
+      title: allData.title,
+      albumArt: allData.album.cover_xl,
+      albumId: allData.album.id,
+      artistId: allData.artist.id,
+      artistTracklist: allData.artist.tracklist,
+      albumTracklist: allData.album.tracklist,
+      albumName: allData.album.title,
+      trackId: allData.id,
+      audio: allData.preview,
+      addedById: currentUser.uid,
+      addedByUsername: currentUserData.username,
+      addedByProfilePicture: currentUserData.profilePictureUrl,
+      addedOnDate: new Date(),
+      playlistName: playlistData.playlistName,
+      playlistOwnerUsername: playlistData.creatorUsername,
+      playlistOwnerProfilePicture: playlistData.profilePictureUrl,
+      playlistDescription: playlistData.playlistDescription,
+      followerIdList: [currentUser.uid, ...currentUserData.followerIdList],
+      type: 'Playlist Add',
+      addedByName: currentUserData.name,
+
+      date: new Date().toDateString(),
+      preciseDate: new Date(),
+      addedByVerified: currentUserData.verified,
+      profilePictureUrl: currentUserData.profilePictureUrl,
+      userNotificationTokens: currentUserData.tokens,
+      likes: [],
+      comments: [],
+    });
 
     let newNotificationRef = db
       .collection('users')
