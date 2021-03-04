@@ -51,9 +51,12 @@ const FeedItem = ({
   playTrack,
   stopTrack,
   name,
+  // listens,
   refresh,
 }) => {
   const [likesNumber, setLikesNumber] = useState(likes.length);
+  const [listensNumber, setListensNumber] = useState(0);
+
   const [{currentUser, currentUserData}, dispatch] = useStateProviderValue();
   const [liked, setLiked] = useState(false);
   const [playing, setPlaying] = useState(false);
@@ -69,7 +72,7 @@ const FeedItem = ({
   useFocusEffect(
     React.useCallback(() => {
       let active = true;
-
+      // console.log(listens.length);
       checkIfLiked();
 
       Sound.setCategory('Playback');
@@ -79,6 +82,30 @@ const FeedItem = ({
       };
     }, []),
   );
+
+  const onListen = () => {
+    db.collection('posts')
+      .doc(docId)
+      .update({
+        listens: firebase.firestore.FieldValue.arrayUnion({
+          number: listensNumber + 1,
+        }),
+      });
+
+    db.collection('users')
+      .doc(uid)
+      .collection('posts')
+      .doc(docId)
+      .update({
+        listens: firebase.firestore.FieldValue.arrayUnion({
+          uid: currentUser.uid,
+          username: currentUser.displayName,
+        }),
+      })
+      .then(() => {
+        setListensNumber(listensNumber + 1);
+      });
+  };
 
   const onLike = () => {
     db.collection('users')
@@ -345,6 +372,7 @@ const FeedItem = ({
                         'notificationSuccess',
                         options,
                       );
+                      onListen();
                       playTrack(audio);
                       setPlaying(true);
                     }}>
@@ -388,9 +416,15 @@ const FeedItem = ({
 
                     marginTop: 20,
                   }}
-                  titleStyle={{color: '#c1c8d4', fontSize: 12, width: 200}}
+                  titleStyle={{
+                    color: '#c1c8d4',
+                    fontSize: 12,
+                    width: 200,
+                    alignItems: 'center',
+                  }}
                   descriptionStyle={{fontSize: 10, color: 'gray'}}
-                  imageStyle={{width: 80, marginLeft: 4}}
+                  imageStyle={{width: 80, marginLeft: 4, alignSelf: 'center'}}
+                  faviconStyle={{width: 80, height: 70, alignSelf: 'center'}}
                   text={description}
                 />
 
@@ -420,6 +454,7 @@ const FeedItem = ({
                         'notificationSuccess',
                         options,
                       );
+                      onListen();
                       playTrack(audio);
                       setPlaying(true);
                     }}>
@@ -499,6 +534,17 @@ const FeedItem = ({
                     }
                   />
                   <Text style={styles.likesNumber}>{comments.length}</Text>
+                  {/* {listens ? (
+                    <>
+                      <MaterialCommunityIcon
+                        name="speaker"
+                        style={styles.speakerIcon}
+                      />
+                      <Text style={styles.listensText}>
+                        {listensNumber} Listens
+                      </Text>
+                    </>
+                  ) : null} */}
                 </>
               ) : (
                 <>
@@ -544,6 +590,17 @@ const FeedItem = ({
                     }
                   />
                   <Text style={styles.likesNumber}>{comments.length}</Text>
+                  {/* {listens ? (
+                    <>
+                      <MaterialCommunityIcon
+                        name="speaker"
+                        style={styles.speakerIcon}
+                      />
+                      <Text style={styles.listensText}>
+                        {listensNumber} Listens
+                      </Text>
+                    </>
+                  ) : null} */}
                 </>
               )}
             </View>
@@ -650,6 +707,21 @@ const styles = StyleSheet.create({
     marginBottom: 2,
     marginLeft: 10,
     marginTop: 2,
+  },
+  speakerIcon: {
+    color: '#c1c8d4',
+    fontSize: 28,
+    marginBottom: 2,
+    marginLeft: 16,
+    marginTop: 2,
+  },
+  listensText: {
+    textAlign: 'center',
+    fontSize: 16,
+    fontWeight: '400',
+    color: '#c1c8d4',
+    marginLeft: 6,
+    alignSelf: 'center',
   },
   buttonsTab: {
     marginTop: 0,

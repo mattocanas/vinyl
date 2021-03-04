@@ -399,7 +399,7 @@ const UserDetailScreen = ({route}) => {
                     style={styles.favoriteArtistIcon}
                   />
                   <Text style={styles.favoriteArtist}>
-                    {currentUserData.favoriteArtist}
+                    {data.favoriteArtist}
                   </Text>
                 </>
               ) : null}

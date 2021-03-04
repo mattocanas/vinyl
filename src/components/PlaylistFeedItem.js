@@ -242,7 +242,7 @@ const PlaylistFeedItem = ({
               <TouchableOpacity
                 onPress={() =>
                   navigationUse.navigate('FeedUserDetailScreen', {
-                    data: data.requestedById,
+                    data: data.creatorId,
                   })
                 }>
                 <FastImage
@@ -269,7 +269,11 @@ const PlaylistFeedItem = ({
               <Text style={{fontSize: 6, alignSelf: 'center', marginLeft: 10}}>
                 ⚪
               </Text>
-              <Moment element={Text} format="MMM Do YY" style={styles.dateText}>
+              <Moment
+                element={Text}
+                date={data.preciseDate.toDate()}
+                fromNow
+                style={styles.dateText}>
                 {data.date}
               </Moment>
             </View>

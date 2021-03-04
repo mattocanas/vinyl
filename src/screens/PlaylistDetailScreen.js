@@ -169,7 +169,11 @@ const PlaylistDetailScreen = ({route}) => {
         <Text style={{fontSize: 6, alignSelf: 'center', marginRight: 1}}>
           ⚪️
         </Text>
-        <Moment fromNow element={Text} style={styles.dateText}>
+        <Moment
+          date={data.preciseDate.toDate()}
+          fromNow
+          element={Text}
+          style={styles.dateText}>
           {date}
         </Moment>
       </View>
@@ -376,12 +380,13 @@ const styles = StyleSheet.create({
     // marginTop: 12,
   },
   verifiedCheck: {
-    fontSize: 24,
+    fontSize: 12,
     color: '#2BAEEC',
     textAlign: 'center',
-    marginLeft: 0,
-    marginRight: -8,
+    marginLeft: 4,
+    marginRight: 4,
     marginTop: 1,
+    alignSelf: 'center',
   },
   commentsNumber: {
     fontSize: 18,

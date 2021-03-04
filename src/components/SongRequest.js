@@ -302,7 +302,8 @@ const SongRequest = ({data, navigateBackTo, playTrack, stopTrack, refresh}) => {
               </Text>
               <Moment
                 element={Text}
-                from={data.preciseDate.toDate()}
+                date={data.preciseDate.toDate()}
+                fromNow
                 style={styles.dateText}>
                 {data.date}
               </Moment>
@@ -311,7 +312,13 @@ const SongRequest = ({data, navigateBackTo, playTrack, stopTrack, refresh}) => {
             <View style={{alignItems: 'center'}}>
               {data.title ? (
                 <>
-                  <Text style={{width: 380, marginTop: 20}}>
+                  <Text
+                    style={{
+                      marginTop: 20,
+                      alignSelf: 'center',
+                      width: 330,
+                      textAlign: 'center',
+                    }}>
                     <Text
                       style={styles.usernameTextLink}
                       onPress={() =>
@@ -385,7 +392,14 @@ const SongRequest = ({data, navigateBackTo, playTrack, stopTrack, refresh}) => {
                   </View>
                 </>
               ) : (
-                <Text style={{width: 380, marginTop: 20, marginBottom: 10}}>
+                <Text
+                  style={{
+                    width: 330,
+                    marginTop: 20,
+                    marginBottom: 10,
+                    alignSelf: 'center',
+                    textAlign: 'center',
+                  }}>
                   <Text
                     style={styles.usernameTextLink}
                     onPress={() =>

@@ -20,6 +20,7 @@ const NotificationsScreen = () => {
   ] = useStateProviderValue();
   const [data, setData] = useState([]);
   const [refreshController, setRefreshController] = useState(false);
+  const [limitNumber, setLimitNumber] = useState(10);
 
   useEffect(() => {
     let active = true;
@@ -29,7 +30,7 @@ const NotificationsScreen = () => {
     return () => {
       active = false;
     };
-  }, []);
+  }, [limitNumber]);
 
   const refreshComponent = () => {
     setRefreshController(true);
@@ -41,13 +42,18 @@ const NotificationsScreen = () => {
     setRefreshController(false);
   };
 
+  const handleLoadMore = () => {
+    setLimitNumber(limitNumber + 10);
+    load();
+  };
+
   const getNotifications = () => {
     let dataArray = [];
     db.collection('users')
       .doc(currentUser.uid)
       .collection('notifications')
       .orderBy('preciseDate', 'desc')
-      .limit(18)
+      .limit(limitNumber)
       .get()
       .then((snapshot) => {
         snapshot.forEach((doc) => {
@@ -101,6 +107,8 @@ const NotificationsScreen = () => {
                 tintColor="#2BAEEC"
               />
             }
+            onEndReached={handleLoadMore}
+            onEndReachedThreshold={0}
             data={data}
             keyExtractor={(item) => item.notificationId}
             renderItem={({item}) => <Notification data={item} />}

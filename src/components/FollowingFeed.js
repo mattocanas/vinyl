@@ -27,7 +27,7 @@ const FollowingFeed = () => {
   const [refreshController, setRefreshController] = useState(false);
   const [song, setSong] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [limitNumber, setLimitNumber] = useState(12);
+  const [limitNumber, setLimitNumber] = useState(10);
   const navigationUse = useNavigation();
 
   let followingDataArray = [];
@@ -217,6 +217,7 @@ const FollowingFeed = () => {
                   artistId={item.artistId}
                   artistTracklist={item.artistTracklist}
                   name={item.name}
+                  listens={item.listens}
                   trackId={item.trackId}
                   verified={item.verified}
                   navigateBackTo={'HomeScreen'}

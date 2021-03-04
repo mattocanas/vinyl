@@ -462,7 +462,7 @@ const FeedUserDetailScreen = ({route}) => {
                     style={styles.favoriteArtistIcon}
                   />
                   <Text style={styles.favoriteArtist}>
-                    {currentUserData.favoriteArtist}
+                    {userData.favoriteArtist}
                   </Text>
                 </>
               ) : null}

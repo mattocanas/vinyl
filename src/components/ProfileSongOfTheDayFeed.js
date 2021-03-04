@@ -23,7 +23,7 @@ const ProfileSongsOfTheDayFeed = ({refresh, stopTrack, playTrack}) => {
     dispatch,
   ] = useStateProviderValue();
   const [data, setData] = useState([]);
-  const [limitNumber, setLimitNumber] = useState(4);
+  const [limitNumber, setLimitNumber] = useState(2);
   const [refreshController, setRefreshController] = useState(false);
   const navigationUse = useNavigation();
 
@@ -66,7 +66,7 @@ const ProfileSongsOfTheDayFeed = ({refresh, stopTrack, playTrack}) => {
   };
 
   const handleLoadMore = () => {
-    setLimitNumber(setLimitNumber(limitNumber + 4));
+    setLimitNumber(setLimitNumber(limitNumber + 6));
     getUsersSOTD();
   };
 
